@@ -5,20 +5,40 @@ package com.indignado.games.bricks.sensors;
  *
  * @author Rubentxu
  */
-public class KeyboardSensor extends Sensor{
-
+public class KeyboardSensor extends Sensor {
+    // Config Values
     public char key;
     public boolean allKeys = false;
-    public String firstModifier;
-    public String secondModifier;
     public boolean logToggle;
-    public String target;
+    public String target="";
+
+    // Signal Values
     public char keySignal;
+    public boolean keyDownSignal;
+
 
     @Override
     public Boolean isActive() {
-        initialized= true;
-        return true;
+        if (isTap()) return false;
+        boolean isActive= false;
+
+        if(keyDownSignal){
+            if(allKeys ) {
+                isActive = true;
+                if(logToggle) {
+                    target += keySignal;
+                }
+            } else {
+                if(key == keySignal) {
+                    isActive = true;
+                }
+            }
+
+        } else {
+            target = "";
+        }
+
+        return isActive;
 
     }
 

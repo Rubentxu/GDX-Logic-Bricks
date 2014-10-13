@@ -8,11 +8,8 @@ public class AlwaysSensor extends Sensor{
 
     @Override
     public Boolean isActive() {
-        if(tap && initialized) {
-           return false;
-        }
-        initialized= true;
-        return true;
+        if (isTap()) return false;
+        else return true;
     }
 
 }

@@ -8,12 +8,15 @@ package com.indignado.games.bricks.sensors;
 public class DelaySensor extends Sensor{
 
     private float time = 0;
+    // Config Values
     public float delay = 0;
+
+    // Signal Values
     public float deltaTimeSignal = 0;
 
     @Override
     public Boolean isActive() {
-        initialized= true;
+        if (isTap()) return false;
         if( time > delay ) {
             time = 0;
             return true;
