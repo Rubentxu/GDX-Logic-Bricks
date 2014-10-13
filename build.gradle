@@ -34,6 +34,13 @@ project(":gdx-logic-bricks") {
         compile "com.badlogicgames.gdx:gdx-ai:$gdxAIVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:1.1.0"
+        testCompile 'junit:junit:[4,)'
+    }
+
+    test {
+        testLogging {
+            events 'started', 'passed'
+        }
     }
 }
 
