@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  *
  * @author Rubentxu
  */
-public class Bounds {
+public class BoundsComponent {
 
     public Vector2 center;  //	The center of the bounding box.
     public Vector2 extents; //	The extents of the box. This is always half of the size.

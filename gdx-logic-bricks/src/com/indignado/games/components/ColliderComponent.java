@@ -7,9 +7,9 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Rubentxu
  */
-public class Collider extends Component {
+public class ColliderComponent extends Component {
 
-    public Bounds bounds;	    // The world space bounding volume of the collider.
+    public BoundsComponent boundsComponent;	    // The world space bounding volume of the collider.
     public boolean  enabled;	// Enabled Colliders will collide with other colliders, disabled Colliders won't.
     public boolean isTrigger;	// Is the collider a trigger?
 
