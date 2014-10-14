@@ -16,7 +16,7 @@ public class DelaySensorTest {
 
     @Before
     public void setup() {
-        sensor = new DelaySensor();
+        sensor = new DelaySensor(new Object());
     }
 
 

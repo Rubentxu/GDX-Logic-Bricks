@@ -17,7 +17,7 @@ public class KeyboardSensorTest {
 
     @Before
     public void setup() {
-        sensor = new KeyboardSensor();
+        sensor = new KeyboardSensor(new Object());
         sensor.key= 'a';
     }
 
@@ -70,7 +70,6 @@ public class KeyboardSensorTest {
         isActive = sensor.isActive();
         assertTrue(isActive);
         assertEquals("Ho", sensor.target);
-
 
 
     }

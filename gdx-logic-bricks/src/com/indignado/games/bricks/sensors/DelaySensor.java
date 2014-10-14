@@ -5,7 +5,7 @@ package com.indignado.games.bricks.sensors;
  *
  * @author Rubentxu
  */
-public class DelaySensor extends Sensor{
+public class DelaySensor<T> extends Sensor{
 
     private float time = 0;
     // Config Values
@@ -13,6 +13,12 @@ public class DelaySensor extends Sensor{
 
     // Signal Values
     public float deltaTimeSignal = 0;
+
+
+    public DelaySensor(T owner) {
+        super(owner);
+    }
+
 
     @Override
     public Boolean isActive() {

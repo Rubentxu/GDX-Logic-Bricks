@@ -5,7 +5,7 @@ package com.indignado.games.bricks.sensors;
  *
  * @author Rubentxu
  */
-public class KeyboardSensor extends Sensor {
+public class KeyboardSensor<T> extends Sensor {
     // Config Values
     public char key;
     public boolean allKeys = false;
@@ -15,6 +15,11 @@ public class KeyboardSensor extends Sensor {
     // Signal Values
     public char keySignal;
     public boolean keyDownSignal;
+
+
+    public KeyboardSensor(T owner) {
+        super(owner);
+    }
 
 
     @Override

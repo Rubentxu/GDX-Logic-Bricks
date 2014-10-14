@@ -16,7 +16,7 @@ public class AlwaysSensorTest {
 
     @Before
     public void setup() {
-        sensor = new AlwaysSensor();
+        sensor = new AlwaysSensor(new Object());
     }
 
 
