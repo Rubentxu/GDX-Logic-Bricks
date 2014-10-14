@@ -9,10 +9,9 @@ import com.badlogic.ashley.core.ComponentType;
  */
 public class PropertySensor<T> extends Sensor {
 
-    enum EvaluationType {CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN}
+    enum EvaluationType { CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN }
 
-    Class<?>[] PropertyType = {Double.class, Integer.class, Float.class,
-            Long.class, String.class, Boolean.class};
+    Class<?>[] PropertyType = { Double.class, Integer.class, Float.class, Long.class, String.class, Boolean.class };
 
 
     // Config Values
