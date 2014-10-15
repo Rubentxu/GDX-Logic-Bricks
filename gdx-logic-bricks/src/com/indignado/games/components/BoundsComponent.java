@@ -1,5 +1,6 @@
 package com.indignado.games.components;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -7,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  *
  * @author Rubentxu
  */
-public class BoundsComponent {
+public class BoundsComponent extends Component{
 
     public Vector2 center;  //	The center of the bounding box.
     public Vector2 extents; //	The extents of the box. This is always half of the size.

@@ -1,7 +1,5 @@
 package com.indignado.games.bricks.sensors;
 
-import com.badlogic.ashley.core.ComponentType;
-
 /**
  * Created on 13/10/14.
  *
@@ -11,14 +9,11 @@ public class PropertySensor<T> extends Sensor {
 
     enum EvaluationType { CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN }
 
-    Class<?>[] PropertyType = { Double.class, Integer.class, Float.class, Long.class, String.class, Boolean.class };
-
+    // Editor Values
+    public String propertyName;
 
     // Config Values
-    public ComponentType componentType;
-    public String propertyName;
     public EvaluationType evaluationType;
-    public Class<?> propertyType;
     public Number min;
     public Number max;
     public Object value;
@@ -35,7 +30,6 @@ public class PropertySensor<T> extends Sensor {
     @Override
     public Boolean isActive() {
         if (isTap()) return false;
-        if (propertyType.equals(valueSignal.getClass())) return false;
 
         switch (evaluationType) {
             case CHANGED:
@@ -47,7 +41,7 @@ public class PropertySensor<T> extends Sensor {
                 }
 
             case INTERVAL:
-                return intervalEvaluation();
+                return intervalEvaluation(min,max,(Number) valueSignal);
 
             case NOT_EQUAL:
                 if (!value.equals(valueSignal)) {
@@ -62,9 +56,9 @@ public class PropertySensor<T> extends Sensor {
                     return false;
                 }
             case GREATER_THAN:
-                return greaterThanEvaluation();
+                return greaterThanEvaluation((Number) value, (Number) valueSignal);
             case LESS_THAN:
-                return !greaterThanEvaluation();
+                return lessThanEvaluation((Number) value, (Number) valueSignal);
         }
 
         return false;
@@ -72,75 +66,42 @@ public class PropertySensor<T> extends Sensor {
     }
 
 
-    private Boolean greaterThanEvaluation() {
-        if (propertyType.equals(Double.class)) {
-            Double valueTemp = (Double) value;
-            Double valueSignalTemp = (Double) valueSignal;
-
-            if (valueSignalTemp > valueTemp) return true;
-            else return false;
-
-        } else if (propertyType.equals(Float.class)) {
-            Float valueTemp = (Float) value;
-            Float valueSignalTemp = (Float) valueSignal;
-
-            if (valueSignalTemp > valueTemp) return true;
-            else return false;
-
-        } else if (propertyType.equals(Integer.class)) {
-            Integer valueTemp = (Integer) value;
-            Integer valueSignalTemp = (Integer) valueSignal;
-
-            if (valueSignalTemp > valueTemp) return true;
-            else return false;
-
-        } else if (propertyType.equals(Long.class)) {
-            Long valueTemp = (Long) value;
-            Long valueSignalTemp = (Long) valueSignal;
-
-            if (valueSignalTemp > valueTemp) return true;
-            else return false;
-
-        }
-        return false;
+    private Boolean greaterThanEvaluation(Number p_value, Number p_valueSignal) {
+        int result = compare(p_value, p_valueSignal);
+        if( result < 0) return true;
+        else return false;
     }
 
 
-    private Boolean intervalEvaluation() {
-        if (propertyType.equals(Double.class)) {
-            Double minTemp = (Double) min;
-            Double maxTemp = (Double) max;
-            Double valueSignalTemp = (Double) valueSignal;
+    private Boolean lessThanEvaluation(Number p_value, Number p_valueSignal) {
+        int result = compare(p_value, p_valueSignal);
+        if( result > 0) return true;
+        else return false;
+    }
 
-            if (minTemp < valueSignalTemp && maxTemp > valueSignalTemp) return true;
-            else return false
-                    ;
-        } else if (propertyType.equals(Float.class)) {
-            Float minTemp = (Float) min;
-            Float maxTemp = (Float) max;
-            Float valueSignalTemp = (Float) valueSignal;
 
-            if (minTemp < valueSignalTemp && maxTemp > valueSignalTemp) return true;
-            else return false;
+    private int compare( Number p_value, Number p_valueSignal) {
+        if (p_value instanceof Double) {
+            return new Double((Double)p_value).compareTo((Double) p_valueSignal);
 
-        } else if (propertyType.equals(Integer.class)) {
-            Integer minTemp = (Integer) min;
-            Integer maxTemp = (Integer) max;
-            Integer valueSignalTemp = (Integer) valueSignal;
+        } else if (p_value instanceof Float) {
+            return Float.compare((Float) p_value,(Float) p_valueSignal);
 
-            if (minTemp < valueSignalTemp && maxTemp > valueSignalTemp) return true;
-            else return false;
+        } else if (p_value instanceof Integer) {
+            return Integer.compare((Integer) p_value,(Integer) p_valueSignal);
 
-        } else if (propertyType.equals(Long.class)) {
-            Long minTemp = (Long) min;
-            Long maxTemp = (Long) max;
-            Long valueSignalTemp = (Long) valueSignal;
-
-            if (minTemp < valueSignalTemp && maxTemp > valueSignalTemp) return true;
-            else return false;
+        } else if (p_value instanceof Long) {
+            return Long.compare((Long) p_value,(Long) p_valueSignal);
 
         }
-        return false;
+        return 0;
+    }
+
+
+    private Boolean intervalEvaluation(Number p_min, Number p_max, Number p_valueSignal) {
+        return compare(p_min,p_valueSignal) <= 0 &&  compare(p_max,p_valueSignal) >= 0;
+
+
     }
 
 }
