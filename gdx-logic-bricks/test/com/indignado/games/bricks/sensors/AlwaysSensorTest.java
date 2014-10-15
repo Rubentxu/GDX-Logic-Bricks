@@ -1,5 +1,6 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class AlwaysSensorTest {
 
     @Before
     public void setup() {
-        sensor = new AlwaysSensor(new Object());
+        sensor = new AlwaysSensor(new Entity());
     }
 
 

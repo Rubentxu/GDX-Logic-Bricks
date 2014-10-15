@@ -1,5 +1,6 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,12 +15,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class PropertySensorTest {
     private PropertySensor sensor;
-    private Object entity;
+    private Entity entity;
 
 
     @Before
     public void setup() {
-        entity = new Object();
+        entity = new Entity();
         sensor = new PropertySensor(entity);
         sensor.propertyName = "Sensor Property";
         sensor.value = 5;

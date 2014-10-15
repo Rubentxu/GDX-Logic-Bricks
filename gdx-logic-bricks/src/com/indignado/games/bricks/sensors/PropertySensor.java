@@ -1,11 +1,13 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created on 13/10/14.
  *
  * @author Rubentxu
  */
-public class PropertySensor<T> extends Sensor {
+public class PropertySensor extends Sensor {
 
     enum EvaluationType { CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN }
 
@@ -22,7 +24,7 @@ public class PropertySensor<T> extends Sensor {
     public Object valueSignal;
 
 
-    public PropertySensor(T owner) {
+    public PropertySensor(Entity owner) {
         super(owner);
     }
 
@@ -49,16 +51,20 @@ public class PropertySensor<T> extends Sensor {
                 } else {
                     return false;
                 }
+
             case EQUAL:
                 if (value.equals(valueSignal)) {
                     return true;
                 } else {
                     return false;
                 }
+
             case GREATER_THAN:
                 return greaterThanEvaluation((Number) value, (Number) valueSignal);
+
             case LESS_THAN:
                 return lessThanEvaluation((Number) value, (Number) valueSignal);
+
         }
 
         return false;

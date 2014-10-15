@@ -1,19 +1,21 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created on 13/10/14.
  * @author Rubentxu
  */
-public abstract class Sensor<T> {
+public abstract class Sensor {
 
     public Integer freq;
     public Boolean tap = false;
     public Boolean initialized = false;
     public String name;
     public Integer level;
-    protected T owner;
+    protected Entity owner;
 
-    protected Sensor(T owner) {
+    protected Sensor(Entity owner) {
         this.owner = owner;
     }
 

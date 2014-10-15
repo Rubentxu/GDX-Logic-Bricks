@@ -1,5 +1,6 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,11 +14,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class MouseSensorTest {
     private MouseSensor sensor;
-    private Object entity;
+    private Entity entity;
 
     @Before
     public void setup() {
-        entity = new Object();
+        entity = new Entity();
         sensor = new MouseSensor(entity);
         sensor.mouseEvent= MouseSensor.MouseEvent.MOVEMENT;
     }
@@ -59,7 +60,7 @@ public class MouseSensorTest {
     public void mouseOverTargetSignalNotEqualsTest() {
         sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
         sensor.mouseEventSignal = MouseSensor.MouseEvent.MOUSE_OVER;
-        sensor.targetSignal = new Object();
+        sensor.targetSignal = new Entity();
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);

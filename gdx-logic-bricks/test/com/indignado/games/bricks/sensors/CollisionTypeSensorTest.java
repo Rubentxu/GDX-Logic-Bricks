@@ -1,5 +1,6 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
 import com.indignado.games.components.ColliderComponent;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,17 +15,19 @@ import static org.junit.Assert.assertTrue;
  */
 public class CollisionTypeSensorTest {
     private CollisionSensor sensor;
-    private Object entity;
+    private Entity entity;
     private ColliderComponent colliderTest;
 
     @Before
     public void setup() {
-        entity = new Object();
+        entity = new Entity();
         sensor = new CollisionSensor(entity);
         sensor.collisionType = CollisionSensor.CollisionType.FULL;
         colliderTest = new ColliderComponent();
+        colliderTest.tag = "Enemy";
         sensor.collider = colliderTest;
         sensor.colliderSignal = colliderTest;
+
     }
 
 
@@ -40,7 +43,7 @@ public class CollisionTypeSensorTest {
 
     @Test
     public void collisionTargetNotEqualsTest() {
-        sensor.targetSignal = new Object();
+        sensor.targetSignal = new Entity();
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);
@@ -76,6 +79,30 @@ public class CollisionTypeSensorTest {
         sensor.targetSignal = entity;
         sensor.collisionType = null;
         sensor.colliderSignal = new ColliderComponent();
+
+        Boolean isActive = sensor.isActive();
+        assertFalse(isActive);
+
+    }
+
+
+    @Test
+    public void collisionPartialTagFilterTest() {
+        sensor.targetSignal = entity;
+        sensor.collisionType = CollisionSensor.CollisionType.PARTIAL;
+        sensor.tagFilter = "Enemy";
+
+        Boolean isActive = sensor.isActive();
+        assertTrue(isActive);
+
+    }
+
+
+    @Test
+    public void collisionPartialTagFilterFailTest() {
+        sensor.targetSignal = entity;
+        sensor.collisionType = CollisionSensor.CollisionType.PARTIAL;
+        sensor.tagFilter = "Player";
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);

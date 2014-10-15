@@ -1,5 +1,6 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ public class KeyboardSensorTest {
 
     @Before
     public void setup() {
-        sensor = new KeyboardSensor(new Object());
+        sensor = new KeyboardSensor(new Entity());
         sensor.key= 'a';
     }
 

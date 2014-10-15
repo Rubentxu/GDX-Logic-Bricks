@@ -1,11 +1,13 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created on 13/10/14.
  *
  * @author Rubentxu
  */
-public class MouseSensor<T> extends Sensor {
+public class MouseSensor extends Sensor {
 
     enum MouseEvent {
         MOUSE_OVER_ANY, MOUSE_OVER, MOVEMENT, WHEEL_DOWN, WHEEL_UP, RIGHT_BUTTON,
@@ -17,10 +19,10 @@ public class MouseSensor<T> extends Sensor {
 
     // Signal Values
     public MouseEvent mouseEventSignal;
-    public T targetSignal;
+    public Entity targetSignal;
 
 
-    public MouseSensor(T owner) {
+    public MouseSensor(Entity owner) {
         super(owner);
     }
 

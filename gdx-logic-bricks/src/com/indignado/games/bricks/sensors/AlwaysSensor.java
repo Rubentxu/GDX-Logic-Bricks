@@ -1,13 +1,15 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created on 13/10/14.
  * @author Rubentxu
  */
-public class AlwaysSensor<T> extends Sensor{
+public class AlwaysSensor extends Sensor{
 
 
-    public AlwaysSensor(T owner) {
+    public AlwaysSensor(Entity owner) {
         super(owner);
     }
 

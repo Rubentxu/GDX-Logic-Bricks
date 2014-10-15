@@ -1,11 +1,13 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created on 13/10/14.
  *
  * @author Rubentxu
  */
-public class DelaySensor<T> extends Sensor{
+public class DelaySensor extends Sensor{
 
     private float time = 0;
     // Config Values
@@ -15,7 +17,7 @@ public class DelaySensor<T> extends Sensor{
     public float deltaTimeSignal = 0;
 
 
-    public DelaySensor(T owner) {
+    public DelaySensor(Entity owner) {
         super(owner);
     }
 

@@ -1,5 +1,6 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class DelaySensorTest {
 
     @Before
     public void setup() {
-        sensor = new DelaySensor(new Object());
+        sensor = new DelaySensor(new Entity());
     }
 
 

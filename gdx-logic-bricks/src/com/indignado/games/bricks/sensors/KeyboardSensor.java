@@ -1,11 +1,13 @@
 package com.indignado.games.bricks.sensors;
 
+import com.badlogic.ashley.core.Entity;
+
 /**
  * Created on 13/10/14.
  *
  * @author Rubentxu
  */
-public class KeyboardSensor<T> extends Sensor {
+public class KeyboardSensor extends Sensor {
     // Config Values
     public char key;
     public boolean allKeys = false;
@@ -17,7 +19,7 @@ public class KeyboardSensor<T> extends Sensor {
     public boolean keyDownSignal;
 
 
-    public KeyboardSensor(T owner) {
+    public KeyboardSensor(Entity owner) {
         super(owner);
     }
 
