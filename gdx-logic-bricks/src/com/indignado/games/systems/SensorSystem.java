@@ -16,6 +16,7 @@ public class SensorSystem extends IteratingSystem {
         super(family, priority);
     }
 
+
     @Override
     public void processEntity(Entity entity, float deltaTime) {
 

@@ -19,6 +19,7 @@ public class AnimationSystem extends IteratingSystem {
     private ComponentMapper<AnimationComponent> am;
     private ComponentMapper<StateComponent> sm;
 
+
     public AnimationSystem() {
         super(Family.getFor(TextureComponent.class,
                 AnimationComponent.class,
@@ -26,19 +27,22 @@ public class AnimationSystem extends IteratingSystem {
         tm = ComponentMapper.getFor(TextureComponent.class);
         am = ComponentMapper.getFor(AnimationComponent.class);
         sm = ComponentMapper.getFor(StateComponent.class);
+
     }
+
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         long id = entity.getId();
-        TextureComponent tex = tm.get(entity);
-        AnimationComponent anim = am.get(entity);
-        StateComponent state = sm.get(entity);
-        Animation animation = anim.animations.get(state.get());
+        TextureComponent textureComponent = tm.get(entity);
+        AnimationComponent animationComponent = am.get(entity);
+        StateComponent stateComponent = sm.get(entity);
+        Animation animation = animationComponent.animations.get(stateComponent.get());
+        
         if (animation != null) {
-            tex.region = animation.getKeyFrame(state.time);
+            textureComponent.region = animation.getKeyFrame(stateComponent.time);
         }
-        state.time += deltaTime;
+        stateComponent.time += deltaTime;
 
     }
 }
