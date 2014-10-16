@@ -9,10 +9,10 @@ import com.badlogic.ashley.systems.IteratingSystem;
  *
  * @author Rubentxu
  */
-public class SensorSystems extends IteratingSystem {
+public class SensorSystem extends IteratingSystem {
 
 
-    public SensorSystems(Family family, int priority) {
+    public SensorSystem(Family family, int priority) {
         super(family, priority);
     }
 
@@ -20,4 +20,5 @@ public class SensorSystems extends IteratingSystem {
     public void processEntity(Entity entity, float deltaTime) {
 
     }
+
 }
