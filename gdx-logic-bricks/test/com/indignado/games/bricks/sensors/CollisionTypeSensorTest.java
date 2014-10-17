@@ -1,7 +1,7 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.games.components.CollidersComponent;
+import com.indignado.games.components.CollidersComponents;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,14 +16,14 @@ import static org.junit.Assert.assertTrue;
 public class CollisionTypeSensorTest {
     private CollisionSensor sensor;
     private Entity entity;
-    private CollidersComponent colliderTest;
+    private CollidersComponents colliderTest;
 
     @Before
     public void setup() {
         entity = new Entity();
         sensor = new CollisionSensor(entity);
         sensor.collisionType = CollisionSensor.CollisionType.FULL;
-        colliderTest = new CollidersComponent();
+        colliderTest = new CollidersComponents();
         colliderTest.tag = "Enemy";
         sensor.collider = colliderTest;
         sensor.colliderSignal = colliderTest;
@@ -66,7 +66,7 @@ public class CollisionTypeSensorTest {
     public void collisionPartialFailTest() {
         sensor.targetSignal = entity;
         sensor.collisionType = CollisionSensor.CollisionType.PARTIAL;
-        sensor.colliderSignal = new CollidersComponent();
+        sensor.colliderSignal = new CollidersComponents();
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);
@@ -78,7 +78,7 @@ public class CollisionTypeSensorTest {
     public void collisionNullTest() {
         sensor.targetSignal = entity;
         sensor.collisionType = null;
-        sensor.colliderSignal = new CollidersComponent();
+        sensor.colliderSignal = new CollidersComponents();
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);

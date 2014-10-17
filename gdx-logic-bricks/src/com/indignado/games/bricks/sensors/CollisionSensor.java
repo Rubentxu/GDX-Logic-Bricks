@@ -1,7 +1,7 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.games.components.CollidersComponent;
+import com.indignado.games.components.CollidersComponents;
 
 /**
  * Created on 13/10/14.
@@ -14,11 +14,11 @@ public class CollisionSensor extends Sensor {
 
     // Config Values
     public CollisionType collisionType;
-    public CollidersComponent collider;
+    public CollidersComponents collider;
     public String tagFilter;
 
     // Signal Values
-    public CollidersComponent colliderSignal;
+    public CollidersComponents colliderSignal;
     public Entity targetSignal;
 
 
@@ -36,18 +36,10 @@ public class CollisionSensor extends Sensor {
 
         if (targetSignal.equals(owner)) {
             if (collisionType.equals(CollisionType.FULL)) {
-                if (tagFilter != null) {
-                    if (tagFilter.equals(collider.tag)) return true;
-                    else return false;
-                }
                 return true;
             }
             if (collisionType.equals(CollisionType.PARTIAL)) {
                 if (collider.equals(colliderSignal)) {
-                    if (tagFilter != null) {
-                        if (tagFilter.equals(collider.tag)) return true;
-                        else return false;
-                    }
                     return true;
                 } else return false;
             }
