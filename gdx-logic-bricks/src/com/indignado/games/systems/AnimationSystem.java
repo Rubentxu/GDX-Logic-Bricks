@@ -21,9 +21,7 @@ public class AnimationSystem extends IteratingSystem {
 
 
     public AnimationSystem() {
-        super(Family.getFor(TextureComponent.class,
-                AnimationComponent.class,
-                StateComponent.class));
+        super(Family.getFor(TextureComponent.class, AnimationComponent.class, StateComponent.class));
         tm = ComponentMapper.getFor(TextureComponent.class);
         am = ComponentMapper.getFor(AnimationComponent.class);
         sm = ComponentMapper.getFor(StateComponent.class);

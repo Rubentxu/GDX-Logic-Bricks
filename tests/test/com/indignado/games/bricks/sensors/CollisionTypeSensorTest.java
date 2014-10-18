@@ -24,7 +24,6 @@ public class CollisionTypeSensorTest {
         sensor = new CollisionSensor(entity);
         sensor.collisionType = CollisionSensor.CollisionType.FULL;
         colliderTest = new CollidersComponents();
-        colliderTest.tag = "Enemy";
         sensor.collider = colliderTest;
         sensor.colliderSignal = colliderTest;
 

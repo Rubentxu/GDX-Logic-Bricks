@@ -42,25 +42,28 @@ project(":gdx-logic-bricks") {
         compile "com.badlogicgames.gdx:gdx-ai:$gdxAIVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        testCompile 'junit:junit:[4,)'
+
     }
 
-    test {
-        testLogging {
-            events 'started', 'passed'
-        }
-    }
+
 }
 
 project(":tests") {
     apply plugin: "java"
-
 
     dependencies {
         compile project(":gdx-logic-bricks")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        testCompile 'junit:junit:[4,)'
+
+    }
+
+    test {
+        testLogging {
+            events 'started', 'passed'
+        }
     }
 }
 

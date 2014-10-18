@@ -11,4 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class TextureComponent extends Component {
     public TextureRegion region = null;
 
+    public TextureComponent(TextureRegion region) {
+        this.region = region;
+    }
+
 }
