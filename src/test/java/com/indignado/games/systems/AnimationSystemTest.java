@@ -12,6 +12,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+
 /**
  * Created on 18/10/14.
  *
@@ -23,7 +27,6 @@ public class AnimationSystemTest extends BaseTest {
     TextureRegion playerTextureRegion;
     private AnimationComponent animationComponent;
     private StateComponent stateComponent;
-
 
 
     @BeforeClass
@@ -57,6 +60,39 @@ public class AnimationSystemTest extends BaseTest {
         player.add(stateComponent);
         player.add(animationComponent);
 
+        engine.addEntity(player);
+
+        float deltaTime = 1;
+        engine.update(deltaTime);
+
+        assertEquals(0, stateComponent.get());
+        assertEquals(deltaTime, stateComponent.time, 0.1);
+        assertNotEquals(playerTextureRegion, player.getComponent(TextureComponent.class).region);
+
     }
+
+
+    @Test
+    public void animationSystem2Test() {
+
+        Entity player = engine.createEntity();
+        player.add(new TextureComponent(playerTextureRegion));
+        stateComponent.set(PlayerState.JUMP.ordinal());
+        player.add(stateComponent);
+        player.add(animationComponent);
+
+        engine.addEntity(player);
+
+        float deltaTime = 2;
+        engine.update(deltaTime);
+
+        assertEquals(1, stateComponent.get());
+
+        engine.update(deltaTime);
+
+        assertEquals(deltaTime * 2, stateComponent.time, 0.1);
+
+    }
+
 
 }

@@ -3,6 +3,8 @@ package com.indignado.games.bricks.base;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import org.mockito.Mockito;
 
@@ -18,8 +20,13 @@ public class BaseTest extends ApplicationAdapter{
 
     protected IntMap<Animation> getAnimations(){
         IntMap<Animation> animations = new IntMap<Animation>();
-        animations.put(0, Mockito.mock(Animation.class));
-        animations.put(1, Mockito.mock(Animation.class));
+        Array textureRegion = new Array();
+        textureRegion.add(Mockito.mock(TextureRegion.class));
+        textureRegion.add(Mockito.mock(TextureRegion.class));
+        textureRegion.add(Mockito.mock(TextureRegion.class));
+
+        animations.put(0,new Animation(0.2f, textureRegion, Animation.PlayMode.LOOP));
+        animations.put(1, new Animation(0.2f, textureRegion, Animation.PlayMode.NORMAL));
 
         return animations;
 

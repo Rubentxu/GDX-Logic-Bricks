@@ -31,7 +31,6 @@ public class AnimationSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        long id = entity.getId();
         TextureComponent textureComponent = tm.get(entity);
         AnimationComponent animationComponent = am.get(entity);
         StateComponent stateComponent = sm.get(entity);
