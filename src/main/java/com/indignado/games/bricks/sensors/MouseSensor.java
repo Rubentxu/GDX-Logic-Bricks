@@ -2,6 +2,9 @@ package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created on 13/10/14.
  *
@@ -9,21 +12,26 @@ import com.badlogic.ashley.core.Entity;
  */
 public class MouseSensor extends Sensor {
 
-    enum MouseEvent {
-        MOUSE_OVER_ANY, MOUSE_OVER, MOVEMENT, WHEEL_DOWN, WHEEL_UP, RIGHT_BUTTON,
+    public enum MouseEvent {
+        MOUSE_OVER, MOVEMENT, WHEEL_DOWN, WHEEL_UP, RIGHT_BUTTON,
         MIDDLE_BUTTON, LEFT_BUTTON
     }
 
     // Config Values
     public MouseEvent mouseEvent;
+    public Entity target;
 
     // Signal Values
-    public MouseEvent mouseEventSignal;
+    public Set<MouseEvent> mouseEventSignal;
     public Entity targetSignal;
+    public int positionXsignal;
+    public int positionYsignal;
+    public int amountScrollSignal;
 
 
     public MouseSensor(Entity owner) {
         super(owner);
+        mouseEventSignal = new HashSet<>();
     }
 
 

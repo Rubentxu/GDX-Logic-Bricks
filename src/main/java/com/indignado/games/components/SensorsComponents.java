@@ -10,6 +10,6 @@ import com.indignado.games.bricks.sensors.Sensor;
  * @author Rubentxu
  */
 public class SensorsComponents extends Component{
-    public Array<Sensor> sensors;
+    public Array<Sensor> sensors= new Array<Sensor>();
 
 }

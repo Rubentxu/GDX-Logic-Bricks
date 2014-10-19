@@ -1,6 +1,9 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Input;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created on 13/10/14.
@@ -9,14 +12,13 @@ import com.badlogic.ashley.core.Entity;
  */
 public class KeyboardSensor extends Sensor {
     // Config Values
-    public char key;
+    public char key = Input.Keys.UNKNOWN;
     public boolean allKeys = false;
-    public boolean logToggle;
-    public String target="";
+    public boolean logToggle = false;
+    public String target = "";
 
     // Signal Values
-    public char keySignal;
-    public boolean keyDownSignal;
+    public Set<Character> keysSignal = new HashSet<Character>();
 
 
     public KeyboardSensor(Entity owner) {
@@ -27,24 +29,20 @@ public class KeyboardSensor extends Sensor {
     @Override
     public Boolean isActive() {
         if (isTap()) return false;
-        boolean isActive= false;
+        boolean isActive = false;
 
-        if(keyDownSignal){
-            if(allKeys ) {
-                isActive = true;
-                if(logToggle) {
-                    target += keySignal;
+        for (Character ks : keysSignal) {
+            if (allKeys) {
+                if (!keysSignal.isEmpty()) isActive = true;
+                if (logToggle) {
+                    target += ks;
                 }
             } else {
-                if(key == keySignal) {
-                    isActive = true;
-                }
+                if (ks.equals(key)) isActive = true;
             }
 
-        } else {
-            target = "";
         }
-
+        keysSignal.clear();
         return isActive;
 
     }

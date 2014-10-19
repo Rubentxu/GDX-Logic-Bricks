@@ -20,14 +20,13 @@ public class KeyboardSensorTest {
     public void setup() {
         sensor = new KeyboardSensor(new Entity());
         sensor.key= 'a';
+
     }
 
 
     @Test
     public void keyTest() {
-        sensor.keyDownSignal= true;
-        sensor.keySignal = 'a';
-
+        sensor.keysSignal.add('a');
         Boolean isActive = sensor.isActive();
         assertTrue(isActive);
 
@@ -36,9 +35,6 @@ public class KeyboardSensorTest {
 
     @Test
     public void keyDownFalseTest() {
-        sensor.keyDownSignal= false;
-        sensor.keySignal = 'a';
-
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);
 
@@ -47,8 +43,7 @@ public class KeyboardSensorTest {
 
     @Test
     public void keySignalNotEqualTest() {
-        sensor.keyDownSignal= true;
-        sensor.keySignal = 'b';
+        sensor.keysSignal.add('b');
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);
@@ -58,24 +53,20 @@ public class KeyboardSensorTest {
 
     @Test
     public void allKeysTest() {
-        sensor.keyDownSignal= true;
         sensor.allKeys = true;
         sensor.logToggle = true;
-        sensor.keySignal = 'H';
+        sensor.keysSignal.add('H');
 
         Boolean isActive = sensor.isActive();
         assertTrue(isActive);
 
-        sensor.keySignal = 'o';
+        sensor.keysSignal.add('o');
 
         isActive = sensor.isActive();
         assertTrue(isActive);
         assertEquals("Ho", sensor.target);
 
-
     }
-
-
 
 
 }
