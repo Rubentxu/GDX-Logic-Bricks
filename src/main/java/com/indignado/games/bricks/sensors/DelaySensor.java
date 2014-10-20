@@ -18,6 +18,7 @@ public class DelaySensor extends Sensor{
 
     public DelaySensor(Entity owner) {
         super(owner);
+
     }
 
 

@@ -7,13 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created on 14/10/14.
+ * Created on 17/10/14.
  *
  * @author Rubentxu
  */
-public class CollidersComponents extends Component {
-    public Set<CollisionSensor> fixtures = new HashSet<CollisionSensor>();
-
-
+public class CollisionSensorsComponents extends Component{
+    public Set<CollisionSensor> sensors= new HashSet<CollisionSensor>();
 
 }

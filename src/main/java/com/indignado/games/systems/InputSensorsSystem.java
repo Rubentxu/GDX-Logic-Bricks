@@ -6,11 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.indignado.games.bricks.sensors.DelaySensor;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
 import com.indignado.games.bricks.sensors.MouseSensor;
 import com.indignado.games.bricks.sensors.Sensor;
-import com.indignado.games.components.SensorsComponents;
+import com.indignado.games.components.InputSensorsComponents;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,15 +19,15 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class SensorsSystem extends IteratingSystem implements InputProcessor {
-    private ComponentMapper<SensorsComponents> sm;
+public class InputSensorsSystem extends IteratingSystem implements InputProcessor {
+    private ComponentMapper<InputSensorsComponents> sm;
     private Set<KeyboardSensor> keyboardSensorsListener;
     private Set<MouseSensor> mouseSensorsListener;
 
 
-    public SensorsSystem() {
-        super(Family.getFor(SensorsComponents.class), 0);
-        sm = ComponentMapper.getFor(SensorsComponents.class);
+    public InputSensorsSystem() {
+        super(Family.getFor(InputSensorsComponents.class), 0);
+        sm = ComponentMapper.getFor(InputSensorsComponents.class);
         keyboardSensorsListener = new HashSet<KeyboardSensor>();
         mouseSensorsListener = new HashSet<MouseSensor>();
 
@@ -37,15 +36,10 @@ public class SensorsSystem extends IteratingSystem implements InputProcessor {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        SensorsComponents sc = sm.get(entity);
+        InputSensorsComponents sc = sm.get(entity);
 
         for (Sensor sensor : sc.sensors) {
             if (!sensor.isTap()) {
-                if (sensor instanceof DelaySensor) {
-                    DelaySensor delaySensor = (DelaySensor) sensor;
-                    delaySensor.timeSignal += deltaTime;
-                    continue;
-                }
                 if (sensor instanceof KeyboardSensor) {
                     if(!keyboardSensorsListener.contains(sensor)) keyboardSensorsListener.add((KeyboardSensor) sensor);
                     continue;
@@ -54,6 +48,7 @@ public class SensorsSystem extends IteratingSystem implements InputProcessor {
                     if(!mouseSensorsListener.contains(sensor)) mouseSensorsListener.add((MouseSensor) sensor);
                     continue;
                 }
+
             }
         }
 
