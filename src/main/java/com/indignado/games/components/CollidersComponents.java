@@ -15,5 +15,4 @@ public class CollidersComponents extends Component {
     public Set<CollisionSensor> fixtures = new HashSet<CollisionSensor>();
 
 
-
 }

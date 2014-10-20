@@ -1,8 +1,11 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.games.components.BoundsComponent;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -10,21 +13,21 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class BoundsCollisionSensor extends CollisionSensor {
+public class RigidBodyCollisionSensor extends CollisionSensor {
 
     public enum CollisionType {FULL, PARTIAL}
 
     // Config Values
-    public CollisionType collisionType;
-    public Set<BoundsComponent> colliders;
-
+    public Filter filter;
+    public Set<Fixture> fixtures = new HashSet<Fixture>();
+    public Body attachedRigidbody;
 
     // Signal Values
-    public BoundsComponent colliderSignal;
+    public Fixture fixture;
     public Entity targetSignal;
 
 
-    public BoundsCollisionSensor(Entity owner) {
+    public RigidBodyCollisionSensor(Entity owner) {
         super(owner);
 
     }
@@ -34,15 +37,14 @@ public class BoundsCollisionSensor extends CollisionSensor {
     public Boolean isActive() {
         if (isTap()) return false;
 
-        if (collisionType == null || colliders == null
-                || colliderSignal == null || targetSignal == null) return false;
+        if (collisionType == null || fixture == null  || targetSignal == null) return false;
 
         if (targetSignal.equals(owner)) {
             if (collisionType.equals(CollisionType.FULL)) {
                 return true;
             }
             if (collisionType.equals(CollisionType.PARTIAL)) {
-                if (colliders.contains(colliderSignal)) {
+                if (fixtures.contains(fixture)) {
                     return true;
                 } else return false;
             }
