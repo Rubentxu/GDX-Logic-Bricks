@@ -24,15 +24,15 @@ public class DelaySensorTest {
     @Test
     public void delayTest() {
         sensor.delay= 1.5f;
-        sensor.deltaTimeSignal= 1.6f;
+        sensor.timeSignal= 1f;
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);
 
+        sensor.timeSignal += sensor.timeSignal +1f;
         isActive = sensor.isActive();
         assertTrue(isActive);
 
-        isActive = sensor.isActive();
-        assertFalse(isActive);
+
     }
 }

@@ -1,6 +1,7 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
+import com.indignado.games.components.BoundsComponent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,9 +17,13 @@ public class MouseSensorTest {
     private MouseSensor sensor;
     private Entity entity;
 
+
     @Before
     public void setup() {
         entity = new Entity();
+        BoundsComponent bounds = new BoundsComponent();
+        bounds.bounds.set(50,50, 100, 100);
+        entity.add(bounds);
         sensor = new MouseSensor(entity);
         sensor.mouseEvent= MouseSensor.MouseEvent.MOVEMENT;
     }
@@ -26,20 +31,10 @@ public class MouseSensorTest {
 
     @Test
     public void mouseEventTest() {
-        sensor.mouseEventSignal = MouseSensor.MouseEvent.MOVEMENT;
+        sensor.mouseEventSignal = true;
 
         Boolean isActive = sensor.isActive();
         assertTrue(isActive);
-
-    }
-
-
-    @Test
-    public void mouseEventSignalNotEqualsTest() {
-        sensor.mouseEventSignal = MouseSensor.MouseEvent.LEFT_BUTTON;
-
-        Boolean isActive = sensor.isActive();
-        assertFalse(isActive);
 
     }
 
@@ -47,8 +42,10 @@ public class MouseSensorTest {
     @Test
     public void mouseOverTest() {
         sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
-        sensor.mouseEventSignal = MouseSensor.MouseEvent.MOUSE_OVER;
-        sensor.targetSignal = entity;
+        sensor.mouseEventSignal = true;
+        sensor.positionXsignal = 51;
+        sensor.positionYsignal = 51;
+        sensor.target = entity;
 
         Boolean isActive = sensor.isActive();
         assertTrue(isActive);
@@ -57,10 +54,12 @@ public class MouseSensorTest {
 
 
     @Test
-    public void mouseOverTargetSignalNotEqualsTest() {
+    public void notMouseOverTest() {
         sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
-        sensor.mouseEventSignal = MouseSensor.MouseEvent.MOUSE_OVER;
-        sensor.targetSignal = new Entity();
+        sensor.mouseEventSignal = true;
+        sensor.positionXsignal = 151;
+        sensor.positionYsignal = 151;
+        sensor.target = entity;
 
         Boolean isActive = sensor.isActive();
         assertFalse(isActive);
@@ -68,9 +67,16 @@ public class MouseSensorTest {
     }
 
 
+    @Test
+    public void mouseOverTargetSignalNotEqualsTest() {
+        sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
+        sensor.mouseEventSignal = true;
+        sensor.target = new Entity();
 
+        Boolean isActive = sensor.isActive();
+        assertFalse(isActive);
 
-
+    }
 
 
 }

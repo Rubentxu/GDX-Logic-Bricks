@@ -1,9 +1,7 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-
-import java.util.HashSet;
-import java.util.Set;
+import com.indignado.games.components.BoundsComponent;
 
 /**
  * Created on 13/10/14.
@@ -22,16 +20,16 @@ public class MouseSensor extends Sensor {
     public Entity target;
 
     // Signal Values
-    public Set<MouseEvent> mouseEventSignal;
-    public Entity targetSignal;
-    public int positionXsignal;
-    public int positionYsignal;
-    public int amountScrollSignal;
+    public boolean mouseEventSignal = false;
+    public int positionXsignal = 0;
+    public int positionYsignal = 0;
+    public int amountScrollSignal = 0;
+    public boolean buttonUP = false;
 
 
     public MouseSensor(Entity owner) {
         super(owner);
-        mouseEventSignal = new HashSet<>();
+
     }
 
 
@@ -39,14 +37,24 @@ public class MouseSensor extends Sensor {
     public Boolean isActive() {
         if (isTap()) return false;
 
-        if (mouseEvent.equals(mouseEventSignal)) {
-            if (mouseEvent.equals(MouseEvent.MOUSE_OVER)) {
-                if (targetSignal.equals(owner)) return true;
-                else return false;
+        if (mouseEventSignal) {
+            if(mouseEvent.equals(MouseEvent.MOUSE_OVER)){
+                if( target == null ) return false;
+                return isMouseOver(target,positionXsignal,positionYsignal);
+
             }
             return true;
         }
+
         return false;
+
+    }
+
+
+    public boolean isMouseOver(Entity target, int posX, int posY) {
+        BoundsComponent bounds = target.getComponent(BoundsComponent.class);
+        if(bounds == null) return false;
+        return bounds.bounds.contains(posX, posY);
 
     }
 

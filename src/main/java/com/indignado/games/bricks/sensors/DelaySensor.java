@@ -9,12 +9,11 @@ import com.badlogic.ashley.core.Entity;
  */
 public class DelaySensor extends Sensor{
 
-    private float time = 0;
     // Config Values
     public float delay = 0;
 
     // Signal Values
-    public float deltaTimeSignal = 0;
+    public float timeSignal = 0;
 
 
     public DelaySensor(Entity owner) {
@@ -25,12 +24,10 @@ public class DelaySensor extends Sensor{
     @Override
     public Boolean isActive() {
         if (isTap()) return false;
-        if( time > delay ) {
-            time = 0;
+        if( timeSignal >= delay ) {
+            timeSignal = 0;
             return true;
         }
-
-        time += deltaTimeSignal;
         return false;
 
     }
