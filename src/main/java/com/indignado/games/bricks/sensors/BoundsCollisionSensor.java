@@ -12,16 +12,11 @@ import java.util.Set;
  */
 public class BoundsCollisionSensor extends CollisionSensor {
 
-    public enum CollisionType {FULL, PARTIAL}
-
     // Config Values
-    public CollisionType collisionType;
     public Set<BoundsComponent> colliders;
-
 
     // Signal Values
     public BoundsComponent colliderSignal;
-    public Entity targetSignal;
 
 
     public BoundsCollisionSensor(Entity owner) {

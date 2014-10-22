@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Entity;
  *
  * @author Rubentxu
  */
-public class CollisionSensor extends Sensor {
+public abstract class CollisionSensor extends Sensor {
 
     public enum CollisionType {FULL, PARTIAL}
 
@@ -22,11 +22,5 @@ public class CollisionSensor extends Sensor {
 
     }
 
-
-    @Override
-    public Boolean isActive() {
-        return isTap();
-
-    }
 
 }

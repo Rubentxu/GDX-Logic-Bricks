@@ -15,16 +15,14 @@ import java.util.Set;
  */
 public class RigidBodyCollisionSensor extends CollisionSensor {
 
-    public enum CollisionType {FULL, PARTIAL}
-
     // Config Values
     public Filter filter;
     public Set<Fixture> fixtures = new HashSet<Fixture>();
     public Body attachedRigidbody;
 
     // Signal Values
-    public Fixture fixture;
-    public Entity targetSignal;
+    public Fixture colliderSignal;
+
 
 
     public RigidBodyCollisionSensor(Entity owner) {
@@ -37,14 +35,14 @@ public class RigidBodyCollisionSensor extends CollisionSensor {
     public Boolean isActive() {
         if (isTap()) return false;
 
-        if (collisionType == null || fixture == null  || targetSignal == null) return false;
+        if (collisionType == null || colliderSignal == null  || targetSignal == null) return false;
 
         if (targetSignal.equals(owner)) {
             if (collisionType.equals(CollisionType.FULL)) {
                 return true;
             }
             if (collisionType.equals(CollisionType.PARTIAL)) {
-                if (fixtures.contains(fixture)) {
+                if (fixtures.contains(colliderSignal)) {
                     return true;
                 } else return false;
             }
