@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
  *
  * @author Rubentxu
  */
-public class BoundsComponent extends Component {
+public class TextureBoundsComponent extends Component {
     public Rectangle bounds = new Rectangle();
 
 }

@@ -3,7 +3,7 @@ package com.indignado.games.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.games.bricks.base.BaseTest;
-import com.indignado.games.components.StateComponent;
+import com.indignado.games.components.AnimateStateComponent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 public class StateSystemTest extends BaseTest {
 
     PooledEngine engine;
-    private StateComponent stateComponent;
+    private AnimateStateComponent animateStateComponent;
 
 
     @Before
@@ -26,8 +26,8 @@ public class StateSystemTest extends BaseTest {
         engine = new PooledEngine();
         engine.addSystem(new StateSystem());
 
-        stateComponent = new StateComponent();
-        stateComponent.set(PlayerState.WALKING.ordinal());
+        animateStateComponent = new AnimateStateComponent();
+        animateStateComponent.set(PlayerState.WALKING.ordinal());
 
     }
 
@@ -35,14 +35,14 @@ public class StateSystemTest extends BaseTest {
     @Test
     public void stateSystemTest() {
         Entity player = engine.createEntity();
-        player.add(stateComponent);
+        player.add(animateStateComponent);
 
         engine.addEntity(player);
 
         float deltaTime = 1;
         engine.update(deltaTime);
 
-        assertEquals(deltaTime, stateComponent.time, 0.1);
+        assertEquals(deltaTime, animateStateComponent.time, 0.1);
 
     }
 

@@ -12,7 +12,7 @@ public abstract class Sensor {
     public Boolean tap = false;
     public Boolean initialized = false;
     public String name;
-    public Integer level;
+    public Integer status;
     protected Entity owner;
 
     protected Sensor(Entity owner) {

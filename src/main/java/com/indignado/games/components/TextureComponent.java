@@ -2,6 +2,8 @@ package com.indignado.games.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.MassData;
+import com.badlogic.gdx.utils.IntMap;
 
 /**
  * Created on 16/10/14.
@@ -9,8 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Rubentxu
  */
 public class TextureComponent extends Component {
-    public TextureRegion region = null;
-
+    public IntMap<TextureRegion> tex = null;
+    MassData massData = new MassData();
     public TextureComponent(TextureRegion region) {
         this.region = region;
     }

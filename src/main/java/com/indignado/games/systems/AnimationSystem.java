@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.indignado.games.components.AnimationComponent;
-import com.indignado.games.components.StateComponent;
+import com.indignado.games.components.AnimateStateComponent;
 import com.indignado.games.components.TextureComponent;
 
 /**
@@ -17,14 +17,14 @@ import com.indignado.games.components.TextureComponent;
 public class AnimationSystem extends IteratingSystem {
     private ComponentMapper<TextureComponent> tm;
     private ComponentMapper<AnimationComponent> am;
-    private ComponentMapper<StateComponent> sm;
+    private ComponentMapper<AnimateStateComponent> sm;
 
 
     public AnimationSystem() {
-        super(Family.getFor(TextureComponent.class, AnimationComponent.class, StateComponent.class));
+        super(Family.getFor(TextureComponent.class, AnimationComponent.class, AnimateStateComponent.class));
         tm = ComponentMapper.getFor(TextureComponent.class);
         am = ComponentMapper.getFor(AnimationComponent.class);
-        sm = ComponentMapper.getFor(StateComponent.class);
+        sm = ComponentMapper.getFor(AnimateStateComponent.class);
 
     }
 
@@ -33,13 +33,13 @@ public class AnimationSystem extends IteratingSystem {
     public void processEntity(Entity entity, float deltaTime) {
         TextureComponent textureComponent = tm.get(entity);
         AnimationComponent animationComponent = am.get(entity);
-        StateComponent stateComponent = sm.get(entity);
-        Animation animation = animationComponent.animations.get(stateComponent.get());
+        AnimateStateComponent animateStateComponent = sm.get(entity);
+        Animation animation = animationComponent.animations.get(animateStateComponent.get());
         
         if (animation != null) {
-            textureComponent.region = animation.getKeyFrame(stateComponent.time);
+            textureComponent.region = animation.getKeyFrame(animateStateComponent.time);
         }
-        stateComponent.time += deltaTime;
+        animateStateComponent.time += deltaTime;
 
     }
 }

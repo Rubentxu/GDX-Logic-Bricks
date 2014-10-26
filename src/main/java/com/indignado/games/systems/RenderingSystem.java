@@ -34,6 +34,7 @@ public class RenderingSystem extends IteratingSystem {
         super(Family.getFor(TransformComponent.class, TextureComponent.class));
         textureM = ComponentMapper.getFor(TextureComponent.class);
         transformM = ComponentMapper.getFor(TransformComponent.class);
+        transformM = ComponentMapper.getFor(TransformComponent.class);
         renderQueue = new Array<Entity>();
         comparator = new Comparator<Entity>() {
             @Override
@@ -62,7 +63,7 @@ public class RenderingSystem extends IteratingSystem {
                 continue;
             }
             TransformComponent t = transformM.get(entity);
-            float width = tex.region.getRegionWidth();
+            float width = ;
             float height = tex.region.getRegionHeight();
             float originX = width * 0.5f;
             float originY = height * 0.5f;

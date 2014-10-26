@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.indignado.games.bricks.base.BaseTest;
 import com.indignado.games.components.AnimationComponent;
-import com.indignado.games.components.StateComponent;
+import com.indignado.games.components.AnimateStateComponent;
 import com.indignado.games.components.TextureComponent;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,7 +26,7 @@ public class AnimationSystemTest extends BaseTest {
     PooledEngine engine;
     TextureRegion playerTextureRegion;
     private AnimationComponent animationComponent;
-    private StateComponent stateComponent;
+    private AnimateStateComponent animateStateComponent;
 
 
     @BeforeClass
@@ -46,8 +46,8 @@ public class AnimationSystemTest extends BaseTest {
         animationComponent = new AnimationComponent();
         animationComponent.animations = getAnimations();
 
-        stateComponent = new StateComponent();
-        stateComponent.set(PlayerState.WALKING.ordinal());
+        animateStateComponent = new AnimateStateComponent();
+        animateStateComponent.set(PlayerState.WALKING.ordinal());
 
     }
 
@@ -57,7 +57,7 @@ public class AnimationSystemTest extends BaseTest {
 
         Entity player = engine.createEntity();
         player.add(new TextureComponent(playerTextureRegion));
-        player.add(stateComponent);
+        player.add(animateStateComponent);
         player.add(animationComponent);
 
         engine.addEntity(player);
@@ -65,8 +65,8 @@ public class AnimationSystemTest extends BaseTest {
         float deltaTime = 1;
         engine.update(deltaTime);
 
-        assertEquals(0, stateComponent.get());
-        assertEquals(deltaTime, stateComponent.time, 0.1);
+        assertEquals(0, animateStateComponent.get());
+        assertEquals(deltaTime, animateStateComponent.time, 0.1);
         assertNotEquals(playerTextureRegion, player.getComponent(TextureComponent.class).region);
 
     }
@@ -77,8 +77,8 @@ public class AnimationSystemTest extends BaseTest {
 
         Entity player = engine.createEntity();
         player.add(new TextureComponent(playerTextureRegion));
-        stateComponent.set(PlayerState.JUMP.ordinal());
-        player.add(stateComponent);
+        animateStateComponent.set(PlayerState.JUMP.ordinal());
+        player.add(animateStateComponent);
         player.add(animationComponent);
 
         engine.addEntity(player);
@@ -86,11 +86,11 @@ public class AnimationSystemTest extends BaseTest {
         float deltaTime = 2;
         engine.update(deltaTime);
 
-        assertEquals(1, stateComponent.get());
+        assertEquals(1, animateStateComponent.get());
 
         engine.update(deltaTime);
 
-        assertEquals(deltaTime * 2, stateComponent.time, 0.1);
+        assertEquals(deltaTime * 2, animateStateComponent.time, 0.1);
 
     }
 

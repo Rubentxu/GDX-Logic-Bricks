@@ -2,7 +2,10 @@ package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Rectangle;
-import com.indignado.games.components.BoundsComponent;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.GdxNativesLoader;
+import com.indignado.games.components.TextureBoundsComponent;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.HashSet;
@@ -15,25 +18,20 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Rubentxu
  */
-public class BoundsCollisionSensorTest {
-    private BoundsCollisionSensor sensor;
+public class PhysicsCollisionSensorTest {
+    private PhysicsCollisionSensor sensor;
     private Entity entity;
-    private Set<BoundsComponent> collidersTest;
-    private BoundsComponent boundsTest;
+    private World physic;
+    private Set<TextureBoundsComponent> fixtureTest;
+    private TextureBoundsComponent boundsTest;
 
     @Before
     public void setup() {
+        GdxNativesLoader.load();
+        physic = new World(new Vector2(0, -9.81f), true);
         entity = new Entity();
-        sensor = new BoundsCollisionSensor(entity);
+        sensor = new PhysicsCollisionSensor(entity);
         sensor.collisionType = CollisionSensor.CollisionType.FULL;
-        collidersTest =  new HashSet<BoundsComponent>();
-        BoundsComponent bounds = new BoundsComponent();
-        bounds.bounds = new Rectangle(50,50,100,100);
-        collidersTest.add(bounds);
-        sensor.colliders = collidersTest;
-        BoundsComponent boundCollider = new BoundsComponent();
-        boundCollider.bounds = new Rectangle(80,80,100,100);
-        sensor.colliderSignal = boundCollider;
 
     }
 

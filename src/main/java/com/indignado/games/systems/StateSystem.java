@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.indignado.games.components.StateComponent;
+import com.indignado.games.components.AnimateStateComponent;
 
 /**
  * Created on 15/10/14.
@@ -12,12 +12,12 @@ import com.indignado.games.components.StateComponent;
  * @author Rubentxu
  */
 public class StateSystem extends IteratingSystem {
-    private ComponentMapper<StateComponent> sm;
+    private ComponentMapper<AnimateStateComponent> sm;
 
 
     public StateSystem() {
-        super(Family.getFor(StateComponent.class));
-        sm = ComponentMapper.getFor(StateComponent.class);
+        super(Family.getFor(AnimateStateComponent.class));
+        sm = ComponentMapper.getFor(AnimateStateComponent.class);
 
     }
 

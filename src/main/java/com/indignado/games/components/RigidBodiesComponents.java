@@ -3,6 +3,8 @@ package com.indignado.games.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created on 16/10/14.
@@ -10,6 +12,6 @@ import com.badlogic.gdx.utils.Array;
  * @author Rubentxu
  */
 public class RigidBodiesComponents extends Component {
-    public Array<Body> rigidBodies = new Array<Body>();
+    public Array<Body> rigidBodies = new Array<Body>() ;
 
 }

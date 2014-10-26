@@ -1,7 +1,7 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.games.components.BoundsComponent;
+import com.indignado.games.components.TextureBoundsComponent;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class MouseSensorTest {
     @Before
     public void setup() {
         entity = new Entity();
-        BoundsComponent bounds = new BoundsComponent();
+        TextureBoundsComponent bounds = new TextureBoundsComponent();
         bounds.bounds.set(50,50, 100, 100);
         entity.add(bounds);
         sensor = new MouseSensor(entity);

@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class KeyboardSensor extends Sensor {
     // Config Values
-    public char key = Input.Keys.UNKNOWN;
+    public char key;
     public boolean allKeys = false;
     public boolean logToggle = false;
     public String target = "";
