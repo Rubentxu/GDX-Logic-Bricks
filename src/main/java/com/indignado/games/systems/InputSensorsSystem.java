@@ -9,7 +9,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
 import com.indignado.games.bricks.sensors.MouseSensor;
 import com.indignado.games.bricks.sensors.Sensor;
-import com.indignado.games.components.InputSensorsComponents;
+import com.indignado.games.components.sensors.InputSensorsComponents;
 
 import java.util.HashSet;
 import java.util.Set;

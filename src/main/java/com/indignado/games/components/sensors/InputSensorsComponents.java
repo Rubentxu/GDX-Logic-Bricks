@@ -1,4 +1,4 @@
-package com.indignado.games.components;
+package com.indignado.games.components.sensors;
 
 import com.badlogic.ashley.core.Component;
 import com.indignado.games.bricks.sensors.Sensor;

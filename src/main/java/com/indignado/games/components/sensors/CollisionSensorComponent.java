@@ -1,8 +1,7 @@
-package com.indignado.games.components;
+package com.indignado.games.components.sensors;
 
 import com.badlogic.ashley.core.Component;
 import com.indignado.games.bricks.sensors.CollisionSensor;
-import com.indignado.games.bricks.sensors.Sensor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,5 +12,6 @@ import java.util.Set;
  */
 public class CollisionSensorComponent extends Component {
     public Set<CollisionSensor> collisionSensor = new HashSet<CollisionSensor>();
+
 
 }

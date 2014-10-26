@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Array;
 import com.indignado.games.components.RigidBodiesComponents;
 
 import java.util.HashMap;
@@ -20,26 +21,26 @@ import java.util.Set;
 public class CollisionSensor extends Sensor {
 
     // Config Values
+    public Fixture fixture;
+    public Fixture targetFixture;
+    public Body targetBody;
     public Filter filter;
-    public Set<Fixture> targetFixtures = new HashSet<Fixture>();
-    public Body attachedRigidbody;
+
 
     // Signal Values
-    public Map<Fixture,Set<Contact>> fixtureContacts = new HashMap<Fixture,Set<Contact>>();
+    public Contact contact;
 
 
     public CollisionSensor(Entity owner) {
         super(owner);
-        RigidBodiesComponents rbc = owner.getComponent(RigidBodiesComponents.class);
-       
 
     }
 
 
-    public Boolean isActive(){
+    public Boolean isActive() {
+        if( contact != null && contact.isTouching()) return true;
+        else return false;
 
-
-        return false;
     }
 
 }

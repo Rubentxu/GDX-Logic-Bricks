@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.games.bricks.base.BaseTest;
 import com.indignado.games.bricks.sensors.DelaySensor;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
-import com.indignado.games.components.InputSensorsComponents;
+import com.indignado.games.components.sensors.InputSensorsComponents;
 import org.junit.Before;
 import org.junit.Test;
 
