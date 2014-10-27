@@ -63,7 +63,6 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
                 collisionSensor.contact = contact;
             }
 
-
         }
 
     }
@@ -73,8 +72,8 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     public void endContact(Contact contact) {
         for (Entity entity : entities.toArray()) {
             for (CollisionSensor collisionSensor : csm.get(entity).collisionSensor) {
-                processEndContact(contact, collisionSensor, contact.getFixtureA());
-                processEndContact(contact, collisionSensor, contact.getFixtureB());
+                processEndContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
+                processEndContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
 
             }
         }
@@ -82,9 +81,15 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     }
 
 
-    private void processEndContact(Contact contact, CollisionSensor collisionSensor, Fixture fixture) {
-        if (collisionSensor.fixture.equals(fixture)) {
-            collisionSensor.contacts.remove(contact);
+    private void processEndContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
+        if (collisionSensor.fixture.equals(fixtureA)) {
+            if(collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
+                collisionSensor.contact = contact;
+            }
+
+            if(collisionSensor.targetFixture !=null && collisionSensor.targetFixture.equals(fixtureA)) {
+                collisionSensor.contact = contact;
+            }
 
         }
 

@@ -11,10 +11,8 @@ import com.badlogic.gdx.utils.IntMap;
  * @author Rubentxu
  */
 public class TextureComponent extends Component {
-    public IntMap<TextureRegion> tex = null;
-    MassData massData = new MassData();
-    public TextureComponent(TextureRegion region) {
-        this.region = region;
-    }
+    public IntMap<TextureRegion> textures = null;
+
+
 
 }

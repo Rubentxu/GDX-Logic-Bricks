@@ -8,17 +8,17 @@ import com.badlogic.ashley.core.Component;
  * @author Rubentxu
  */
 public class AnimateStateComponent extends Component {
-    private int state = 0;
+    private String state;
     public float time = 0.0f;
 
 
-    public int get() {
+    public String get() {
         return state;
 
     }
 
 
-    public void set(int newState) {
+    public void set(String newState) {
         state = newState;
         time = 0.0f;
 
