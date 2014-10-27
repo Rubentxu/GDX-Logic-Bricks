@@ -1,6 +1,9 @@
 package com.indignado.games.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Array;
 import com.indignado.games.data.Transform;
 
 import java.util.Set;
@@ -11,7 +14,7 @@ import java.util.Set;
  * @author Rubentxu
  */
 public class TransformComponent extends Component {
-    public int layer = 0;
-    public Set<Transform> transforms;
+    public Array<Transform> transforms = new Array<Transform>();
+   
 
 }
