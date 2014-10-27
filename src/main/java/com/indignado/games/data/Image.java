@@ -2,6 +2,7 @@ package com.indignado.games.data;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.physics.box2d.Transform;
 
 /**
  * @author Rubentxu.

@@ -11,6 +11,8 @@ public class Animation extends com.badlogic.gdx.graphics.g2d.Animation {
     public String state;
     public float time = 0.0f;
 
+
+
     public Animation(float frameDuration, Array<? extends TextureRegion> keyFrames) {
         super(frameDuration, keyFrames);
     }

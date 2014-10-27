@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.indignado.games.components.AnimationComponent;
 import com.indignado.games.components.AnimateStateComponent;
+import com.indignado.games.components.ImagesComponent;
 import com.indignado.games.components.TextureComponent;
 
 /**
@@ -15,14 +16,14 @@ import com.indignado.games.components.TextureComponent;
  * @author Rubentxu
  */
 public class AnimationSystem extends IteratingSystem {
-    private ComponentMapper<TextureComponent> tm;
+    private ComponentMapper<ImagesComponent> tm;
     private ComponentMapper<AnimationComponent> am;
     private ComponentMapper<AnimateStateComponent> sm;
 
 
     public AnimationSystem() {
-        super(Family.getFor(TextureComponent.class, AnimationComponent.class, AnimateStateComponent.class));
-        tm = ComponentMapper.getFor(TextureComponent.class);
+        super(Family.getFor(ImagesComponent.class, AnimationComponent.class, AnimateStateComponent.class));
+        tm = ComponentMapper.getFor(ImagesComponent.class);
         am = ComponentMapper.getFor(AnimationComponent.class);
         sm = ComponentMapper.getFor(AnimateStateComponent.class);
 
@@ -31,13 +32,13 @@ public class AnimationSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        TextureComponent textureComponent = tm.get(entity);
+        ImagesComponent imagesComponent = tm.get(entity);
         AnimationComponent animationComponent = am.get(entity);
         AnimateStateComponent animateStateComponent = sm.get(entity);
         Animation animation = animationComponent.animations.get(animateStateComponent.get());
         
         if (animation != null) {
-            textureComponent.region = animation.getKeyFrame(animateStateComponent.time);
+            imagesComponent.images = animation.getKeyFrame(animateStateComponent.time);
         }
         animateStateComponent.time += deltaTime;
 
