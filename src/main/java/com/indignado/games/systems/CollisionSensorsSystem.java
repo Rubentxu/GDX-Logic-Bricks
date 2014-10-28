@@ -40,8 +40,8 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
 
     @Override
     public void beginContact(Contact contact) {
-        for (Entity entity : entities.toArray()) {
-            for (CollisionSensor collisionSensor : csm.get(entity).collisionSensors) {
+        for (int i = 0; i < entities.size(); ++i) {
+            for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors) {
                 processBeginContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
                 processBeginContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
 
@@ -68,8 +68,8 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
 
     @Override
     public void endContact(Contact contact) {
-        for (Entity entity : entities.toArray()) {
-            for (CollisionSensor collisionSensor : csm.get(entity).collisionSensors) {
+        for (int i = 0; i < entities.size(); ++i) {
+            for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors) {
                 processEndContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
                 processEndContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
 
