@@ -18,8 +18,9 @@ public class View {
     public TextureRegion textureRegion;
     public int height;
     public int width;
-    public int opacity;
-    public boolean flip;
+    public int opacity = 1;
+    public boolean flipX;
+    public boolean flipY;
     public int layer;
     public Color tint;
 

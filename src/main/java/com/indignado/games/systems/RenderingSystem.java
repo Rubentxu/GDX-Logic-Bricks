@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,8 +14,6 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.games.components.RigidBodiesComponents;
-import com.indignado.games.components.TextureComponent;
-import com.indignado.games.components.TransformComponent;
 import com.indignado.games.components.ViewsComponent;
 import com.indignado.games.data.View;
 
@@ -65,6 +64,7 @@ public class RenderingSystem extends IteratingSystem {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         for (View view : renderQueue) {
 
             if (view.textureRegion == null) {
@@ -76,8 +76,20 @@ public class RenderingSystem extends IteratingSystem {
             float originX = view.width * 0.5f;
             float originY = view.height * 0.5f;
 
+            if(view.tint != null) {
+                batch.setColor(view.tint);
+            } else {
+                batch.setColor(Color.WHITE);
+            }
+
+            batch.getColor().a = view.opacity;
+            view.textureRegion.flip(view.flipX, view.flipY);
+
             batch.draw(view.textureRegion, t.getPosition().x - originX, t.getPosition().y - originY, originX, originY,
-                    view.width, view.height, 1,1,MathUtils.radiansToDegrees * t.getRotation());
+                    view.width, view.height, 1, 1, MathUtils.radiansToDegrees * t.getRotation());
+
+
+
         }
         batch.end();
         renderQueue.clear();
@@ -87,7 +99,7 @@ public class RenderingSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        for(View view : entity.getComponent(ViewsComponent.class).views){
+        for (View view : entity.getComponent(ViewsComponent.class).views) {
             renderQueue.add(view);
         }
 
