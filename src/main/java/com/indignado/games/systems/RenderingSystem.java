@@ -71,7 +71,7 @@ public class RenderingSystem extends IteratingSystem {
                 continue;
             }
 
-            Transform t = view.attachedRigidbody.getTransform();
+            Transform t = view.transform;
 
             float originX = view.width * 0.5f;
             float originY = view.height * 0.5f;

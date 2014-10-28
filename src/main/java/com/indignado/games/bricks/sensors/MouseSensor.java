@@ -1,7 +1,10 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.games.components.TextureBoundsComponent;
+import com.badlogic.gdx.math.Rectangle;
+import com.indignado.games.components.ViewsComponent;
+import com.indignado.games.data.View;
+
 
 /**
  * Created on 13/10/14.
@@ -52,9 +55,16 @@ public class MouseSensor extends Sensor {
 
 
     public boolean isMouseOver(Entity target, int posX, int posY) {
-        TextureBoundsComponent bounds = target.getComponent(TextureBoundsComponent.class);
-        if(bounds == null) return false;
-        return bounds.bounds.contains(posX, posY);
+        ViewsComponent viewsComponent = target.getComponent(ViewsComponent.class);
+        if(viewsComponent == null) return false;
+
+        Rectangle rectangle = new Rectangle();
+        for(View view : viewsComponent.views){
+            rectangle.set(view.transform.getPosition().x, view.transform.getPosition().y ,
+                    view.width, view.height);
+            if(rectangle.contains(posX,posY)) return true;
+        }
+        return false;
 
     }
 

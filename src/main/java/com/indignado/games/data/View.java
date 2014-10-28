@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class View {
     public String name;
-    public Body attachedRigidbody;
+    public Transform transform;
     public Map<String,Animation> animations;
     public TextureRegion textureRegion;
     public int height;

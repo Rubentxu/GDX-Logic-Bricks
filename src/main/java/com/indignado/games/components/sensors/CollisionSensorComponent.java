@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Rubentxu
  */
 public class CollisionSensorComponent extends Component {
-    public Set<CollisionSensor> collisionSensor = new HashSet<CollisionSensor>();
+    public Set<CollisionSensor> collisionSensors = new HashSet<CollisionSensor>();
 
 
 }

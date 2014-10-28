@@ -1,7 +1,10 @@
 package com.indignado.games.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.games.components.TextureBoundsComponent;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Transform;
+import com.indignado.games.components.ViewsComponent;
+import com.indignado.games.data.View;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,11 +24,19 @@ public class MouseSensorTest {
     @Before
     public void setup() {
         entity = new Entity();
-        TextureBoundsComponent bounds = new TextureBoundsComponent();
-        bounds.bounds.set(50,50, 100, 100);
-        entity.add(bounds);
+        ViewsComponent viewsComponent = new ViewsComponent();
+        View view =  new View();
+        view.transform = new Transform();
+        view.transform.setPosition(new Vector2(50,50));
+        view.width = 100;
+        view.height = 100;
+
+        viewsComponent.views.add(new View());
+
+        entity.add(viewsComponent);
         sensor = new MouseSensor(entity);
         sensor.mouseEvent= MouseSensor.MouseEvent.MOVEMENT;
+
     }
 
 
