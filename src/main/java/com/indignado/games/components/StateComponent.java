@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Component;
  *
  * @author Rubentxu
  */
-public class AnimateStateComponent extends Component {
+public class StateComponent extends Component {
     private String state;
     public float time = 0.0f;
 

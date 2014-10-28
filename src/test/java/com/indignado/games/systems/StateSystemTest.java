@@ -3,7 +3,6 @@ package com.indignado.games.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.games.bricks.base.BaseTest;
-import com.indignado.games.components.AnimateStateComponent;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.indignado.games.bricks.base.BaseTest;
 import com.indignado.games.components.AnimationComponent;
-import com.indignado.games.components.AnimateStateComponent;
 import com.indignado.games.components.TextureComponent;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,7 +20,7 @@ import static org.junit.Assert.assertNotEquals;
  *
  * @author Rubentxu
  */
-public class AnimationSystemTest extends BaseTest {
+public class ViewsSystemTest extends BaseTest {
 
     PooledEngine engine;
     TextureRegion playerTextureRegion;
@@ -40,7 +39,7 @@ public class AnimationSystemTest extends BaseTest {
     @Before
     public void setup() {
         engine = new PooledEngine();
-        engine.addSystem(new AnimationSystem());
+        engine.addSystem(new ViewsSystem());
 
         playerTextureRegion = Mockito.mock(TextureRegion.class);
         animationComponent = new AnimationComponent();
