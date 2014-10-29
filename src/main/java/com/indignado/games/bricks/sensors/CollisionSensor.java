@@ -21,9 +21,11 @@ import java.util.Set;
 public class CollisionSensor extends Sensor {
 
     // Config Values
-    public Fixture fixture;
+    public Fixture ownerFixture;
+    public Body ownerRigidBody;
     public Fixture targetFixture;
     public Body targetBody;
+
     public Filter filter;
 
 

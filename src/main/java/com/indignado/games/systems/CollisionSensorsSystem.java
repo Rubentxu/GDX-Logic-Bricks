@@ -42,23 +42,50 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     public void beginContact(Contact contact) {
         for (int i = 0; i < entities.size(); ++i) {
             for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors) {
-                processBeginContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
-                processBeginContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
+                if(collisionSensor.ownerFixture != null){
+                    processFixtureBeginContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
+                    processFixtureBeginContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
+                    continue;
+                }
+
+                if(collisionSensor.ownerRigidBody != null) {
+                    processRigidBodyBeginContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
+                    processRigidBodyBeginContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
+                    continue;
+                }
 
             }
         }
 
     }
 
-
-    private void processBeginContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
-        if (collisionSensor.fixture.equals(fixtureA)) {
+    private void processRigidBodyBeginContact(Contact contact, CollisionSensor collisionSensor,
+                                              Fixture fixtureA, Fixture fixtureB) {
+        if (collisionSensor.ownerRigidBody.getFixtureList().contains(fixtureA, false)) {
             if(collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
                 collisionSensor.contact = contact;
+                return;
+            }
+
+            if(collisionSensor.targetFixture !=null && fixtureB.equals(collisionSensor.targetFixture)) {
+                collisionSensor.contact = contact;
+
+            }
+
+        }
+    }
+
+
+    private void processFixtureBeginContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
+        if (collisionSensor.ownerFixture.equals(fixtureA)) {
+            if(collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
+                collisionSensor.contact = contact;
+                return;
             }
 
             if(collisionSensor.targetFixture !=null && collisionSensor.targetFixture.equals(fixtureB)) {
                 collisionSensor.contact = contact;
+
             }
 
         }
@@ -80,12 +107,12 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
 
 
     private void processEndContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
-        if (collisionSensor.fixture.equals(fixtureA)) {
+        if (collisionSensor.ownerFixture.equals(fixtureA)) {
             if(collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
                 collisionSensor.contact = contact;
             }
 
-            if(collisionSensor.targetFixture !=null && collisionSensor.targetFixture.equals(fixtureA)) {
+            if(collisionSensor.targetFixture !=null && collisionSensor.targetFixture.equals(fixtureB)) {
                 collisionSensor.contact = contact;
             }
 

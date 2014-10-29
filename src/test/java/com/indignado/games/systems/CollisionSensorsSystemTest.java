@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.games.bricks.sensors.CollisionSensor;
 import com.indignado.games.components.ColliderComponent;
@@ -100,13 +99,13 @@ public class CollisionSensorsSystemTest {
 
 
     @Test
-    public void bodyCollisionTest() {
+    public void bodyCollidesBodyTest() {
         createContext();
 
         CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
         CollisionSensor collisionSensor = new CollisionSensor(player);
         collisionSensor.targetBody = body2;
-        collisionSensor.fixture = body.getFixtureList().first();
+        collisionSensor.ownerRigidBody = body;
 
 
         collisionSensorComponent.collisionSensors.add(collisionSensor);
@@ -124,13 +123,86 @@ public class CollisionSensorsSystemTest {
 
 
     @Test
+    public void bodyCollidesFixtureTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetFixture = body2.getFixtureList().first();
+        collisionSensor.ownerRigidBody = body;
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Bodies size: " + physic.getBodyCount());
+        physic.step(1, 8, 3);
+
+        assertTrue(collisionSensor.isActive());
+
+    }
+
+
+    @Test
+    public void fixtureCollidesBodyTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetBody = body2;
+        collisionSensor.ownerFixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Bodies size: " + physic.getBodyCount());
+        physic.step(1, 8, 3);
+
+        assertTrue(collisionSensor.isActive());
+
+    }
+
+
+    @Test
+    public void fixtureCollidesFixtureTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetFixture = body2.getFixtureList().first();
+        collisionSensor.ownerFixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Bodies size: " + physic.getBodyCount());
+        physic.step(1, 8, 3);
+
+        assertTrue(collisionSensor.isActive());
+
+    }
+
+
+
+    @Test
     public void bodyCollisionFalseTest() {
         createContext();
 
         CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
         CollisionSensor collisionSensor = new CollisionSensor(player);
         collisionSensor.targetBody = body2;
-        collisionSensor.fixture = body.getFixtureList().first();
+        collisionSensor.ownerFixture = body.getFixtureList().first();
 
 
         collisionSensorComponent.collisionSensors.add(collisionSensor);
@@ -148,37 +220,13 @@ public class CollisionSensorsSystemTest {
 
 
     @Test
-    public void fixtureCollisionTest() {
-        createContext();
-
-        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
-        collisionSensor.targetFixture = body2.getFixtureList().first();
-        collisionSensor.fixture = body.getFixtureList().first();
-
-
-        collisionSensorComponent.collisionSensors.add(collisionSensor);
-        player.add(collisionSensorComponent);
-
-
-        engine.addSystem(collisionSensorsSystem);
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
-        physic.step(1, 8, 3);
-
-        assertTrue(collisionSensor.isActive());
-
-    }
-
-
-    @Test
     public void fixtureCollisionFalseTest() {
         createContext();
 
         CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
         CollisionSensor collisionSensor = new CollisionSensor(player);
         collisionSensor.targetFixture = body2.getFixtureList().first();
-        collisionSensor.fixture = body.getFixtureList().first();
+        collisionSensor.ownerFixture = body.getFixtureList().first();
 
 
         collisionSensorComponent.collisionSensors.add(collisionSensor);
@@ -202,41 +250,69 @@ public class CollisionSensorsSystemTest {
         CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
         CollisionSensor collisionSensor = new CollisionSensor(player);
         collisionSensor.targetFixture = body2.getFixtureList().first();
-        collisionSensor.fixture = body.getFixtureList().first();
+        collisionSensor.ownerFixture = body.getFixtureList().first();
 
 
         collisionSensorComponent.collisionSensors.add(collisionSensor);
         player.add(collisionSensorComponent);
 
-
         engine.addSystem(collisionSensorsSystem);
-        Array<Body> bodies = new Array<Body>();
-        physic.getBodies(bodies);
 
-        System.out.println("Body position: " + bodies.get(0).getPosition());
+        System.out.println("Body position: " + body.getPosition());
         physic.step(1f, 8, 3);
-        System.out.println("Body position: " + bodies.get(0).getPosition());
+        System.out.println("Body position2: " + body.getPosition());
 
         assertTrue(collisionSensor.isActive());
-        System.out.println("Body velocity: " + bodies.get(0).getLinearVelocity());
 
-
-
-
-
+        body.applyForce(0, 60, body.getWorldCenter().x, body.getWorldCenter().y, true);
 
         physic.step(1f, 8, 3);
-        System.out.println("Body position: " + bodies.get(0).getPosition());
+        System.out.println("Body position3: " + body.getPosition());
+
         physic.step(1f, 8, 3);
-        System.out.println("Body position: " + bodies.get(0).getPosition());
-        physic.step(1f, 8, 3);
-        System.out.println("Body position: " + bodies.get(0).getPosition());
-
-
-
+        System.out.println("Body position4: " + body.getPosition());
         assertFalse(collisionSensor.isActive());
 
+
+
     }
+
+
+    @Test
+    public void endBodyCollisionTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetBody = body2;
+        collisionSensor.ownerFixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Body position: " + body.getPosition());
+        physic.step(1f, 8, 3);
+        System.out.println("Body position2: " + body.getPosition());
+
+        assertTrue(collisionSensor.isActive());
+
+        body.applyForce(0, 60, body.getWorldCenter().x, body.getWorldCenter().y, true);
+
+        physic.step(1f, 8, 3);
+        System.out.println("Body position3: " + body.getPosition());
+
+        physic.step(1f, 8, 3);
+        System.out.println("Body position4: " + body.getPosition());
+        assertFalse(collisionSensor.isActive());
+
+
+
+    }
+
+
 
 
 
