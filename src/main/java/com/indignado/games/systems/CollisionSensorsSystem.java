@@ -57,7 +57,7 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
                 collisionSensor.contact = contact;
             }
 
-            if(collisionSensor.targetFixture !=null && collisionSensor.targetFixture.equals(fixtureA)) {
+            if(collisionSensor.targetFixture !=null && collisionSensor.targetFixture.equals(fixtureB)) {
                 collisionSensor.contact = contact;
             }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.games.bricks.sensors.CollisionSensor;
 import com.indignado.games.components.ColliderComponent;
@@ -35,6 +36,12 @@ public class CollisionSensorsSystemTest {
     private CollisionSensorComponent collisionSensorComponent;
     private CollisionSensorsSystem collisionSensorsSystem;
     private BodyBuilder bodyBuilder;
+    private Entity player;
+    private Body body;
+    private Body body2;
+    private Entity enemy;
+    private RigidBodiesComponents rigidBodiesComponents;
+    private RigidBodiesComponents rigidBodiesComponents2;
 
 
     @Before
@@ -52,31 +59,27 @@ public class CollisionSensorsSystemTest {
     }
 
 
-    @Test
-    public void collisionTest() {
-        Entity player = engine.createEntity();
-        Body body = bodyBuilder
-                .fixture(bodyBuilder.fixtureDefBuilder()
-                        .circleShape(1 * 0.1f)
-                        .restitution(0f))
+    private void createContext() {
+        player = engine.createEntity();
+        body = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .circleShape(1)
-                        .sensor())
-                .position(40, 22)
+                        .restitution(0f))
+                .position(40, 23)
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
                 .userData(player)
                 .build();
 
-        RigidBodiesComponents rigidBodiesComponents = new RigidBodiesComponents();
+        rigidBodiesComponents = new RigidBodiesComponents();
         rigidBodiesComponents.rigidBodies.add(body);
 
         player.add(rigidBodiesComponents);
 
         engine.addEntity(player);
 
-        Entity enemy = engine.createEntity();
-        Body body2 = bodyBuilder
+        enemy = engine.createEntity();
+        body2 = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .circleShape(1 * 0.1f)
                         .restitution(0f))
@@ -86,12 +89,19 @@ public class CollisionSensorsSystemTest {
                 .userData(player)
                 .build();
 
-        RigidBodiesComponents rigidBodiesComponents2 = new RigidBodiesComponents();
+
+        rigidBodiesComponents2 = new RigidBodiesComponents();
         rigidBodiesComponents2.rigidBodies.add(body2);
 
         enemy.add(rigidBodiesComponents2);
 
         engine.addEntity(enemy);
+    }
+
+
+    @Test
+    public void bodyCollisionTest() {
+        createContext();
 
         CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
         CollisionSensor collisionSensor = new CollisionSensor(player);
@@ -106,20 +116,127 @@ public class CollisionSensorsSystemTest {
         engine.addSystem(collisionSensorsSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
-
-        float deltaTime = 1;
-        engine.update(deltaTime);
-        physic.step(1, 8, 3);
         physic.step(1, 8, 3);
 
-
-
-       // assertEquals(deltaTime, stateComponent.time, 0.1);
+        assertTrue(collisionSensor.isActive());
 
     }
 
 
+    @Test
+    public void bodyCollisionFalseTest() {
+        createContext();
 
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetBody = body2;
+        collisionSensor.fixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Bodies size: " + physic.getBodyCount());
+        physic.step(0.1f, 8, 3);
+
+        assertFalse(collisionSensor.isActive());
+
+    }
+
+
+    @Test
+    public void fixtureCollisionTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetFixture = body2.getFixtureList().first();
+        collisionSensor.fixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Bodies size: " + physic.getBodyCount());
+        physic.step(1, 8, 3);
+
+        assertTrue(collisionSensor.isActive());
+
+    }
+
+
+    @Test
+    public void fixtureCollisionFalseTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetFixture = body2.getFixtureList().first();
+        collisionSensor.fixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+
+        System.out.println("Bodies size: " + physic.getBodyCount());
+        physic.step(0.1f, 8, 3);
+
+        assertFalse(collisionSensor.isActive());
+
+    }
+
+
+    @Test
+    public void endFixtureCollisionTest() {
+        createContext();
+
+        CollisionSensorComponent collisionSensorComponent =  new CollisionSensorComponent();
+        CollisionSensor collisionSensor = new CollisionSensor(player);
+        collisionSensor.targetFixture = body2.getFixtureList().first();
+        collisionSensor.fixture = body.getFixtureList().first();
+
+
+        collisionSensorComponent.collisionSensors.add(collisionSensor);
+        player.add(collisionSensorComponent);
+
+
+        engine.addSystem(collisionSensorsSystem);
+        Array<Body> bodies = new Array<Body>();
+        physic.getBodies(bodies);
+
+        System.out.println("Body position: " + bodies.get(0).getPosition());
+        physic.step(1f, 8, 3);
+        System.out.println("Body position: " + bodies.get(0).getPosition());
+
+        assertTrue(collisionSensor.isActive());
+        System.out.println("Body velocity: " + bodies.get(0).getLinearVelocity());
+
+
+
+
+
+
+        physic.step(1f, 8, 3);
+        System.out.println("Body position: " + bodies.get(0).getPosition());
+        physic.step(1f, 8, 3);
+        System.out.println("Body position: " + bodies.get(0).getPosition());
+        physic.step(1f, 8, 3);
+        System.out.println("Body position: " + bodies.get(0).getPosition());
+
+
+
+        assertFalse(collisionSensor.isActive());
+
+    }
 
 
 
