@@ -34,25 +34,6 @@ public class InputSensorsSystemTest extends BaseTest {
 
 
     @Test
-    public void delaySensorSystemTest() {
-        Entity player = engine.createEntity();
-        DelaySensor delaySensor = new DelaySensor(player);
-        delaySensor.delay = 2;
-        sensors.sensors.add(delaySensor);
-        player.add(sensors);
-
-        engine.addEntity(player);
-        engine.update(1);
-
-        assertFalse(delaySensor.isActive());
-        engine.update(1);
-
-        assertTrue(delaySensor.isActive());
-
-    }
-
-
-    @Test
     public void keyBoardSensorSystemTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor(new Entity());

@@ -60,8 +60,7 @@ public class MouseSensor extends Sensor {
 
         Rectangle rectangle = new Rectangle();
         for(View view : viewsComponent.views){
-            rectangle.set(view.transform.getPosition().x, view.transform.getPosition().y ,
-                    view.width, view.height);
+            rectangle.set(view.transform.getPosition().x, view.transform.getPosition().y , view.width, view.height);
             if(rectangle.contains(posX,posY)) return true;
         }
         return false;

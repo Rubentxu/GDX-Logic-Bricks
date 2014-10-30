@@ -31,7 +31,7 @@ public class MouseSensorTest {
         view.width = 100;
         view.height = 100;
 
-        viewsComponent.views.add(new View());
+        viewsComponent.views.add(view);
 
         entity.add(viewsComponent);
         sensor = new MouseSensor(entity);
