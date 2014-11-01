@@ -16,7 +16,6 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     private Family family;
     private ImmutableArray<Entity> entities;
     private ComponentMapper<CollisionSensorComponent> csm;
-    private ObjectMap<Short, ObjectMap<Short, ContactListener>> actuators;
 
 
     public CollisionSensorsSystem() {
