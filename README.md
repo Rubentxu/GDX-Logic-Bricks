@@ -7,4 +7,4 @@ GDX-Logic-Bricks
 
 Componentes Logicos para el Framework libGDX, utilizando algunas extensiones como puede ser gdx-ai, ashley, box2d etc.
 
-Esta inspirado en los Logic Bricks que se utilizan en el motor para juegos de Blender.
+Esta inspirado los Logic Bricks que se utilizan en el motor para juegos de Blender.
