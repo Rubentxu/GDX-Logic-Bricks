@@ -1,11 +1,7 @@
 GDX-Logic-Bricks
 ================
 
-![SuperMariano ](https://dl.dropboxusercontent.com/u/23370855/imagenes/GdxLogicBricks/GDX-LogicBricks4.png "Logo")
-
-***
-
-![SuperMariano ](https://dl.dropboxusercontent.com/u/23370855/imagenes/GdxLogicBricks/GDX-LogicBricks5.png "Logo")
+![SuperMariano ](https://dl.dropboxusercontent.com/u/23370855/imagenes/GdxLogicBricks/GDX-LogicBricks.png "Logo")
 
 ***
 
