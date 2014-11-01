@@ -1,4 +1,14 @@
 GDX-Logic-Bricks
 ================
 
-Componentes Logicos para extensiones gdx-ai y ashley en el Framework libGDX 
+![SuperMariano ](https://dl.dropboxusercontent.com/u/23370855/imagenes/GdxLogicBricks/GDX-LogicBricks4.png "Logo")
+
+***
+
+![SuperMariano ](https://dl.dropboxusercontent.com/u/23370855/imagenes/GdxLogicBricks/GDX-LogicBricks5.png "Logo")
+
+***
+
+Componentes Logicos para el Framework libGDX, utilizando algunas extensiones como puede ser gdx-ai, ashley, box2d etc.
+
+Esta inspirado en los Logic Bricks que se utilizan en el motor para juegos de Blender.
