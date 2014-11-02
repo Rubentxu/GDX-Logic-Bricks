@@ -5,6 +5,7 @@ package com.indignado.games.bricks.controllers;
  */
 public abstract class Controller {
     public String name;
+    public String state;
 
     public abstract Boolean evaluate();
 

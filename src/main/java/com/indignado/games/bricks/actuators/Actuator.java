@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Entity;
  */
 public abstract class Actuator {
     public String name;
+    public String state;
     protected Entity owner;
 
     public abstract void execute();

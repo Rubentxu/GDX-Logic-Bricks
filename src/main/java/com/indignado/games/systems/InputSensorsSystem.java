@@ -9,6 +9,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
 import com.indignado.games.bricks.sensors.MouseSensor;
 import com.indignado.games.bricks.sensors.Sensor;
+import com.indignado.games.components.StateComponent;
 import com.indignado.games.components.sensors.InputSensorsComponents;
 
 import java.util.HashSet;
@@ -21,13 +22,15 @@ import java.util.Set;
  */
 public class InputSensorsSystem extends IteratingSystem implements InputProcessor {
     private ComponentMapper<InputSensorsComponents> sm;
+    private ComponentMapper<StateComponent> sc;
     private Set<KeyboardSensor> keyboardSensorsListener;
     private Set<MouseSensor> mouseSensorsListener;
 
 
     public InputSensorsSystem() {
-        super(Family.getFor(InputSensorsComponents.class), 0);
+        super(Family.getFor(InputSensorsComponents.class,StateComponent.class), 0);
         sm = ComponentMapper.getFor(InputSensorsComponents.class);
+        sc = ComponentMapper.getFor(StateComponent.class);
         keyboardSensorsListener = new HashSet<KeyboardSensor>();
         mouseSensorsListener = new HashSet<MouseSensor>();
 
@@ -36,9 +39,10 @@ public class InputSensorsSystem extends IteratingSystem implements InputProcesso
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        InputSensorsComponents sc = sm.get(entity);
-
-        for (Sensor sensor : sc.sensors) {
+        InputSensorsComponents isc = sm.get(entity);
+        String state = sc.get(entity).get();
+        
+        for (Sensor sensor : isc.sensors.get(state)) {
             if (!sensor.isTap()) {
                 if (sensor instanceof KeyboardSensor) {
                     if(!keyboardSensorsListener.contains(sensor)) keyboardSensorsListener.add((KeyboardSensor) sensor);

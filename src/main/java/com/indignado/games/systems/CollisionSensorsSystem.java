@@ -5,6 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.games.bricks.sensors.CollisionSensor;
+import com.indignado.games.components.StateComponent;
 import com.indignado.games.components.sensors.CollisionSensorComponent;
 
 /**
@@ -16,12 +17,14 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     private Family family;
     private ImmutableArray<Entity> entities;
     private ComponentMapper<CollisionSensorComponent> csm;
+    private ComponentMapper<StateComponent> sc;
 
 
     public CollisionSensorsSystem() {
         super(0);
-        family = Family.getFor(CollisionSensorComponent.class);
+        family = Family.getFor(CollisionSensorComponent.class, StateComponent.class);
         csm = ComponentMapper.getFor(CollisionSensorComponent.class);
+        sc = ComponentMapper.getFor(StateComponent.class);
 
     }
 
@@ -40,7 +43,8 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     @Override
     public void beginContact(Contact contact) {
         for (int i = 0; i < entities.size(); ++i) {
-            for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors) {
+            String state = sc.get(entities.get(i)).get();
+            for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors.get(state)) {
                 if(collisionSensor.ownerFixture != null){
                     processFixtureBeginContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
                     processFixtureBeginContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
@@ -95,7 +99,8 @@ public class CollisionSensorsSystem extends EntitySystem implements ContactListe
     @Override
     public void endContact(Contact contact) {
         for (int i = 0; i < entities.size(); ++i) {
-            for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors) {
+            String state = sc.get(entities.get(i)).get();
+            for (CollisionSensor collisionSensor : csm.get(entities.get(i)).collisionSensors.get(state)) {
                 processEndContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
                 processEndContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
 
