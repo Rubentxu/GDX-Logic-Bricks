@@ -1,19 +1,10 @@
 package com.indignado.games.systems;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.indignado.games.bricks.LogicBricks;
-import com.indignado.games.bricks.sensors.CollisionSensor;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
 import com.indignado.games.bricks.sensors.MouseSensor;
-import com.indignado.games.bricks.sensors.Sensor;
-import com.indignado.games.components.LogicBricksComponent;
-import com.indignado.games.components.StateComponent;
-import com.indignado.games.components.sensors.InputSensorsComponents;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,45 +14,31 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class InputSensorsSystem extends IteratingSystem implements InputProcessor {
-    private ComponentMapper<LogicBricksComponent> logicBricksMapper;
-    private ComponentMapper<StateComponent> stateMapper;
-    private Set<KeyboardSensor> keyboardSensorsListener;
-    private Set<MouseSensor> mouseSensorsListener;
+public class InputSensorsSystem extends SensorsSystem implements InputProcessor {
+    private Set<KeyboardSensor> keyboardSensors;
+    private Set<MouseSensor> mouseSensors;
 
 
     public InputSensorsSystem() {
-        super(Family.getFor(LogicBricksComponent.class, StateComponent.class), 0);
-        logicBricksMapper = ComponentMapper.getFor(LogicBricksComponent.class);
-        stateMapper = ComponentMapper.getFor(StateComponent.class);
-        keyboardSensorsListener = new HashSet<KeyboardSensor>();
-        mouseSensorsListener = new HashSet<MouseSensor>();
+        super();
+        keyboardSensors = new HashSet<KeyboardSensor>();
+        mouseSensors = new HashSet<MouseSensor>();
 
     }
 
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        String state = stateMapper.get(entity).get();
-        Set<LogicBricks> logicBricks = logicBricksMapper.get(entity).logicBricks.get(state);
-        for (LogicBricks brick : logicBricks) {
-            if (brick.sensors.containsKey(KeyboardSensor.class)) {
-                Set<KeyboardSensor> sensors = (Set<KeyboardSensor>) brick.sensors.get(KeyboardSensor.class);
-                for (KeyboardSensor sensor : sensors) {
-                    if (!sensor.isTap() && !keyboardSensorsListener.contains(sensor)) {
-                            keyboardSensorsListener.add(sensor);
-
-                    }
-                }
+        for (KeyboardSensor sensor : getSensors(KeyboardSensor.class, entity)) {
+            if (!sensor.isTap() && !keyboardSensors.contains(sensor)) {
+                keyboardSensors.add(sensor);
             }
-            if (brick.sensors.containsKey(MouseSensor.class)) {
-                Set<MouseSensor> sensors = (Set<MouseSensor>) brick.sensors.get(MouseSensor.class);
-                for (MouseSensor sensor : sensors) {
-                    if (!sensor.isTap() && !keyboardSensorsListener.contains(sensor)) {
-                        mouseSensorsListener.add(sensor);
+        }
 
-                    }
-                }
+        for (MouseSensor sensor : getSensors(MouseSensor.class, entity)) {
+            if (!sensor.isTap() && !mouseSensors.contains(sensor)) {
+                mouseSensors.add(sensor);
+
             }
         }
 
@@ -84,7 +61,7 @@ public class InputSensorsSystem extends IteratingSystem implements InputProcesso
 
     @Override
     public boolean keyTyped(char character) {
-        for (KeyboardSensor ks : keyboardSensorsListener) {
+        for (KeyboardSensor ks : keyboardSensors) {
             ks.keysSignal.add(character);
         }
         return false;
@@ -94,7 +71,7 @@ public class InputSensorsSystem extends IteratingSystem implements InputProcesso
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        for (MouseSensor sensor : mouseSensorsListener) {
+        for (MouseSensor sensor : mouseSensors) {
             switch (button) {
                 case Input.Buttons.LEFT:
                     if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
@@ -123,7 +100,7 @@ public class InputSensorsSystem extends IteratingSystem implements InputProcesso
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        for (MouseSensor sensor : mouseSensorsListener) {
+        for (MouseSensor sensor : mouseSensors) {
             switch (button) {
                 case Input.Buttons.LEFT:
                     if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
@@ -158,7 +135,7 @@ public class InputSensorsSystem extends IteratingSystem implements InputProcesso
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        for (MouseSensor sensor : mouseSensorsListener) {
+        for (MouseSensor sensor : mouseSensors) {
             if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.MOVEMENT)) {
                 sensor.positionXsignal = screenX;
                 sensor.positionYsignal = screenY;
@@ -171,7 +148,7 @@ public class InputSensorsSystem extends IteratingSystem implements InputProcesso
 
     @Override
     public boolean scrolled(int amount) {
-        for (MouseSensor sensor : mouseSensorsListener) {
+        for (MouseSensor sensor : mouseSensors) {
             sensor.mouseEventSignal = false;
             if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.WHEEL_DOWN) && amount < 0) {
                 sensor.mouseEventSignal = true;
