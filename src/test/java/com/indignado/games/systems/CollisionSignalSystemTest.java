@@ -26,14 +26,14 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Rubentxu
  */
-public class CollisionSensorsSystemTest {
-    private CollisionSensorsSystem system;
+public class CollisionSignalSystemTest {
+    private CollisionSignalSystem system;
     private Entity entity;
     private World physic;
     private Set<ColliderComponent> fixtureTest;
     private PooledEngine engine;
     private CollisionSensorComponent collisionSensorComponent;
-    private CollisionSensorsSystem collisionSensorsSystem;
+    private CollisionSignalSystem collisionSignalSystem;
     private BodyBuilder bodyBuilder;
     private Entity player;
     private Body body;
@@ -49,8 +49,8 @@ public class CollisionSensorsSystemTest {
         physic = new World(new Vector2(0, -9.81f), true);
 
         engine = new PooledEngine();
-        collisionSensorsSystem = new CollisionSensorsSystem();
-        physic.setContactListener(collisionSensorsSystem);
+        collisionSignalSystem = new CollisionSignalSystem();
+        physic.setContactListener(collisionSignalSystem);
 
 
         collisionSensorComponent = new CollisionSensorComponent();
@@ -112,7 +112,7 @@ public class CollisionSensorsSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -136,7 +136,7 @@ public class CollisionSensorsSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -160,7 +160,7 @@ public class CollisionSensorsSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -184,7 +184,7 @@ public class CollisionSensorsSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -209,7 +209,7 @@ public class CollisionSensorsSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(0.1f, 8, 3);
@@ -233,7 +233,7 @@ public class CollisionSensorsSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(0.1f, 8, 3);
@@ -256,7 +256,7 @@ public class CollisionSensorsSystemTest {
         collisionSensorComponent.collisionSensors.add(collisionSensor);
         player.add(collisionSensorComponent);
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Body position: " + body.getPosition());
         physic.step(1f, 8, 3);
@@ -291,7 +291,7 @@ public class CollisionSensorsSystemTest {
         collisionSensorComponent.collisionSensors.add(collisionSensor);
         player.add(collisionSensorComponent);
 
-        engine.addSystem(collisionSensorsSystem);
+        engine.addSystem(collisionSignalSystem);
 
         System.out.println("Body position: " + body.getPosition());
         physic.step(1f, 8, 3);

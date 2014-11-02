@@ -9,11 +9,11 @@ import java.util.Iterator;
  * @author Rubentxu.
  */
 public class OrController extends Controller{
-    public Array<Sensor> sensors;
+
 
 
     @Override
-    public Boolean evaluate() {
+    public Boolean evaluate(Array<Sensor> sensors) {
        Iterator<Sensor> it = sensors.iterator();
        while (it.hasNext()){
            Sensor s = it.next();
