@@ -9,16 +9,8 @@ import java.util.Iterator;
  */
 public class ScriptController extends Controller{
     public Array<Script> scripts;
-    public Array<Sensor> sensors;
 
-    @Override
-    public Boolean evaluate() {
-        Iterator<Script> it = scripts.iterator();
-        while (it.hasNext()){
-            it.next().execute(sensors);
-        }
-        return true;
 
-    }
+
 
 }

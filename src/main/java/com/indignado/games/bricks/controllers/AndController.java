@@ -8,17 +8,6 @@ import java.util.Iterator;
 /**
  * @author Rubentxu.
  */
-public class AndController extends Controller{
-
-    @Override
-    public Boolean evaluate(Array<Sensor> sensors) {
-       Iterator<Sensor> it = sensors.iterator();
-       while (it.hasNext()){
-           Sensor s = it.next();
-           if(s.isActive().equals(false)) return false;
-       }
-        return true;
-
-    }
+public class AndController extends Controller {
 
 }

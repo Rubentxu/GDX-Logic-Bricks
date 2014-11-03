@@ -22,23 +22,6 @@ public class MotionActuator extends Actuator {
     public boolean fixedRotation = false;
     // public boolean isLocal = false;
 
-    @Override
-    public void execute() {
-        if(targetRigidBody == null) {
-            targetRigidBody = owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-        }
-        if(velocity != null ) targetRigidBody.setLinearVelocity(velocity);
-        if(force != null ) targetRigidBody.applyForce(force,targetRigidBody.getWorldCenter(),true);
-        if(impulse != null ) targetRigidBody.applyLinearImpulse(impulse,targetRigidBody.getWorldCenter(),true);
 
-        if(!fixedRotation ){
-            if(angularVelocity != 0 ) targetRigidBody.setAngularVelocity(angularVelocity);
-            if(torque != 0 ) targetRigidBody.applyTorque(torque,true);
-            if(angularImpulse != 0 ) targetRigidBody.applyAngularImpulse(angularImpulse,true);
-        } else {
-            if(!targetRigidBody.isFixedRotation()) targetRigidBody.setFixedRotation(true);
-        }
-
-    }
 
 }

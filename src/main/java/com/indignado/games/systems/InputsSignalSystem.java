@@ -14,12 +14,12 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class InputSensorsSystem extends SensorsSystem implements InputProcessor {
+public class InputsSignalSystem extends LogicBricksSystem implements InputProcessor {
     private Set<KeyboardSensor> keyboardSensors;
     private Set<MouseSensor> mouseSensors;
 
 
-    public InputSensorsSystem() {
+    public InputsSignalSystem() {
         super();
         keyboardSensors = new HashSet<KeyboardSensor>();
         mouseSensors = new HashSet<MouseSensor>();

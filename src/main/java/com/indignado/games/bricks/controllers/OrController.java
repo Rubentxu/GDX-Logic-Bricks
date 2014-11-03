@@ -10,17 +10,4 @@ import java.util.Iterator;
  */
 public class OrController extends Controller{
 
-
-
-    @Override
-    public Boolean evaluate(Array<Sensor> sensors) {
-       Iterator<Sensor> it = sensors.iterator();
-       while (it.hasNext()){
-           Sensor s = it.next();
-           if(s.isActive().equals(true)) return true;
-       }
-        return false;
-
-    }
-
 }

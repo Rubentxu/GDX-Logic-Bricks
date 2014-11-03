@@ -1,14 +1,8 @@
 package com.indignado.games.systems;
 
 import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.physics.box2d.*;
-import com.indignado.games.bricks.LogicBricks;
 import com.indignado.games.bricks.sensors.CollisionSensor;
-import com.indignado.games.bricks.sensors.KeyboardSensor;
-import com.indignado.games.bricks.sensors.Sensor;
-import com.indignado.games.components.LogicBricksComponent;
-import com.indignado.games.components.StateComponent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +12,7 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class CollisionSignalSystem extends SensorsSystem implements ContactListener {
+public class CollisionSignalSystem extends LogicBricksSystem implements ContactListener {
     private Set<CollisionSensor> collisionSensors;
 
 
