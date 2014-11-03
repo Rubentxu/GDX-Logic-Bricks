@@ -17,6 +17,7 @@ import com.indignado.games.components.LogicBricksComponent;
 import com.indignado.games.components.StateComponent;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -85,7 +86,13 @@ public abstract class LogicBricksSystem extends IteratingSystem {
             if (brick.actuators.containsKey(clazz)) {
                 Set<T> actuators = (Set<T>) brick.actuators.get(clazz);
                 for (T a : actuators) {
-                    if (!actuatorTemp.contains(a)) {
+                    Iterator<Controller> it = a.controllers.iterator();
+                    boolean activeActuator = true;
+                    while (it.hasNext()){
+                        if(!it.next().pulseSignal) activeActuator = false;
+
+                    }
+                    if (activeActuator) {
                         actuatorTemp.add(a);
 
                     }
