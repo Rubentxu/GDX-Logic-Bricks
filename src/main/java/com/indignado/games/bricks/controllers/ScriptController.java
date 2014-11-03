@@ -10,7 +10,4 @@ import java.util.Iterator;
 public class ScriptController extends Controller{
     public Array<Script> scripts;
 
-
-
-
 }

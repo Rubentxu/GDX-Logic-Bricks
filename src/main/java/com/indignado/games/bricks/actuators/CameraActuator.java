@@ -19,14 +19,5 @@ public class CameraActuator extends Actuator {
     // public short damping;
 
 
-    @Override
-    public void execute() {
-        RigidBodiesComponents rc = target.getComponent(RigidBodiesComponents.class);
-        Vector2 targetPosition = rc.rigidBodies.first().getPosition();
-        if(!(camera.position.x == targetPosition.x)){
-            camera.translate(targetPosition);
-        }
 
-
-    }
 }

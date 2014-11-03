@@ -11,6 +11,7 @@ import com.indignado.games.bricks.sensors.CollisionSensor;
 import com.indignado.games.components.ColliderComponent;
 import com.indignado.games.components.RigidBodiesComponents;
 import com.indignado.games.components.sensors.CollisionSensorComponent;
+import com.indignado.games.systems.sensors.CollisionSensorSystem;
 import com.indignado.games.utils.box2d.BodyBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,14 +27,14 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Rubentxu
  */
-public class CollisionSignalSystemTest {
-    private CollisionSignalSystem system;
+public class CollisionSensorSystemTest {
+    private CollisionSensorSystem system;
     private Entity entity;
     private World physic;
     private Set<ColliderComponent> fixtureTest;
     private PooledEngine engine;
     private CollisionSensorComponent collisionSensorComponent;
-    private CollisionSignalSystem collisionSignalSystem;
+    private CollisionSensorSystem collisionSensorSystem;
     private BodyBuilder bodyBuilder;
     private Entity player;
     private Body body;
@@ -49,8 +50,8 @@ public class CollisionSignalSystemTest {
         physic = new World(new Vector2(0, -9.81f), true);
 
         engine = new PooledEngine();
-        collisionSignalSystem = new CollisionSignalSystem();
-        physic.setContactListener(collisionSignalSystem);
+        collisionSensorSystem = new CollisionSensorSystem();
+        physic.setContactListener(collisionSensorSystem);
 
 
         collisionSensorComponent = new CollisionSensorComponent();
@@ -112,7 +113,7 @@ public class CollisionSignalSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -136,7 +137,7 @@ public class CollisionSignalSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -160,7 +161,7 @@ public class CollisionSignalSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -184,7 +185,7 @@ public class CollisionSignalSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
@@ -209,7 +210,7 @@ public class CollisionSignalSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(0.1f, 8, 3);
@@ -233,7 +234,7 @@ public class CollisionSignalSystemTest {
         player.add(collisionSensorComponent);
 
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(0.1f, 8, 3);
@@ -256,7 +257,7 @@ public class CollisionSignalSystemTest {
         collisionSensorComponent.collisionSensors.add(collisionSensor);
         player.add(collisionSensorComponent);
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Body position: " + body.getPosition());
         physic.step(1f, 8, 3);
@@ -291,7 +292,7 @@ public class CollisionSignalSystemTest {
         collisionSensorComponent.collisionSensors.add(collisionSensor);
         player.add(collisionSensorComponent);
 
-        engine.addSystem(collisionSignalSystem);
+        engine.addSystem(collisionSensorSystem);
 
         System.out.println("Body position: " + body.getPosition());
         physic.step(1f, 8, 3);

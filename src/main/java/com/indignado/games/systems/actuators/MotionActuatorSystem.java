@@ -1,4 +1,4 @@
-package com.indignado.games.systems;
+package com.indignado.games.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
 import com.indignado.games.bricks.actuators.MotionActuator;
@@ -8,6 +8,7 @@ import com.indignado.games.bricks.controllers.Script;
 import com.indignado.games.bricks.controllers.ScriptController;
 import com.indignado.games.bricks.sensors.Sensor;
 import com.indignado.games.components.RigidBodiesComponents;
+import com.indignado.games.systems.LogicBricksSystem;
 
 import java.util.Iterator;
 
@@ -16,7 +17,7 @@ import java.util.Iterator;
  *
  * @author Rubentxu
  */
-public class MotionActuatorSystem extends LogicBricksSystem  {
+public class MotionActuatorSystem extends LogicBricksSystem {
 
     public MotionActuatorSystem() {
         super();

@@ -1,10 +1,11 @@
-package com.indignado.games.systems;
+package com.indignado.games.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
 import com.indignado.games.bricks.sensors.MouseSensor;
+import com.indignado.games.systems.LogicBricksSystem;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,12 +15,12 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class InputsSignalSystem extends LogicBricksSystem implements InputProcessor {
+public class InputsSensorSystem extends LogicBricksSystem implements InputProcessor {
     private Set<KeyboardSensor> keyboardSensors;
     private Set<MouseSensor> mouseSensors;
 
 
-    public InputsSignalSystem() {
+    public InputsSensorSystem() {
         super();
         keyboardSensors = new HashSet<KeyboardSensor>();
         mouseSensors = new HashSet<MouseSensor>();

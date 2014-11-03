@@ -14,7 +14,7 @@ import java.util.Set;
 public class LogicBricks {
     public  String state;
     public Map<Class<? extends Sensor>,Set<? extends Sensor>> sensors = new HashMap<Class<? extends Sensor>,Set<? extends Sensor>>();
-    public  Map<Class<? extends Controller>,Set<? extends Controller>> controllers = new HashMap<Class<? extends Controller>,Set<? extends Controller>>();
-    public  Map<Class<? extends Actuator>,Set<? extends Actuator>> actuators = new HashMap<Class<? extends Actuator>,Set<? extends Actuator>>();
+    public Map<Class<? extends Controller>,Set<? extends Controller>> controllers = new HashMap<Class<? extends Controller>,Set<? extends Controller>>();
+    public Map<Class<? extends Actuator>,Set<? extends Actuator>> actuators = new HashMap<Class<? extends Actuator>,Set<? extends Actuator>>();
 
 }

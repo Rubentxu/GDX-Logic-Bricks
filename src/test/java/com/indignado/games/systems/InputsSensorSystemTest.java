@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.games.bricks.base.BaseTest;
 import com.indignado.games.bricks.sensors.KeyboardSensor;
 import com.indignado.games.components.sensors.InputSensorsComponents;
+import com.indignado.games.systems.sensors.InputsSensorSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Rubentxu
  */
-public class InputsSignalSystemTest extends BaseTest {
+public class InputsSensorSystemTest extends BaseTest {
 
     PooledEngine engine;
     private InputSensorsComponents sensors;
@@ -26,7 +27,7 @@ public class InputsSignalSystemTest extends BaseTest {
     @Before
     public void setup() {
         engine = new PooledEngine();
-        engine.addSystem(new InputsSignalSystem());
+        engine.addSystem(new InputsSensorSystem());
         sensors = new InputSensorsComponents();
 
     }
