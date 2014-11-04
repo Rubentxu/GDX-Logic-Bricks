@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.logicbricks.bricks.base.BaseTest;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
-import com.indignado.logicbricks.components.sensors.InputSensorsComponents;
 import com.indignado.logicbricks.systems.sensors.InputsSensorSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,14 +20,14 @@ import static org.junit.Assert.assertTrue;
 public class InputsSensorSystemTest extends BaseTest {
 
     PooledEngine engine;
-    private InputSensorsComponents sensors;
+
 
 
     @Before
     public void setup() {
         engine = new PooledEngine();
         engine.addSystem(new InputsSensorSystem());
-        sensors = new InputSensorsComponents();
+
 
     }
 
@@ -40,7 +39,7 @@ public class InputsSensorSystemTest extends BaseTest {
         sensor.key= 'a';
         sensor.keysSignal.add('a');
 
-        player.add(sensors);
+        //player.add(sensors);
 
         engine.addEntity(player);
         engine.update(1);
