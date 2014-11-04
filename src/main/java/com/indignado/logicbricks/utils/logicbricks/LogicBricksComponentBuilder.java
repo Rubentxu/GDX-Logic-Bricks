@@ -1,15 +1,12 @@
-package com.indignado.logicbricks.utils.box2d;
+package com.indignado.logicbricks.utils.logicbricks;
 
-import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.bricks.LogicBricks;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.controllers.Controller;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -41,7 +38,7 @@ public class LogicBricksComponentBuilder {
             logicBricksComponent.logicBricks.put(state, logicBricksList);
 
         }
-
+        if(this.logicBricksBuilder != null) logicBricksList.add(logicBricksBuilder.build());
         this.logicBricksBuilder = new LogicBricksBuilder(name);
         return this;
 

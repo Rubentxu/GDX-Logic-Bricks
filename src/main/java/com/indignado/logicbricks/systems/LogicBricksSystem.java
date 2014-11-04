@@ -7,6 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.indignado.logicbricks.bricks.LogicBricks;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.controllers.Controller;
+import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.StateComponent;
@@ -33,17 +34,25 @@ public abstract class LogicBricksSystem extends IteratingSystem {
     }
 
 
+    private boolean validLogicBricks(Entity entity, String state) {
+        return logicBricksMapper.get(entity) != null && logicBricksMapper.get(entity).logicBricks.containsKey(state)
+                && logicBricksMapper.get(entity).logicBricks.get(state) != null;
+
+    }
+
+
     public <T extends Sensor> Set<T> getSensors(Class<T> clazz, Entity entity) {
         Set<T> sensorTemp = new HashSet<T>();
         String state = stateMapper.get(entity).get();
+        if (validLogicBricks(entity, state)) {
+            for (LogicBricks brick : logicBricksMapper.get(entity).logicBricks.get(state)) {
+                if (brick.sensors.containsKey(clazz)) {
+                    Set<T> sensors = (Set<T>) brick.sensors.get(clazz);
+                    for (T s : sensors) {
+                        if (!s.isTap() && !sensorTemp.contains(s)) {
+                            sensorTemp.add(s);
 
-        for (LogicBricks brick : logicBricksMapper.get(entity).logicBricks.get(state)) {
-            if (brick.sensors.containsKey(clazz)) {
-                Set<T> sensors = (Set<T>) brick.sensors.get(clazz);
-                for (T s : sensors) {
-                    if (!s.isTap() && !sensorTemp.contains(s)) {
-                        sensorTemp.add(s);
-
+                        }
                     }
                 }
             }
@@ -56,14 +65,15 @@ public abstract class LogicBricksSystem extends IteratingSystem {
     public <T extends Controller> Set<T> getControllers(Class<T> clazz, Entity entity) {
         Set<T> controllerTemp = new HashSet<T>();
         String state = stateMapper.get(entity).get();
+        if (validLogicBricks(entity, state)) {
+            for (LogicBricks brick : logicBricksMapper.get(entity).logicBricks.get(state)) {
+                if (brick.controllers.containsKey(clazz)) {
+                    Set<T> controllers = (Set<T>) brick.controllers.get(clazz);
+                    for (T c : controllers) {
+                        if (!controllerTemp.contains(c)) {
+                            controllerTemp.add(c);
 
-        for (LogicBricks brick : logicBricksMapper.get(entity).logicBricks.get(state)) {
-            if (brick.controllers.containsKey(clazz)) {
-                Set<T> controllers = (Set<T>) brick.controllers.get(clazz);
-                for (T c : controllers) {
-                    if (!controllerTemp.contains(c)) {
-                        controllerTemp.add(c);
-
+                        }
                     }
                 }
             }
@@ -73,23 +83,26 @@ public abstract class LogicBricksSystem extends IteratingSystem {
     }
 
 
-    public <T extends Actuator> Set<T> getActuators(Class<T> clazz, Entity entity) {
+    public <T extends Actuator> Set<T> getActuators(Class<T> clazz, Entity entity) throws LogicBricksException {
         Set<T> actuatorTemp = new HashSet<T>();
         String state = stateMapper.get(entity).get();
 
-        for (LogicBricks brick : logicBricksMapper.get(entity).logicBricks.get(state)) {
-            if (brick.actuators.containsKey(clazz)) {
-                Set<T> actuators = (Set<T>) brick.actuators.get(clazz);
-                for (T a : actuators) {
-                    Iterator<Controller> it = a.controllers.iterator();
-                    boolean activeActuator = true;
-                    while (it.hasNext()){
-                        if(!it.next().pulseSignal) activeActuator = false;
+        if (validLogicBricks(entity, state)) {
+            for (LogicBricks brick : logicBricksMapper.get(entity).logicBricks.get(state)) {
+                if (brick.actuators.containsKey(clazz)) {
+                    Set<T> actuators = (Set<T>) brick.actuators.get(clazz);
+                    for (T a : actuators) {
+                        Iterator<Controller> it = a.controllers.iterator();
+                        if(!it.hasNext()) throw new LogicBricksException("LogicBricksSystem", "This actuator does not have any associated controller");
+                        boolean activeActuator = true;
+                        while (it.hasNext()) {
+                            if (!it.next().pulseSignal) activeActuator = false;
 
-                    }
-                    if (activeActuator) {
-                        actuatorTemp.add(a);
+                        }
+                        if (activeActuator) {
+                            actuatorTemp.add(a);
 
+                        }
                     }
                 }
             }
@@ -97,10 +110,6 @@ public abstract class LogicBricksSystem extends IteratingSystem {
         return actuatorTemp;
 
     }
-
-
-
-
 
 
 }

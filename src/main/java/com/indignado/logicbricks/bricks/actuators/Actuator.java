@@ -8,7 +8,7 @@ import com.indignado.logicbricks.bricks.controllers.Controller;
  * @author Rubentxu.
  */
 public class Actuator {
-    public Array<Controller> controllers;
+    public Array<Controller> controllers = new Array<Controller>();
     public String name;
     public Entity owner;
 

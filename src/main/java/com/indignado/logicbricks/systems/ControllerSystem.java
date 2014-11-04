@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.bricks.controllers.*;
+import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 
 import java.util.Iterator;
@@ -20,7 +21,7 @@ public class ControllerSystem extends LogicBricksSystem  {
 
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
+    public void processEntity(Entity entity, float deltaTime) throws LogicBricksException{
         for (AndController controller : getControllers(AndController.class, entity)) {
             evaluate(controller);
         }
@@ -38,6 +39,7 @@ public class ControllerSystem extends LogicBricksSystem  {
 
     public void evaluate(AndController controller) {
         Iterator<Sensor> it = controller.sensors.iterator();
+        if(!it.hasNext()) throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
         while (it.hasNext()){
             Sensor s = it.next();
             if(s.isActive().equals(false)) {
@@ -52,6 +54,7 @@ public class ControllerSystem extends LogicBricksSystem  {
 
     public void evaluate(OrController controller) {
         Iterator<Sensor> it = controller.sensors.iterator();
+        if(!it.hasNext()) throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
         while (it.hasNext()){
             Sensor s = it.next();
             if(s.isActive().equals(true)){
@@ -65,6 +68,7 @@ public class ControllerSystem extends LogicBricksSystem  {
 
     public void evaluate(ScriptController controller) {
         Iterator<Script> it = controller.scripts.iterator();
+        if(!it.hasNext()) throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
         while (it.hasNext()){
             it.next().execute(controller.sensors);
         }

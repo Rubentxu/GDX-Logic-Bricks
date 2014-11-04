@@ -63,6 +63,7 @@ public class CollisionSensorSystemTest {
         logicBricksComponent.logicBricks.put("STATE_PRUEBAS", logicBricksList);
 
         bodyBuilder = new BodyBuilder(physic);
+
     }
 
 
@@ -107,6 +108,7 @@ public class CollisionSensorSystemTest {
         enemy.add(rigidBodiesComponents2);
 
         engine.addEntity(enemy);
+
     }
 
 
@@ -117,7 +119,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetBody = body2;
         collisionSensor.ownerRigidBody = body;
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
@@ -142,7 +144,7 @@ public class CollisionSensorSystemTest {
         CollisionSensor collisionSensor = new CollisionSensor(player);
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerRigidBody = body;
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
@@ -169,7 +171,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
@@ -197,7 +199,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
@@ -224,7 +226,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
@@ -248,7 +250,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
@@ -272,7 +274,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
@@ -296,8 +298,6 @@ public class CollisionSensorSystemTest {
         System.out.println("Body position4: " + body.getPosition());
         assertFalse(collisionSensor.isActive());
 
-
-
     }
 
 
@@ -308,7 +308,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        Set<CollisionSensor> collisionSensorsList = new HashSet<CollisionSensor>();
+        Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
         logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
@@ -330,8 +330,6 @@ public class CollisionSensorSystemTest {
         physic.step(1f, 8, 3);
         System.out.println("Body position4: " + body.getPosition());
         assertFalse(collisionSensor.isActive());
-
-
 
     }
 

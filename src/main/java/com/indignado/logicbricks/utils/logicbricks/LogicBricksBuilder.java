@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.utils.box2d;
+package com.indignado.logicbricks.utils.logicbricks;
 
 import com.indignado.logicbricks.bricks.LogicBricks;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
