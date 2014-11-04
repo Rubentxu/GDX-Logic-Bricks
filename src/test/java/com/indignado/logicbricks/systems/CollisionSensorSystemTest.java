@@ -32,12 +32,8 @@ import static org.junit.Assert.assertTrue;
  * @author Rubentxu
  */
 public class CollisionSensorSystemTest {
-    private CollisionSensorSystem system;
-    private Entity entity;
     private World physic;
-    private Set<ColliderComponent> fixtureTest;
     private PooledEngine engine;
-
     private CollisionSensorSystem collisionSensorSystem;
     private BodyBuilder bodyBuilder;
     private Entity player;
