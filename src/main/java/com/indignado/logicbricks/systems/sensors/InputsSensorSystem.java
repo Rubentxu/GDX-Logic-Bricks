@@ -1,10 +1,17 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
+import com.indignado.logicbricks.components.KeyboardSensorComponent;
+import com.indignado.logicbricks.components.LogicBricksComponent;
+import com.indignado.logicbricks.components.MouseSensorComponent;
+import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.LogicBricksSystem;
 
 import java.util.HashSet;
@@ -15,13 +22,19 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class InputsSensorSystem extends LogicBricksSystem implements InputProcessor {
+public class InputsSensorSystem extends IteratingSystem implements InputProcessor {
     private Set<KeyboardSensor> keyboardSensors;
     private Set<MouseSensor> mouseSensors;
+    private ComponentMapper<KeyboardSensorComponent> keyboardSensorMapper;
+    private ComponentMapper<MouseSensorComponent> mouseSensorMapper;
+    private ComponentMapper<StateComponent> stateMapper;
 
 
     public InputsSensorSystem() {
-        super();
+        super(Family.getFor(KeyboardSensorComponent.class, MouseSensorComponent.class, StateComponent.class), 0);
+        keyboardSensorMapper = ComponentMapper.getFor(KeyboardSensorComponent.class);
+        mouseSensorMapper = ComponentMapper.getFor(MouseSensorComponent.class);
+        stateMapper = ComponentMapper.getFor(StateComponent.class);
         keyboardSensors = new HashSet<KeyboardSensor>();
         mouseSensors = new HashSet<MouseSensor>();
 
@@ -30,18 +43,43 @@ public class InputsSensorSystem extends LogicBricksSystem implements InputProces
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        for (KeyboardSensor sensor : getSensors(KeyboardSensor.class, entity)) {
-            if (!sensor.isTap() && !keyboardSensors.contains(sensor)) {
-                keyboardSensors.add(sensor);
+        Set<KeyboardSensor> keyboardSensorsEntity = getKeyboardSensors(entity);
+        if(keyboardSensorsEntity != null){
+            for (KeyboardSensor sensor : keyboardSensorsEntity) {
+                if (!sensor.isTap() && !keyboardSensors.contains(sensor)) {
+                    keyboardSensors.add(sensor);
+                }
             }
         }
 
-        for (MouseSensor sensor : getSensors(MouseSensor.class, entity)) {
-            if (!sensor.isTap() && !mouseSensors.contains(sensor)) {
-                mouseSensors.add(sensor);
-
+        Set<MouseSensor> mouseSensorsEntity = getMouseSensors(entity);
+        if(mouseSensorsEntity != null){
+            for (MouseSensor sensor : mouseSensorsEntity) {
+                if (!sensor.isTap() && !mouseSensors.contains(sensor)) {
+                    mouseSensors.add(sensor);
+                }
             }
         }
+
+    }
+
+
+    private Set<KeyboardSensor> getKeyboardSensors(Entity entity) {
+        String state = stateMapper.get(entity).get();
+        if (keyboardSensorMapper.get(entity).keyboardSensors.containsKey(state)) {
+            return keyboardSensorMapper.get(entity).keyboardSensors.get(state);
+        }
+        return null;
+
+    }
+
+
+    private Set<MouseSensor> getMouseSensors(Entity entity) {
+        String state = stateMapper.get(entity).get();
+        if (mouseSensorMapper.get(entity).mouseSensors.containsKey(state)) {
+            return mouseSensorMapper.get(entity).mouseSensors.get(state);
+        }
+        return null;
 
     }
 
