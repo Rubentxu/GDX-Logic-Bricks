@@ -13,6 +13,7 @@ public class MessageActuator extends Actuator implements Telegraph{
 
     @Override
     public boolean handleMessage(Telegram msg) {
-        return false;
+        return true;
     }
+
 }

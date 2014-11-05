@@ -47,8 +47,9 @@ public class ControllerSystem extends LogicBricksSystem  {
                 return;
 
             }
-        }
 
+        }
+        controller.pulseSignal = true;
     }
 
 
@@ -59,18 +60,19 @@ public class ControllerSystem extends LogicBricksSystem  {
             Sensor s = it.next();
             if(s.isActive().equals(true)){
                 controller.pulseSignal = true;
-
+                return;
             }
         }
+        controller.pulseSignal = false;
 
     }
 
 
     public void evaluate(ScriptController controller) {
         Iterator<Script> it = controller.scripts.iterator();
-        if(!it.hasNext()) throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
         while (it.hasNext()){
             it.next().execute(controller.sensors);
+
         }
 
     }
