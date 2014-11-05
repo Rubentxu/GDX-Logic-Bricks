@@ -41,14 +41,21 @@ public class MouseSensor extends Sensor {
         if (isTap()) return false;
 
         if (mouseEventSignal) {
-            if(mouseEvent.equals(MouseEvent.MOUSE_OVER)){
-                if( target == null ) return false;
-                return isMouseOver(target,positionXsignal,positionYsignal);
+            switch (mouseEvent) {
+                case MOUSE_OVER:
+                    mouseEventSignal = false;
+                    if( target == null ) return false;
+                    return isMouseOver(target,positionXsignal,positionYsignal);
+                case MOVEMENT:
 
+                case WHEEL_DOWN:
+
+                case WHEEL_UP:
+                    mouseEventSignal = false;
+                default:
+                    return true;
             }
-            return true;
         }
-
         return false;
 
     }
@@ -60,7 +67,8 @@ public class MouseSensor extends Sensor {
 
         Rectangle rectangle = new Rectangle();
         for(View view : viewsComponent.views){
-            rectangle.set(view.transform.getPosition().x, view.transform.getPosition().y , view.width, view.height);
+            rectangle.set(view.transform.getPosition().x - view.width / 2, view.transform.getPosition().y - view.height / 2,
+                    view.width, view.height);
             if(rectangle.contains(posX,posY)) return true;
         }
         return false;

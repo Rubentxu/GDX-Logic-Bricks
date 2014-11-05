@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Rubentxu
  */
 public class CollisionSensorSystem extends LogicBricksSystem implements ContactListener {
-    private Set<CollisionSensor> collisionSensors;
+    private final Set<CollisionSensor> collisionSensors;
 
 
     public CollisionSensorSystem() {
@@ -47,7 +47,7 @@ public class CollisionSensorSystem extends LogicBricksSystem implements ContactL
             if (collisionSensor.ownerRigidBody != null) {
                 processRigidBodyBeginContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
                 processRigidBodyBeginContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
-                continue;
+
             }
 
         }

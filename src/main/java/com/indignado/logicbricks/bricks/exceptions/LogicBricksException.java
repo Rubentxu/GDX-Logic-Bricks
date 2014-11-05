@@ -15,23 +15,12 @@ public class LogicBricksException extends RuntimeException{
             System.out.println(tag + " : " + message);
         }
 
-
     }
+
 
     public LogicBricksException (Throwable cause) {
         super (cause);
 
-        if(Gdx.app != null) {
-            Gdx.app.log("LogicBricksException",cause.getMessage());
-        } else {
-            System.out.println( "LogicBricksException : " + cause.getMessage());
-        }
-
-    }
-
-    public LogicBricksException (String message, Throwable cause) {
-        super (message, cause);
-        Gdx.app.log("LogicBricksException",cause.getMessage());
         if(Gdx.app != null) {
             Gdx.app.log("LogicBricksException",cause.getMessage());
         } else {

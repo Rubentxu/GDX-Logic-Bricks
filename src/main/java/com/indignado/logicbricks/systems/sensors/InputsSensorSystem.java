@@ -137,9 +137,11 @@ public class InputsSensorSystem extends LogicBricksSystem implements InputProces
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         for (MouseSensor sensor : mouseSensors) {
-            if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.MOVEMENT)) {
+            if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.MOVEMENT) ||
+                    sensor.mouseEvent.equals(MouseSensor.MouseEvent.MOUSE_OVER)) {
                 sensor.positionXsignal = screenX;
                 sensor.positionYsignal = screenY;
+                sensor.mouseEventSignal = true;
             }
         }
         return false;
