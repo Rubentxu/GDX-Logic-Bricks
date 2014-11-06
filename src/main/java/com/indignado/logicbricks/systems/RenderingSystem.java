@@ -25,17 +25,17 @@ import java.util.Comparator;
  */
 public class RenderingSystem extends IteratingSystem {
 
+    public float WIDTH;
+    public float HEIGHT;
+    protected Viewport viewport;
+    protected OrthographicCamera uiCamera;
     private SpriteBatch batch;
     private Array<View> renderQueue;
     private Comparator<View> comparator;
     private OrthographicCamera camera;
-    protected Viewport viewport;
-    protected OrthographicCamera uiCamera;
     private ComponentMapper<ViewsComponent> vm;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
-    public float WIDTH;
-    public float HEIGHT;
 
 
     public RenderingSystem(SpriteBatch batch) {
@@ -75,7 +75,7 @@ public class RenderingSystem extends IteratingSystem {
             float originX = view.width * 0.5f;
             float originY = view.height * 0.5f;
 
-            if(view.tint != null) {
+            if (view.tint != null) {
                 batch.setColor(view.tint);
             } else {
                 batch.setColor(Color.WHITE);
@@ -86,7 +86,6 @@ public class RenderingSystem extends IteratingSystem {
 
             batch.draw(view.textureRegion, t.getPosition().x - originX, t.getPosition().y - originY, originX, originY,
                     view.width, view.height, 1, 1, MathUtils.radiansToDegrees * t.getRotation());
-
 
 
         }

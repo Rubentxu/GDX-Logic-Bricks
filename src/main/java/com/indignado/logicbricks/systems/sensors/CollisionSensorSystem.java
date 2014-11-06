@@ -1,9 +1,13 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
-import com.indignado.logicbricks.systems.LogicBricksSystem;
+import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,12 +17,16 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class CollisionSensorSystem extends LogicBricksSystem implements ContactListener {
+public class CollisionSensorSystem extends IteratingSystem implements ContactListener {
     private final Set<CollisionSensor> collisionSensors;
+    private ComponentMapper<CollisionSensorComponent> collisionSensorMapper;
+    private ComponentMapper<StateComponent> stateMapper;
 
 
     public CollisionSensorSystem() {
-        super();
+        super(Family.getFor(CollisionSensorComponent.class, StateComponent.class));
+        collisionSensorMapper = ComponentMapper.getFor(CollisionSensorComponent.class);
+        stateMapper = ComponentMapper.getFor(StateComponent.class);
         collisionSensors = new HashSet<CollisionSensor>();
 
     }
@@ -26,7 +34,9 @@ public class CollisionSensorSystem extends LogicBricksSystem implements ContactL
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        for (CollisionSensor sensor : getSensors(CollisionSensor.class, entity)) {
+        Integer state = stateMapper.get(entity).get();
+        Set<CollisionSensor> collisionSensors = collisionSensorMapper.get(entity).collisionSensors.get(state);
+        for (CollisionSensor sensor : collisionSensors) {
             if (!sensor.isTap() && !collisionSensors.contains(sensor)) {
                 collisionSensors.add(sensor);
             }

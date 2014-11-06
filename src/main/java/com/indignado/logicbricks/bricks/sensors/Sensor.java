@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 
 /**
  * Created on 13/10/14.
+ *
  * @author Rubentxu
  */
 public abstract class Sensor {
@@ -12,7 +13,7 @@ public abstract class Sensor {
     public Boolean tap = false;
     public Boolean initialized = false;
     public String name;
-    public String state;
+    public int state;
     protected Entity owner;
 
     protected Sensor(Entity owner) {
@@ -22,11 +23,11 @@ public abstract class Sensor {
     public abstract Boolean isActive();
 
 
-    public boolean isTap(){
-        if(tap && initialized) {
+    public boolean isTap() {
+        if (tap && initialized) {
             return true;
         }
-        initialized= true;
+        initialized = true;
         return false;
     }
 

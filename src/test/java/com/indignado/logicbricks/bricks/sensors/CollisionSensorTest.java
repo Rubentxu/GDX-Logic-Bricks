@@ -21,7 +21,7 @@ public class CollisionSensorTest {
 
     @Before
     public void setup() {
-        sensor =  new CollisionSensor(new Entity());
+        sensor = new CollisionSensor(new Entity());
 
     }
 

@@ -13,7 +13,6 @@ import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +20,6 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -56,7 +54,7 @@ public class CollisionSensorSystemTest {
 
 
         logicBricksComponent = new LogicBricksComponent();
-        Set <LogicBricks> logicBricksList = new HashSet<LogicBricks>();
+        Set<LogicBricks> logicBricksList = new HashSet<LogicBricks>();
         logicBricks = new LogicBricks();
         logicBricksList.add(logicBricks);
         logicBricksComponent.logicBricks.put("STATE_PRUEBAS", logicBricksList);
@@ -81,7 +79,7 @@ public class CollisionSensorSystemTest {
         rigidBodiesComponents = new RigidBodiesComponents();
         rigidBodiesComponents.rigidBodies.add(body);
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set("STATE_PRUEBAS");
 
         player.add(rigidBodiesComponents);
@@ -121,7 +119,7 @@ public class CollisionSensorSystemTest {
         Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
-        logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
+        logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
         player.add(logicBricksComponent);
 
         engine.addSystem(collisionSensorSystem);
@@ -146,7 +144,7 @@ public class CollisionSensorSystemTest {
         Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
-        logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
+        logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
         player.add(logicBricksComponent);
 
 
@@ -201,9 +199,8 @@ public class CollisionSensorSystemTest {
         Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
-        logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
+        logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
         player.add(logicBricksComponent);
-
 
 
         engine.addSystem(collisionSensorSystem);
@@ -217,7 +214,6 @@ public class CollisionSensorSystemTest {
     }
 
 
-
     @Test
     public void bodyCollisionFalseTest() {
         createContext();
@@ -228,7 +224,7 @@ public class CollisionSensorSystemTest {
         Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
-        logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
+        logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
         player.add(logicBricksComponent);
 
         engine.addSystem(collisionSensorSystem);
@@ -252,7 +248,7 @@ public class CollisionSensorSystemTest {
         Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
-        logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
+        logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
         player.add(logicBricksComponent);
 
         engine.addSystem(collisionSensorSystem);
@@ -310,7 +306,7 @@ public class CollisionSensorSystemTest {
         Set<Sensor> collisionSensorsList = new HashSet<Sensor>();
         collisionSensorsList.add(collisionSensor);
 
-        logicBricks.sensors.put(CollisionSensor.class,collisionSensorsList);
+        logicBricks.sensors.put(CollisionSensor.class, collisionSensorsList);
         player.add(logicBricksComponent);
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -331,10 +327,6 @@ public class CollisionSensorSystemTest {
         assertFalse(collisionSensor.isActive());
 
     }
-
-
-
-
 
 
 }

@@ -23,7 +23,7 @@ public class AlwaysSensorTest {
 
     @Test
     public void alwaysTest() {
-        sensor.tap= false;
+        sensor.tap = false;
 
         Boolean isActive = sensor.isActive();
         assertTrue(isActive);
@@ -37,7 +37,7 @@ public class AlwaysSensorTest {
 
     @Test
     public void alwaysTapTest() {
-        sensor.tap= true;
+        sensor.tap = true;
 
         Boolean isActive = sensor.isActive();
         assertTrue(isActive);

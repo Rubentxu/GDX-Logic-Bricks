@@ -1,9 +1,8 @@
 package com.indignado.logicbricks.utils;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.bricks.LogicBricks;
 import com.indignado.logicbricks.bricks.actuators.MessageActuator;
-import com.indignado.logicbricks.bricks.controllers.AndController;
+import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
@@ -66,15 +65,15 @@ public class LogicBricksComponentTest {
 
     @Test
     public void logicBricksComponentControllerTest() {
-        AndController andController = new AndController();
+        ConditionalController conditionalController = new ConditionalController();
         LogicBricksComponent lbc = logicBricksComponentBuilder.createLogicBricks(name, state)
-                .addController(andController)
+                .addController(conditionalController)
                 .build();
         assertNotNull(lbc);
         assertNotNull(lbc.logicBricks.get(state));
         assertFalse(lbc.logicBricks.get(state).isEmpty());
-        assertTrue(lbc.logicBricks.get(state).iterator().next().controllers.get(AndController.class).
-                contains(andController));
+        assertTrue(lbc.logicBricks.get(state).iterator().next().controllers.get(ConditionalController.class).
+                contains(conditionalController));
 
     }
 
@@ -97,11 +96,11 @@ public class LogicBricksComponentTest {
     @Test
     public void logicBricksComponentTest() {
         AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        AndController andController = new AndController();
+        ConditionalController conditionalController = new ConditionalController();
         MessageActuator messageActuator = new MessageActuator();
         LogicBricksComponent lbc = logicBricksComponentBuilder.createLogicBricks(name, state)
                 .addSensor(alwaysSensor)
-                .addController(andController)
+                .addController(conditionalController)
                 .addActuator(messageActuator)
                 .build();
         assertNotNull(lbc);
@@ -109,8 +108,8 @@ public class LogicBricksComponentTest {
         assertFalse(lbc.logicBricks.get(state).isEmpty());
         assertTrue(lbc.logicBricks.get(state).iterator().next().sensors.get(AlwaysSensor.class).
                 contains(alwaysSensor));
-        assertTrue(lbc.logicBricks.get(state).iterator().next().controllers.get(AndController.class).
-                contains(andController));
+        assertTrue(lbc.logicBricks.get(state).iterator().next().controllers.get(ConditionalController.class).
+                contains(conditionalController));
         assertTrue(lbc.logicBricks.get(state).iterator().next().actuators.get(MessageActuator.class).
                 contains(messageActuator));
 

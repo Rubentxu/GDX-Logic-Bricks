@@ -32,7 +32,7 @@ public class LogicBricksSystemTest {
     public void getSensorTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.key= 'a';
+        sensor.key = 'a';
         sensor.keysSignal.add('a');
 
         //player.add(sensorsMap);

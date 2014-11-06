@@ -2,28 +2,16 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
-import com.indignado.logicbricks.bricks.sensors.MouseSensor;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
-import com.indignado.logicbricks.components.KeyboardSensorComponent;
-import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.data.View;
-import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
+import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -33,8 +21,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class KeyboardSensorSystemTest {
     PooledEngine engine;
-    private String name;
-    private String state;
+    private int statePruebas;
+
     private KeyboardSensorSystem inputSensorSystem;
 
 
@@ -43,8 +31,7 @@ public class KeyboardSensorSystemTest {
         engine = new PooledEngine();
         inputSensorSystem = new KeyboardSensorSystem();
         engine.addSystem(inputSensorSystem);
-        this.name = "BricksPruebas";
-        this.state = "StatePruebas";
+        this.statePruebas = 1;
 
     }
 
@@ -53,16 +40,16 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSensorKeyTypedEventTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.key= 'a';
+        sensor.key = 'a';
 
         Set<KeyboardSensor> sensorSet = new HashSet<>();
         sensorSet.add(sensor);
 
         KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(state,sensorSet);
+        keyboardSensorComponent.keyboardSensors.put(statePruebas, sensorSet);
 
-        StateComponent stateComponent =  new StateComponent();
-        stateComponent.set(state);
+        StateComponent stateComponent = new StateComponent();
+        stateComponent.set(statePruebas);
 
         player.add(keyboardSensorComponent);
         player.add(stateComponent);
@@ -83,16 +70,16 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSystemAllKeysConfigTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.allKeys= true;
+        sensor.allKeys = true;
 
         Set<KeyboardSensor> sensorSet = new HashSet<>();
         sensorSet.add(sensor);
 
         KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(state,sensorSet);
+        keyboardSensorComponent.keyboardSensors.put(statePruebas, sensorSet);
 
-        StateComponent stateComponent =  new StateComponent();
-        stateComponent.set(state);
+        StateComponent stateComponent = new StateComponent();
+        stateComponent.set(statePruebas);
 
         player.add(keyboardSensorComponent);
         player.add(stateComponent);
@@ -114,17 +101,17 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.allKeys= true;
-        sensor.logToggle= true;
+        sensor.allKeys = true;
+        sensor.logToggle = true;
 
         Set<KeyboardSensor> sensorSet = new HashSet<>();
         sensorSet.add(sensor);
 
         KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(state,sensorSet);
+        keyboardSensorComponent.keyboardSensors.put(statePruebas, sensorSet);
 
-        StateComponent stateComponent =  new StateComponent();
-        stateComponent.set(state);
+        StateComponent stateComponent = new StateComponent();
+        stateComponent.set(statePruebas);
 
         player.add(keyboardSensorComponent);
         player.add(stateComponent);
@@ -138,7 +125,7 @@ public class KeyboardSensorSystemTest {
         inputSensorSystem.keyTyped('z');
 
         assertTrue(sensor.isActive());
-        assertEquals("az",sensor.target);
+        assertEquals("az", sensor.target);
 
     }
 

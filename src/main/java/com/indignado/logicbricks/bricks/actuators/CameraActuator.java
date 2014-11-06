@@ -16,5 +16,4 @@ public class CameraActuator extends Actuator {
     // public short damping;
 
 
-
 }

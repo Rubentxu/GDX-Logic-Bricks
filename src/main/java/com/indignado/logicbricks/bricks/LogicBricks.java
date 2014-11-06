@@ -13,8 +13,8 @@ import java.util.Set;
  */
 public class LogicBricks {
     public String name;
-    public Map<Class<? extends Sensor>,Set<Sensor>> sensors = new HashMap<Class<? extends Sensor>,Set<Sensor>>();
-    public Map<Class<? extends Controller>,Set<Controller>> controllers = new HashMap<Class<? extends Controller>,Set<Controller>>();
-    public Map<Class<? extends Actuator>,Set<Actuator>> actuators = new HashMap<Class<? extends Actuator>,Set<Actuator>>();
+    public Map<Class<? extends Sensor>, Set<Sensor>> sensors = new HashMap<Class<? extends Sensor>, Set<Sensor>>();
+    public Map<Class<? extends Controller>, Set<Controller>> controllers = new HashMap<Class<? extends Controller>, Set<Controller>>();
+    public Map<Class<? extends Actuator>, Set<Actuator>> actuators = new HashMap<Class<? extends Actuator>, Set<Actuator>>();
 
 }

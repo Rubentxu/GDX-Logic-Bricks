@@ -4,15 +4,10 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
-import com.indignado.logicbricks.bricks.sensors.MouseSensor;
-import com.indignado.logicbricks.components.KeyboardSensorComponent;
-import com.indignado.logicbricks.components.LogicBricksComponent;
-import com.indignado.logicbricks.components.MouseSensorComponent;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.systems.LogicBricksSystem;
+import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,24 +34,15 @@ public class KeyboardSensorSystem extends IteratingSystem implements InputProces
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        Set<KeyboardSensor> keyboardSensorsEntity = getKeyboardSensors(entity);
-        if(keyboardSensorsEntity != null){
-            for (KeyboardSensor sensor : keyboardSensorsEntity) {
-                if (!sensor.isTap() && !keyboardSensors.contains(sensor)) {
-                    keyboardSensors.add(sensor);
+        Integer state = stateMapper.get(entity).get();
+        Set<KeyboardSensor> keyboardSensors = keyboardSensorMapper.get(entity).keyboardSensors.get(state);
+        if (keyboardSensors != null) {
+            for (KeyboardSensor sensor : keyboardSensors) {
+                if (!sensor.isTap() && !this.keyboardSensors.contains(sensor)) {
+                    this.keyboardSensors.add(sensor);
                 }
             }
         }
-
-    }
-
-
-    private Set<KeyboardSensor> getKeyboardSensors(Entity entity) {
-        String state = stateMapper.get(entity).get();
-        if (keyboardSensorMapper.get(entity).keyboardSensors.containsKey(state)) {
-            return keyboardSensorMapper.get(entity).keyboardSensors.get(state);
-        }
-        return null;
 
     }
 

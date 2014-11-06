@@ -33,7 +33,7 @@ public class CollisionSensor extends Sensor {
 
 
     public Boolean isActive() {
-        if( contact != null && contact.isTouching()) return true;
+        if (contact != null && contact.isTouching()) return true;
         else return false;
 
     }

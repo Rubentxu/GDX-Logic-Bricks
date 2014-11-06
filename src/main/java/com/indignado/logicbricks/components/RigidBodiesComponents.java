@@ -10,6 +10,6 @@ import com.badlogic.gdx.utils.Array;
  * @author Rubentxu
  */
 public class RigidBodiesComponents extends Component {
-    public Array<Body> rigidBodies = new Array<Body>() ;
+    public Array<Body> rigidBodies = new Array<Body>();
 
 }

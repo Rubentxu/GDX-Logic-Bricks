@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 
 /**
  * clone common-gdx project
+ *
  * @author acoppes
  */
 public class FixtureDefBuilder {
@@ -38,7 +39,7 @@ public class FixtureDefBuilder {
 
     public FixtureDefBuilder boxShape(float hx, float hy, Vector2 center, float angleInRadians) {
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(hx, hy,center,angleInRadians);
+        shape.setAsBox(hx, hy, center, angleInRadians);
         fixtureDef.shape = shape;
         return this;
 

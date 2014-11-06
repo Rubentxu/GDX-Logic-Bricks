@@ -20,5 +20,4 @@ public class MotionActuator extends Actuator {
     // public boolean isLocal = false;
 
 
-
 }

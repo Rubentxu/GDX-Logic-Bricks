@@ -3,13 +3,12 @@ package com.indignado.logicbricks.utils;
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.bricks.LogicBricks;
 import com.indignado.logicbricks.bricks.actuators.MotionActuator;
-import com.indignado.logicbricks.bricks.controllers.AndController;
+import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -39,9 +38,9 @@ public class LogicBricksBuilderTest {
 
     @Test
     public void addControllerTest() {
-        AndController controller = new AndController();
+        ConditionalController controller = new ConditionalController();
         LogicBricks logicBricks = logicBricksBuilder.addController(controller).build();
-        assertTrue(logicBricks.controllers.containsKey(AndController.class));
+        assertTrue(logicBricks.controllers.containsKey(ConditionalController.class));
 
     }
 

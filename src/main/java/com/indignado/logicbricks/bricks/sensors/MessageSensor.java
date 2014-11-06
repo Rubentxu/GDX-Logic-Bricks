@@ -15,7 +15,7 @@ public class MessageSensor extends Sensor implements Telegraph {
 
 
     // Signal Values
-    public boolean isActive = false ;
+    public boolean isActive = false;
 
 
     protected MessageSensor(Entity owner) {

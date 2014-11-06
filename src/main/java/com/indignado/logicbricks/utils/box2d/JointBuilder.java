@@ -9,9 +9,33 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 
 /**
  * clone common-gdx project
+ *
  * @author acoppes
  */
 public class JointBuilder {
+    private final World world;
+    private DistanceJointBuilder distanceJointBuilder;
+    private RopeJointBuilder ropeJointBuilder;
+
+    public JointBuilder(World world) {
+        this.world = world;
+        this.distanceJointBuilder = new DistanceJointBuilder();
+        this.ropeJointBuilder = new RopeJointBuilder();
+
+    }
+
+    public DistanceJointBuilder distanceJoint() {
+        distanceJointBuilder.reset();
+        return distanceJointBuilder;
+
+    }
+
+    public RopeJointBuilder ropeJointBuilder() {
+        ropeJointBuilder.reset();
+        return ropeJointBuilder;
+
+    }
+
     private class InternalJointBuilder {
         JointDef jointDef;
 
@@ -164,32 +188,6 @@ public class JointBuilder {
             return world.createJoint(ropeJointDef);
 
         }
-
-    }
-
-    private final World world;
-    private DistanceJointBuilder distanceJointBuilder;
-    private RopeJointBuilder ropeJointBuilder;
-
-
-    public JointBuilder(World world) {
-        this.world = world;
-        this.distanceJointBuilder = new DistanceJointBuilder();
-        this.ropeJointBuilder = new RopeJointBuilder();
-
-    }
-
-
-    public DistanceJointBuilder distanceJoint() {
-        distanceJointBuilder.reset();
-        return distanceJointBuilder;
-
-    }
-
-
-    public RopeJointBuilder ropeJointBuilder() {
-        ropeJointBuilder.reset();
-        return ropeJointBuilder;
 
     }
 

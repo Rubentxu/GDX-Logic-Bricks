@@ -6,7 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegraph;
 /**
  * @author Rubentxu.
  */
-public class MessageActuator extends Actuator implements Telegraph{
+public class MessageActuator extends Actuator implements Telegraph {
     public int message;
     public Object extraInfo;
 

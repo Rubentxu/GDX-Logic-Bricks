@@ -8,6 +8,7 @@ import com.indignado.logicbricks.bricks.sensors.Sensor;
  */
 public class Controller {
     public String name;
+    public int state;
     public Array<Sensor> sensors = new Array<Sensor>();
     public boolean pulseSignal = false;
 

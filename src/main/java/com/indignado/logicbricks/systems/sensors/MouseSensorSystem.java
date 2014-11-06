@@ -6,11 +6,9 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
-import com.indignado.logicbricks.components.KeyboardSensorComponent;
-import com.indignado.logicbricks.components.MouseSensorComponent;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,24 +35,15 @@ public class MouseSensorSystem extends IteratingSystem implements InputProcessor
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        Set<MouseSensor> mouseSensorsEntity = getMouseSensors(entity);
-        if(mouseSensorsEntity != null){
-            for (MouseSensor sensor : mouseSensorsEntity) {
-                if (!sensor.isTap() && !mouseSensors.contains(sensor)) {
-                    mouseSensors.add(sensor);
+        Integer state = stateMapper.get(entity).get();
+        Set<MouseSensor> mouseSensors = mouseSensorMapper.get(entity).mouseSensors.get(state);
+        if (mouseSensors != null) {
+            for (MouseSensor sensor : mouseSensors) {
+                if (!sensor.isTap() && !this.mouseSensors.contains(sensor)) {
+                    this.mouseSensors.add(sensor);
                 }
             }
         }
-
-    }
-
-
-    private Set<MouseSensor> getMouseSensors(Entity entity) {
-        String state = stateMapper.get(entity).get();
-        if (mouseSensorMapper.get(entity).mouseSensors.containsKey(state)) {
-            return mouseSensorMapper.get(entity).mouseSensors.get(state);
-        }
-        return null;
 
     }
 

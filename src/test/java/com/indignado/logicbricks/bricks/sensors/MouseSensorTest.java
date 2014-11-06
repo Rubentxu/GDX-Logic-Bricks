@@ -25,9 +25,9 @@ public class MouseSensorTest {
     public void setup() {
         entity = new Entity();
         ViewsComponent viewsComponent = new ViewsComponent();
-        View view =  new View();
+        View view = new View();
         view.transform = new Transform();
-        view.transform.setPosition(new Vector2(50,50));
+        view.transform.setPosition(new Vector2(50, 50));
         view.width = 100;
         view.height = 100;
 
@@ -35,7 +35,7 @@ public class MouseSensorTest {
 
         entity.add(viewsComponent);
         sensor = new MouseSensor(entity);
-        sensor.mouseEvent= MouseSensor.MouseEvent.MOVEMENT;
+        sensor.mouseEvent = MouseSensor.MouseEvent.MOVEMENT;
 
     }
 
@@ -52,7 +52,7 @@ public class MouseSensorTest {
 
     @Test
     public void mouseOverTest() {
-        sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
+        sensor.mouseEvent = MouseSensor.MouseEvent.MOUSE_OVER;
         sensor.mouseEventSignal = true;
         sensor.positionXsignal = 51;
         sensor.positionYsignal = 51;
@@ -66,7 +66,7 @@ public class MouseSensorTest {
 
     @Test
     public void notMouseOverTest() {
-        sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
+        sensor.mouseEvent = MouseSensor.MouseEvent.MOUSE_OVER;
         sensor.mouseEventSignal = true;
         sensor.positionXsignal = 151;
         sensor.positionYsignal = 151;
@@ -80,7 +80,7 @@ public class MouseSensorTest {
 
     @Test
     public void mouseOverTargetSignalNotEqualsTest() {
-        sensor.mouseEvent= MouseSensor.MouseEvent.MOUSE_OVER;
+        sensor.mouseEvent = MouseSensor.MouseEvent.MOUSE_OVER;
         sensor.mouseEventSignal = true;
         sensor.target = new Entity();
 

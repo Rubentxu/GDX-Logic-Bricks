@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.logicbricks;
 
+import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.bricks.LogicBricks;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.controllers.Controller;
@@ -13,26 +14,23 @@ import java.util.Set;
 /**
  * @author Rubentxu.
  */
-public class LogicBricksComponentBuilder {
+public class LogicBrickBuilder {
     private String state;
-    private LogicBricksComponent logicBricksComponent;
+    private Set<Sensor> sensorSet = new HashSet<>();
+    private Set<Controller> controllerSet = new HashSet<>();
+    private Set<Actuator> actuatorSet = new HashSet<>();
     private SensorComponent sensorComponent;
-    private LogicBricksBuilder logicBricksBuilder;
+    private Entity entity;
+    private Sensor sensor;
 
 
-    public LogicBricksComponentBuilder() {
-        this.logicBricksComponent = new LogicBricksComponent();
-
-    }
-
-
-    public LogicBricksComponentBuilder(LogicBricksComponent logicBricksComponent) {
-        this.logicBricksComponent = logicBricksComponent;
+    public LogicBrickBuilder(Entity entity) {
+        this.entity = entity;
 
     }
 
 
-    public LogicBricksComponentBuilder createLogicBricks(String name, String state) {
+    public LogicBrickBuilder addSensor(String state) {
         this.state = state;
         Set<LogicBricks> logicBricksList = logicBricksComponent.logicBricks.get(state);
         if (logicBricksList == null) {
@@ -47,21 +45,23 @@ public class LogicBricksComponentBuilder {
     }
 
 
-    public LogicBricksComponentBuilder addSensor(Sensor sensor) {
-        logicBricksBuilder.addSensor(sensor);
+    public LogicBrickBuilder addSensor(Sensor sensor, String state) {
+        this.sensor = sensor;
+        this.state = state;
+        sensorSet.add(sensor);
         return this;
 
     }
 
 
-    public LogicBricksComponentBuilder addController(Controller controller) {
+    public LogicBrickBuilder addController(Controller controller) {
         logicBricksBuilder.addController(controller);
         return this;
 
     }
 
 
-    public LogicBricksComponentBuilder addActuator(Actuator actuator) {
+    public LogicBrickBuilder addActuator(Actuator actuator) {
         logicBricksBuilder.addActuator(actuator);
         return this;
 

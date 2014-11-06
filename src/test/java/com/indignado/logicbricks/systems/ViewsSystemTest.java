@@ -10,9 +10,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
 
 /**
  * Created on 18/10/14.
@@ -24,7 +21,6 @@ public class ViewsSystemTest extends BaseTest {
     PooledEngine engine;
     TextureRegion playerTextureRegion;
     private ViewsComponent viewsComponent;
-
 
 
     @BeforeClass
@@ -50,9 +46,9 @@ public class ViewsSystemTest extends BaseTest {
     public void animationSystemTest() {
 
         Entity player = engine.createEntity();
-       // player.add(new TextureComponent(playerTextureRegion));
-       // player.add(animateStateComponent);
-       // player.add(animationComponent);
+        // player.add(new TextureComponent(playerTextureRegion));
+        // player.add(animateStateComponent);
+        // player.add(animationComponent);
 
         engine.addEntity(player);
 
@@ -60,8 +56,8 @@ public class ViewsSystemTest extends BaseTest {
         engine.update(deltaTime);
 
         //assertEquals(0, animateStateComponent.get());
-       // assertEquals(deltaTime, animateStateComponent.time, 0.1);
-       // assertNotEquals(playerTextureRegion, player.getComponent(TextureComponent.class).region);
+        // assertEquals(deltaTime, animateStateComponent.time, 0.1);
+        // assertNotEquals(playerTextureRegion, player.getComponent(TextureComponent.class).region);
 
     }
 

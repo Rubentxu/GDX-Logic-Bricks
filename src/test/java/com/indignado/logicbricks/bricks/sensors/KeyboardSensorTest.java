@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created on 13/10/14.
@@ -19,7 +17,7 @@ public class KeyboardSensorTest {
     @Before
     public void setup() {
         sensor = new KeyboardSensor(new Entity());
-        sensor.key= 'a';
+        sensor.key = 'a';
 
     }
 

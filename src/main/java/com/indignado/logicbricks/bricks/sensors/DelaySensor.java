@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Entity;
  *
  * @author Rubentxu
  */
-public class DelaySensor extends Sensor{
+public class DelaySensor extends Sensor {
 
     // Config Values
     public float delay = 0;
@@ -25,7 +25,7 @@ public class DelaySensor extends Sensor{
     @Override
     public Boolean isActive() {
         if (isTap()) return false;
-        if( timeSignal >= delay ) {
+        if (timeSignal >= delay) {
             timeSignal = 0;
             return true;
         }

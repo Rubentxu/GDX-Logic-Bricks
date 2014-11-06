@@ -10,6 +10,7 @@ import com.indignado.logicbricks.bricks.controllers.Controller;
 public class Actuator {
     public Array<Controller> controllers = new Array<Controller>();
     public String name;
+    public int state;
     public Entity owner;
 
 

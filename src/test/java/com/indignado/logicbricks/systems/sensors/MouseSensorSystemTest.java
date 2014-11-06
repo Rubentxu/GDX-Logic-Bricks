@@ -5,20 +5,19 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
-import com.indignado.logicbricks.components.*;
+import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.data.View;
-import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -28,7 +27,6 @@ import static org.junit.Assert.*;
  */
 public class MouseSensorSystemTest {
     PooledEngine engine;
-    private String name;
     private String state;
     private MouseSensorSystem inputSensorSystem;
 
@@ -38,7 +36,6 @@ public class MouseSensorSystemTest {
         engine = new PooledEngine();
         inputSensorSystem = new MouseSensorSystem();
         engine.addSystem(inputSensorSystem);
-        this.name = "BricksPruebas";
         this.state = "StatePruebas";
 
     }
@@ -56,7 +53,7 @@ public class MouseSensorSystemTest {
         MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
         mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set(state);
 
         player.add(mouseSensorComponent);
@@ -64,7 +61,7 @@ public class MouseSensorSystemTest {
 
         engine.addEntity(player);
         engine.update(1);
-        inputSensorSystem.mouseMoved(50,50);
+        inputSensorSystem.mouseMoved(50, 50);
 
         assertTrue(sensor.isActive());
         engine.update(1);
@@ -85,15 +82,15 @@ public class MouseSensorSystemTest {
         sensorSet.add(sensor);
 
         MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
-        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+        mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set(state);
 
         View view = new View();
         view.height = 50;
         view.width = 50;
-        view.transform =  new Transform(new Vector2(0,0),0);
+        view.transform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -105,11 +102,11 @@ public class MouseSensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        inputSensorSystem.mouseMoved(25,25);
+        inputSensorSystem.mouseMoved(25, 25);
         assertTrue(sensor.isActive());
 
         engine.update(1);
-        inputSensorSystem.mouseMoved(26,26);
+        inputSensorSystem.mouseMoved(26, 26);
         assertFalse(sensor.isActive());
 
         engine.update(1);
@@ -128,15 +125,15 @@ public class MouseSensorSystemTest {
         sensorSet.add(sensor);
 
         MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
-        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+        mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set(state);
 
         View view = new View();
         view.height = 50;
         view.width = 50;
-        view.transform =  new Transform(new Vector2(0,0),0);
+        view.transform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -171,16 +168,16 @@ public class MouseSensorSystemTest {
         sensorSet.add(sensor);
 
         MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
-        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+        mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set(state);
 
         View view = new View();
         view.height = 50;
         view.width = 50;
-        view.transform =  new Transform(new Vector2(0,0),0);
+        view.transform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -215,16 +212,16 @@ public class MouseSensorSystemTest {
         sensorSet.add(sensor);
 
         MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
-        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+        mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set(state);
 
         View view = new View();
         view.height = 50;
         view.width = 50;
-        view.transform =  new Transform(new Vector2(0,0),0);
+        view.transform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -269,16 +266,16 @@ public class MouseSensorSystemTest {
         sensorSet.add(sensor);
 
         MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
-        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+        mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
 
-        StateComponent stateComponent =  new StateComponent();
+        StateComponent stateComponent = new StateComponent();
         stateComponent.set(state);
 
         View view = new View();
         view.height = 50;
         view.width = 50;
-        view.transform =  new Transform(new Vector2(0,0),0);
+        view.transform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
