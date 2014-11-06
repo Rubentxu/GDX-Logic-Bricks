@@ -1,29 +1,24 @@
-package com.indignado.logicbricks.systems;
+package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
-import com.indignado.logicbricks.bricks.actuators.CameraActuator;
-import com.indignado.logicbricks.bricks.base.BaseTest;
-import com.indignado.logicbricks.bricks.controllers.AndController;
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
-import com.indignado.logicbricks.components.LogicBricksComponent;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.data.View;
-import com.indignado.logicbricks.systems.sensors.InputsSensorSystem;
+import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -31,111 +26,20 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Rubentxu
  */
-public class InputsSensorSystemTest {
+public class MouseSensorSystemTest {
     PooledEngine engine;
     private String name;
     private String state;
-    private InputsSensorSystem inputSensorSystem;
+    private MouseSensorSystem inputSensorSystem;
 
 
     @Before
     public void setup() {
         engine = new PooledEngine();
-        inputSensorSystem = new InputsSensorSystem();
+        inputSensorSystem = new MouseSensorSystem();
         engine.addSystem(inputSensorSystem);
         this.name = "BricksPruebas";
         this.state = "StatePruebas";
-
-    }
-
-
-    @Test
-    public void keyBoardSensorKeyTypedEventTest() {
-        Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.key= 'a';
-
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
-
-        StateComponent stateComponent =  new StateComponent();
-        stateComponent.set(state);
-
-        player.add(lbc);
-        player.add(stateComponent);
-
-        engine.addEntity(player);
-        engine.update(1);
-        inputSensorSystem.keyTyped('a');
-
-        assertTrue(sensor.isActive());
-        engine.update(1);
-
-        assertFalse(sensor.isActive());
-
-    }
-
-
-    @Test
-    public void keyBoardSystemAllKeysConfigTest() {
-        Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.allKeys= true;
-
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
-
-        StateComponent stateComponent =  new StateComponent();
-        stateComponent.set(state);
-
-        player.add(lbc);
-        player.add(stateComponent);
-
-        engine.addEntity(player);
-        engine.update(1);
-        inputSensorSystem.keyTyped('a');
-
-        assertTrue(sensor.isActive());
-        engine.update(1);
-        inputSensorSystem.keyTyped('z');
-
-        assertTrue(sensor.isActive());
-
-    }
-
-
-    @Test
-    public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
-        Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor(new Entity());
-        sensor.allKeys= true;
-        sensor.logToggle= true;
-
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
-
-        StateComponent stateComponent =  new StateComponent();
-        stateComponent.set(state);
-
-        player.add(lbc);
-        player.add(stateComponent);
-
-        engine.addEntity(player);
-        engine.update(1);
-        inputSensorSystem.keyTyped('a');
-
-        assertTrue(sensor.isActive());
-        engine.update(1);
-        inputSensorSystem.keyTyped('z');
-
-        assertTrue(sensor.isActive());
-        assertEquals("az",sensor.target);
 
     }
 
@@ -146,15 +50,16 @@ public class InputsSensorSystemTest {
         MouseSensor sensor = new MouseSensor(new Entity());
         sensor.mouseEvent = MouseSensor.MouseEvent.MOVEMENT;
 
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
+        Set<MouseSensor> sensorSet = new HashSet<>();
+        sensorSet.add(sensor);
+
+        MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
+        mouseSensorComponent.mouseSensors.put(state, sensorSet);
 
         StateComponent stateComponent =  new StateComponent();
         stateComponent.set(state);
 
-        player.add(lbc);
+        player.add(mouseSensorComponent);
         player.add(stateComponent);
 
         engine.addEntity(player);
@@ -176,10 +81,11 @@ public class InputsSensorSystemTest {
         sensor.mouseEvent = MouseSensor.MouseEvent.MOUSE_OVER;
         sensor.target = player;
 
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
+        Set<MouseSensor> sensorSet = new HashSet<>();
+        sensorSet.add(sensor);
+
+        MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
+        mouseSensorComponent.mouseSensors.put(state,sensorSet);
 
         StateComponent stateComponent =  new StateComponent();
         stateComponent.set(state);
@@ -192,7 +98,7 @@ public class InputsSensorSystemTest {
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
 
-        player.add(lbc);
+        player.add(mouseSensorComponent);
         player.add(stateComponent);
         player.add(viewsComponent);
 
@@ -218,10 +124,11 @@ public class InputsSensorSystemTest {
         MouseSensor sensor = new MouseSensor(new Entity());
         sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_DOWN;
 
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
+        Set<MouseSensor> sensorSet = new HashSet<>();
+        sensorSet.add(sensor);
+
+        MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
+        mouseSensorComponent.mouseSensors.put(state,sensorSet);
 
         StateComponent stateComponent =  new StateComponent();
         stateComponent.set(state);
@@ -234,7 +141,7 @@ public class InputsSensorSystemTest {
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
 
-        player.add(lbc);
+        player.add(mouseSensorComponent);
         player.add(stateComponent);
         player.add(viewsComponent);
 
@@ -260,10 +167,12 @@ public class InputsSensorSystemTest {
         MouseSensor sensor = new MouseSensor(new Entity());
         sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_UP;
 
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
+        Set<MouseSensor> sensorSet = new HashSet<>();
+        sensorSet.add(sensor);
+
+        MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
+        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+
 
         StateComponent stateComponent =  new StateComponent();
         stateComponent.set(state);
@@ -276,7 +185,7 @@ public class InputsSensorSystemTest {
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
 
-        player.add(lbc);
+        player.add(mouseSensorComponent);
         player.add(stateComponent);
         player.add(viewsComponent);
 
@@ -302,10 +211,12 @@ public class InputsSensorSystemTest {
         MouseSensor sensor = new MouseSensor(new Entity());
         sensor.mouseEvent = MouseSensor.MouseEvent.LEFT_BUTTON;
 
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
+        Set<MouseSensor> sensorSet = new HashSet<>();
+        sensorSet.add(sensor);
+
+        MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
+        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+
 
         StateComponent stateComponent =  new StateComponent();
         stateComponent.set(state);
@@ -318,7 +229,7 @@ public class InputsSensorSystemTest {
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
 
-        player.add(lbc);
+        player.add(mouseSensorComponent);
         player.add(stateComponent);
         player.add(viewsComponent);
 
@@ -354,10 +265,12 @@ public class InputsSensorSystemTest {
         sensor.mouseEvent = MouseSensor.MouseEvent.LEFT_BUTTON;
         sensor.target = player;
 
-        LogicBricksComponent lbc =  new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(sensor)
-                .build();
+        Set<MouseSensor> sensorSet = new HashSet<>();
+        sensorSet.add(sensor);
+
+        MouseSensorComponent mouseSensorComponent = new MouseSensorComponent();
+        mouseSensorComponent.mouseSensors.put(state,sensorSet);
+
 
         StateComponent stateComponent =  new StateComponent();
         stateComponent.set(state);
@@ -370,7 +283,7 @@ public class InputsSensorSystemTest {
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
 
-        player.add(lbc);
+        player.add(mouseSensorComponent);
         player.add(stateComponent);
         player.add(viewsComponent);
 

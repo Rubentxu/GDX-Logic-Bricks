@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.systems;
+package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
