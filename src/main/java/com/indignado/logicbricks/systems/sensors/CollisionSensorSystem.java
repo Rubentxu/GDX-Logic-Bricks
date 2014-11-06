@@ -35,10 +35,12 @@ public class CollisionSensorSystem extends IteratingSystem implements ContactLis
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
-        Set<CollisionSensor> collisionSensors = collisionSensorMapper.get(entity).collisionSensors.get(state);
-        for (CollisionSensor sensor : collisionSensors) {
-            if (!sensor.isTap() && !collisionSensors.contains(sensor)) {
-                collisionSensors.add(sensor);
+        Set<CollisionSensor> sensors = collisionSensorMapper.get(entity).sensors.get(state);
+        if (sensors != null) {
+            for (CollisionSensor sensor : sensors) {
+                if (!sensor.isTap() && !collisionSensors.contains(sensor)) {
+                    collisionSensors.add(sensor);
+                }
             }
         }
 

@@ -32,9 +32,9 @@ public class MessageActuatorSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
-        Set<MessageActuator> messageActuators = messageActuatorMapper.get(entity).messageActuators.get(state);
-        if (messageActuators != null) {
-            for (MessageActuator actuator : messageActuators) {
+        Set<MessageActuator> actuators = messageActuatorMapper.get(entity).actuators.get(state);
+        if (actuators != null) {
+            for (MessageActuator actuator : actuators) {
                 MessageDispatcher.getInstance().dispatchMessage(actuator, actuator.message, actuator.extraInfo);
 
             }

@@ -5,7 +5,6 @@ import com.indignado.logicbricks.bricks.actuators.MessageActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

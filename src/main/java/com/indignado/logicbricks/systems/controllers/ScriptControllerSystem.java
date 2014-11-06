@@ -4,13 +4,10 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.controllers.Script;
 import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 
 import java.util.Iterator;
@@ -37,7 +34,7 @@ public class ScriptControllerSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) throws LogicBricksException {
         Integer state = stateMapper.get(entity).get();
-        Set<ScriptController> scriptControllers = scriptControllerMapper.get(entity).scriptControllers.get(state);
+        Set<ScriptController> scriptControllers = scriptControllerMapper.get(entity).controllers.get(state);
         if (scriptControllers != null) {
             for (ScriptController controller : scriptControllers) {
                 Iterator<Script> it = controller.scripts.iterator();

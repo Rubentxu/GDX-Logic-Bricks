@@ -33,9 +33,9 @@ public class MotionActuatorSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
-        Set<MotionActuator> motionActuators = motionActuatorMapper.get(entity).motionActuators.get(state);
-        if (motionActuators != null) {
-            for (MotionActuator actuator : motionActuators) {
+        Set<MotionActuator> actuators = motionActuatorMapper.get(entity).actuators.get(state);
+        if (actuators != null) {
+            for (MotionActuator actuator : actuators) {
                 execute(actuator);
             }
         }

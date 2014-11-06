@@ -12,19 +12,14 @@ import com.indignado.logicbricks.bricks.actuators.CameraActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
+import com.indignado.logicbricks.components.sensors.AlwaysSensorComponent;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -80,7 +75,9 @@ public class CameraActuatorSystemTest {
 
     @Test
     public void cameraActuatorTest() {
+        AlwaysSensorComponent alwaysSensorComponent = new AlwaysSensorComponent();
         AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
+        alwaysSensor.
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.pulseSignal = true;
 
@@ -90,22 +87,9 @@ public class CameraActuatorSystemTest {
         cameraActuator.target = entity;
         cameraActuator.height = 5;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addController(conditionalController)
-                .addActuator(cameraActuator)
-                .build();
 
 
-        Set<KeyboardSensor> sensorSet = new HashSet<>();
-        sensorSet.add(sensor);
-
-        KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(state, sensorSet);
-
-
-        entity.add(lbc);
+        entity.add();
 
         engine.update(1);
 

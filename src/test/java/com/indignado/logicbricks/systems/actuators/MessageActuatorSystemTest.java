@@ -10,7 +10,6 @@ import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

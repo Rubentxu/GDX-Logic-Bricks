@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.InputProcessor;
+import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
@@ -35,9 +36,9 @@ public class KeyboardSensorSystem extends IteratingSystem implements InputProces
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
-        Set<KeyboardSensor> keyboardSensors = keyboardSensorMapper.get(entity).keyboardSensors.get(state);
-        if (keyboardSensors != null) {
-            for (KeyboardSensor sensor : keyboardSensors) {
+        Set<KeyboardSensor> sensors = keyboardSensorMapper.get(entity).sensors.get(state);
+        if (sensors != null) {
+            for (KeyboardSensor sensor : sensors) {
                 if (!sensor.isTap() && !this.keyboardSensors.contains(sensor)) {
                     this.keyboardSensors.add(sensor);
                 }

@@ -33,9 +33,9 @@ public class CameraActuatorSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
-        Set<CameraActuator> cameraActuators = cameraActuatorMapper.get(entity).cameraActuators.get(state);
-        if (cameraActuators != null) {
-            for (CameraActuator actuator : cameraActuators) {
+        Set<CameraActuator> actuators = cameraActuatorMapper.get(entity).actuators.get(state);
+        if (actuators != null) {
+            for (CameraActuator actuator : actuators) {
                 RigidBodiesComponents rc = actuator.target.getComponent(RigidBodiesComponents.class);
                 Vector2 targetPosition = rc.rigidBodies.first().getPosition();
                 if (!(actuator.camera.position.x == targetPosition.x)) {

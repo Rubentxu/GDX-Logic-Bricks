@@ -36,7 +36,7 @@ public class ConditionalControllerSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) throws LogicBricksException {
         Integer state = stateMapper.get(entity).get();
-        Set<ConditionalController> conditionalControllers = conditionalControllerMapper.get(entity).conditionalControllers.get(state);
+        Set<ConditionalController> conditionalControllers = conditionalControllerMapper.get(entity).controllers.get(state);
         if (conditionalControllers != null) {
             for (ConditionalController controller : conditionalControllers) {
                 if (controller.type.equals(ConditionalController.Type.AND)) evaluateAndConditional(controller);

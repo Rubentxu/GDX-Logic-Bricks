@@ -13,7 +13,6 @@ import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksComponentBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

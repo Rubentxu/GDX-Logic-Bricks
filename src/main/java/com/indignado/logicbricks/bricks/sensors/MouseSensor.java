@@ -22,6 +22,7 @@ public class MouseSensor extends Sensor {
     public int positionYsignal = 0;
     public int amountScrollSignal = 0;
     public boolean buttonUP = false;
+
     public MouseSensor(Entity owner) {
         super(owner);
 

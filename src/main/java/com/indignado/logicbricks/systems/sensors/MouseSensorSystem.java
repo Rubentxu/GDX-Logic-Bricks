@@ -36,9 +36,9 @@ public class MouseSensorSystem extends IteratingSystem implements InputProcessor
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
-        Set<MouseSensor> mouseSensors = mouseSensorMapper.get(entity).mouseSensors.get(state);
-        if (mouseSensors != null) {
-            for (MouseSensor sensor : mouseSensors) {
+        Set<MouseSensor> sensors = mouseSensorMapper.get(entity).sensors.get(state);
+        if (sensors != null) {
+            for (MouseSensor sensor : sensors) {
                 if (!sensor.isTap() && !this.mouseSensors.contains(sensor)) {
                     this.mouseSensors.add(sensor);
                 }
