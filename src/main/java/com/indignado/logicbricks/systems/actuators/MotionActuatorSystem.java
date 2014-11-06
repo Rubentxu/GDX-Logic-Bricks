@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class MotionActuatorSystem extends IteratingSystem {
+public class MotionActuatorSystem extends ActuatorSystem {
     private ComponentMapper<MotionActuatorComponent> motionActuatorMapper;
     private ComponentMapper<StateComponent> stateMapper;
 
@@ -36,7 +36,7 @@ public class MotionActuatorSystem extends IteratingSystem {
         Set<MotionActuator> actuators = motionActuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (MotionActuator actuator : actuators) {
-                execute(actuator);
+                if(evaluateController(actuator)) execute(actuator);
             }
         }
 

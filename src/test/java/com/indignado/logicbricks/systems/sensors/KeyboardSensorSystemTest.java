@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
+import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,16 +43,11 @@ public class KeyboardSensorSystemTest {
         KeyboardSensor sensor = new KeyboardSensor(new Entity());
         sensor.key = 'a';
 
-        Set<KeyboardSensor> sensorSet = new HashSet<>();
-        sensorSet.add(sensor);
-
-        KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(statePruebas, sensorSet);
+        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.set(statePruebas);
 
-        player.add(keyboardSensorComponent);
         player.add(stateComponent);
 
         engine.addEntity(player);
@@ -72,16 +68,11 @@ public class KeyboardSensorSystemTest {
         KeyboardSensor sensor = new KeyboardSensor(new Entity());
         sensor.allKeys = true;
 
-        Set<KeyboardSensor> sensorSet = new HashSet<>();
-        sensorSet.add(sensor);
-
-        KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(statePruebas, sensorSet);
+        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.set(statePruebas);
 
-        player.add(keyboardSensorComponent);
         player.add(stateComponent);
 
         engine.addEntity(player);
@@ -104,16 +95,11 @@ public class KeyboardSensorSystemTest {
         sensor.allKeys = true;
         sensor.logToggle = true;
 
-        Set<KeyboardSensor> sensorSet = new HashSet<>();
-        sensorSet.add(sensor);
-
-        KeyboardSensorComponent keyboardSensorComponent = new KeyboardSensorComponent();
-        keyboardSensorComponent.keyboardSensors.put(statePruebas, sensorSet);
+        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.set(statePruebas);
 
-        player.add(keyboardSensorComponent);
         player.add(stateComponent);
 
         engine.addEntity(player);

@@ -16,13 +16,13 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class MessageActuatorSystem extends IteratingSystem {
+public class MessageActuatorSystem extends ActuatorSystem {
     private ComponentMapper<StateComponent> stateMapper;
     private ComponentMapper<MessageActuatorComponent> messageActuatorMapper;
 
 
     public MessageActuatorSystem() {
-        super(Family.getFor(MessageActuatorComponent.class, StateComponent.class), 0);
+        super(Family.getFor(MessageActuatorComponent.class, StateComponent.class));
         messageActuatorMapper = ComponentMapper.getFor(MessageActuatorComponent.class);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
 
@@ -35,7 +35,8 @@ public class MessageActuatorSystem extends IteratingSystem {
         Set<MessageActuator> actuators = messageActuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (MessageActuator actuator : actuators) {
-                MessageDispatcher.getInstance().dispatchMessage(actuator, actuator.message, actuator.extraInfo);
+                if(evaluateController(actuator))
+                    MessageDispatcher.getInstance().dispatchMessage(actuator, actuator.message, actuator.extraInfo);
 
             }
         }

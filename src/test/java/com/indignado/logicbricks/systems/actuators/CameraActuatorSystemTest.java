@@ -12,12 +12,11 @@ import com.indignado.logicbricks.bricks.actuators.CameraActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.sensors.AlwaysSensorComponent;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
+import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,12 +27,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class CameraActuatorSystemTest {
     private PooledEngine engine;
-    private String state;
+    private int StatePruebas;
     private String name;
     private Entity entity;
     private World physic;
     private CameraActuator cameraActuator;
     private Body body;
+    private LogicBricksBuilder logicBricksBuilder;
 
 
     @Before
@@ -42,7 +42,7 @@ public class CameraActuatorSystemTest {
         physic = new World(new Vector2(0, -9.81f), true);
 
         this.name = "BricksPruebas";
-        this.state = "StatePruebas";
+        this.StatePruebas = 1;
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new CameraActuatorSystem());
@@ -63,21 +63,20 @@ public class CameraActuatorSystemTest {
         rigidBodiesComponents.rigidBodies.add(body);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(state);
+        stateComponent.set(StatePruebas);
 
         entity.add(rigidBodiesComponents);
         entity.add(stateComponent);
 
         engine.addEntity(entity);
+        logicBricksBuilder = new LogicBricksBuilder(entity);
 
     }
 
 
     @Test
     public void cameraActuatorTest() {
-        AlwaysSensorComponent alwaysSensorComponent = new AlwaysSensorComponent();
         AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        alwaysSensor.
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.pulseSignal = true;
 
@@ -87,9 +86,11 @@ public class CameraActuatorSystemTest {
         cameraActuator.target = entity;
         cameraActuator.height = 5;
 
-
-
-        entity.add();
+        logicBricksBuilder.addSensor(alwaysSensor, StatePruebas)
+                .addController(conditionalController, StatePruebas)
+                .connect(alwaysSensor)
+                .addActuator(cameraActuator, StatePruebas)
+                .connect(conditionalController);
 
         engine.update(1);
 
@@ -110,20 +111,15 @@ public class CameraActuatorSystemTest {
         cameraActuator.target = entity;
         cameraActuator.height = 5;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addController(conditionalController)
-                .addActuator(cameraActuator)
-                .build();
 
+        logicBricksBuilder.addSensor(alwaysSensor, StatePruebas)
+                .addController(conditionalController, StatePruebas)
+                .connect(alwaysSensor)
+                .addActuator(cameraActuator, StatePruebas);
 
-        entity.add(lbc);
 
         engine.update(1);
 
-        assertEquals(body.getPosition().x, cameraActuator.camera.position.x, 0);
-        assertEquals(body.getPosition().y, cameraActuator.camera.position.y, 0);
     }
 
 }

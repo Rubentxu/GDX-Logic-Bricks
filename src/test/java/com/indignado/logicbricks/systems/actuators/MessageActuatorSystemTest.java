@@ -7,9 +7,9 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.indignado.logicbricks.bricks.actuators.MessageActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
-import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.StateSystem;
+import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,29 +20,31 @@ import static org.junit.Assert.assertTrue;
  */
 public class MessageActuatorSystemTest {
     private PooledEngine engine;
-    private String state;
+    private int statePrueba;
     private String name;
     private Entity entity;
     private MessageActuator messageActuator;
 
     private int MENSAJE_PRUEBAS = 1;
     private Boolean checkMessage = false;
+    private LogicBricksBuilder logicBricksBuilder;
 
 
     @Before
     public void setup() {
         this.name = "BricksPruebas";
-        this.state = "StatePruebas";
+        this.statePrueba = 1;
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new MessageActuatorSystem());
         engine.addSystem(new StateSystem());
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(state);
+        stateComponent.set(statePrueba);
 
         entity.add(stateComponent);
         engine.addEntity(entity);
+        logicBricksBuilder = new LogicBricksBuilder(entity);
 
     }
 
@@ -63,14 +65,11 @@ public class MessageActuatorSystemTest {
         messageActuator.controllers.add(conditionalController);
         messageActuator.message = MENSAJE_PRUEBAS;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addController(conditionalController)
-                .addActuator(messageActuator)
-                .build();
+        logicBricksBuilder.addController(conditionalController, statePrueba)
+                .addActuator(messageActuator, statePrueba)
+                .connect(conditionalController);
 
 
-        entity.add(lbc);
         engine.update(1);
 
         assertTrue(checkMessage);

@@ -80,14 +80,4 @@ public class ConditionalControllerSystem extends IteratingSystem {
 
     }
 
-
-    public void evaluate(ScriptController controller) {
-        Iterator<Script> it = controller.scripts.iterator();
-        while (it.hasNext()) {
-            it.next().execute(controller.sensors);
-
-        }
-
-    }
-
 }

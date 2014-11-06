@@ -1,18 +1,18 @@
-package com.indignado.logicbricks.systems;
+package com.indignado.logicbricks.systems.controllers;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
-import com.indignado.logicbricks.bricks.controllers.OrController;
 import com.indignado.logicbricks.bricks.controllers.Script;
 import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
-import com.indignado.logicbricks.components.LogicBricksComponent;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
+import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,17 +24,18 @@ import static org.junit.Assert.assertTrue;
  */
 public class ConditionalControllerSystemTest {
     private PooledEngine engine;
-    private String state;
+    private int statePrueba;
     private String name;
     private Entity entity;
     private ConditionalControllerSystem conditionalControllerSystem;
     private boolean checkScript;
+    private LogicBricksBuilder logicBricksBuilder;
 
 
     @Before
     public void setup() {
         this.name = "BricksPruebas";
-        this.state = "StatePruebas";
+        this.statePrueba = 1;
         this.entity = new Entity();
         engine = new PooledEngine();
         conditionalControllerSystem = new ConditionalControllerSystem();
@@ -42,10 +43,11 @@ public class ConditionalControllerSystemTest {
         engine.addSystem(new StateSystem());
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(state);
+        stateComponent.set(statePrueba);
 
         entity.add(stateComponent);
         engine.addEntity(entity);
+        logicBricksBuilder = new LogicBricksBuilder(entity);
 
     }
 
@@ -56,17 +58,13 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor2 = new AlwaysSensor(new Entity());
         AlwaysSensor alwaysSensor3 = new AlwaysSensor(new Entity());
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.sensors.add(alwaysSensor);
-        conditionalController.sensors.add(alwaysSensor2);
-        conditionalController.sensors.add(alwaysSensor3);
+        conditionalController.type = ConditionalController.Type.AND;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addController(conditionalController)
-                .build();
+        logicBricksBuilder.addController(conditionalController, statePrueba)
+                .connect(alwaysSensor)
+                .connect(alwaysSensor2)
+                .connect(alwaysSensor3);
 
-        entity.add(lbc);
         engine.update(1);
 
         assertTrue(conditionalController.pulseSignal);
@@ -82,17 +80,14 @@ public class ConditionalControllerSystemTest {
         alwaysSensor.tap = true;
         alwaysSensor.initialized = true;
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.sensors.add(alwaysSensor);
-        conditionalController.sensors.add(alwaysSensor2);
-        conditionalController.sensors.add(alwaysSensor3);
+        conditionalController.type = ConditionalController.Type.AND;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addController(conditionalController)
-                .build();
+        logicBricksBuilder.addController(conditionalController, statePrueba)
+                .connect(alwaysSensor)
+                .connect(alwaysSensor2)
+                .connect(alwaysSensor3);
 
-        entity.add(lbc);
+
         engine.update(1);
 
         assertFalse(conditionalController.pulseSignal);
@@ -103,13 +98,9 @@ public class ConditionalControllerSystemTest {
     @Test(expected = LogicBricksException.class)
     public void andControllerExceptionTest() {
         ConditionalController conditionalController = new ConditionalController();
+        conditionalController.type = ConditionalController.Type.AND;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addController(conditionalController)
-                .build();
-
-        entity.add(lbc);
+        logicBricksBuilder.addController(conditionalController, statePrueba);
         engine.update(1);
 
     }
@@ -124,23 +115,16 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor3 = new AlwaysSensor(new Entity());
         alwaysSensor3.tap = true;
         alwaysSensor3.initialized = true;
-        OrController orController = new OrController();
-        orController.sensors.add(alwaysSensor);
-        orController.sensors.add(alwaysSensor2);
-        orController.sensors.add(alwaysSensor3);
+        ConditionalController conditionalController = new ConditionalController();
+        conditionalController.type = ConditionalController.Type.OR;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addSensor(alwaysSensor2)
-                .addSensor(alwaysSensor3)
-                .addController(orController)
-                .build();
+        logicBricksBuilder.addController(conditionalController, statePrueba)
+                .connect(alwaysSensor)
+                .connect(alwaysSensor2)
+                .connect(alwaysSensor3);
 
-        entity.add(lbc);
         engine.update(1);
-
-        assertTrue(orController.pulseSignal);
+        assertTrue(conditionalController.pulseSignal);
 
     }
 
@@ -152,51 +136,18 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor2 = new AlwaysSensor(new Entity());
         alwaysSensor2.tap = true;
         alwaysSensor2.initialized = true;
-        OrController orController = new OrController();
-        orController.sensors.add(alwaysSensor);
-        orController.sensors.add(alwaysSensor2);
+        ConditionalController conditionalController = new ConditionalController();
+        conditionalController.type = ConditionalController.Type.OR;
 
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addController(orController)
-                .build();
+        logicBricksBuilder.addController(conditionalController, statePrueba)
+                .connect(alwaysSensor)
+                .connect(alwaysSensor2);
 
-        entity.add(lbc);
         engine.update(1);
-
-        assertFalse(orController.pulseSignal);
+        assertFalse(conditionalController.pulseSignal);
 
     }
 
 
-    @Test
-    public void ScriptControllerTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        checkScript = false;
-
-        ScriptController scriptController = new ScriptController();
-        scriptController.scripts.add(new Script() {
-            @Override
-            public void execute(Array<Sensor> sensors) {
-                checkScript = true;
-
-            }
-        });
-        scriptController.sensors.add(alwaysSensor);
-
-
-        LogicBricksComponent lbc = new LogicBricksComponentBuilder()
-                .createLogicBricks(name, state)
-                .addSensor(alwaysSensor)
-                .addController(scriptController)
-                .build();
-
-        entity.add(lbc);
-        engine.update(1);
-
-        assertTrue(checkScript);
-
-    }
 
 }

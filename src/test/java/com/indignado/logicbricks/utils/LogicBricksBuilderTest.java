@@ -1,20 +1,10 @@
 package com.indignado.logicbricks.utils;
 
-import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.bricks.LogicBricks;
-import com.indignado.logicbricks.bricks.actuators.MotionActuator;
-import com.indignado.logicbricks.bricks.controllers.ConditionalController;
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
-
 /**
  * @author Rubentxu.
  */
 public class LogicBricksBuilderTest {
-    private LogicBricksBuilder logicBricksBuilder;
+    /*private LogicBricksBuilder logicBricksBuilder;
     private String name;
 
 
@@ -50,6 +40,6 @@ public class LogicBricksBuilderTest {
         LogicBricks logicBricks = logicBricksBuilder.addActuator(motionActuator).build();
         assertTrue(logicBricks.actuators.containsKey(MotionActuator.class));
 
-    }
+    }*/
 
 }

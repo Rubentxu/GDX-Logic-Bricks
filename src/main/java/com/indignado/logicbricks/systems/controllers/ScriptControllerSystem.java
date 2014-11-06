@@ -37,8 +37,10 @@ public class ScriptControllerSystem extends IteratingSystem {
         Set<ScriptController> scriptControllers = scriptControllerMapper.get(entity).controllers.get(state);
         if (scriptControllers != null) {
             for (ScriptController controller : scriptControllers) {
+                if(controller.sensors.size == 0)  throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
                 Iterator<Script> it = controller.scripts.iterator();
                 while (it.hasNext()) {
+
                     it.next().execute(controller.sensors);
 
                 }

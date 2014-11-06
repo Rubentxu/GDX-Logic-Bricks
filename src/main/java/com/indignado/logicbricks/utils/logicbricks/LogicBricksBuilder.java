@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.logicbricks;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.actuators.CameraActuator;
@@ -39,47 +40,41 @@ public class LogicBricksBuilder {
     public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int state) {
         SensorComponent sensorComponent = null;
         if (sensor instanceof AlwaysSensor) {
-            if (!addSensor(AlwaysSensorComponent.class, sensor, state)) {
+            sensorComponent = entity.getComponent(AlwaysSensorComponent.class);
+            if(sensorComponent == null){
                 sensorComponent = new AlwaysSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<AlwaysSensor>());
                 entity.add(sensorComponent);
             }
 
         } else if (sensor instanceof CollisionSensor) {
-            if (!addSensor(CollisionSensorComponent.class, sensor, state)) {
+            sensorComponent = entity.getComponent(CollisionSensorComponent.class);
+            if(sensorComponent == null){
                 sensorComponent = new CollisionSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<CollisionSensor>());
                 entity.add(sensorComponent);
             }
 
         } else if (sensor instanceof KeyboardSensor) {
-            if (!addSensor(KeyboardSensorComponent.class, sensor, state)) {
+            sensorComponent = entity.getComponent(KeyboardSensorComponent.class);
+            if(sensorComponent == null){
                 sensorComponent = new KeyboardSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<KeyboardSensor>());
                 entity.add(sensorComponent);
             }
 
         } else if (sensor instanceof MouseSensor) {
-            if (!addSensor(MouseSensorComponent.class, sensor, state)) {
+            sensorComponent = entity.getComponent(MouseSensorComponent.class);
+            if(sensorComponent == null){
                 sensorComponent = new MouseSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<MouseSensor>());
                 entity.add(sensorComponent);
             }
 
         }
+        ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
         return this;
 
-    }
-
-
-    private <SC extends SensorComponent, S extends Sensor> boolean addSensor(Class<SC> clazz, S sensor, int state) {
-        SensorComponent sensorComponent = entity.getComponent(clazz);
-        if (sensorComponent != null) {
-            ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
@@ -87,32 +82,24 @@ public class LogicBricksBuilder {
         this.controller = controller;
         ControllerComponent controllerComponent = null;
         if (controller instanceof ConditionalController) {
-            if (!addController(ConditionalControllerComponent.class, controller, state)) {
+            controllerComponent = entity.getComponent(ConditionalControllerComponent.class);
+            if(controllerComponent == null){
                 controllerComponent = new ConditionalControllerComponent();
                 controllerComponent.controllers.put(state, new HashSet<ConditionalController>());
                 entity.add(controllerComponent);
             }
 
         } else if (controller instanceof ScriptController) {
-            if (!addController(ScriptControllerComponent.class, controller, state)) {
+            controllerComponent = entity.getComponent(ScriptControllerComponent.class);
+            if(controllerComponent == null){
                 controllerComponent = new ScriptControllerComponent();
                 controllerComponent.controllers.put(state, new HashSet<ScriptController>());
                 entity.add(controllerComponent);
             }
         }
+        ((Set<C>) controllerComponent.controllers.get(state)).add(controller);
         return this;
 
-    }
-
-
-    private <CC extends ControllerComponent, C extends Controller> boolean addController(Class<CC> clazz, C controller, int state) {
-        ControllerComponent controllerComponent = entity.getComponent(clazz);
-        if (controllerComponent != null) {
-            ((Set<C>) controllerComponent.controllers.get(state)).add(controller);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
@@ -126,35 +113,35 @@ public class LogicBricksBuilder {
     public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int state) {
         this.actuator = actuator;
         ActuatorComponent actuatorComponent = null;
-        if (actuator instanceof CameraActuator && !addActuator(CameraActuatorComponent.class, actuator, state)) {
-            actuatorComponent = new CameraActuatorComponent();
-            actuatorComponent.actuators.put(state, new HashSet<CameraActuator>());
-            entity.add(actuatorComponent);
 
-        } else if (actuator instanceof MessageActuator && !addActuator(MessageActuatorComponent.class, actuator, state)) {
-            actuatorComponent = new MessageActuatorComponent();
-            actuatorComponent.actuators.put(state, new HashSet<MessageActuator>());
-            entity.add(actuatorComponent);
+        if (actuator instanceof CameraActuator) {
+            actuatorComponent = entity.getComponent(CameraActuatorComponent.class);
+            if(actuatorComponent == null){
+                actuatorComponent = new CameraActuatorComponent();
+                actuatorComponent.actuators.put(state, new HashSet<CameraActuator>());
+                entity.add(actuatorComponent);
+            }
 
-        } else if (actuator instanceof MotionActuator && !addActuator(MotionActuatorComponent.class, actuator, state)) {
-            actuatorComponent = new MotionActuatorComponent();
-            actuatorComponent.actuators.put(state, new HashSet<MotionActuator>());
-            entity.add(actuatorComponent);
+        } else if (actuator instanceof MessageActuator) {
+            actuatorComponent = entity.getComponent(MessageActuatorComponent.class);
+            if(actuatorComponent == null){
+                actuatorComponent = new MessageActuatorComponent();
+                actuatorComponent.actuators.put(state, new HashSet<MessageActuator>());
+                entity.add(actuatorComponent);
+            }
+
+        } else if (actuator instanceof MotionActuator) {
+            actuatorComponent = entity.getComponent(MotionActuatorComponent.class);
+            if(actuatorComponent == null){
+                actuatorComponent = new MotionActuatorComponent();
+                actuatorComponent.actuators.put(state, new HashSet<MotionActuator>());
+                entity.add(actuatorComponent);
+            }
 
         }
+        ((Set<A>) actuatorComponent.actuators.get(state)).add(actuator);
         return this;
 
-    }
-
-
-    private <AC extends ActuatorComponent, A extends Actuator> boolean addActuator(Class<AC> clazz, A actuator, int state) {
-        ActuatorComponent actuatorComponent = entity.getComponent(clazz);
-        if (actuatorComponent != null) {
-            ((Set<A>) actuatorComponent.actuators.get(state)).add(actuator);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
