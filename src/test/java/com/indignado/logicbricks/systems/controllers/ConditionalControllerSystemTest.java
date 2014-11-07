@@ -49,9 +49,12 @@ public class ConditionalControllerSystemTest {
 
     @Test
     public void andControllerTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        AlwaysSensor alwaysSensor2 = new AlwaysSensor(new Entity());
-        AlwaysSensor alwaysSensor3 = new AlwaysSensor(new Entity());
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
+        alwaysSensor.pulseSignal = true;
+        AlwaysSensor alwaysSensor2 = new AlwaysSensor();
+        alwaysSensor2.pulseSignal = true;
+        AlwaysSensor alwaysSensor3 = new AlwaysSensor();
+        alwaysSensor3.pulseSignal = true;
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.type = ConditionalController.Type.AND;
 
@@ -69,11 +72,12 @@ public class ConditionalControllerSystemTest {
 
     @Test
     public void andControllerFalseTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        AlwaysSensor alwaysSensor2 = new AlwaysSensor(new Entity());
-        AlwaysSensor alwaysSensor3 = new AlwaysSensor(new Entity());
-        alwaysSensor.tap = true;
-        alwaysSensor.initialized = true;
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
+        alwaysSensor.pulseSignal = true;
+        AlwaysSensor alwaysSensor2 = new AlwaysSensor();
+        alwaysSensor.pulseSignal = true;
+        AlwaysSensor alwaysSensor3 = new AlwaysSensor();
+
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.type = ConditionalController.Type.AND;
 
@@ -103,13 +107,11 @@ public class ConditionalControllerSystemTest {
 
     @Test
     public void orControllerTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        alwaysSensor.tap = true;
-        alwaysSensor.initialized = true;
-        AlwaysSensor alwaysSensor2 = new AlwaysSensor(new Entity());
-        AlwaysSensor alwaysSensor3 = new AlwaysSensor(new Entity());
-        alwaysSensor3.tap = true;
-        alwaysSensor3.initialized = true;
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
+        alwaysSensor.pulseSignal = true;
+        AlwaysSensor alwaysSensor2 = new AlwaysSensor();
+        AlwaysSensor alwaysSensor3 = new AlwaysSensor();
+
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.type = ConditionalController.Type.OR;
 
@@ -125,12 +127,9 @@ public class ConditionalControllerSystemTest {
 
     @Test
     public void orControllerFalseTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        alwaysSensor.tap = true;
-        alwaysSensor.initialized = true;
-        AlwaysSensor alwaysSensor2 = new AlwaysSensor(new Entity());
-        alwaysSensor2.tap = true;
-        alwaysSensor2.initialized = true;
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
+        AlwaysSensor alwaysSensor2 = new AlwaysSensor();
+
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.type = ConditionalController.Type.OR;
 

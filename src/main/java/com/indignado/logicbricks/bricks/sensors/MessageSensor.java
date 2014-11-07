@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.bricks.sensors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 

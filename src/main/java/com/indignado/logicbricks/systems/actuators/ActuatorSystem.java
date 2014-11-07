@@ -7,10 +7,8 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.controllers.Controller;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
-import com.indignado.logicbricks.components.sensors.SensorComponent;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -24,7 +22,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
 
     public ActuatorSystem(Class<AC> clazz) {
-        super(Family.getFor(clazz, StateComponent.class),2);
+        super(Family.getFor(clazz, StateComponent.class), 2);
         this.actuatorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
 
@@ -37,7 +35,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
         Set<A> actuators = (Set<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (A actuator : actuators) {
-                    processActuator(actuator);
+                processActuator(actuator);
 
             }
         }
@@ -45,8 +43,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
     }
 
 
-    public abstract  void processActuator(A actuator);
-
+    public abstract void processActuator(A actuator);
 
 
     protected boolean evaluateController(Actuator actuator) {

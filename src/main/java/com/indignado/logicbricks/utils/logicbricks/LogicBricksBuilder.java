@@ -72,7 +72,7 @@ public class LogicBricksBuilder {
             }
 
         }
-        ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
+        if(sensorComponent != null) ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
         return this;
 
     }

@@ -1,14 +1,10 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
-import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.data.View;
@@ -19,7 +15,7 @@ import java.util.Set;
 /**
  * @author Rubentxu
  */
-public class MouseSensorSystem extends SensorSystem<MouseSensor,MouseSensorComponent> implements InputProcessor {
+public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor {
     private Set<MouseSensor> mouseSensors;
 
     public MouseSensorSystem() {
@@ -32,7 +28,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor,MouseSensorCompo
     @Override
     public void processSensor(MouseSensor sensor) {
         boolean isActive = false;
-        if(!this.mouseSensors.contains(sensor)) this.mouseSensors.add(sensor);
+        this.mouseSensors.add(sensor);
 
         if (sensor.mouseEventSignal) {
             switch (sensor.mouseEvent) {
@@ -40,17 +36,23 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor,MouseSensorCompo
                     sensor.mouseEventSignal = false;
                     if (sensor.target == null) isActive = false;
                     isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
+                    break;
                 case MOVEMENT:
-
                 case WHEEL_DOWN:
-
                 case WHEEL_UP:
-                    sensor.mouseEventSignal = false;
                 default:
+                    sensor.mouseEventSignal = false;
                     isActive = true;
             }
         }
-        sensor.pulseSignal= isActive;
+        sensor.pulseSignal = isActive;
+
+    }
+
+
+    @Override
+    public void clearSensor() {
+        mouseSensors.clear();
 
     }
 

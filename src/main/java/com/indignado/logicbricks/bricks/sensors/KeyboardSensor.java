@@ -1,7 +1,5 @@
 package com.indignado.logicbricks.bricks.sensors;
 
-import com.badlogic.ashley.core.Entity;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,8 +17,6 @@ public class KeyboardSensor extends Sensor {
 
     // Signal Values
     public Set<Character> keysSignal = new HashSet<Character>();
-
-
 
 
 }

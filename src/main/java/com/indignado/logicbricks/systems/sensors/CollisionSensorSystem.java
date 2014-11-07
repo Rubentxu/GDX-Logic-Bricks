@@ -1,13 +1,7 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
-import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 
 import java.util.HashSet;
@@ -16,12 +10,12 @@ import java.util.Set;
 /**
  * @author Rubentxu
  */
-public class CollisionSensorSystem extends SensorSystem<CollisionSensor,CollisionSensorComponent> implements ContactListener {
+public class CollisionSensorSystem extends SensorSystem<CollisionSensor, CollisionSensorComponent> implements ContactListener {
     private final Set<CollisionSensor> collisionSensors;
 
 
     public CollisionSensorSystem() {
-        super(CollisionSensorComponent.class);        
+        super(CollisionSensorComponent.class);
         collisionSensors = new HashSet<CollisionSensor>();
 
     }
@@ -29,9 +23,14 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor,Collisio
 
     @Override
     public void processSensor(CollisionSensor sensor) {
-        if(!collisionSensors.contains(sensor)) collisionSensors.add(sensor);
-        if (sensor.contact != null && sensor.contact.isTouching()) sensor.pulseSignal = true;
-        else sensor.pulseSignal = false;
+        collisionSensors.add(sensor);
+
+    }
+
+
+    @Override
+    public void clearSensor() {
+        collisionSensors.clear();
 
     }
 
@@ -61,12 +60,13 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor,Collisio
         if (collisionSensor.ownerRigidBody.getFixtureList().contains(fixtureA, false)) {
             if (collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
                 collisionSensor.contact = contact;
+                collisionSensor.pulseSignal = contact.isTouching();
                 return;
             }
 
             if (collisionSensor.targetFixture != null && fixtureB.equals(collisionSensor.targetFixture)) {
                 collisionSensor.contact = contact;
-
+                collisionSensor.pulseSignal = contact.isTouching();
             }
 
         }
@@ -77,11 +77,13 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor,Collisio
         if (collisionSensor.ownerFixture.equals(fixtureA)) {
             if (collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
                 collisionSensor.contact = contact;
+                collisionSensor.pulseSignal = contact.isTouching();
                 return;
             }
 
             if (collisionSensor.targetFixture != null && collisionSensor.targetFixture.equals(fixtureB)) {
                 collisionSensor.contact = contact;
+                collisionSensor.pulseSignal = contact.isTouching();
 
             }
 
@@ -104,10 +106,12 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor,Collisio
         if (collisionSensor.ownerFixture.equals(fixtureA)) {
             if (collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
                 collisionSensor.contact = contact;
+                collisionSensor.pulseSignal = contact.isTouching();
             }
 
             if (collisionSensor.targetFixture != null && collisionSensor.targetFixture.equals(fixtureB)) {
                 collisionSensor.contact = contact;
+                collisionSensor.pulseSignal = contact.isTouching();
             }
 
         }
@@ -125,8 +129,6 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor,Collisio
     public void postSolve(Contact contact, ContactImpulse impulse) {
         System.out.println("Postsolve");
     }
-
-
 
 
 }

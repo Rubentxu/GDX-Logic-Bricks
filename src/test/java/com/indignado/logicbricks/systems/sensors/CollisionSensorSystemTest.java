@@ -99,7 +99,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void bodyCollidesBodyTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetBody = body2;
         collisionSensor.ownerRigidBody = body;
 
@@ -111,7 +111,7 @@ public class CollisionSensorSystemTest {
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
 
-        assertTrue(collisionSensor.isActive());
+        assertTrue(collisionSensor.pulseSignal);
 
     }
 
@@ -119,7 +119,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void bodyCollidesFixtureTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerRigidBody = body;
 
@@ -131,7 +131,7 @@ public class CollisionSensorSystemTest {
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
 
-        assertTrue(collisionSensor.isActive());
+        assertTrue(collisionSensor.pulseSignal);
 
     }
 
@@ -139,7 +139,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void fixtureCollidesBodyTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
@@ -152,7 +152,7 @@ public class CollisionSensorSystemTest {
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
 
-        assertTrue(collisionSensor.isActive());
+        assertTrue(collisionSensor.pulseSignal);
 
     }
 
@@ -160,7 +160,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void fixtureCollidesFixtureTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
@@ -172,7 +172,9 @@ public class CollisionSensorSystemTest {
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
 
-        assertTrue(collisionSensor.isActive());
+        engine.update(1);
+
+        assertTrue(collisionSensor.pulseSignal);
 
     }
 
@@ -180,7 +182,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void bodyCollisionFalseTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
@@ -192,7 +194,7 @@ public class CollisionSensorSystemTest {
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(0.1f, 8, 3);
 
-        assertFalse(collisionSensor.isActive());
+        assertFalse(collisionSensor.pulseSignal);
 
     }
 
@@ -200,7 +202,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void fixtureCollisionFalseTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
@@ -212,7 +214,7 @@ public class CollisionSensorSystemTest {
         System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(0.1f, 8, 3);
 
-        assertFalse(collisionSensor.isActive());
+        assertFalse(collisionSensor.pulseSignal);
 
     }
 
@@ -220,7 +222,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void endFixtureCollisionTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
@@ -233,7 +235,7 @@ public class CollisionSensorSystemTest {
         physic.step(1f, 8, 3);
         System.out.println("Body position2: " + body.getPosition());
 
-        assertTrue(collisionSensor.isActive());
+        assertTrue(collisionSensor.pulseSignal);
 
         body.applyForce(0, 60, body.getWorldCenter().x, body.getWorldCenter().y, true);
 
@@ -242,7 +244,7 @@ public class CollisionSensorSystemTest {
 
         physic.step(1f, 8, 3);
         System.out.println("Body position4: " + body.getPosition());
-        assertFalse(collisionSensor.isActive());
+        assertFalse(collisionSensor.pulseSignal);
 
     }
 
@@ -250,7 +252,7 @@ public class CollisionSensorSystemTest {
     @Test
     public void endBodyCollisionTest() {
         createContext();
-        CollisionSensor collisionSensor = new CollisionSensor(player);
+        CollisionSensor collisionSensor = new CollisionSensor();
         collisionSensor.targetBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
@@ -263,7 +265,7 @@ public class CollisionSensorSystemTest {
         physic.step(1f, 8, 3);
         System.out.println("Body position2: " + body.getPosition());
 
-        assertTrue(collisionSensor.isActive());
+        assertTrue(collisionSensor.pulseSignal);
 
         body.applyForce(0, 60, body.getWorldCenter().x, body.getWorldCenter().y, true);
 
@@ -272,7 +274,7 @@ public class CollisionSensorSystemTest {
 
         physic.step(1f, 8, 3);
         System.out.println("Body position4: " + body.getPosition());
-        assertFalse(collisionSensor.isActive());
+        assertFalse(collisionSensor.pulseSignal);
 
     }
 

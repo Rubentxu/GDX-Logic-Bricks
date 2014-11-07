@@ -1,9 +1,6 @@
 package com.indignado.logicbricks.bricks.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Rectangle;
-import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.data.View;
 
 
 /**

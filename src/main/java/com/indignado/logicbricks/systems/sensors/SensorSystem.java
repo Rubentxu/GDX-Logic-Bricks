@@ -1,31 +1,28 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.indignado.logicbricks.bricks.actuators.Actuator;
-import com.indignado.logicbricks.bricks.controllers.Controller;
-import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
+import com.badlogic.ashley.utils.ImmutableArray;
+import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
  * @author Rubentxu.
  */
-public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends IteratingSystem {
+public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends EntitySystem {
+    private Family family;
+    private ImmutableArray<Entity> entities;
     protected ComponentMapper<SC> sensorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 
 
     public SensorSystem(Class<SC> clazz) {
-        super(Family.getFor(clazz, StateComponent.class),0);
+        super(0);
+        this.family = Family.getFor(clazz, StateComponent.class);
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
 
@@ -33,25 +30,49 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     @Override
+    public void addedToEngine(Engine engine) {
+        entities = engine.getEntitiesFor(family);
+    }
+
+
+    @Override
+    public void removedFromEngine(Engine engine) {
+        entities = null;
+    }
+
+
+    @Override
+    public void update(float deltaTime) {
+        clearSensor();
+        for (int i = 0; i < entities.size(); ++i) {
+            processEntity(entities.get(i), deltaTime);
+        }
+    }
+
+
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).get();
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (S sensor : sensors) {
-                if (!isTap(sensor)) {
-                    processSensor(sensor);
-                }
+                if(sensor instanceof AlwaysSensor) sensor.pulseSignal= true;
+                if(isTap(sensor)) sensor.pulseSignal = false;
+                else processSensor(sensor);
+
             }
         }
 
     }
 
 
-    public abstract  void processSensor(S sensor);
+    public abstract void processSensor(S sensor);
+
+
+    public abstract void clearSensor();
 
 
     public boolean isTap(Sensor sensor) {
-        if(sensor.tap) {
+        if (sensor.tap) {
             if (sensor.initialized) {
                 return true;
             }
@@ -62,6 +83,9 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
 
+    public ImmutableArray<Entity> getEntities() {
+        return entities;
+    }
 
 
 }

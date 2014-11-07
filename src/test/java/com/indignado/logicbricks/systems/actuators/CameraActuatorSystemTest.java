@@ -76,7 +76,7 @@ public class CameraActuatorSystemTest {
 
     @Test
     public void cameraActuatorTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.pulseSignal = true;
 
@@ -102,7 +102,7 @@ public class CameraActuatorSystemTest {
 
     @Test(expected = LogicBricksException.class)
     public void cameraActuatorExceptionTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.pulseSignal = true;
 

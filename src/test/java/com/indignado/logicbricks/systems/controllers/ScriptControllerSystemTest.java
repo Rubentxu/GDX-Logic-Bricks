@@ -50,7 +50,7 @@ public class ScriptControllerSystemTest {
 
     @Test
     public void ScriptControllerTest() {
-        AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
         checkScript = false;
 
         ScriptController scriptController = new ScriptController();

@@ -1,9 +1,7 @@
 package com.indignado.logicbricks.bricks.sensors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 /**
@@ -11,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
  *
  * @author Rubentxu
  */
-public class CollisionSensor extends Sensor {
+public class  CollisionSensor extends Sensor {
 
     // Config Values
     public Fixture ownerFixture;
@@ -22,10 +20,6 @@ public class CollisionSensor extends Sensor {
 
     // Signal Values
     public Contact contact;
-
-
-
-
 
 
 }

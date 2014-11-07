@@ -1,7 +1,5 @@
 package com.indignado.logicbricks.bricks.sensors;
 
-import com.badlogic.ashley.core.Entity;
-
 /**
  * Created on 13/10/14.
  *
@@ -15,7 +13,6 @@ public abstract class Sensor {
     public boolean initialized = false;
     public int state;
     public boolean pulseSignal = false;
-
 
 
 }

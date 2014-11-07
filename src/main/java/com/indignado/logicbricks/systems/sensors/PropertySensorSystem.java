@@ -1,8 +1,6 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.indignado.logicbricks.bricks.sensors.DelaySensor;
 import com.indignado.logicbricks.bricks.sensors.PropertySensor;
-import com.indignado.logicbricks.components.sensors.DelaySensorComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
 
 /**
@@ -53,8 +51,13 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                 isActive = lessThanEvaluation((Number) sensor.value, (Number) sensor.valueSignal);
                 break;
         }
-
         sensor.pulseSignal = isActive;
+
+    }
+
+
+    @Override
+    public void clearSensor() {
 
     }
 

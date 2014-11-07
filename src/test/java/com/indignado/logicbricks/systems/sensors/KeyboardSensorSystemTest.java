@@ -36,7 +36,7 @@ public class KeyboardSensorSystemTest {
     @Test
     public void keyBoardSensorKeyTypedEventTest() {
         Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor(new Entity());
+        KeyboardSensor sensor = new KeyboardSensor();
         sensor.key = 'a';
 
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
@@ -49,11 +49,12 @@ public class KeyboardSensorSystemTest {
         engine.addEntity(player);
         engine.update(1);
         inputSensorSystem.keyTyped('a');
-
-        assertTrue(sensor.isActive());
         engine.update(1);
 
-        assertFalse(sensor.isActive());
+        assertTrue(sensor.pulseSignal);
+        engine.update(1);
+
+        assertFalse(sensor.pulseSignal);
 
     }
 
@@ -61,7 +62,7 @@ public class KeyboardSensorSystemTest {
     @Test
     public void keyBoardSystemAllKeysConfigTest() {
         Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor(new Entity());
+        KeyboardSensor sensor = new KeyboardSensor();
         sensor.allKeys = true;
 
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
@@ -74,12 +75,14 @@ public class KeyboardSensorSystemTest {
         engine.addEntity(player);
         engine.update(1);
         inputSensorSystem.keyTyped('a');
+        engine.update(1);
 
-        assertTrue(sensor.isActive());
+        assertTrue(sensor.pulseSignal);
         engine.update(1);
         inputSensorSystem.keyTyped('z');
+        engine.update(1);
 
-        assertTrue(sensor.isActive());
+        assertTrue(sensor.pulseSignal);
 
     }
 
@@ -87,7 +90,7 @@ public class KeyboardSensorSystemTest {
     @Test
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
         Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor(new Entity());
+        KeyboardSensor sensor = new KeyboardSensor();
         sensor.allKeys = true;
         sensor.logToggle = true;
 
@@ -101,12 +104,14 @@ public class KeyboardSensorSystemTest {
         engine.addEntity(player);
         engine.update(1);
         inputSensorSystem.keyTyped('a');
+        engine.update(1);
 
-        assertTrue(sensor.isActive());
+        assertTrue(sensor.pulseSignal);
         engine.update(1);
         inputSensorSystem.keyTyped('z');
+        engine.update(1);
 
-        assertTrue(sensor.isActive());
+        assertTrue(sensor.pulseSignal);
         assertEquals("az", sensor.target);
 
     }
