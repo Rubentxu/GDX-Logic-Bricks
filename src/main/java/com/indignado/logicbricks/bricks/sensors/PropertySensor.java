@@ -6,6 +6,7 @@ package com.indignado.logicbricks.bricks.sensors;
  * @author Rubentxu
  */
 public class PropertySensor extends Sensor {
+    public enum EvaluationType {CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN}
 
     // Editor Values
     public String propertyName;
@@ -17,6 +18,6 @@ public class PropertySensor extends Sensor {
     // Signal Values
     public Object valueSignal;
 
-    public enum EvaluationType {CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN}
+
 
 }

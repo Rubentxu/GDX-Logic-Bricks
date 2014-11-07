@@ -9,6 +9,10 @@ import com.badlogic.ashley.core.Entity;
  * @author Rubentxu
  */
 public class MouseSensor extends Sensor {
+    public enum MouseEvent {
+        MOUSE_OVER, MOVEMENT, WHEEL_DOWN, WHEEL_UP, RIGHT_BUTTON,
+        MIDDLE_BUTTON, LEFT_BUTTON
+    }
 
     // Config Values
     public MouseEvent mouseEvent;
@@ -21,9 +25,6 @@ public class MouseSensor extends Sensor {
     public boolean buttonUP = false;
 
 
-    public enum MouseEvent {
-        MOUSE_OVER, MOVEMENT, WHEEL_DOWN, WHEEL_UP, RIGHT_BUTTON,
-        MIDDLE_BUTTON, LEFT_BUTTON
-    }
+
 
 }

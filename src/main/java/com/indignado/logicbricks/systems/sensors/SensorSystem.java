@@ -21,7 +21,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public SensorSystem(Class<SC> clazz) {
-        super(0);
+        super(1);
         this.family = Family.getFor(clazz, StateComponent.class);
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);

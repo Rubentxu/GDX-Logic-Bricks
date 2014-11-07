@@ -18,7 +18,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
     protected ComponentMapper<StateComponent> stateMapper;
 
     public ControllerSystem(Class<CC> clazz) {
-        super(Family.getFor(clazz, StateComponent.class), 1);
+        super(Family.getFor(clazz, StateComponent.class), 2);
         this.controllerMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
     }

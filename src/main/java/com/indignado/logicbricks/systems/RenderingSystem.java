@@ -39,7 +39,7 @@ public class RenderingSystem extends IteratingSystem {
 
 
     public RenderingSystem(SpriteBatch batch) {
-        super(Family.getFor(ViewsComponent.class));
+        super(Family.getFor(ViewsComponent.class),4);
         vm = ComponentMapper.getFor(ViewsComponent.class);
 
         renderQueue = new Array<View>();

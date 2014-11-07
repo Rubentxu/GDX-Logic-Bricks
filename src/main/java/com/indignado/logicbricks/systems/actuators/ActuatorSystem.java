@@ -22,7 +22,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
 
     public ActuatorSystem(Class<AC> clazz) {
-        super(Family.getFor(clazz, StateComponent.class), 2);
+        super(Family.getFor(clazz, StateComponent.class), 3);
         this.actuatorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
 
