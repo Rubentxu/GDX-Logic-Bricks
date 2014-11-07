@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.InputProcessor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
+import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 
@@ -17,32 +18,35 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class KeyboardSensorSystem extends IteratingSystem implements InputProcessor {
+public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor,KeyboardSensorComponent> implements InputProcessor {
     private Set<KeyboardSensor> keyboardSensors;
-    private ComponentMapper<KeyboardSensorComponent> keyboardSensorMapper;
-    private ComponentMapper<StateComponent> stateMapper;
 
 
     public KeyboardSensorSystem() {
-        super(Family.getFor(KeyboardSensorComponent.class, StateComponent.class), 0);
-        keyboardSensorMapper = ComponentMapper.getFor(KeyboardSensorComponent.class);
-        stateMapper = ComponentMapper.getFor(StateComponent.class);
+        super(KeyboardSensorComponent.class);
         keyboardSensors = new HashSet<KeyboardSensor>();
 
     }
 
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
-        Set<KeyboardSensor> sensors = keyboardSensorMapper.get(entity).sensors.get(state);
-        if (sensors != null) {
-            for (KeyboardSensor sensor : sensors) {
-                if (!sensor.isTap() && !this.keyboardSensors.contains(sensor)) {
-                    this.keyboardSensors.add(sensor);
+    public void processSensor(KeyboardSensor sensor) {
+        boolean isActive = false;
+        if(!this.keyboardSensors.contains(sensor)) this.keyboardSensors.add(sensor);
+
+        for (Character ks : sensor.keysSignal) {
+            if (sensor.allKeys) {
+                if (!sensor.keysSignal.isEmpty()) isActive = true;
+                if (sensor.logToggle) {
+                    sensor.target += ks;
                 }
+            } else {
+                if (ks.equals(sensor.key)) isActive = true;
             }
+
         }
+        sensor.keysSignal.clear();
+        sensor.pulseSignal = isActive;
 
     }
 

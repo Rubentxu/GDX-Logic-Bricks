@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
+import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 
@@ -13,36 +14,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
-public class CollisionSensorSystem extends IteratingSystem implements ContactListener {
+public class CollisionSensorSystem extends SensorSystem<CollisionSensor,CollisionSensorComponent> implements ContactListener {
     private final Set<CollisionSensor> collisionSensors;
-    private ComponentMapper<CollisionSensorComponent> collisionSensorMapper;
-    private ComponentMapper<StateComponent> stateMapper;
 
 
     public CollisionSensorSystem() {
-        super(Family.getFor(CollisionSensorComponent.class, StateComponent.class));
-        collisionSensorMapper = ComponentMapper.getFor(CollisionSensorComponent.class);
-        stateMapper = ComponentMapper.getFor(StateComponent.class);
+        super(CollisionSensorComponent.class);        
         collisionSensors = new HashSet<CollisionSensor>();
 
     }
 
 
     @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
-        Set<CollisionSensor> sensors = collisionSensorMapper.get(entity).sensors.get(state);
-        if (sensors != null) {
-            for (CollisionSensor sensor : sensors) {
-                if (!sensor.isTap() && !collisionSensors.contains(sensor)) {
-                    collisionSensors.add(sensor);
-                }
-            }
-        }
+    public void processSensor(CollisionSensor sensor) {
+        if(!collisionSensors.contains(sensor)) collisionSensors.add(sensor);
+        if (sensor.contact != null && sensor.contact.isTouching()) sensor.pulseSignal = true;
+        else sensor.pulseSignal = false;
 
     }
 
@@ -136,6 +125,8 @@ public class CollisionSensorSystem extends IteratingSystem implements ContactLis
     public void postSolve(Contact contact, ContactImpulse impulse) {
         System.out.println("Postsolve");
     }
+
+
 
 
 }

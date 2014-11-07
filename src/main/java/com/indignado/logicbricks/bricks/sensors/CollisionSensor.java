@@ -19,23 +19,13 @@ public class CollisionSensor extends Sensor {
     public Fixture targetFixture;
     public Body targetBody;
 
-    public Filter filter;
-
 
     // Signal Values
     public Contact contact;
 
 
-    public CollisionSensor(Entity owner) {
-        super(owner);
-
-    }
 
 
-    public Boolean isActive() {
-        if (contact != null && contact.isTouching()) return true;
-        else return false;
 
-    }
 
 }

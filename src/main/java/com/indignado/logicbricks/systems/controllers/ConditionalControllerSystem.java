@@ -47,34 +47,35 @@ public class ConditionalControllerSystem extends IteratingSystem {
 
 
     public void evaluateAndConditional(ConditionalController controller) {
+        controller.pulseSignal = true;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
             throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
-            if (s.isActive().equals(false)) {
+            if (s.pulseSignal == false) {
                 controller.pulseSignal = false;
-                return;
 
             }
-
+            s.pulseSignal = false;
         }
-        controller.pulseSignal = true;
+
     }
 
 
     public void evaluateOrConditional(ConditionalController controller) {
+        controller.pulseSignal = false;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
             throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
-            if (s.isActive().equals(true)) {
+            if (s.pulseSignal == true) {
                 controller.pulseSignal = true;
-                return;
+                s.pulseSignal = false;
             }
         }
-        controller.pulseSignal = false;
+
 
     }
 

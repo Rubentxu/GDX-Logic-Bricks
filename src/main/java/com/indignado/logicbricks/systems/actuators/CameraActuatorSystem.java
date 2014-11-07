@@ -16,33 +16,22 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class CameraActuatorSystem extends ActuatorSystem {
-    private ComponentMapper<CameraActuatorComponent> cameraActuatorMapper;
-    private ComponentMapper<StateComponent> stateMapper;
+public class CameraActuatorSystem extends ActuatorSystem<CameraActuator,CameraActuatorComponent> {
 
 
     public CameraActuatorSystem() {
-        super(Family.getFor(CameraActuatorComponent.class, StateComponent.class));
-        cameraActuatorMapper = ComponentMapper.getFor(CameraActuatorComponent.class);
-        stateMapper = ComponentMapper.getFor(StateComponent.class);
+        super(CameraActuatorComponent.class);
 
     }
 
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
-        Set<CameraActuator> actuators = cameraActuatorMapper.get(entity).actuators.get(state);
-        if (actuators != null) {
-            for (CameraActuator actuator : actuators) {
-                if (evaluateController(actuator)) {
-                    RigidBodiesComponents rc = actuator.target.getComponent(RigidBodiesComponents.class);
-                    Vector2 targetPosition = rc.rigidBodies.first().getPosition();
-                    if (!(actuator.camera.position.x == targetPosition.x)) {
-                        actuator.camera.translate(targetPosition);
-                    }
-                }
-
+    public void processActuator(CameraActuator actuator) {
+        if (evaluateController(actuator)) {
+            RigidBodiesComponents rc = actuator.target.getComponent(RigidBodiesComponents.class);
+            Vector2 targetPosition = rc.rigidBodies.first().getPosition();
+            if (!(actuator.camera.position.x == targetPosition.x)) {
+                actuator.camera.translate(targetPosition);
             }
         }
 

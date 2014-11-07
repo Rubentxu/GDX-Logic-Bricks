@@ -7,6 +7,6 @@ import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
  *
  * @author Rubentxu
  */
-public class AlwaysSensorComponent extends SensorComponent<AlwaysSensor> {
+public class DelaySensorComponent extends SensorComponent<AlwaysSensor> {
 
 }

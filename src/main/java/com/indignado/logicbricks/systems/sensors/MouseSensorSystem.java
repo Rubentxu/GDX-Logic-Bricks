@@ -6,44 +6,66 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Rectangle;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
+import com.indignado.logicbricks.data.View;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
-public class MouseSensorSystem extends IteratingSystem implements InputProcessor {
+public class MouseSensorSystem extends SensorSystem<MouseSensor,MouseSensorComponent> implements InputProcessor {
     private Set<MouseSensor> mouseSensors;
-    private ComponentMapper<MouseSensorComponent> mouseSensorMapper;
-    private ComponentMapper<StateComponent> stateMapper;
-
 
     public MouseSensorSystem() {
-        super(Family.getFor(MouseSensorComponent.class, StateComponent.class), 0);
-        mouseSensorMapper = ComponentMapper.getFor(MouseSensorComponent.class);
-        stateMapper = ComponentMapper.getFor(StateComponent.class);
+        super(MouseSensorComponent.class);
         mouseSensors = new HashSet<MouseSensor>();
 
     }
 
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
-        Set<MouseSensor> sensors = mouseSensorMapper.get(entity).sensors.get(state);
-        if (sensors != null) {
-            for (MouseSensor sensor : sensors) {
-                if (!sensor.isTap() && !this.mouseSensors.contains(sensor)) {
-                    this.mouseSensors.add(sensor);
-                }
+    public void processSensor(MouseSensor sensor) {
+        boolean isActive = false;
+        if(!this.mouseSensors.contains(sensor)) this.mouseSensors.add(sensor);
+
+        if (sensor.mouseEventSignal) {
+            switch (sensor.mouseEvent) {
+                case MOUSE_OVER:
+                    sensor.mouseEventSignal = false;
+                    if (sensor.target == null) isActive = false;
+                    isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
+                case MOVEMENT:
+
+                case WHEEL_DOWN:
+
+                case WHEEL_UP:
+                    sensor.mouseEventSignal = false;
+                default:
+                    isActive = true;
             }
         }
+        sensor.pulseSignal= isActive;
+
+    }
+
+
+    public boolean isMouseOver(Entity target, int posX, int posY) {
+        ViewsComponent viewsComponent = target.getComponent(ViewsComponent.class);
+        if (viewsComponent == null) return false;
+
+        Rectangle rectangle = new Rectangle();
+        for (View view : viewsComponent.views) {
+            rectangle.set(view.transform.getPosition().x - view.width / 2, view.transform.getPosition().y - view.height / 2,
+                    view.width, view.height);
+            if (rectangle.contains(posX, posY)) return true;
+        }
+        return false;
 
     }
 
@@ -164,6 +186,5 @@ public class MouseSensorSystem extends IteratingSystem implements InputProcessor
         return false;
 
     }
-
 
 }

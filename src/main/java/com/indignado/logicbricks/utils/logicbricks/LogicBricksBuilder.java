@@ -37,6 +37,7 @@ public class LogicBricksBuilder {
 
 
     public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int state) {
+        sensor.state = state;
         SensorComponent sensorComponent = null;
         if (sensor instanceof AlwaysSensor) {
             sensorComponent = entity.getComponent(AlwaysSensorComponent.class);
@@ -79,6 +80,7 @@ public class LogicBricksBuilder {
 
     public <C extends Controller> LogicBricksBuilder addController(C controller, int state) {
         this.controller = controller;
+        controller.state = state;
         ControllerComponent controllerComponent = null;
         if (controller instanceof ConditionalController) {
             controllerComponent = entity.getComponent(ConditionalControllerComponent.class);
@@ -111,6 +113,7 @@ public class LogicBricksBuilder {
 
     public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int state) {
         this.actuator = actuator;
+        actuator.state = state;
         ActuatorComponent actuatorComponent = null;
 
         if (actuator instanceof CameraActuator) {

@@ -8,17 +8,6 @@ import com.badlogic.ashley.core.Entity;
  * @author Rubentxu
  */
 public class AlwaysSensor extends Sensor {
-
-
-    public AlwaysSensor(Entity owner) {
-        super(owner);
-    }
-
-
-    @Override
-    public Boolean isActive() {
-        if (isTap()) return false;
-        else return true;
-    }
+    public boolean pulseSignal = true;
 
 }

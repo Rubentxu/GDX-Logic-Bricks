@@ -9,26 +9,13 @@ import com.badlogic.ashley.core.Entity;
  */
 public abstract class Sensor {
 
-    public Integer freq;
-    public Boolean tap = false;
-    public Boolean initialized = false;
+    // Config Values
     public String name;
+    public boolean tap = false;
+    public boolean initialized = false;
     public int state;
-    protected Entity owner;
-
-    protected Sensor(Entity owner) {
-        this.owner = owner;
-    }
-
-    public abstract Boolean isActive();
+    public boolean pulseSignal = false;
 
 
-    public boolean isTap() {
-        if (tap && initialized) {
-            return true;
-        }
-        initialized = true;
-        return false;
-    }
 
 }

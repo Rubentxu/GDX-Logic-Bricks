@@ -12,28 +12,13 @@ import com.badlogic.gdx.ai.msg.Telegraph;
 public class MessageSensor extends Sensor implements Telegraph {
     // Config Values
     public int messageListen;
-
-
-    // Signal Values
-    public boolean isActive = false;
-
-
-    protected MessageSensor(Entity owner) {
-        super(owner);
-    }
-
-
-    @Override
-    public Boolean isActive() {
-        if (isTap()) return false;
-        return isActive();
-
-    }
+    public Telegram message;
 
 
     @Override
     public boolean handleMessage(Telegram msg) {
-        return isActive = true;
+        this.message = msg;
+        return pulseSignal = true;
 
     }
 

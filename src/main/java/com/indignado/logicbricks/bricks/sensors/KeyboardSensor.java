@@ -21,30 +21,6 @@ public class KeyboardSensor extends Sensor {
     public Set<Character> keysSignal = new HashSet<Character>();
 
 
-    public KeyboardSensor(Entity owner) {
-        super(owner);
-    }
 
-
-    @Override
-    public Boolean isActive() {
-        if (isTap()) return false;
-        boolean isActive = false;
-
-        for (Character ks : keysSignal) {
-            if (allKeys) {
-                if (!keysSignal.isEmpty()) isActive = true;
-                if (logToggle) {
-                    target += ks;
-                }
-            } else {
-                if (ks.equals(key)) isActive = true;
-            }
-
-        }
-        keysSignal.clear();
-        return isActive;
-
-    }
 
 }
