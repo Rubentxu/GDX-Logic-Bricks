@@ -3,7 +3,6 @@ package com.indignado.logicbricks.systems.actuators;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -36,7 +35,7 @@ public class MotionActuatorSystem extends ActuatorSystem {
         Set<MotionActuator> actuators = motionActuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (MotionActuator actuator : actuators) {
-                if(evaluateController(actuator)) execute(actuator);
+                if (evaluateController(actuator)) execute(actuator);
             }
         }
 

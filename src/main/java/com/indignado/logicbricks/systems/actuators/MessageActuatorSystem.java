@@ -3,7 +3,6 @@ package com.indignado.logicbricks.systems.actuators;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.bricks.actuators.MessageActuator;
 import com.indignado.logicbricks.components.StateComponent;
@@ -35,7 +34,7 @@ public class MessageActuatorSystem extends ActuatorSystem {
         Set<MessageActuator> actuators = messageActuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (MessageActuator actuator : actuators) {
-                if(evaluateController(actuator))
+                if (evaluateController(actuator))
                     MessageDispatcher.getInstance().dispatchMessage(actuator, actuator.message, actuator.extraInfo);
 
             }

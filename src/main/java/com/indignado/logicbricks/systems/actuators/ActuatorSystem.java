@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.indignado.logicbricks.bricks.actuators.Actuator;

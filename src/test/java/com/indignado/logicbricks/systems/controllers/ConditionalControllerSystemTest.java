@@ -2,16 +2,11 @@ package com.indignado.logicbricks.systems.controllers;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
-import com.indignado.logicbricks.bricks.controllers.Script;
-import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -147,7 +142,6 @@ public class ConditionalControllerSystemTest {
         assertFalse(conditionalController.pulseSignal);
 
     }
-
 
 
 }

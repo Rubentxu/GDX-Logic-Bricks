@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.utils.logicbricks;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.actuators.CameraActuator;
@@ -41,7 +40,7 @@ public class LogicBricksBuilder {
         SensorComponent sensorComponent = null;
         if (sensor instanceof AlwaysSensor) {
             sensorComponent = entity.getComponent(AlwaysSensorComponent.class);
-            if(sensorComponent == null){
+            if (sensorComponent == null) {
                 sensorComponent = new AlwaysSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<AlwaysSensor>());
                 entity.add(sensorComponent);
@@ -49,7 +48,7 @@ public class LogicBricksBuilder {
 
         } else if (sensor instanceof CollisionSensor) {
             sensorComponent = entity.getComponent(CollisionSensorComponent.class);
-            if(sensorComponent == null){
+            if (sensorComponent == null) {
                 sensorComponent = new CollisionSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<CollisionSensor>());
                 entity.add(sensorComponent);
@@ -57,7 +56,7 @@ public class LogicBricksBuilder {
 
         } else if (sensor instanceof KeyboardSensor) {
             sensorComponent = entity.getComponent(KeyboardSensorComponent.class);
-            if(sensorComponent == null){
+            if (sensorComponent == null) {
                 sensorComponent = new KeyboardSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<KeyboardSensor>());
                 entity.add(sensorComponent);
@@ -65,7 +64,7 @@ public class LogicBricksBuilder {
 
         } else if (sensor instanceof MouseSensor) {
             sensorComponent = entity.getComponent(MouseSensorComponent.class);
-            if(sensorComponent == null){
+            if (sensorComponent == null) {
                 sensorComponent = new MouseSensorComponent();
                 sensorComponent.sensors.put(state, new HashSet<MouseSensor>());
                 entity.add(sensorComponent);
@@ -83,7 +82,7 @@ public class LogicBricksBuilder {
         ControllerComponent controllerComponent = null;
         if (controller instanceof ConditionalController) {
             controllerComponent = entity.getComponent(ConditionalControllerComponent.class);
-            if(controllerComponent == null){
+            if (controllerComponent == null) {
                 controllerComponent = new ConditionalControllerComponent();
                 controllerComponent.controllers.put(state, new HashSet<ConditionalController>());
                 entity.add(controllerComponent);
@@ -91,7 +90,7 @@ public class LogicBricksBuilder {
 
         } else if (controller instanceof ScriptController) {
             controllerComponent = entity.getComponent(ScriptControllerComponent.class);
-            if(controllerComponent == null){
+            if (controllerComponent == null) {
                 controllerComponent = new ScriptControllerComponent();
                 controllerComponent.controllers.put(state, new HashSet<ScriptController>());
                 entity.add(controllerComponent);
@@ -116,7 +115,7 @@ public class LogicBricksBuilder {
 
         if (actuator instanceof CameraActuator) {
             actuatorComponent = entity.getComponent(CameraActuatorComponent.class);
-            if(actuatorComponent == null){
+            if (actuatorComponent == null) {
                 actuatorComponent = new CameraActuatorComponent();
                 actuatorComponent.actuators.put(state, new HashSet<CameraActuator>());
                 entity.add(actuatorComponent);
@@ -124,7 +123,7 @@ public class LogicBricksBuilder {
 
         } else if (actuator instanceof MessageActuator) {
             actuatorComponent = entity.getComponent(MessageActuatorComponent.class);
-            if(actuatorComponent == null){
+            if (actuatorComponent == null) {
                 actuatorComponent = new MessageActuatorComponent();
                 actuatorComponent.actuators.put(state, new HashSet<MessageActuator>());
                 entity.add(actuatorComponent);
@@ -132,7 +131,7 @@ public class LogicBricksBuilder {
 
         } else if (actuator instanceof MotionActuator) {
             actuatorComponent = entity.getComponent(MotionActuatorComponent.class);
-            if(actuatorComponent == null){
+            if (actuatorComponent == null) {
                 actuatorComponent = new MotionActuatorComponent();
                 actuatorComponent.actuators.put(state, new HashSet<MotionActuator>());
                 entity.add(actuatorComponent);
