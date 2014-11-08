@@ -36,7 +36,7 @@ public class RenderingSystem extends IteratingSystem {
     private OrthogonalTiledMapRenderer mapRenderer;
 
 
-    public RenderingSystem(SpriteBatch batch) {
+    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
         super(Family.getFor(ViewsComponent.class),4);
         vm = ComponentMapper.getFor(ViewsComponent.class);
 
@@ -48,8 +48,8 @@ public class RenderingSystem extends IteratingSystem {
             }
         };
         this.batch = batch;
-        camera = new OrthographicCamera(WIDTH, HEIGHT);
-        camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
+        this.camera = camera;
+        this.camera.position.set(WIDTH / 2, HEIGHT / 2, 0);
 
     }
 
@@ -63,7 +63,6 @@ public class RenderingSystem extends IteratingSystem {
         batch.begin();
 
         for (View view : renderQueue) {
-
             if (view.textureRegion == null) {
                 continue;
             }

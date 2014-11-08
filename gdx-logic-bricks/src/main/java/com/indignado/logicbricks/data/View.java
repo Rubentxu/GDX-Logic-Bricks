@@ -14,8 +14,8 @@ public class View {
     public Transform transform;
     public IntMap<Animation> animations;
     public TextureRegion textureRegion;
-    public int height;
-    public int width;
+    public float height;
+    public float width;
     public int opacity = 1;
     public boolean flipX;
     public boolean flipY;
