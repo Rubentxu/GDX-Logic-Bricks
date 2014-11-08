@@ -1,0 +1,8 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+
+
+eclipse.project {
+    name =  projectGroup + "-tests"
+}
