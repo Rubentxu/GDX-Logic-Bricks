@@ -2,9 +2,7 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.7
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-
-
 eclipse.project {
     name =  projectGroup + "-tests"
 }
+

@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.systems.controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
@@ -35,11 +36,11 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             Sensor s = it.next();
             if (s.pulseSignal == false) {
                 controller.pulseSignal = false;
-
+                return;
             }
-            s.pulseSignal = false;
+            // s.pulseSignal = false;
         }
-
+        Gdx.app.log("ConditionalControllerSystem", "controller pulseSignal: "+ controller.pulseSignal);
     }
 
 

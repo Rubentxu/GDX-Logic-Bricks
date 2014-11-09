@@ -36,9 +36,19 @@ public class LogicBricksBuilder {
     }
 
 
+    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int ... states) {
+        for (int s : states) {
+            addSensor(sensor,s);
+        }
+        return this;
+
+    }
+
+
     public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int state) {
         sensor.state = state;
         SensorComponent sensorComponent = null;
+        Set<S> sensorsList = null;
         if (sensor instanceof AlwaysSensor) {
             sensorComponent = entity.getComponent(AlwaysSensorComponent.class);
             if (sensorComponent == null) {
@@ -59,9 +69,15 @@ public class LogicBricksBuilder {
             sensorComponent = entity.getComponent(KeyboardSensorComponent.class);
             if (sensorComponent == null) {
                 sensorComponent = new KeyboardSensorComponent();
-                sensorComponent.sensors.put(state, new HashSet<KeyboardSensor>());
                 entity.add(sensorComponent);
             }
+            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
+            if( sensorsList == null) {
+                sensorsList = (Set<S>) new HashSet<KeyboardSensor>();
+                sensorComponent.sensors.put(state, sensorsList);
+
+            }
+
 
         } else if (sensor instanceof MouseSensor) {
             sensorComponent = entity.getComponent(MouseSensorComponent.class);
@@ -78,16 +94,31 @@ public class LogicBricksBuilder {
     }
 
 
+    public <C extends Controller> LogicBricksBuilder addController(C controller, int ... states) {
+        for(int s : states){
+            addController(controller,s);
+        }
+        return this;
+
+    }
+
+
     public <C extends Controller> LogicBricksBuilder addController(C controller, int state) {
         this.controller = controller;
         controller.state = state;
         ControllerComponent controllerComponent = null;
+        Set<C> controllerList = null;
+
         if (controller instanceof ConditionalController) {
             controllerComponent = entity.getComponent(ConditionalControllerComponent.class);
             if (controllerComponent == null) {
                 controllerComponent = new ConditionalControllerComponent();
-                controllerComponent.controllers.put(state, new HashSet<ConditionalController>());
                 entity.add(controllerComponent);
+            }
+            controllerList = (Set<C>) controllerComponent.controllers.get(state);
+            if(controllerList == null ) {
+                controllerList = (Set<C>) new HashSet<ConditionalController>();
+                controllerComponent.controllers.put(state, controllerList);
             }
 
         } else if (controller instanceof ScriptController) {
@@ -111,10 +142,20 @@ public class LogicBricksBuilder {
     }
 
 
+    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int ... states) {
+        for(int s : states){
+            addActuator(actuator,s);
+        }
+        return this;
+
+    }
+
+
     public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int state) {
         this.actuator = actuator;
         actuator.state = state;
         ActuatorComponent actuatorComponent = null;
+        Set<A> actuatorList = null;
 
         if (actuator instanceof CameraActuator) {
             actuatorComponent = entity.getComponent(CameraActuatorComponent.class);
@@ -136,8 +177,13 @@ public class LogicBricksBuilder {
             actuatorComponent = entity.getComponent(MotionActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new MotionActuatorComponent();
-                actuatorComponent.actuators.put(state, new HashSet<MotionActuator>());
+
                 entity.add(actuatorComponent);
+            }
+            actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
+            if(actuatorList == null ){
+                actuatorList = (Set<A>) new HashSet<MotionActuator>();
+                actuatorComponent.actuators.put(state, actuatorList);
             }
 
         }

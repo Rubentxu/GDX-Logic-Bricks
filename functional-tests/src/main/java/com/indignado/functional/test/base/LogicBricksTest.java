@@ -3,6 +3,7 @@ package com.indignado.functional.test.base;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -44,8 +45,10 @@ public abstract class LogicBricksTest implements ApplicationListener {
         this.engine = new Engine();
         engine.addSystem(new CollisionSensorSystem());
         engine.addSystem(new DelaySensorSystem());
-        engine.addSystem(new KeyboardSensorSystem());
-        engine.addSystem(new MouseSensorSystem());
+        KeyboardSensorSystem keyboardSensorSystem = new KeyboardSensorSystem();
+        engine.addSystem(keyboardSensorSystem);
+        MouseSensorSystem mouseSensorSystem = new MouseSensorSystem();
+        engine.addSystem(mouseSensorSystem);
         engine.addSystem(new PropertySensorSystem());
         engine.addSystem(new ConditionalControllerSystem());
         engine.addSystem(new ScriptControllerSystem());
@@ -57,7 +60,9 @@ public abstract class LogicBricksTest implements ApplicationListener {
         renderingSystem.HEIGHT = HEIGHT;
         engine.addSystem(renderingSystem);
         engine.addSystem(new StateSystem());
-        createWorld(world,engine);
+
+        Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem,mouseSensorSystem));
+        createWorld(world, engine);
 
     }
 
@@ -81,7 +86,6 @@ public abstract class LogicBricksTest implements ApplicationListener {
         world.step(deltaTime,3,3);
         camera.update();
         renderer.render(world, camera.combined);
-        Gdx.app.log("TEST", "Render " + world.getBodyCount());
 
     }
 

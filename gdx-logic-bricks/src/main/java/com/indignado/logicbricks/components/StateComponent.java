@@ -9,7 +9,7 @@ import com.badlogic.ashley.core.Component;
  */
 public class StateComponent extends Component {
     public float time = 0.0f;
-    private int currentState;
+    private int currentState = 0;
 
     public int get() {
         return currentState;

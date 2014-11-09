@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
@@ -66,6 +67,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyTyped(char character) {
+        Gdx.app.log("KeyboardSensorSystem", "sensor keyTyped event: "+ character);
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysSignal.add(character);
         }
