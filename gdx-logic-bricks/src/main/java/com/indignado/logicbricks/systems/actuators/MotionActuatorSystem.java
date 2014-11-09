@@ -32,8 +32,11 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 actuator.targetRigidBody.applyForce(actuator.force, actuator.targetRigidBody.getWorldCenter(), true);
             }
 
-            if (actuator.impulse != null)
+            if (actuator.impulse != null) {
+                Gdx.app.log("MotionActuatorSystem", "apply impulse: " + actuator.impulse);
                 actuator.targetRigidBody.applyLinearImpulse(actuator.impulse, actuator.targetRigidBody.getWorldCenter(), true);
+
+            }
 
             if (!actuator.fixedRotation) {
                 if (actuator.angularVelocity != 0)
@@ -45,14 +48,15 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 if (!actuator.targetRigidBody.isFixedRotation()) actuator.targetRigidBody.setFixedRotation(true);
             }
             if (actuator.limitVelocityX > 0) {
-                Vector2 velocity = actuator.targetRigidBody.getLinearVelocity();
-                if(actuator.targetRigidBody.getLinearVelocity().x > actuator.limitVelocityX){
-                    velocity.x = actuator.limitVelocityX;
-                }else if(actuator.targetRigidBody.getLinearVelocity().x < -actuator.limitVelocityX){
-                    velocity.x = - actuator.limitVelocityX;
+                Vector2 vel = actuator.targetRigidBody.getLinearVelocity();
+                if (Math.abs(vel.x) > actuator.limitVelocityX) {
+                    vel.x = Math.signum(vel.x) * actuator.limitVelocityX;
+                    actuator.targetRigidBody.setLinearVelocity(new Vector2(vel.x, vel.y));
+                } else if (Math.abs(vel.y) > actuator.limitVelocityX * 2) {
+                    vel.y = Math.signum(vel.y) * actuator.limitVelocityX * 2;
+                    actuator.targetRigidBody.setLinearVelocity(new Vector2(vel.x, vel.y));
                 }
 
-                actuator.targetRigidBody.setLinearVelocity(velocity);
             }
             if (actuator.limitVelocityY != 0 && actuator.targetRigidBody.getLinearVelocity().y > actuator.limitVelocityY) {
                 Vector2 velocity = actuator.targetRigidBody.getLinearVelocity();
@@ -62,6 +66,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
         }
 
     }
+
 
 
 }

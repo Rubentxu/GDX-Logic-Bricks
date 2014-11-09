@@ -36,11 +36,11 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             Sensor s = it.next();
             if (s.pulseSignal == false) {
                 controller.pulseSignal = false;
-                return;
+
             }
-            // s.pulseSignal = false;
+            s.pulseSignal = false;
         }
-        Gdx.app.log("ConditionalControllerSystem", "controller pulseSignal: "+ controller.pulseSignal);
+
     }
 
 

@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Input;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
@@ -37,7 +38,7 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSensorKeyTypedEventTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor();
-        sensor.key = 'a';
+        sensor.keyCode = Input.Keys.A;
 
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 

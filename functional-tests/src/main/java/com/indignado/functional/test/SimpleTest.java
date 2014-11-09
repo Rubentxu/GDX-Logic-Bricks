@@ -2,6 +2,7 @@ package com.indignado.functional.test;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.functional.test.base.LogicBricksTest;
-import com.indignado.logicbricks.bricks.actuators.Actuator;
 import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
@@ -99,29 +99,29 @@ public class SimpleTest extends LogicBricksTest {
         player.add(viewsComponent);
 
         KeyboardSensor keyboardSensor = new KeyboardSensor();
-        keyboardSensor.key = 'd';
+        keyboardSensor.keyCode = Input.Keys.D;
 
         ConditionalController controller = new ConditionalController();
         controller.type = ConditionalController.Type.AND;
 
 
         MotionActuator motionActuator = new MotionActuator();
-        motionActuator.impulse = new Vector2(3,0);
+        motionActuator.impulse = new Vector2(1,0);
         motionActuator.owner = player;
-        motionActuator.limitVelocityX = 5;
+        motionActuator.limitVelocityX = 4;
 
 
         KeyboardSensor keyboardSensor2 = new KeyboardSensor();
-        keyboardSensor2.key = 'a';
+        keyboardSensor2.keyCode = Input.Keys.A;
 
         ConditionalController controller2 = new ConditionalController();
         controller2.type = ConditionalController.Type.AND;
 
 
         MotionActuator motionActuator2 = new MotionActuator();
-        motionActuator2.impulse = new Vector2(-3,0);
+        motionActuator2.impulse = new Vector2(-1,0);
         motionActuator2.owner = player;
-        motionActuator2.limitVelocityX = 5;
+        motionActuator2.limitVelocityX = 4;
 
 
 
@@ -130,7 +130,9 @@ public class SimpleTest extends LogicBricksTest {
                 .addController(controller,IdleState,WalkingState)
                 .connect(keyboardSensor)
                 .addActuator(motionActuator,IdleState,WalkingState)
-                .connect(controller)
+                .connect(controller);
+
+        new LogicBricksBuilder(player)
                 .addSensor(keyboardSensor2,IdleState,WalkingState)
                 .addController(controller2,IdleState,WalkingState)
                 .connect(keyboardSensor2)
