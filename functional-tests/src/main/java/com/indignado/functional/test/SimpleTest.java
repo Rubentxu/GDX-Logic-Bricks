@@ -13,12 +13,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.functional.test.base.LogicBricksTest;
+import com.indignado.logicbricks.bricks.actuators.CameraActuator;
 import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
+import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.sensors.AlwaysSensorComponent;
 import com.indignado.logicbricks.data.View;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;;import java.io.File;
@@ -72,7 +75,7 @@ public class SimpleTest extends LogicBricksTest {
         player.add(new StateComponent());
 
         Body bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
-                .boxShape(0.35f, 1))
+                .boxShape(0.35f, 1).friction(2))
                 .type(BodyDef.BodyType.DynamicBody)
                 .position(0, 5)
                 .mass(1)
@@ -106,9 +109,9 @@ public class SimpleTest extends LogicBricksTest {
 
 
         MotionActuator motionActuator = new MotionActuator();
-        motionActuator.impulse = new Vector2(1,0);
+        motionActuator.impulse = new Vector2(2,0);
         motionActuator.owner = player;
-        motionActuator.limitVelocityX = 4;
+        motionActuator.limitVelocityX = 7;
 
 
         KeyboardSensor keyboardSensor2 = new KeyboardSensor();
@@ -119,26 +122,47 @@ public class SimpleTest extends LogicBricksTest {
 
 
         MotionActuator motionActuator2 = new MotionActuator();
-        motionActuator2.impulse = new Vector2(-1,0);
+        motionActuator2.impulse = new Vector2(-2,0);
         motionActuator2.owner = player;
-        motionActuator2.limitVelocityX = 4;
+        motionActuator2.limitVelocityX = 7;
 
+
+        ConditionalController controller3 = new ConditionalController();
+        controller3.type = ConditionalController.Type.AND;
+
+
+        CameraActuator cameraActuator = new CameraActuator();
+        cameraActuator.height = 1;
+        cameraActuator.target = player;
+        cameraActuator.max = 1;
+        cameraActuator.min = 5;
+        cameraActuator.camera = camera;
 
 
         new LogicBricksBuilder(player)
-                .addSensor(keyboardSensor,IdleState,WalkingState)
-                .addController(controller,IdleState,WalkingState)
+                .addSensor(keyboardSensor, IdleState, WalkingState)
+                .addController(controller, IdleState, WalkingState)
                 .connect(keyboardSensor)
                 .addActuator(motionActuator,IdleState,WalkingState)
                 .connect(controller);
 
         new LogicBricksBuilder(player)
-                .addSensor(keyboardSensor2,IdleState,WalkingState)
-                .addController(controller2,IdleState,WalkingState)
+                .addSensor(keyboardSensor2, IdleState, WalkingState)
+                .addController(controller2, IdleState, WalkingState)
                 .connect(keyboardSensor2)
-                .addActuator(motionActuator2,IdleState,WalkingState)
+                .addActuator(motionActuator2, IdleState, WalkingState)
                 .connect(controller2);
 
+
+        AlwaysSensor alwaysSensor = new AlwaysSensor();
+        new LogicBricksBuilder(player)
+                .addSensor(alwaysSensor, IdleState, WalkingState)
+                .addController(controller3, IdleState, WalkingState)
+                .connect(alwaysSensor)
+                .addActuator(cameraActuator, IdleState, WalkingState)
+                .connect(controller3);
+
+        System.out.println("Always sensors size: "+ player.getComponent(AlwaysSensorComponent.class).sensors.size);
         engine.addEntity(player);
     }
 }

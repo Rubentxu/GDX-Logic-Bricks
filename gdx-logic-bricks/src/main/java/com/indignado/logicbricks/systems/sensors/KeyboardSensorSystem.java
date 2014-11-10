@@ -30,16 +30,15 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
         boolean isActive = false;
         keyboardSensors.add(sensor);
         sensor.keysSignal.clear();
-        //sensor.keysCodeSignal.clear();
 
         if (sensor.keyCode != Input.Keys.UNKNOWN) {
             if (sensor.keysCodeSignal.contains(sensor.keyCode)) {
-                Gdx.app.log("KeyboardSensorSystem", "sensor keyCodeSignal contains: " + sensor.keyCode);
+                //Gdx.app.log("KeyboardSensorSystem", "sensor keyCodeSignal contains: " + sensor.keyCode);
                 isActive = true;
             }
         } else if (sensor.allKeys) {
             isActive = true;
-            Gdx.app.log("KeyboardSensorSystem", "sensor allKeys: ");
+            //Gdx.app.log("KeyboardSensorSystem", "sensor allKeys: ");
             if (sensor.logToggle) {
                 for (Character key : sensor.keysSignal) {
                     sensor.target += key;
@@ -58,10 +57,10 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyDown(int keycode) {
-        Gdx.app.log("KeyboardSensorSystem", "sensor keyDown event: " + keycode);
+        //Gdx.app.log("KeyboardSensorSystem", "sensor keyDown event: " + keycode);
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.add(new Integer(keycode));
-            Gdx.app.log("KeyboardSensorSystem", "key size: " + ks.keysCodeSignal.size());
+            //Gdx.app.log("KeyboardSensorSystem", "key size: " + ks.keysCodeSignal.size());
         }
         return false;
 
@@ -70,10 +69,10 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyUp(int keycode) {
-        Gdx.app.log("KeyboardSensorSystem", "sensor keyUp event: " + keycode);
+        //Gdx.app.log("KeyboardSensorSystem", "sensor keyUp event: " + keycode);
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.remove(new Integer(keycode));
-            Gdx.app.log("KeyboardSensorSystem", "key size: " + ks.keysCodeSignal.size());
+            //Gdx.app.log("KeyboardSensorSystem", "key size: " + ks.keysCodeSignal.size());
 
         }
         return false;

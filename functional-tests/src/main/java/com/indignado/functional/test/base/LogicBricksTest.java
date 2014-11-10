@@ -32,7 +32,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
     private Box2DDebugRenderer renderer;
     private float WIDTH = 30;
     private final float HEIGHT = 20 ;
-    private OrthographicCamera camera;
+    protected OrthographicCamera camera;
 
 
     @Override
@@ -44,6 +44,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         this.world = new World(new Vector2(0 , -10),true);
         this.engine = new Engine();
         engine.addSystem(new CollisionSensorSystem());
+        engine.addSystem(new AlwaysSensorSystem());
         engine.addSystem(new DelaySensorSystem());
         KeyboardSensorSystem keyboardSensorSystem = new KeyboardSensorSystem();
         engine.addSystem(keyboardSensorSystem);

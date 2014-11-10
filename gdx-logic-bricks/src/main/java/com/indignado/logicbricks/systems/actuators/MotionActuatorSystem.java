@@ -33,7 +33,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
             }
 
             if (actuator.impulse != null) {
-                Gdx.app.log("MotionActuatorSystem", "apply impulse: " + actuator.impulse);
+                //Gdx.app.log("MotionActuatorSystem", "apply impulse: " + actuator.impulse);
                 actuator.targetRigidBody.applyLinearImpulse(actuator.impulse, actuator.targetRigidBody.getWorldCenter(), true);
 
             }

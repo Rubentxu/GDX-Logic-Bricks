@@ -53,9 +53,15 @@ public class LogicBricksBuilder {
             sensorComponent = entity.getComponent(AlwaysSensorComponent.class);
             if (sensorComponent == null) {
                 sensorComponent = new AlwaysSensorComponent();
-                sensorComponent.sensors.put(state, new HashSet<AlwaysSensor>());
                 entity.add(sensorComponent);
             }
+            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
+            if( sensorsList == null) {
+                sensorsList = (Set<S>) new HashSet<AlwaysSensor>();
+                sensorComponent.sensors.put(state, sensorsList);
+
+            }
+
 
         } else if (sensor instanceof CollisionSensor) {
             sensorComponent = entity.getComponent(CollisionSensorComponent.class);
@@ -161,9 +167,9 @@ public class LogicBricksBuilder {
             actuatorComponent = entity.getComponent(CameraActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new CameraActuatorComponent();
-                actuatorComponent.actuators.put(state, new HashSet<CameraActuator>());
                 entity.add(actuatorComponent);
             }
+            processActuator(state, actuatorComponent);
 
         } else if (actuator instanceof MessageActuator) {
             actuatorComponent = entity.getComponent(MessageActuatorComponent.class);
@@ -177,19 +183,24 @@ public class LogicBricksBuilder {
             actuatorComponent = entity.getComponent(MotionActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new MotionActuatorComponent();
-
                 entity.add(actuatorComponent);
             }
-            actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
-            if(actuatorList == null ){
-                actuatorList = (Set<A>) new HashSet<MotionActuator>();
-                actuatorComponent.actuators.put(state, actuatorList);
-            }
+            processActuator(state, actuatorComponent);
 
         }
         ((Set<A>) actuatorComponent.actuators.get(state)).add(actuator);
         return this;
 
+    }
+
+
+    private <A extends Actuator> void processActuator(int state, ActuatorComponent actuatorComponent) {
+        Set<A> actuatorList;
+        actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
+        if(actuatorList == null ){
+            actuatorList = new HashSet<A>();
+            actuatorComponent.actuators.put(state, actuatorList);
+        }
     }
 
 

@@ -3,6 +3,7 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
@@ -22,7 +23,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
     public SensorSystem(Class<SC> clazz) {
         super(1);
-        this.family = Family.getFor(clazz, StateComponent.class);
+        this.family = Family.all(clazz, StateComponent.class).get();
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
 
@@ -54,8 +55,12 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         Integer state = stateMapper.get(entity).get();
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
+
             for (S sensor : sensors) {
-                if(sensor instanceof AlwaysSensor) sensor.pulseSignal= true;
+                if(sensor instanceof AlwaysSensor) {
+                    Gdx.app.log("SensorSystem","Intance of AlwaysSensor");
+                    sensor.pulseSignal= true;
+                }
                 if(isTap(sensor)) sensor.pulseSignal = false;
                 else processSensor(sensor);
 

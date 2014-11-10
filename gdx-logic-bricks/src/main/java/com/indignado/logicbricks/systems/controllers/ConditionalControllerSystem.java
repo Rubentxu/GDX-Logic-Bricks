@@ -38,7 +38,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = false;
 
             }
-            s.pulseSignal = false;
+
         }
 
     }

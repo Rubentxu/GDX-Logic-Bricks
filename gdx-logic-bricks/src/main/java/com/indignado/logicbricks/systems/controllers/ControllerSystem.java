@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.controllers.Controller;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
@@ -18,7 +19,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
     protected ComponentMapper<StateComponent> stateMapper;
 
     public ControllerSystem(Class<CC> clazz) {
-        super(Family.getFor(clazz, StateComponent.class), 2);
+        super(Family.all(clazz, StateComponent.class).get(), 2);
         this.controllerMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
     }
@@ -29,6 +30,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         Integer state = stateMapper.get(entity).get();
         Set<C> controllers = (Set<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {
+            Gdx.app.log("ControllerSystem","Controllers size: " + controllers.size());
             for (C controller : controllers) {
                 processController(controller);
 
