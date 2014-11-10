@@ -1,20 +1,20 @@
 package com.indignado.logicbricks.data;
 
+import com.badlogic.ashley.core.Component;
+
+import java.util.Properties;
+
 /**
  * @author Rubentxu.
  */
-public class Property<T> {
-    public enum Mode { Assign, Add, Toggle, Copy }
-
-    public Mode mode;
+public class Property<V> {
     public String name;
-    public T value;
+    public V value;
 
-
-    public Property(Mode mode, String name, T value) {
-        this.mode = mode;
+    public Property(String name, V value) {
         this.name = name;
         this.value = value;
+
     }
 
 }

@@ -6,21 +6,21 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.data.Property;
 
+import java.util.HashMap;
+
 /**
  * @author Rubentxu.
  */
-public class RigidBodyPropertyActuator extends Actuator {
-    public Array<Property> properties = new Array<Property>();
+public class RigidBodyPropertyActuator extends PropertyActuator<Body> {
+
 
     public RigidBodyPropertyActuator() {
-        properties.add(new Property<Boolean>(Property.Mode.Assign,"active",true));
-        properties.add(new Property<Boolean>(Property.Mode.Assign,"awake",true));
-        properties.add(new Property<Float>(Property.Mode.Assign,"friction",0.2f));
-        properties.add(new Property<Float>(Property.Mode.Assign,"restitution",0f));
+        properties.put("active",new Property<Boolean>("active",null));
+        properties.put("awake",new Property<Boolean>("awake",null));
+        properties.put("friction",new Property<Float>("friction",null));
+        properties.put("restitution",new Property<Float>("restitution",null));
 
     }
-
-    public Body targetRigidBody;
 
 
 }
