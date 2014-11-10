@@ -29,7 +29,6 @@ public class RigidBodyPropertyActuatorSystem extends ActuatorSystem<RigidBodyPro
             if (actuator.targetRigidBody == null) {
                 actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
             }
-            Gdx.app.log("RigidBodyPropertyActuator", "friction: "+ actuator.friction + " restitution: " + actuator.restitution);
             actuator.targetRigidBody.setActive(actuator.active);
             actuator.targetRigidBody.setAwake(actuator.awake);
             for(Fixture fixture: actuator.targetRigidBody.getFixtureList()) {

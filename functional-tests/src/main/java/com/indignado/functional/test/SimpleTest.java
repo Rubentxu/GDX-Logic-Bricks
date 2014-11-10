@@ -73,10 +73,18 @@ public class SimpleTest extends LogicBricksTest {
                 .build();
 
 
-        Body box = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+       bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(1, 1))
                 .type(BodyDef.BodyType.StaticBody)
                 .position(3, 5)
+                .mass(1)
+                .build();
+
+
+        bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+                .boxShape(1, 1))
+                .type(BodyDef.BodyType.StaticBody)
+                .position(9, 7)
                 .mass(1)
                 .build();
 
@@ -145,9 +153,6 @@ public class SimpleTest extends LogicBricksTest {
         cameraActuator.height = 1;
         cameraActuator.target = player;
         cameraActuator.camera = camera;
-
-
-
 
         new LogicBricksBuilder(player)
                 .addSensor(keyboardSensor, IdleState, WalkingState)
