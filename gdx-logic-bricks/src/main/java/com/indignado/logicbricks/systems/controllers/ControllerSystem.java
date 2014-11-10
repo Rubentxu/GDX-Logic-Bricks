@@ -30,7 +30,6 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         Integer state = stateMapper.get(entity).get();
         Set<C> controllers = (Set<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {
-            Gdx.app.log("ControllerSystem","Controllers size: " + controllers.size());
             for (C controller : controllers) {
                 processController(controller);
 

@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
@@ -21,13 +20,15 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     @Override
     public void processController(ConditionalController controller) {
-        if (controller.type.equals(ConditionalController.Type.AND)) evaluateAndConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.OR)) evaluateOrConditional(controller);
+        if (controller.type.equals(ConditionalController.Type.AND)) evaluateANDConditional(controller);
+        if (controller.type.equals(ConditionalController.Type.OR)) evaluateORConditional(controller);
+        if (controller.type.equals(ConditionalController.Type.NAND)) evaluateNANDConditional(controller);
+        if (controller.type.equals(ConditionalController.Type.NOR)) evaluateNORConditional(controller);
 
     }
 
 
-    public void evaluateAndConditional(ConditionalController controller) {
+    public void evaluateANDConditional(ConditionalController controller) {
         controller.pulseSignal = true;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
@@ -44,7 +45,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
     }
 
 
-    public void evaluateOrConditional(ConditionalController controller) {
+    public void evaluateORConditional(ConditionalController controller) {
         controller.pulseSignal = false;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
@@ -53,10 +54,42 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             Sensor s = it.next();
             if (s.pulseSignal == true) {
                 controller.pulseSignal = true;
-                s.pulseSignal = false;
             }
         }
 
+
+    }
+
+
+    public void evaluateNANDConditional(ConditionalController controller) {
+        controller.pulseSignal = false;
+        Iterator<Sensor> it = controller.sensors.iterator();
+        if (!it.hasNext())
+            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+        while (it.hasNext()) {
+            Sensor s = it.next();
+            if (s.pulseSignal == false) {
+                controller.pulseSignal = true;
+            }
+        }
+
+
+    }
+
+
+    public void evaluateNORConditional(ConditionalController controller) {
+        controller.pulseSignal = true;
+        Iterator<Sensor> it = controller.sensors.iterator();
+        if (!it.hasNext())
+            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+        while (it.hasNext()) {
+            Sensor s = it.next();
+            if (s.pulseSignal == true) {
+                controller.pulseSignal = false;
+
+            }
+
+        }
 
     }
 

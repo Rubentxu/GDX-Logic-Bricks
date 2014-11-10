@@ -55,10 +55,8 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         Integer state = stateMapper.get(entity).get();
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
-
             for (S sensor : sensors) {
                 if(sensor instanceof AlwaysSensor) {
-                    Gdx.app.log("SensorSystem","Intance of AlwaysSensor");
                     sensor.pulseSignal= true;
                 }
                 if(isTap(sensor)) sensor.pulseSignal = false;

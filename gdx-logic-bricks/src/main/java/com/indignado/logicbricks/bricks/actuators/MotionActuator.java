@@ -19,7 +19,7 @@ public class MotionActuator extends Actuator {
     public boolean fixedRotation = false;
     public float limitVelocityX = 0;
     public float limitVelocityY = 0;
-    // public boolean isLocal = false;
+
 
 
 }

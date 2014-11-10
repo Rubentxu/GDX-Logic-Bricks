@@ -1,18 +1,12 @@
 package com.indignado.logicbricks.utils.logicbricks;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.bricks.actuators.Actuator;
-import com.indignado.logicbricks.bricks.actuators.CameraActuator;
-import com.indignado.logicbricks.bricks.actuators.MessageActuator;
-import com.indignado.logicbricks.bricks.actuators.MotionActuator;
+import com.indignado.logicbricks.bricks.actuators.*;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.controllers.Controller;
 import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.sensors.*;
-import com.indignado.logicbricks.components.actuators.ActuatorComponent;
-import com.indignado.logicbricks.components.actuators.CameraActuatorComponent;
-import com.indignado.logicbricks.components.actuators.MessageActuatorComponent;
-import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
+import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
@@ -175,14 +169,23 @@ public class LogicBricksBuilder {
             actuatorComponent = entity.getComponent(MessageActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new MessageActuatorComponent();
-                actuatorComponent.actuators.put(state, new HashSet<MessageActuator>());
                 entity.add(actuatorComponent);
             }
+            processActuator(state, actuatorComponent);
 
         } else if (actuator instanceof MotionActuator) {
             actuatorComponent = entity.getComponent(MotionActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new MotionActuatorComponent();
+                entity.add(actuatorComponent);
+            }
+            processActuator(state, actuatorComponent);
+
+        }
+        else if (actuator instanceof RigidBodyPropertyActuator) {
+            actuatorComponent = entity.getComponent(RigidBodyPropertyActuatorComponent.class);
+            if (actuatorComponent == null) {
+                actuatorComponent = new RigidBodyPropertyActuatorComponent();
                 entity.add(actuatorComponent);
             }
             processActuator(state, actuatorComponent);

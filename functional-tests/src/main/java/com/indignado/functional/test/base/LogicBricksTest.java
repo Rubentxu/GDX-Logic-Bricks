@@ -17,6 +17,7 @@ import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.systems.actuators.CameraActuatorSystem;
 import com.indignado.logicbricks.systems.actuators.MessageActuatorSystem;
 import com.indignado.logicbricks.systems.actuators.MotionActuatorSystem;
+import com.indignado.logicbricks.systems.actuators.RigidBodyPropertyActuatorSystem;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
@@ -56,6 +57,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new CameraActuatorSystem());
         engine.addSystem(new MessageActuatorSystem());
         engine.addSystem(new MotionActuatorSystem());
+        engine.addSystem(new RigidBodyPropertyActuatorSystem());
         RenderingSystem renderingSystem = new RenderingSystem(batch,camera);
         renderingSystem.WIDTH = WIDTH;
         renderingSystem.HEIGHT = HEIGHT;
