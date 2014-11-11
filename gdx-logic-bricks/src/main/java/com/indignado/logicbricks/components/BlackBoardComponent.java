@@ -1,15 +1,17 @@
-package com.indignado.logicbricks.data;
+package com.indignado.logicbricks.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.utils.Bag;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
+import com.indignado.logicbricks.data.Property;
+import com.indignado.logicbricks.data.PropertyType;
 
 /**
  * @author Rubentxu.
  */
-public class BlackBoard extends Component {
+public class BlackBoardComponent extends Component {
     long uuid;
     private Bag<Property> properties;
     private Array<Property> propertiesArray;
@@ -17,7 +19,7 @@ public class BlackBoard extends Component {
     private Bits propertyBits;
 
 
-    public BlackBoard() {
+    public BlackBoardComponent() {
         properties = new Bag<Property>();
         propertiesArray = new Array<Property>(false, 16);
         immutablePropertiesArray = new ImmutableArray<Property>(propertiesArray);
@@ -32,7 +34,7 @@ public class BlackBoard extends Component {
     }
 
 
-    public BlackBoard add(Property property) {
+    public BlackBoardComponent add(Property property) {
         String propertyName = property.name;
 
         for (int i = 0; i < propertiesArray.size; ++i) {
@@ -60,7 +62,7 @@ public class BlackBoard extends Component {
     }
 
 
-    public BlackBoard remove(Property property) {
+    public BlackBoardComponent remove(Property property) {
         PropertyType propertyType = PropertyType.getFor(property.name);
         int propertyTypeIndex = propertyType.getIndex();
         Property removeProperty = properties.get(propertyTypeIndex);
@@ -116,9 +118,9 @@ public class BlackBoard extends Component {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (!(obj instanceof BlackBoard))
+        if (!(obj instanceof BlackBoardComponent))
             return false;
-        BlackBoard other = (BlackBoard) obj;
+        BlackBoardComponent other = (BlackBoardComponent) obj;
         return uuid == other.uuid;
 
     }

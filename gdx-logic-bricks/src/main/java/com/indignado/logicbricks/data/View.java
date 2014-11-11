@@ -9,22 +9,17 @@ import com.badlogic.gdx.utils.IntMap;
 /**
  * @author Rubentxu.
  */
-public class View extends Data {
+public class View {
     public String name;
     public Transform transform;
     public IntMap<Animation> animations;
     public TextureRegion textureRegion;
-    public int layer = 0;
-    public Property<Float> height = new Property<Float>("height", null);
-    public Property<Float> width = new Property<Float>("width", null);
-    public Property<Integer> opacity = new Property<Integer>("opacity", null);
-    public Property<Boolean> flipX = new Property<Boolean>("flipX", null);
-    public Property<Boolean> flipY = new Property<Boolean>("flipY", null);
-    public Property<Color> tint = new Property<Color>("tint", null);
+    public float height;
+    public float width;
+    public int opacity = 1;
+    public boolean flipX;
+    public boolean flipY;
+    public int layer;
+    public Color tint;
 
-
-    public View(String name) {
-        this.name = name;
-        this.height.
-    }
 }

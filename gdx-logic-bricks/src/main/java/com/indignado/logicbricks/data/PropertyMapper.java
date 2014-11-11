@@ -1,5 +1,7 @@
 package com.indignado.logicbricks.data;
 
+import com.indignado.logicbricks.components.BlackBoardComponent;
+
 /**
  * @author Rubentxu.
  */
@@ -19,14 +21,14 @@ public class PropertyMapper {
     }
 
 
-    public Property get(BlackBoard blackBoard) {
-        return blackBoard.getProperty(propertyType);
+    public Property get(BlackBoardComponent blackBoardComponent) {
+        return blackBoardComponent.getProperty(propertyType);
 
     }
 
 
-    public boolean has(BlackBoard blackBoard) {
-        return blackBoard.hasProperty(propertyType);
+    public boolean has(BlackBoardComponent blackBoardComponent) {
+        return blackBoardComponent.hasProperty(propertyType);
 
     }
 

@@ -20,7 +20,7 @@ public class ViewsSystem extends IteratingSystem {
 
 
     public ViewsSystem() {
-        super(Family.getFor(ViewsComponent.class, StateComponent.class), 0);
+        super(Family.all(ViewsComponent.class, StateComponent.class).get(), 0);
         tm = ComponentMapper.getFor(ViewsComponent.class);
         sm = ComponentMapper.getFor(StateComponent.class);
 
