@@ -13,6 +13,7 @@ import java.util.HashMap;
  */
 public class ViewPropertyActuator extends PropertyActuator<View> {
 
+
     public ViewPropertyActuator() {
         properties.put("height",new Property<Float>("height",null));
         properties.put("width",new Property<Float>("width",null));

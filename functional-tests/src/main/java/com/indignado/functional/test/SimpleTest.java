@@ -108,7 +108,7 @@ public class SimpleTest extends LogicBricksTest {
         Texture playerTexture = new Texture(getFileHandle("assets/textures/player.png"));
 
         View playerView = new View();
-        playerView.height = 2;
+        playerView. = 2;
         playerView.width = 1.5f;
         playerView.transform = bodyPlayer.getTransform();
         playerView.textureRegion = new TextureRegion(playerTexture);
