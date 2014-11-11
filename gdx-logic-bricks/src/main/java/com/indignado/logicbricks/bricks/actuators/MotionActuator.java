@@ -21,5 +21,4 @@ public class MotionActuator extends Actuator {
     public float limitVelocityY = 0;
 
 
-
 }

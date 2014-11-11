@@ -1,9 +1,7 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
@@ -15,10 +13,10 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends EntitySystem {
-    private Family family;
-    private ImmutableArray<Entity> entities;
     protected ComponentMapper<SC> sensorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
+    private Family family;
+    private ImmutableArray<Entity> entities;
 
 
     public SensorSystem(Class<SC> clazz) {
@@ -56,10 +54,10 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (S sensor : sensors) {
-                if(sensor instanceof AlwaysSensor) {
-                    sensor.pulseSignal= true;
+                if (sensor instanceof AlwaysSensor) {
+                    sensor.pulseSignal = true;
                 }
-                if(isTap(sensor)) sensor.pulseSignal = false;
+                if (isTap(sensor)) sensor.pulseSignal = false;
                 else processSensor(sensor);
 
             }

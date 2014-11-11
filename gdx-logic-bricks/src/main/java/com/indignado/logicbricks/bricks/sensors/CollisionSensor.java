@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
  *
  * @author Rubentxu
  */
-public class  CollisionSensor extends Sensor {
+public class CollisionSensor extends Sensor {
 
     // Config Values
     public Fixture ownerFixture;

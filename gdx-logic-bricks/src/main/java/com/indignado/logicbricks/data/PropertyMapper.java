@@ -1,7 +1,5 @@
 package com.indignado.logicbricks.data;
 
-import com.badlogic.ashley.core.Component;
-
 /**
  * @author Rubentxu.
  */
@@ -21,13 +19,15 @@ public class PropertyMapper {
     }
 
 
-    public T get(Component component){
-        return entity.getComponent(componentType);
+    public Property get(BlackBoard blackBoard) {
+        return blackBoard.getProperty(propertyType);
+
     }
 
 
-    public boolean has(Entity entity) {
-        return entity.hasComponent(componentType);
+    public boolean has(BlackBoard blackBoard) {
+        return blackBoard.hasProperty(propertyType);
+
     }
 
 }

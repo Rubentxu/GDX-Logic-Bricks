@@ -8,10 +8,9 @@ import java.util.HashMap;
  * @author Rubentxu.
  */
 public class PropertyActuator<T> extends Actuator {
-    public enum Mode { Assign, Add, Toggle, Copy }
-
     public T target;
-    public HashMap<String,Property> properties = new HashMap<String,Property>();
+    public HashMap<String, Property> properties = new HashMap<String, Property>();
     public Mode mode;
+    public enum Mode {Assign, Add, Toggle, Copy}
 
 }

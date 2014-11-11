@@ -30,9 +30,9 @@ public class LogicBricksBuilder {
     }
 
 
-    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int ... states) {
+    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int... states) {
         for (int s : states) {
-            addSensor(sensor,s);
+            addSensor(sensor, s);
         }
         return this;
 
@@ -50,7 +50,7 @@ public class LogicBricksBuilder {
                 entity.add(sensorComponent);
             }
             sensorsList = (Set<S>) sensorComponent.sensors.get(state);
-            if( sensorsList == null) {
+            if (sensorsList == null) {
                 sensorsList = (Set<S>) new HashSet<AlwaysSensor>();
                 sensorComponent.sensors.put(state, sensorsList);
 
@@ -72,7 +72,7 @@ public class LogicBricksBuilder {
                 entity.add(sensorComponent);
             }
             sensorsList = (Set<S>) sensorComponent.sensors.get(state);
-            if( sensorsList == null) {
+            if (sensorsList == null) {
                 sensorsList = (Set<S>) new HashSet<KeyboardSensor>();
                 sensorComponent.sensors.put(state, sensorsList);
 
@@ -88,15 +88,15 @@ public class LogicBricksBuilder {
             }
 
         }
-        if(sensorComponent != null) ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
+        if (sensorComponent != null) ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
         return this;
 
     }
 
 
-    public <C extends Controller> LogicBricksBuilder addController(C controller, int ... states) {
-        for(int s : states){
-            addController(controller,s);
+    public <C extends Controller> LogicBricksBuilder addController(C controller, int... states) {
+        for (int s : states) {
+            addController(controller, s);
         }
         return this;
 
@@ -116,7 +116,7 @@ public class LogicBricksBuilder {
                 entity.add(controllerComponent);
             }
             controllerList = (Set<C>) controllerComponent.controllers.get(state);
-            if(controllerList == null ) {
+            if (controllerList == null) {
                 controllerList = (Set<C>) new HashSet<ConditionalController>();
                 controllerComponent.controllers.put(state, controllerList);
             }
@@ -142,9 +142,9 @@ public class LogicBricksBuilder {
     }
 
 
-    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int ... states) {
-        for(int s : states){
-            addActuator(actuator,s);
+    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int... states) {
+        for (int s : states) {
+            addActuator(actuator, s);
         }
         return this;
 
@@ -181,8 +181,7 @@ public class LogicBricksBuilder {
             }
             processActuator(state, actuatorComponent);
 
-        }
-        else if (actuator instanceof RigidBodyPropertyActuator) {
+        } else if (actuator instanceof RigidBodyPropertyActuator) {
             actuatorComponent = entity.getComponent(RigidBodyPropertyActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new RigidBodyPropertyActuatorComponent();
@@ -200,7 +199,7 @@ public class LogicBricksBuilder {
     private <A extends Actuator> void processActuator(int state, ActuatorComponent actuatorComponent) {
         Set<A> actuatorList;
         actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
-        if(actuatorList == null ){
+        if (actuatorList == null) {
             actuatorList = new HashSet<A>();
             actuatorComponent.actuators.put(state, actuatorList);
         }

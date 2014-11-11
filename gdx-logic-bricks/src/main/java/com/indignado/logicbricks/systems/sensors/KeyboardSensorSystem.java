@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;

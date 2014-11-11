@@ -37,7 +37,7 @@ public class RenderingSystem extends IteratingSystem {
 
 
     public RenderingSystem(SpriteBatch batch, OrthographicCamera camera) {
-        super(Family.getFor(ViewsComponent.class),4);
+        super(Family.getFor(ViewsComponent.class), 4);
         vm = ComponentMapper.getFor(ViewsComponent.class);
 
         renderQueue = new Array<View>();
