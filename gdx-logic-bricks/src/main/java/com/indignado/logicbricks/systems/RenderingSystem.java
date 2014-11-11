@@ -79,7 +79,8 @@ public class RenderingSystem extends IteratingSystem {
             }
 
             batch.getColor().a = view.opacity;
-            view.textureRegion.flip(view.flipX, view.flipY);
+
+            processTextureFlip(view);
 
             batch.draw(view.textureRegion, t.getPosition().x - originX, t.getPosition().y - originY, originX, originY,
                     view.width, view.height, 1, 1, MathUtils.radiansToDegrees * t.getRotation());
@@ -89,6 +90,22 @@ public class RenderingSystem extends IteratingSystem {
         batch.end();
         renderQueue.clear();
 
+    }
+
+    private void processTextureFlip(View view) {
+        if ((view.flipX  && !view.textureRegion.isFlipX()) || (!view.flipX  && view.textureRegion.isFlipX())) {
+            float temp = view.textureRegion.getU();
+            view.textureRegion.setU(view.textureRegion.getU2());
+            view.textureRegion.setU2(temp);
+        }
+
+
+        if ((view.flipY  && !view.textureRegion.isFlipY()) || (!view.flipY  && view.textureRegion.isFlipY())) {
+            float temp = view.textureRegion.getV();
+            view.textureRegion.setV(view.textureRegion.getV2());
+            view.textureRegion.setV2(temp);
+
+        }
     }
 
 

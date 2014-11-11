@@ -7,14 +7,13 @@ import com.indignado.logicbricks.data.View;
 /**
  * @author Rubentxu.
  */
-public class ViewPropertyActuator extends Actuator {
+public class ViewActuator extends Actuator {
     public View targetView;
-    public float height;
-    public float width;
-    public int opacity;
-    public boolean flipX;
-    public boolean flipY;
-    public int layer;
+    public float height = 0;
+    public float width = 0;
+    public int opacity = -1;
+    public Boolean flipX;
+    public Boolean flipY;
     public Color tint;
 
 }

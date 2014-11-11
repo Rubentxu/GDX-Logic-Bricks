@@ -11,13 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.indignado.logicbricks.bricks.actuators.CameraActuator;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.actuators.CameraActuatorSystem;
-import com.indignado.logicbricks.systems.actuators.MessageActuatorSystem;
-import com.indignado.logicbricks.systems.actuators.MotionActuatorSystem;
-import com.indignado.logicbricks.systems.actuators.RigidBodyPropertyActuatorSystem;
+import com.indignado.logicbricks.systems.ViewsSystem;
+import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
@@ -58,10 +55,12 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new MessageActuatorSystem());
         engine.addSystem(new MotionActuatorSystem());
         engine.addSystem(new RigidBodyPropertyActuatorSystem());
+        engine.addSystem(new ViewActuatorSystem());
         RenderingSystem renderingSystem = new RenderingSystem(batch,camera);
         renderingSystem.WIDTH = WIDTH;
         renderingSystem.HEIGHT = HEIGHT;
         engine.addSystem(renderingSystem);
+        engine.addSystem(new ViewsSystem());
         engine.addSystem(new StateSystem());
 
         Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem,mouseSensorSystem));

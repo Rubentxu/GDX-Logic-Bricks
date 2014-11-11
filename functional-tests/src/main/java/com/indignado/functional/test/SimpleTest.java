@@ -7,15 +7,20 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.logicbricks.bricks.actuators.CameraActuator;
 import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.bricks.actuators.RigidBodyPropertyActuator;
+import com.indignado.logicbricks.bricks.actuators.ViewActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
@@ -35,8 +40,8 @@ public class SimpleTest extends LogicBricksTest {
     private BodyBuilder bodyBuilder;
     private World world;
     private Engine engine;
-    private int IdleState = 0;
-    private int WalkingState = 1;
+    private int IdleState = 1;
+    private int WalkingState = 0;
 
 
 
@@ -105,13 +110,25 @@ public class SimpleTest extends LogicBricksTest {
         player.add(rbc);
 
 
-        Texture playerTexture = new Texture(getFileHandle("assets/textures/player.png"));
+        TextureAtlas atlas = new TextureAtlas(getFileHandle("assets/animations/sprites.pack"));
+        Array<TextureAtlas.AtlasRegion> heroWalking = atlas.findRegions("Andando");
+        Array<TextureAtlas.AtlasRegion> heroJump = atlas.findRegions("Saltando");
+        Array<TextureAtlas.AtlasRegion> heroFall = atlas.findRegions("Cayendo");
+        Array<TextureAtlas.AtlasRegion> heroIdle = atlas.findRegions("Parado");
+
+        Animation walking = new Animation(0.02f, heroWalking, Animation.PlayMode.LOOP);
+        Animation jump = new Animation(0.02f * 7, heroJump, Animation.PlayMode.NORMAL);
+        Animation fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
+        Animation idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
+
 
         View playerView = new View();
         playerView.height = 2;
         playerView.width = 1.5f;
         playerView.transform = bodyPlayer.getTransform();
-        playerView.textureRegion = new TextureRegion(playerTexture);
+        playerView.animations = new IntMap<>();
+        playerView.animations.put(IdleState,idle);
+        playerView.animations.put(WalkingState,walking);
         playerView.layer = 1;
 
         ViewsComponent viewsComponent =  new ViewsComponent();
@@ -154,18 +171,31 @@ public class SimpleTest extends LogicBricksTest {
         cameraActuator.target = player;
         cameraActuator.camera = camera;
 
+
+        ViewActuator viewActuator = new ViewActuator();
+        viewActuator.flipX = false;
+        viewActuator.targetView = playerView;
+
         new LogicBricksBuilder(player)
                 .addSensor(keyboardSensor, IdleState, WalkingState)
                 .addController(controller, IdleState, WalkingState)
                 .connect(keyboardSensor)
                 .addActuator(motionActuator,IdleState,WalkingState)
+                .connect(controller)
+                .addActuator(viewActuator,IdleState,WalkingState)
                 .connect(controller);
+
+        ViewActuator viewActuator2 = new ViewActuator();
+        viewActuator2.flipX = true;
+        viewActuator2.targetView = playerView;
 
         new LogicBricksBuilder(player)
                 .addSensor(keyboardSensor2, IdleState, WalkingState)
                 .addController(controller2, IdleState, WalkingState)
                 .connect(keyboardSensor2)
                 .addActuator(motionActuator2, IdleState, WalkingState)
+                .connect(controller2)
+                .addActuator(viewActuator2, IdleState, WalkingState)
                 .connect(controller2);
 
 
@@ -215,4 +245,5 @@ public class SimpleTest extends LogicBricksTest {
         System.out.println("Always sensors size: "+ player.getComponent(AlwaysSensorComponent.class).sensors.size);
         engine.addEntity(player);
     }
+
 }
