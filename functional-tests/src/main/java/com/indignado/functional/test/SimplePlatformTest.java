@@ -180,10 +180,13 @@ public class SimplePlatformTest extends LogicBricksTest {
         stateActuator.owner = player;
         stateActuator.state = 1;
 
+        StateActuator stateActuatorB = new StateActuator();
+        stateActuatorB.owner = player;
+        stateActuatorB.state = 1;
 
         StateActuator stateActuator2 = new StateActuator();
-        stateActuator.owner = player;
-        stateActuator.state = 0;
+        stateActuator2.owner = player;
+        stateActuator2.state = 0;
 
         new LogicBricksBuilder(player)
                 .addSensor(keyboardSensor, "Idle", "Walking")
@@ -193,8 +196,9 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connect(controller)
                 .addActuator(viewActuator, "Idle", "Walking")
                 .connect(controller)
-                .addActuator(stateActuator)
+                .addActuator(stateActuator, "Idle")
                 .connect(controller);
+
 
         ViewActuator viewActuator2 = new ViewActuator();
         viewActuator2.flipX = true;
@@ -208,9 +212,9 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connect(controller2)
                 .addActuator(viewActuator2, "Idle", "Walking")
                 .connect(controller2)
-                .addActuator(stateActuator2)
+                .addActuator(stateActuatorB, "Idle")
                 .connect(controller2);
-        ;
+
 
 
         AlwaysSensor alwaysSensor = new AlwaysSensor();
@@ -237,8 +241,9 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connect(keyboardSensor2)
                 .addActuator(rigidBodyPropertyActuator1, "Idle", "Walking")
                 .connect(controller4)
-                .addActuator(stateActuator)
+                .addActuator(stateActuator2, "Walking")
                 .connect(controller4);
+
 
 
         ConditionalController controller5 = new ConditionalController();

@@ -46,8 +46,10 @@ public class StateComponent extends Component {
 
 
     public void changeCurrentState(int newState) {
-        currentState = newState;
-        time = 0.0f;
+        if(currentState != newState) {
+            currentState = newState;
+            time = 0.0f;
+        }
 
     }
 

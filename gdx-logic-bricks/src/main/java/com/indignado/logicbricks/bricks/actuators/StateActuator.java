@@ -7,6 +7,6 @@ import com.indignado.logicbricks.data.View;
  * @author Rubentxu.
  */
 public class StateActuator extends Actuator {
-    public int state;
+    public int state = 0 ;
 
 }

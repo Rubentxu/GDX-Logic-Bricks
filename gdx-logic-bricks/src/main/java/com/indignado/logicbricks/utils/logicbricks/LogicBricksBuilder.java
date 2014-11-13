@@ -213,6 +213,14 @@ public class LogicBricksBuilder {
             }
             processActuator(state, actuatorComponent);
 
+        } else if (actuator instanceof StateActuator) {
+            actuatorComponent = entity.getComponent(StateActuatorComponent.class);
+            if (actuatorComponent == null) {
+                actuatorComponent = new StateActuatorComponent();
+                entity.add(actuatorComponent);
+            }
+            processActuator(state, actuatorComponent);
+
         }
         ((Set<A>) actuatorComponent.actuators.get(state)).add(actuator);
         return this;

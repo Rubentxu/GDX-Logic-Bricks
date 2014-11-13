@@ -47,11 +47,11 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
 
     protected boolean evaluateController(Actuator actuator) {
-        Iterator<Controller> it = actuator.controllers.iterator();
-        if (!it.hasNext())
+        Iterator<Controller> controllers = actuator.controllers.iterator();
+        if (!controllers.hasNext())
             throw new LogicBricksException("ActuatorSystem", "This actuator does not have any associated controller");
-        while (it.hasNext()) {
-            if (it.next().pulseSignal == false) return false;
+        while (controllers.hasNext()) {
+            if (controllers.next().pulseSignal == false) return false;
 
         }
         return true;

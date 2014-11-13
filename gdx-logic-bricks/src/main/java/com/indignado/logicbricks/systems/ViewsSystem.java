@@ -32,12 +32,10 @@ public class ViewsSystem extends IteratingSystem {
     public void processEntity(Entity entity, float deltaTime) {
         ViewsComponent viewsComponent = tm.get(entity);
         StateComponent state = sm.get(entity);
-        Gdx.app.log("ViewSystem", "enter: ");
         for (View view : viewsComponent.views) {
             if (view.animations != null) {
                 Animation animation = view.animations.get(state.getCurrentState());
                 if (animation != null) {
-                    Gdx.app.log("ViewSystem", "state: "+ state.getCurrentState() + " state time: "+ state.time + " animation size: "+ animation.getKeyFrames().length);
                     view.textureRegion = animation.getKeyFrame(state.time);
                 }
 
