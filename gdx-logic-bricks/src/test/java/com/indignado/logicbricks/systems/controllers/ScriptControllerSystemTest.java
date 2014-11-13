@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class ScriptControllerSystemTest {
     private PooledEngine engine;
-    private int statePrueba;
+    private String statePrueba;
     private String name;
     private Entity entity;
     private ScriptControllerSystem scriptControllerSystem;
@@ -31,7 +31,7 @@ public class ScriptControllerSystemTest {
     @Before
     public void setup() {
         this.name = "BricksPruebas";
-        this.statePrueba = 1;
+        this.statePrueba = "StatePruebas";
         this.entity = new Entity();
         engine = new PooledEngine();
         scriptControllerSystem = new ScriptControllerSystem();
@@ -39,7 +39,7 @@ public class ScriptControllerSystemTest {
         engine.addSystem(new StateSystem());
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePrueba);
+        stateComponent.changeCurrentState(stateComponent.getState(statePrueba));
 
         entity.add(stateComponent);
         engine.addEntity(entity);

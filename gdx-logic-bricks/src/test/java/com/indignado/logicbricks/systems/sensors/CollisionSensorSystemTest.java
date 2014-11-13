@@ -34,7 +34,7 @@ public class CollisionSensorSystemTest {
     private Entity enemy;
     private RigidBodiesComponents rigidBodiesComponents;
     private RigidBodiesComponents rigidBodiesComponents2;
-    private int statePrueba;
+    private String statePrueba;
 
 
     @Before
@@ -46,7 +46,7 @@ public class CollisionSensorSystemTest {
         collisionSensorSystem = new CollisionSensorSystem();
         physic.setContactListener(collisionSensorSystem);
         bodyBuilder = new BodyBuilder(physic);
-        this.statePrueba = 1;
+        this.statePrueba = "StatePruebas";
 
     }
 
@@ -67,7 +67,7 @@ public class CollisionSensorSystemTest {
         rigidBodiesComponents.rigidBodies.add(body);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(1);
+        stateComponent.changeCurrentState(1);
 
         player.add(rigidBodiesComponents);
         player.add(stateComponent);

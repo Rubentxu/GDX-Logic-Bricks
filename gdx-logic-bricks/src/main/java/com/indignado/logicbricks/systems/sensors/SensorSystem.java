@@ -50,7 +50,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
+        Integer state = stateMapper.get(entity).getCurrentState();
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (S sensor : sensors) {

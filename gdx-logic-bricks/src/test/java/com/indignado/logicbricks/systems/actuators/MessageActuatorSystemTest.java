@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class MessageActuatorSystemTest {
     private PooledEngine engine;
-    private int statePrueba;
+    private String statePrueba;
     private String name;
     private Entity entity;
     private MessageActuator messageActuator;
@@ -33,14 +33,14 @@ public class MessageActuatorSystemTest {
     @Before
     public void setup() {
         this.name = "BricksPruebas";
-        this.statePrueba = 1;
+        this.statePrueba = "StatePruebas";
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new MessageActuatorSystem());
         engine.addSystem(new StateSystem());
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePrueba);
+        stateComponent.changeCurrentState(stateComponent.getState(statePrueba));
 
         entity.add(stateComponent);
         engine.addEntity(entity);

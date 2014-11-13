@@ -27,7 +27,7 @@ public class StateSystemTest extends BaseTest {
         engine.addSystem(new StateSystem());
 
         stateComponent = new StateComponent();
-        stateComponent.set(PlayerState.WALKING.ordinal());
+        stateComponent.changeCurrentState(PlayerState.WALKING.ordinal());
 
     }
 

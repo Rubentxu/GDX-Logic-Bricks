@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  */
 public class KeyboardSensorSystemTest {
     PooledEngine engine;
-    private int statePruebas;
+    private String statePruebas;
 
     private KeyboardSensorSystem inputSensorSystem;
 
@@ -29,7 +29,7 @@ public class KeyboardSensorSystemTest {
         engine = new PooledEngine();
         inputSensorSystem = new KeyboardSensorSystem();
         engine.addSystem(inputSensorSystem);
-        this.statePruebas = 1;
+        this.statePruebas = "StatePruebas";
 
     }
 
@@ -43,7 +43,7 @@ public class KeyboardSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         player.add(stateComponent);
 
@@ -69,7 +69,7 @@ public class KeyboardSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         player.add(stateComponent);
 
@@ -98,7 +98,7 @@ public class KeyboardSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         player.add(stateComponent);
 

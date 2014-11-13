@@ -31,7 +31,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
+        Integer state = stateMapper.get(entity).getCurrentState();
         Set<A> actuators = (Set<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (A actuator : actuators) {

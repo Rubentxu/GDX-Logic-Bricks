@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class MouseSensorSystemTest {
     PooledEngine engine;
-    private int statePruebas;
+    private String statePruebas;
     private MouseSensorSystem inputSensorSystem;
 
 
@@ -33,7 +33,7 @@ public class MouseSensorSystemTest {
         engine = new PooledEngine();
         inputSensorSystem = new MouseSensorSystem();
         engine.addSystem(inputSensorSystem);
-        this.statePruebas = 1;
+        this.statePruebas = "StatePruebas";
 
     }
 
@@ -47,7 +47,7 @@ public class MouseSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         player.add(stateComponent);
 
@@ -74,7 +74,7 @@ public class MouseSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         View view = new View();
         view.height = 50;
@@ -114,7 +114,7 @@ public class MouseSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         View view = new View();
         view.height = 50;
@@ -154,7 +154,7 @@ public class MouseSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         View view = new View();
         view.height = 50;
@@ -194,7 +194,7 @@ public class MouseSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         View view = new View();
         view.height = 50;
@@ -246,7 +246,7 @@ public class MouseSensorSystemTest {
         new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(statePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         View view = new View();
         view.height = 50;

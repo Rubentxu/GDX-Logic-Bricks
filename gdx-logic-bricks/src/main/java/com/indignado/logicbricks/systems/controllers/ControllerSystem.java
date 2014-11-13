@@ -26,7 +26,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        Integer state = stateMapper.get(entity).get();
+        Integer state = stateMapper.get(entity).getCurrentState();
         Set<C> controllers = (Set<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {
             for (C controller : controllers) {

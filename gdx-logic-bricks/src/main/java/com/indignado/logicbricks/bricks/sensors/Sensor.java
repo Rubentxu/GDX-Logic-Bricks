@@ -11,7 +11,7 @@ public abstract class Sensor {
     public String name;
     public boolean tap = false;
     public boolean initialized = false;
-    public int state;
+    public int state = -1;
     public boolean pulseSignal = false;
 
 

@@ -35,9 +35,9 @@ public class ViewsSystem extends IteratingSystem {
         Gdx.app.log("ViewSystem", "enter: ");
         for (View view : viewsComponent.views) {
             if (view.animations != null) {
-                Animation animation = view.animations.get(state.get());
+                Animation animation = view.animations.get(state.getCurrentState());
                 if (animation != null) {
-                    Gdx.app.log("ViewSystem", "state: "+ state.get() + " state time: "+ state.time + " animation size: "+ animation.getKeyFrames().length);
+                    Gdx.app.log("ViewSystem", "state: "+ state.getCurrentState() + " state time: "+ state.time + " animation size: "+ animation.getKeyFrames().length);
                     view.textureRegion = animation.getKeyFrame(state.time);
                 }
 

@@ -197,7 +197,7 @@ public class BodyBuilder {
         if (massSet) {
             MassData bodyMassData = body.getMassData();
 
-            // massData.center.set(position);
+            // massData.center.changeCurrentState(position);
             massData.center.set(bodyMassData.center);
             // massData.I = bodyMassData.I;
 

@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class CameraActuatorSystemTest {
     private PooledEngine engine;
-    private int StatePruebas;
+    private String StatePruebas = "StatePruebas";
     private String name;
     private Entity entity;
     private World physic;
@@ -42,7 +42,6 @@ public class CameraActuatorSystemTest {
         physic = new World(new Vector2(0, -9.81f), true);
 
         this.name = "BricksPruebas";
-        this.StatePruebas = 1;
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new CameraActuatorSystem());
@@ -63,7 +62,7 @@ public class CameraActuatorSystemTest {
         rigidBodiesComponents.rigidBodies.add(body);
 
         StateComponent stateComponent = new StateComponent();
-        stateComponent.set(StatePruebas);
+        stateComponent.changeCurrentState(stateComponent.getState("StatePruebas"));
 
         entity.add(rigidBodiesComponents);
         entity.add(stateComponent);

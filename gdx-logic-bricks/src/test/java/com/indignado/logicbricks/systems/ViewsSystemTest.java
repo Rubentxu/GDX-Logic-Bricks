@@ -55,7 +55,7 @@ public class ViewsSystemTest extends BaseTest {
         float deltaTime = 1;
         engine.update(deltaTime);
 
-        //assertEquals(0, animateStateComponent.get());
+        //assertEquals(0, animateStateComponent.getCurrentState());
         // assertEquals(deltaTime, animateStateComponent.time, 0.1);
         // assertNotEquals(playerTextureRegion, player.getComponent(TextureComponent.class).region);
 
@@ -67,7 +67,7 @@ public class ViewsSystemTest extends BaseTest {
 
        /* Entity player = engine.createEntity();
         player.add(new TextureComponent(playerTextureRegion));
-        animateStateComponent.set(PlayerState.JUMP.ordinal());
+        animateStateComponent.changeCurrentState(PlayerState.JUMP.ordinal());
         player.add(animateStateComponent);
         player.add(animationComponent);
 
@@ -76,7 +76,7 @@ public class ViewsSystemTest extends BaseTest {
         float deltaTime = 2;
         engine.update(deltaTime);
 
-        assertEquals(1, animateStateComponent.get());
+        assertEquals(1, animateStateComponent.getCurrentState());
 
         engine.update(deltaTime);
 

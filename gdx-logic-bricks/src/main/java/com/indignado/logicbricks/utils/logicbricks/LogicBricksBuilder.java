@@ -6,6 +6,7 @@ import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.controllers.Controller;
 import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.sensors.*;
+import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
@@ -19,19 +20,31 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public class LogicBricksBuilder {
-    private Entity entity;
+    private final Entity entity;
+    private final StateComponent stateComponent;
     private Controller controller;
     private Actuator actuator;
 
 
     public LogicBricksBuilder(Entity entity) {
         this.entity = entity;
+        this.stateComponent = entity.getComponent(StateComponent.class);
 
     }
 
 
-    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int... states) {
-        for (int s : states) {
+    private int getKeyState(String state) {
+        int keyState = stateComponent.getState(state);
+        if(keyState == -1) {
+            keyState = stateComponent.createState(state);
+        }
+        return keyState;
+
+    }
+
+
+    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, String... nameStates) {
+        for (String s : nameStates) {
             addSensor(sensor, s);
         }
         return this;
@@ -39,7 +52,8 @@ public class LogicBricksBuilder {
     }
 
 
-    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, int state) {
+    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, String nameState) {
+        int state = getKeyState(nameState);
         sensor.state = state;
         SensorComponent sensorComponent = null;
         Set<S> sensorsList = null;
@@ -94,8 +108,8 @@ public class LogicBricksBuilder {
     }
 
 
-    public <C extends Controller> LogicBricksBuilder addController(C controller, int... states) {
-        for (int s : states) {
+    public <C extends Controller> LogicBricksBuilder addController(C controller, String... nameStates) {
+        for (String s : nameStates) {
             addController(controller, s);
         }
         return this;
@@ -103,8 +117,9 @@ public class LogicBricksBuilder {
     }
 
 
-    public <C extends Controller> LogicBricksBuilder addController(C controller, int state) {
+    public <C extends Controller> LogicBricksBuilder addController(C controller, String nameState) {
         this.controller = controller;
+        int state = getKeyState(nameState);
         controller.state = state;
         ControllerComponent controllerComponent = null;
         Set<C> controllerList = null;
@@ -142,8 +157,8 @@ public class LogicBricksBuilder {
     }
 
 
-    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int... states) {
-        for (int s : states) {
+    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, String... nameStates) {
+        for (String s : nameStates) {
             addActuator(actuator, s);
         }
         return this;
@@ -151,8 +166,9 @@ public class LogicBricksBuilder {
     }
 
 
-    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, int state) {
+    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, String nameState) {
         this.actuator = actuator;
+        int state = getKeyState(nameState);
         actuator.state = state;
         ActuatorComponent actuatorComponent = null;
         Set<A> actuatorList = null;
