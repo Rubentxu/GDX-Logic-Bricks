@@ -6,7 +6,6 @@ package com.indignado.logicbricks.bricks.sensors;
  * @author Rubentxu
  */
 public abstract class Sensor {
-
     // Config Values
     public String name;
     public boolean tap = false;

@@ -23,15 +23,14 @@ import com.indignado.logicbricks.systems.sensors.*;
  * @author Rubentxu.
  */
 public abstract class LogicBricksTest implements ApplicationListener {
-    SpriteBatch batch;
-    BitmapFont font;
+    private final float HEIGHT = 20;
     protected World world;
     protected Engine engine;
+    protected OrthographicCamera camera;
+    SpriteBatch batch;
+    BitmapFont font;
     private Box2DDebugRenderer renderer;
     private float WIDTH = 30;
-    private final float HEIGHT = 20 ;
-    protected OrthographicCamera camera;
-
 
     @Override
     public void create() {
@@ -39,7 +38,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         this.camera = new OrthographicCamera(WIDTH, HEIGHT);
         this.batch = new SpriteBatch();
         this.font = new BitmapFont();
-        this.world = new World(new Vector2(0 , -10),true);
+        this.world = new World(new Vector2(0, -10), true);
         this.engine = new Engine();
         engine.addSystem(new CollisionSensorSystem());
         engine.addSystem(new AlwaysSensorSystem());
@@ -57,14 +56,14 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new RigidBodyPropertyActuatorSystem());
         engine.addSystem(new StateActuatorSystem());
         engine.addSystem(new ViewActuatorSystem());
-        RenderingSystem renderingSystem = new RenderingSystem(batch,camera);
+        RenderingSystem renderingSystem = new RenderingSystem(batch, camera);
         renderingSystem.WIDTH = WIDTH;
         renderingSystem.HEIGHT = HEIGHT;
         engine.addSystem(renderingSystem);
         engine.addSystem(new ViewsSystem());
         engine.addSystem(new StateSystem());
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem,mouseSensorSystem));
+        Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem, mouseSensorSystem));
         createWorld(world, engine);
 
     }
@@ -86,7 +85,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;
         engine.update(deltaTime);
-        world.step(deltaTime,3,3);
+        world.step(deltaTime, 3, 3);
         camera.update();
         renderer.render(world, camera.combined);
 

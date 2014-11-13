@@ -58,7 +58,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     private void processRigidBodyBeginContact(Contact contact, CollisionSensor collisionSensor,
                                               Fixture fixtureA, Fixture fixtureB) {
         if (collisionSensor.ownerRigidBody.getFixtureList().contains(fixtureA, false)) {
-            if (collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
+            if (collisionSensor.targetRigidBody != null && fixtureB.getBody().equals(collisionSensor.targetRigidBody)) {
                 collisionSensor.contact = contact;
                 collisionSensor.pulseSignal = contact.isTouching();
                 return;
@@ -75,7 +75,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     private void processFixtureBeginContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
         if (collisionSensor.ownerFixture.equals(fixtureA)) {
-            if (collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
+            if (collisionSensor.targetRigidBody != null && fixtureB.getBody().equals(collisionSensor.targetRigidBody)) {
                 collisionSensor.contact = contact;
                 collisionSensor.pulseSignal = contact.isTouching();
                 return;
@@ -104,7 +104,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     private void processEndContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
         if (collisionSensor.ownerFixture.equals(fixtureA)) {
-            if (collisionSensor.targetBody != null && fixtureB.getBody().equals(collisionSensor.targetBody)) {
+            if (collisionSensor.targetRigidBody != null && fixtureB.getBody().equals(collisionSensor.targetRigidBody)) {
                 collisionSensor.contact = contact;
                 collisionSensor.pulseSignal = contact.isTouching();
             }

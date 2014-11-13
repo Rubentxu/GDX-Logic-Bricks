@@ -1,54 +1,81 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Entity;
+import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.PropertySensor;
+import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
+import com.indignado.logicbricks.data.Property;
+import com.indignado.logicbricks.data.PropertyType;
+
+import java.util.Set;
 
 /**
  * @author Rubentxu
  */
 public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertySensorComponent> {
-
+    private final ComponentMapper<BlackBoardComponent> blackBoardMapper;
 
     public PropertySensorSystem() {
-        super(PropertySensorComponent.class);
+        super(PropertySensorComponent.class, BlackBoardComponent.class);
+        this.blackBoardMapper = ComponentMapper.getFor(BlackBoardComponent.class);
+
+    }
+
+
+    public void processEntity(Entity entity, float deltaTime) {
+        Integer state = stateMapper.get(entity).getCurrentState();
+        Set<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
+        if (sensors != null) {
+            for (PropertySensor sensor : sensors) {
+                if (isTap(sensor)) sensor.pulseSignal = false;
+                else processSensor(sensor,blackBoardMapper.get(entity));
+
+            }
+        }
 
     }
 
 
     @Override
-    public void processSensor(PropertySensor sensor) {
+    public void processSensor(PropertySensor sensor) {}
+
+
+    public void processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {
         boolean isActive = false;
+        Property property = blackBoardComponent.getProperty(PropertyType.getFor(sensor.property));
         switch (sensor.evaluationType) {
             case CHANGED:
-                if (!sensor.value.equals(sensor.valueSignal)) {
-                    sensor.value = sensor.valueSignal;
+                if (!sensor.value.equals(property.value)) {
+                    sensor.value = property.value;
                     isActive = true;
                 } else {
                     isActive = false;
                 }
                 break;
             case INTERVAL:
-                isActive = intervalEvaluation(sensor.min, sensor.max, (Number) sensor.valueSignal);
+                isActive = intervalEvaluation(sensor.min, sensor.max, (Number) property.value);
                 break;
             case NOT_EQUAL:
-                if (!sensor.value.equals(sensor.valueSignal)) {
+                if (!sensor.value.equals(property.value)) {
                     isActive = true;
                 } else {
                     isActive = false;
                 }
                 break;
             case EQUAL:
-                if (sensor.value.equals(sensor.valueSignal)) {
+                if (sensor.value.equals(property.value)) {
                     isActive = true;
                 } else {
                     isActive = false;
                 }
                 break;
             case GREATER_THAN:
-                isActive = greaterThanEvaluation((Number) sensor.value, (Number) sensor.valueSignal);
+                isActive = greaterThanEvaluation((Number) sensor.value, (Number) property.value);
                 break;
             case LESS_THAN:
-                isActive = lessThanEvaluation((Number) sensor.value, (Number) sensor.valueSignal);
+                isActive = lessThanEvaluation((Number) sensor.value, (Number) property.value);
                 break;
         }
         sensor.pulseSignal = isActive;

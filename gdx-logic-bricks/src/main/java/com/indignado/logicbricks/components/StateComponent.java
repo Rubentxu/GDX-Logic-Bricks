@@ -7,15 +7,15 @@ import com.badlogic.gdx.utils.IntMap;
  * @author Rubentxu
  */
 public class StateComponent extends Component {
+    public float time = 0.0f;
     private IntMap<String> states = new IntMap<>();
     private int typeIndex = -1;
-    public float time = 0.0f;
     private int currentState = 0;
 
 
     public int createState(String state) {
         int ie = ++typeIndex;
-        states.put(ie,state);
+        states.put(ie, state);
         return ie;
 
     }
@@ -40,13 +40,13 @@ public class StateComponent extends Component {
 
 
     public int getState(String state) {
-        return states.findKey(state,false,-1);
+        return states.findKey(state, false, -1);
 
     }
 
 
     public void changeCurrentState(int newState) {
-        if(currentState != newState) {
+        if (currentState != newState) {
             currentState = newState;
             time = 0.0f;
         }

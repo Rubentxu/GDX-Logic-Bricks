@@ -15,7 +15,7 @@ public class CollisionSensor extends Sensor {
     public Fixture ownerFixture;
     public Body ownerRigidBody;
     public Fixture targetFixture;
-    public Body targetBody;
+    public Body targetRigidBody;
 
 
     // Signal Values

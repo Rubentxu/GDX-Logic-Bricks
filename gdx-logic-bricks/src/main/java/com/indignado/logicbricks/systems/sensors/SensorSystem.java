@@ -28,6 +28,15 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
 
+    public SensorSystem(Class<SC> clazz, Class<? extends Component> clazz2) {
+        super(1);
+        this.family = Family.all(clazz, clazz2, StateComponent.class).get();
+        this.sensorMapper = ComponentMapper.getFor(clazz);
+        stateMapper = ComponentMapper.getFor(StateComponent.class);
+
+    }
+
+
     @Override
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(family);

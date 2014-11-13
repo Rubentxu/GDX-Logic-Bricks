@@ -100,7 +100,7 @@ public class CollisionSensorSystemTest {
     public void bodyCollidesBodyTest() {
         createContext();
         CollisionSensor collisionSensor = new CollisionSensor();
-        collisionSensor.targetBody = body2;
+        collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerRigidBody = body;
 
         new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
@@ -140,7 +140,7 @@ public class CollisionSensorSystemTest {
     public void fixtureCollidesBodyTest() {
         createContext();
         CollisionSensor collisionSensor = new CollisionSensor();
-        collisionSensor.targetBody = body2;
+        collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
         new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
@@ -183,7 +183,7 @@ public class CollisionSensorSystemTest {
     public void bodyCollisionFalseTest() {
         createContext();
         CollisionSensor collisionSensor = new CollisionSensor();
-        collisionSensor.targetBody = body2;
+        collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
         new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
@@ -253,7 +253,7 @@ public class CollisionSensorSystemTest {
     public void endBodyCollisionTest() {
         createContext();
         CollisionSensor collisionSensor = new CollisionSensor();
-        collisionSensor.targetBody = body2;
+        collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
         new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);

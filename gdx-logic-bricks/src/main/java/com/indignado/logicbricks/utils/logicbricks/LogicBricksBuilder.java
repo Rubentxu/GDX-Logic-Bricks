@@ -35,7 +35,7 @@ public class LogicBricksBuilder {
 
     private int getKeyState(String state) {
         int keyState = stateComponent.getState(state);
-        if(keyState == -1) {
+        if (keyState == -1) {
             keyState = stateComponent.createState(state);
         }
         return keyState;
@@ -205,7 +205,7 @@ public class LogicBricksBuilder {
             }
             processActuator(state, actuatorComponent);
 
-        }  else if (actuator instanceof ViewActuator) {
+        } else if (actuator instanceof ViewActuator) {
             actuatorComponent = entity.getComponent(ViewActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new ViewActuatorComponent();

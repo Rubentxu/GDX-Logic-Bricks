@@ -18,11 +18,13 @@ import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.logicbricks.bricks.actuators.*;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
+import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
+import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.sensors.AlwaysSensorComponent;
+import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.data.View;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
@@ -39,6 +41,11 @@ public class SimplePlatformTest extends LogicBricksTest {
     private BodyBuilder bodyBuilder;
     private World world;
     private Engine engine;
+    private Body ground;
+    private Animation walking;
+    private Animation idle;
+    private Animation jump;
+    private Animation fall;
 
 
     public static void main(String[] args) {
@@ -66,7 +73,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         bodyBuilder = new BodyBuilder(world);
 
 
-        Body ground = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+        ground = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(50, 1))
                 .type(BodyDef.BodyType.StaticBody)
                 .position(0, 0)
@@ -90,11 +97,32 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .build();
 
 
+        TextureAtlas atlas = new TextureAtlas(getFileHandle("assets/animations/sprites.pack"));
+        Array<TextureAtlas.AtlasRegion> heroWalking = atlas.findRegions("Andando");
+        Array<TextureAtlas.AtlasRegion> heroJump = atlas.findRegions("Saltando");
+        Array<TextureAtlas.AtlasRegion> heroFall = atlas.findRegions("Cayendo");
+        Array<TextureAtlas.AtlasRegion> heroIdle = atlas.findRegions("Parado");
+
+        walking = new Animation(0.02f, heroWalking, Animation.PlayMode.LOOP);
+        jump = new Animation(0.02f * 7, heroJump, Animation.PlayMode.NORMAL);
+        fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
+        idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
+
+        engine.addEntity(createPlayer());
+
+    }
+
+
+    private Entity createPlayer() {
         Entity player = new Entity();
+        LogicBricksBuilder builder = new LogicBricksBuilder(player);
         StateComponent stateComponent = new StateComponent();
         stateComponent.createState("Idle");
         stateComponent.createState("Walking");
         player.add(stateComponent);
+
+        BlackBoardComponent blackBoardComponent = new BlackBoardComponent();
+        blackBoardComponent.add(new Property<Boolean>("isGround", false));
 
         Body bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(0.35f, 1))
@@ -107,19 +135,6 @@ public class SimplePlatformTest extends LogicBricksTest {
         RigidBodiesComponents rbc = new RigidBodiesComponents();
         rbc.rigidBodies.add(bodyPlayer);
         player.add(rbc);
-
-
-        TextureAtlas atlas = new TextureAtlas(getFileHandle("assets/animations/sprites.pack"));
-        Array<TextureAtlas.AtlasRegion> heroWalking = atlas.findRegions("Andando");
-        Array<TextureAtlas.AtlasRegion> heroJump = atlas.findRegions("Saltando");
-        Array<TextureAtlas.AtlasRegion> heroFall = atlas.findRegions("Cayendo");
-        Array<TextureAtlas.AtlasRegion> heroIdle = atlas.findRegions("Parado");
-
-        Animation walking = new Animation(0.02f, heroWalking, Animation.PlayMode.LOOP);
-        Animation jump = new Animation(0.02f * 7, heroJump, Animation.PlayMode.NORMAL);
-        Animation fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
-        Animation idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
-
 
         View playerView = new View();
         playerView.height = 2;
@@ -188,8 +203,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         stateActuator2.owner = player;
         stateActuator2.state = 0;
 
-        new LogicBricksBuilder(player)
-                .addSensor(keyboardSensor, "Idle", "Walking")
+        builder.addSensor(keyboardSensor, "Idle", "Walking")
                 .addController(controller, "Idle", "Walking")
                 .connect(keyboardSensor)
                 .addActuator(motionActuator, "Idle", "Walking")
@@ -204,8 +218,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         viewActuator2.flipX = true;
         viewActuator2.targetView = playerView;
 
-        new LogicBricksBuilder(player)
-                .addSensor(keyboardSensor2, "Idle", "Walking")
+        builder.addSensor(keyboardSensor2, "Idle", "Walking")
                 .addController(controller2, "Idle", "Walking")
                 .connect(keyboardSensor2)
                 .addActuator(motionActuator2, "Idle", "Walking")
@@ -216,10 +229,8 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connect(controller2);
 
 
-
         AlwaysSensor alwaysSensor = new AlwaysSensor();
-        new LogicBricksBuilder(player)
-                .addSensor(alwaysSensor, "Idle", "Walking")
+        builder.addSensor(alwaysSensor, "Idle", "Walking")
                 .addController(controller3, "Idle", "Walking")
                 .connect(alwaysSensor)
                 .addActuator(cameraActuator, "Idle", "Walking")
@@ -233,8 +244,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         rigidBodyPropertyActuator1.friction = 40;
         rigidBodyPropertyActuator1.targetRigidBody = bodyPlayer;
 
-        new LogicBricksBuilder(player)
-                .addSensor(keyboardSensor, "Idle", "Walking")
+        builder.addSensor(keyboardSensor, "Idle", "Walking")
                 .addSensor(keyboardSensor2, "Idle", "Walking")
                 .addController(controller4, "Idle", "Walking")
                 .connect(keyboardSensor)
@@ -245,7 +255,6 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connect(controller4);
 
 
-
         ConditionalController controller5 = new ConditionalController();
         controller5.type = ConditionalController.Type.OR;
 
@@ -253,8 +262,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         rigidBodyPropertyActuator2.friction = 0.3f;
         rigidBodyPropertyActuator2.targetRigidBody = bodyPlayer;
 
-        new LogicBricksBuilder(player)
-                .addSensor(keyboardSensor, "Idle", "Walking")
+        builder.addSensor(keyboardSensor, "Idle", "Walking")
                 .addSensor(keyboardSensor2, "Idle", "Walking")
                 .addController(controller5, "Idle", "Walking")
                 .connect(keyboardSensor)
@@ -262,8 +270,45 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .addActuator(rigidBodyPropertyActuator2, "Idle", "Walking")
                 .connect(controller5);
 
-        System.out.println("Always sensors size: " + player.getComponent(AlwaysSensorComponent.class).sensors.size);
-        engine.addEntity(player);
+
+        CollisionSensor collisionSensor = new CollisionSensor();
+        collisionSensor.ownerRigidBody = bodyPlayer;
+        collisionSensor.targetRigidBody = ground;
+
+        ConditionalController controllerGround = new ConditionalController();
+        controllerGround.type = ConditionalController.Type.AND;
+
+        ConditionalController controllerNotGround = new ConditionalController();
+        controllerGround.type = ConditionalController.Type.NOR;
+
+        PropertyActuator<Boolean> propertyActuator = new PropertyActuator();
+        propertyActuator.owner = player;
+        propertyActuator.property = "isGround";
+        propertyActuator.value = true;
+        propertyActuator.mode = PropertyActuator.Mode.Assign;
+
+
+        PropertyActuator<Boolean> propertyActuator2 = new PropertyActuator();
+        propertyActuator2.owner = player;
+        propertyActuator2.property = "isGround";
+        propertyActuator2.value = false;
+        propertyActuator2.mode = PropertyActuator.Mode.Assign;
+
+
+        builder.addSensor(collisionSensor, "Idle", "Walking")
+                .addController(controllerGround, "Idle", "Walking")
+                .connect(collisionSensor)
+                .addActuator(propertyActuator, "Idle", "Walking")
+                .connect(controllerGround);
+
+        builder.addSensor(collisionSensor, "Idle", "Walking")
+                .addController(controllerNotGround, "Idle", "Walking")
+                .connect(collisionSensor)
+                .addActuator(propertyActuator2, "Idle", "Walking")
+                .connect(controllerNotGround);
+
+        return player;
+
     }
 
 }
