@@ -33,7 +33,6 @@ import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import java.io.File;
 import java.net.URL;
 
-;
 
 /**
  * @author Rubentxu.
@@ -208,38 +207,28 @@ public class SimplePlatformTest extends LogicBricksTest {
 
         LogicBricksBuilder builder = new LogicBricksBuilder(player);
 
-        builder.addSensor(keyboardSensor, "Idle", "Walking")
-                .addController(controller, "Idle", "Walking")
-                .connect(keyboardSensor)
-                .addActuator(motionActuator, "Idle", "Walking")
-                .connect(controller)
-                .addActuator(viewActuator, "Idle", "Walking")
-                .connect(controller)
-                .addActuator(stateActuator, "Idle")
-                .connect(controller);
+        builder.addController(controller, "Idle", "Walking")
+                .connectToSensor(keyboardSensor)
+                .connectToActuator(motionActuator)
+                .connectToActuator(viewActuator)
+                .connectToActuator(stateActuator);
 
 
         ViewActuator viewActuator2 = new ViewActuator();
         viewActuator2.flipX = true;
         viewActuator2.targetView = playerView;
 
-        builder.addSensor(keyboardSensor2, "Idle", "Walking")
-                .addController(controller2, "Idle", "Walking")
-                .connect(keyboardSensor2)
-                .addActuator(motionActuator2, "Idle", "Walking")
-                .connect(controller2)
-                .addActuator(viewActuator2, "Idle", "Walking")
-                .connect(controller2)
-                .addActuator(stateActuatorB, "Idle")
-                .connect(controller2);
+        builder.addController(controller2, "Idle", "Walking")
+                .connectToSensor(keyboardSensor2)
+                .connectToActuator(motionActuator2)
+                .connectToActuator(viewActuator2)
+                .connectToActuator(stateActuatorB);
 
 
         AlwaysSensor alwaysSensor = new AlwaysSensor();
-        builder.addSensor(alwaysSensor, "Idle", "Walking")
-                .addController(controller3, "Idle", "Walking")
-                .connect(alwaysSensor)
-                .addActuator(cameraActuator, "Idle", "Walking")
-                .connect(controller3);
+        builder.addController(controller3, "Idle", "Walking")
+                .connectToSensor(alwaysSensor)
+                .connectToActuator(cameraActuator);
 
 
         ConditionalController controller4 = new ConditionalController();
@@ -249,15 +238,11 @@ public class SimplePlatformTest extends LogicBricksTest {
         rigidBodyPropertyActuator1.friction = 40;
         rigidBodyPropertyActuator1.targetRigidBody = bodyPlayer;
 
-        builder.addSensor(keyboardSensor, "Idle", "Walking")
-                .addSensor(keyboardSensor2, "Idle", "Walking")
-                .addController(controller4, "Idle", "Walking")
-                .connect(keyboardSensor)
-                .connect(keyboardSensor2)
-                .addActuator(rigidBodyPropertyActuator1, "Idle", "Walking")
-                .connect(controller4)
-                .addActuator(stateActuator2, "Walking")
-                .connect(controller4);
+        builder.addController(controller4, "Idle", "Walking")
+                .connectToSensor(keyboardSensor)
+                .connectToSensor(keyboardSensor2)
+                .connectToActuator(rigidBodyPropertyActuator1)
+                .connectToActuator(stateActuator2);
 
 
         ConditionalController controller5 = new ConditionalController();
@@ -267,13 +252,10 @@ public class SimplePlatformTest extends LogicBricksTest {
         rigidBodyPropertyActuator2.friction = 0.3f;
         rigidBodyPropertyActuator2.targetRigidBody = bodyPlayer;
 
-        builder.addSensor(keyboardSensor, "Idle", "Walking")
-                .addSensor(keyboardSensor2, "Idle", "Walking")
-                .addController(controller5, "Idle", "Walking")
-                .connect(keyboardSensor)
-                .connect(keyboardSensor2)
-                .addActuator(rigidBodyPropertyActuator2, "Idle", "Walking")
-                .connect(controller5);
+        builder.addController(controller5, "Idle", "Walking")
+                .connectToSensor(keyboardSensor)
+                .connectToSensor(keyboardSensor2)
+                .connectToActuator(rigidBodyPropertyActuator2);
 
 
         CollisionSensor collisionSensor = new CollisionSensor();
@@ -300,17 +282,14 @@ public class SimplePlatformTest extends LogicBricksTest {
         propertyActuator2.mode = PropertyActuator.Mode.Assign;
 
 
-        builder.addSensor(collisionSensor, "Idle", "Walking")
-                .addController(controllerGround, "Idle", "Walking")
-                .connect(collisionSensor)
-                .addActuator(propertyActuator, "Idle", "Walking")
-                .connect(controllerGround);
+        builder.addController(controllerGround, "Idle", "Walking")
+                .connectToSensor(collisionSensor)
+                .connectToActuator(propertyActuator);
 
-        builder.addSensor(collisionSensor, "Idle", "Walking")
-                .addController(controllerNotGround, "Idle", "Walking")
-                .connect(collisionSensor)
-                .addActuator(propertyActuator2, "Idle", "Walking")
-                .connect(controllerNotGround);
+
+        builder.addController(controllerNotGround, "Idle", "Walking")
+                .connectToSensor(collisionSensor)
+                .connectToActuator(propertyActuator2);
 
 
         KeyboardSensor keySensorJump = new KeyboardSensor();
@@ -331,13 +310,10 @@ public class SimplePlatformTest extends LogicBricksTest {
         motionActuatorJump.limitVelocityY = 7;
 
 
-        builder.addSensor(keySensorJump, "Idle", "Walking")
-                .addSensor(propertySensorIsGround, "Idle", "Walking")
-                .addController(controllerJump, "Idle", "Walking")
-                .connect(keySensorJump)
-                .connect(propertySensorIsGround)
-                .addActuator(motionActuatorJump, "Idle", "Walking")
-                .connect(controllerJump);
+        builder.addController(controllerJump, "Idle", "Walking")
+                .connectToSensor(keySensorJump)
+                .connectToSensor(propertySensorIsGround)
+                .connectToActuator(motionActuatorJump);
 
         return player;
 

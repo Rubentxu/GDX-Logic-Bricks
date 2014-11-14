@@ -63,7 +63,7 @@ public class ScriptControllerSystemTest {
         });
 
         logicBricksBuilder.addController(scriptController, statePrueba)
-                .connect(alwaysSensor);
+                .connectToSensor(alwaysSensor);
 
         engine.update(1);
         assertTrue(checkScript);

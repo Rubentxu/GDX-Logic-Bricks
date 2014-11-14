@@ -40,7 +40,6 @@ public class KeyboardSensorSystemTest {
         KeyboardSensor sensor = new KeyboardSensor();
         sensor.keyCode = Input.Keys.A;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -66,7 +65,7 @@ public class KeyboardSensorSystemTest {
         KeyboardSensor sensor = new KeyboardSensor();
         sensor.allKeys = true;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -95,7 +94,7 @@ public class KeyboardSensorSystemTest {
         sensor.allKeys = true;
         sensor.logToggle = true;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));

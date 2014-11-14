@@ -1,6 +1,8 @@
 package com.indignado.logicbricks.utils.logicbricks;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.bricks.actuators.*;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.controllers.Controller;
@@ -24,11 +26,13 @@ public class LogicBricksBuilder {
     private final StateComponent stateComponent;
     private Controller controller;
     private Actuator actuator;
+    private Array<String> controllerStates;
 
 
     public LogicBricksBuilder(Entity entity) {
         this.entity = entity;
         this.stateComponent = entity.getComponent(StateComponent.class);
+        this.controllerStates = new Array();
 
     }
 
@@ -43,7 +47,7 @@ public class LogicBricksBuilder {
     }
 
 
-    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, String... nameStates) {
+    private <S extends Sensor> LogicBricksBuilder addSensors(Sensor sensor, Array<String> nameStates) {
         for (String s : nameStates) {
             addSensor(sensor, s);
         }
@@ -52,70 +56,64 @@ public class LogicBricksBuilder {
     }
 
 
-    public <S extends Sensor> LogicBricksBuilder addSensor(S sensor, String nameState) {
+    private <S extends Sensor> LogicBricksBuilder addSensor(S sensor, String nameState) {
         int state = getKeyState(nameState);
         sensor.state = state;
         SensorComponent sensorComponent = null;
         Set<S> sensorsList = null;
         if (sensor instanceof AlwaysSensor) {
-            sensorComponent = entity.getComponent(AlwaysSensorComponent.class);
-            if (sensorComponent == null) {
-                sensorComponent = new AlwaysSensorComponent();
-                entity.add(sensorComponent);
-            }
-            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
-            if (sensorsList == null) {
-                sensorsList = (Set<S>) new HashSet<AlwaysSensor>();
-                sensorComponent.sensors.put(state, sensorsList);
-
-            }
+            sensorComponent = getSensorComponent(AlwaysSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(AlwaysSensor.class, sensorComponent, sensor.state);
 
         } else if (sensor instanceof CollisionSensor) {
-            sensorComponent = entity.getComponent(CollisionSensorComponent.class);
-            if (sensorComponent == null) {
-                sensorComponent = new CollisionSensorComponent();
-                entity.add(sensorComponent);
-            }
-            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
-            if (sensorsList == null) {
-                sensorsList = (Set<S>) new HashSet<CollisionSensor>();
-                sensorComponent.sensors.put(state, sensorsList);
-
-            }
+            sensorComponent = getSensorComponent(CollisionSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(CollisionSensor.class, sensorComponent, sensor.state);
 
         } else if (sensor instanceof KeyboardSensor) {
-            sensorComponent = entity.getComponent(KeyboardSensorComponent.class);
-            if (sensorComponent == null) {
-                sensorComponent = new KeyboardSensorComponent();
-                entity.add(sensorComponent);
-            }
-            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
-            if (sensorsList == null) {
-                sensorsList = (Set<S>) new HashSet<KeyboardSensor>();
-                sensorComponent.sensors.put(state, sensorsList);
-
-            }
+            sensorComponent = getSensorComponent(KeyboardSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(KeyboardSensor.class, sensorComponent, sensor.state);
 
         } else if (sensor instanceof PropertySensor) {
-            sensorComponent = entity.getComponent(PropertySensorComponent.class);
-            if (sensorComponent == null) {
-                sensorComponent = new PropertySensorComponent();
-                entity.add(sensorComponent);
-            }
-            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
-            if (sensorsList == null) {
-                sensorsList = (Set<S>) new HashSet<PropertySensor>();
-                sensorComponent.sensors.put(state, sensorsList);
-            }
+            sensorComponent = getSensorComponent(PropertySensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(PropertySensor.class, sensorComponent, sensor.state);
 
         }
-        if (sensorComponent != null) ((Set<S>) sensorComponent.sensors.get(state)).add(sensor);
+        if (sensorsList != null && !sensorsList.contains(sensor)) sensorsList.add(sensor);
         return this;
 
     }
 
 
+    private <SC extends SensorComponent> SC getSensorComponent(Class<SC> clazz)  {
+        SC sensorComponent = entity.getComponent(clazz);
+        if (sensorComponent == null) {
+            try {
+                sensorComponent = clazz.newInstance();
+            } catch (InstantiationException e) {
+                Gdx.app.log("LogicBricksBuilder", "Error instance sensorComponent " + clazz);
+            } catch (IllegalAccessException e) {
+                Gdx.app.log("LogicBricksBuilder", "Error instance sensorComponent " + clazz);
+            }
+            entity.add(sensorComponent);
+        }
+        return sensorComponent;
+
+    }
+
+
+    private <S extends Sensor> Set<S> getSensorList(Class<S> clazz, SensorComponent sensorComponent, int state) {
+        Set<S> sensorsList = (Set<S>) sensorComponent.sensors.get(state);
+        if (sensorsList == null) {
+            sensorsList = new HashSet<S>();
+            sensorComponent.sensors.put(state, sensorsList);
+        }
+        return sensorsList;
+
+    }
+
     public <C extends Controller> LogicBricksBuilder addController(C controller, String... nameStates) {
+        controllerStates.clear();
+        controllerStates.addAll(nameStates);
         for (String s : nameStates) {
             addController(controller, s);
         }
@@ -157,14 +155,41 @@ public class LogicBricksBuilder {
     }
 
 
-    public LogicBricksBuilder connect(Sensor sensor) {
+    public LogicBricksBuilder connectToSensors(Sensor ...sensors) {
+        for(Sensor s: sensors) {
+            connectToSensor(s);
+        }
+        return this;
+
+    }
+
+
+    public LogicBricksBuilder connectToSensor(Sensor sensor) {
+        addSensors(sensor, controllerStates);
         controller.sensors.add(sensor);
         return this;
 
     }
 
 
-    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, String... nameStates) {
+    public LogicBricksBuilder connectToActuators(Actuator ...actuators) {
+        for(Actuator a: actuators) {
+            connectToActuator(a);
+        }
+        return this;
+
+    }
+
+
+    public LogicBricksBuilder connectToActuator(Actuator actuator) {
+        addActuators(actuator, controllerStates);
+        actuator.controllers.add(controller);
+        return this;
+
+    }
+
+
+    private  <A extends Actuator> LogicBricksBuilder addActuators(Actuator actuator, Array<String> nameStates) {
         for (String s : nameStates) {
             addActuator(actuator, s);
         }
@@ -173,7 +198,7 @@ public class LogicBricksBuilder {
     }
 
 
-    public <A extends Actuator> LogicBricksBuilder addActuator(A actuator, String nameState) {
+    private  <A extends Actuator> LogicBricksBuilder addActuator(A actuator, String nameState) {
         this.actuator = actuator;
         int state = getKeyState(nameState);
         actuator.state = state;
@@ -252,12 +277,6 @@ public class LogicBricksBuilder {
         }
     }
 
-
-    public LogicBricksBuilder connect(Controller controller) {
-        actuator.controllers.add(controller);
-        return this;
-
-    }
 
 
 }

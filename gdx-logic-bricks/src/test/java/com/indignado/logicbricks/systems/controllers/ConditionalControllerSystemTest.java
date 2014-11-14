@@ -59,9 +59,9 @@ public class ConditionalControllerSystemTest {
         conditionalController.type = ConditionalController.Type.AND;
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
-                .connect(alwaysSensor)
-                .connect(alwaysSensor2)
-                .connect(alwaysSensor3);
+                .connectToSensor(alwaysSensor)
+                .connectToSensor(alwaysSensor2)
+                .connectToSensor(alwaysSensor3);
 
         engine.update(1);
 
@@ -82,9 +82,9 @@ public class ConditionalControllerSystemTest {
         conditionalController.type = ConditionalController.Type.AND;
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
-                .connect(alwaysSensor)
-                .connect(alwaysSensor2)
-                .connect(alwaysSensor3);
+                .connectToSensor(alwaysSensor)
+                .connectToSensor(alwaysSensor2)
+                .connectToSensor(alwaysSensor3);
 
 
         engine.update(1);
@@ -116,9 +116,9 @@ public class ConditionalControllerSystemTest {
         conditionalController.type = ConditionalController.Type.OR;
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
-                .connect(alwaysSensor)
-                .connect(alwaysSensor2)
-                .connect(alwaysSensor3);
+                .connectToSensor(alwaysSensor)
+                .connectToSensor(alwaysSensor2)
+                .connectToSensor(alwaysSensor3);
 
         engine.update(1);
         assertTrue(conditionalController.pulseSignal);
@@ -134,8 +134,8 @@ public class ConditionalControllerSystemTest {
         conditionalController.type = ConditionalController.Type.OR;
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
-                .connect(alwaysSensor)
-                .connect(alwaysSensor2);
+                .connectToSensor(alwaysSensor)
+                .connectToSensor(alwaysSensor2);
 
         engine.update(1);
         assertFalse(conditionalController.pulseSignal);

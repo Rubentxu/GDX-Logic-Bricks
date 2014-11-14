@@ -44,7 +44,7 @@ public class MouseSensorSystemTest {
         MouseSensor sensor = new MouseSensor();
         sensor.mouseEvent = MouseSensor.MouseEvent.MOVEMENT;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -71,7 +71,7 @@ public class MouseSensorSystemTest {
         sensor.mouseEvent = MouseSensor.MouseEvent.MOUSE_OVER;
         sensor.target = player;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -111,7 +111,7 @@ public class MouseSensorSystemTest {
         MouseSensor sensor = new MouseSensor();
         sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_DOWN;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -151,7 +151,7 @@ public class MouseSensorSystemTest {
         MouseSensor sensor = new MouseSensor();
         sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_UP;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -191,7 +191,7 @@ public class MouseSensorSystemTest {
         MouseSensor sensor = new MouseSensor();
         sensor.mouseEvent = MouseSensor.MouseEvent.LEFT_BUTTON;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
@@ -243,7 +243,7 @@ public class MouseSensorSystemTest {
         sensor.mouseEvent = MouseSensor.MouseEvent.LEFT_BUTTON;
         sensor.target = player;
 
-        new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
+        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));

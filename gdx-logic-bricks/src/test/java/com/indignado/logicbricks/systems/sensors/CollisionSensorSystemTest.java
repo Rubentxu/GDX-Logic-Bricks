@@ -103,7 +103,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerRigidBody = body;
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -123,7 +123,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerRigidBody = body;
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -143,7 +143,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -164,7 +164,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -186,7 +186,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -206,7 +206,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -226,7 +226,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetFixture = body2.getFixtureList().first();
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);
@@ -256,7 +256,7 @@ public class CollisionSensorSystemTest {
         collisionSensor.targetRigidBody = body2;
         collisionSensor.ownerFixture = body.getFixtureList().first();
 
-        new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
+        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
 
         engine.addSystem(collisionSensorSystem);
         engine.update(1);

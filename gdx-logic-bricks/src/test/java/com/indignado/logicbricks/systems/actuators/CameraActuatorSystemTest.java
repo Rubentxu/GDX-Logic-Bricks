@@ -85,11 +85,9 @@ public class CameraActuatorSystemTest {
         cameraActuator.target = entity;
         cameraActuator.height = 5;
 
-        logicBricksBuilder.addSensor(alwaysSensor, StatePruebas)
-                .addController(conditionalController, StatePruebas)
-                .connect(alwaysSensor)
-                .addActuator(cameraActuator, StatePruebas)
-                .connect(conditionalController);
+        logicBricksBuilder.addController(conditionalController, StatePruebas)
+                .connectToSensor(alwaysSensor)
+                .connectToActuator(cameraActuator);
 
         engine.update(1);
 
@@ -111,10 +109,9 @@ public class CameraActuatorSystemTest {
         cameraActuator.height = 5;
 
 
-        logicBricksBuilder.addSensor(alwaysSensor, StatePruebas)
-                .addController(conditionalController, StatePruebas)
-                .connect(alwaysSensor)
-                .addActuator(cameraActuator, StatePruebas);
+        logicBricksBuilder.addController(conditionalController, StatePruebas)
+                .connectToSensor(alwaysSensor)
+                .connectToActuator(cameraActuator);
 
 
         engine.update(1);

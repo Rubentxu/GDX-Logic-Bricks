@@ -66,8 +66,7 @@ public class MessageActuatorSystemTest {
         messageActuator.message = MENSAJE_PRUEBAS;
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
-                .addActuator(messageActuator, statePrueba)
-                .connect(conditionalController);
+                .connectToActuator(messageActuator);
 
 
         engine.update(1);
