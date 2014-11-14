@@ -9,8 +9,6 @@ import com.indignado.logicbricks.components.actuators.StateActuatorComponent;
 import java.util.Set;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActuatorComponent> {
@@ -31,7 +29,6 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
         if (actuators != null) {
             for (StateActuator actuator : actuators) {
                 boolean evalue = evaluateController(actuator);
-
                 if (evalue) {
                     Gdx.app.log("StateActuatorSystem", "state " + state + " actuator state " + actuator.state);
                     stateComponent.changeCurrentState(actuator.state);
@@ -46,7 +43,7 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
 
     @Override
     public void processActuator(StateActuator actuator) {
-        Gdx.app.log("StateActuatorSystemw", "------");
+
     }
 
 

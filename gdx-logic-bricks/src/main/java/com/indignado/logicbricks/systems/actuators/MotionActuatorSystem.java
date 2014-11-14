@@ -7,8 +7,6 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionActuatorComponent> {

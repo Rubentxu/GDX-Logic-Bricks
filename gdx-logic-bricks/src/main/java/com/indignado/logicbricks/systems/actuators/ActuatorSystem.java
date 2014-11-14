@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.systems.actuators;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -23,6 +24,14 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
     public ActuatorSystem(Class<AC> clazz) {
         super(Family.all(clazz, StateComponent.class).get(), 3);
+        this.actuatorMapper = ComponentMapper.getFor(clazz);
+        stateMapper = ComponentMapper.getFor(StateComponent.class);
+
+    }
+
+
+    public ActuatorSystem(Class<AC> clazz, Class<? extends Component> clazz2) {
+        super(Family.all(clazz, clazz2, StateComponent.class).get(), 3);
         this.actuatorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
 

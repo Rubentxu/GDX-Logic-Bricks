@@ -75,8 +75,13 @@ public class LogicBricksBuilder {
             sensorComponent = entity.getComponent(CollisionSensorComponent.class);
             if (sensorComponent == null) {
                 sensorComponent = new CollisionSensorComponent();
-                sensorComponent.sensors.put(state, new HashSet<CollisionSensor>());
                 entity.add(sensorComponent);
+            }
+            sensorsList = (Set<S>) sensorComponent.sensors.get(state);
+            if (sensorsList == null) {
+                sensorsList = (Set<S>) new HashSet<CollisionSensor>();
+                sensorComponent.sensors.put(state, sensorsList);
+
             }
 
         } else if (sensor instanceof KeyboardSensor) {
@@ -215,6 +220,14 @@ public class LogicBricksBuilder {
 
         } else if (actuator instanceof StateActuator) {
             actuatorComponent = entity.getComponent(StateActuatorComponent.class);
+            if (actuatorComponent == null) {
+                actuatorComponent = new StateActuatorComponent();
+                entity.add(actuatorComponent);
+            }
+            processActuator(state, actuatorComponent);
+
+        } else if (actuator instanceof PropertyActuator) {
+            actuatorComponent = entity.getComponent(PropertyActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new StateActuatorComponent();
                 entity.add(actuatorComponent);

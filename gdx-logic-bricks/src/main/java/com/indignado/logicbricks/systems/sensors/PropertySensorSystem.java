@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.PropertySensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
@@ -24,13 +23,14 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
     }
 
 
+    @Override
     public void processEntity(Entity entity, float deltaTime) {
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (PropertySensor sensor : sensors) {
                 if (isTap(sensor)) sensor.pulseSignal = false;
-                else processSensor(sensor,blackBoardMapper.get(entity));
+                else processSensor(sensor, blackBoardMapper.get(entity));
 
             }
         }
@@ -39,7 +39,8 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
 
     @Override
-    public void processSensor(PropertySensor sensor) {}
+    public void processSensor(PropertySensor sensor) {
+    }
 
 
     public void processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {

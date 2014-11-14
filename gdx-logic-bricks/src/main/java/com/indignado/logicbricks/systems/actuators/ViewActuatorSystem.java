@@ -5,8 +5,6 @@ import com.indignado.logicbricks.components.actuators.ViewActuatorComponent;
 import com.indignado.logicbricks.data.View;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class ViewActuatorSystem extends ActuatorSystem<ViewActuator, ViewActuatorComponent> {

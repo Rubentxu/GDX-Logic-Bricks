@@ -10,8 +10,6 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.CameraActuatorComponent;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class CameraActuatorSystem extends ActuatorSystem<CameraActuator, CameraActuatorComponent> {

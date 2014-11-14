@@ -115,11 +115,12 @@ public class SimplePlatformTest extends LogicBricksTest {
 
     private Entity createPlayer() {
         Entity player = new Entity();
-        LogicBricksBuilder builder = new LogicBricksBuilder(player);
+
         StateComponent stateComponent = new StateComponent();
         stateComponent.createState("Idle");
         stateComponent.createState("Walking");
         player.add(stateComponent);
+
 
         BlackBoardComponent blackBoardComponent = new BlackBoardComponent();
         blackBoardComponent.add(new Property<Boolean>("isGround", false));
@@ -203,6 +204,8 @@ public class SimplePlatformTest extends LogicBricksTest {
         stateActuator2.owner = player;
         stateActuator2.state = 0;
 
+        LogicBricksBuilder builder = new LogicBricksBuilder(player);
+
         builder.addSensor(keyboardSensor, "Idle", "Walking")
                 .addController(controller, "Idle", "Walking")
                 .connect(keyboardSensor)
@@ -279,7 +282,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         controllerGround.type = ConditionalController.Type.AND;
 
         ConditionalController controllerNotGround = new ConditionalController();
-        controllerGround.type = ConditionalController.Type.NOR;
+        controllerNotGround.type = ConditionalController.Type.NOR;
 
         PropertyActuator<Boolean> propertyActuator = new PropertyActuator();
         propertyActuator.owner = player;

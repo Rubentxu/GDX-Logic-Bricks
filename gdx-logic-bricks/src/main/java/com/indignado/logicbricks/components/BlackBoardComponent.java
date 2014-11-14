@@ -34,7 +34,7 @@ public class BlackBoardComponent extends Component {
     }
 
 
-    public BlackBoardComponent add(Property property) {
+    public <V extends Object> BlackBoardComponent add(Property<V> property) {
         String propertyName = property.name;
 
         for (int i = 0; i < propertiesArray.size; ++i) {
@@ -84,7 +84,7 @@ public class BlackBoardComponent extends Component {
     }
 
 
-    public Property getProperty(PropertyType propertyType) {
+    public <V extends Object> Property<V> getProperty(PropertyType propertyType) {
         int propertyTypeIndex = propertyType.getIndex();
         if (propertyTypeIndex < properties.getCapacity()) {
             return properties.get(propertyTypeIndex);

@@ -5,8 +5,6 @@ import com.indignado.logicbricks.bricks.actuators.MessageActuator;
 import com.indignado.logicbricks.components.actuators.MessageActuatorComponent;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class MessageActuatorSystem extends ActuatorSystem<MessageActuator, MessageActuatorComponent> {
