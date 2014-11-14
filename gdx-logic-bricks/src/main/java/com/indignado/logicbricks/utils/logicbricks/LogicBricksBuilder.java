@@ -229,7 +229,7 @@ public class LogicBricksBuilder {
         } else if (actuator instanceof PropertyActuator) {
             actuatorComponent = entity.getComponent(PropertyActuatorComponent.class);
             if (actuatorComponent == null) {
-                actuatorComponent = new StateActuatorComponent();
+                actuatorComponent = new PropertyActuatorComponent();
                 entity.add(actuatorComponent);
             }
             processActuator(state, actuatorComponent);
