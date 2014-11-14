@@ -40,7 +40,9 @@ public abstract class LogicBricksTest implements ApplicationListener {
         this.font = new BitmapFont();
         this.world = new World(new Vector2(0, -10), true);
         this.engine = new Engine();
-        engine.addSystem(new CollisionSensorSystem());
+        CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
+        this.world.setContactListener(collisionSensorSystem);
+        engine.addSystem(collisionSensorSystem);
         engine.addSystem(new AlwaysSensorSystem());
         engine.addSystem(new DelaySensorSystem());
         KeyboardSensorSystem keyboardSensorSystem = new KeyboardSensorSystem();
@@ -66,6 +68,8 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
         Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem, mouseSensorSystem));
         createWorld(world, engine);
+
+        engine.update(0);
 
     }
 

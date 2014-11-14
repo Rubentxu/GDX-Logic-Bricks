@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.actuators.PropertyActuator;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
@@ -43,7 +44,10 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
             Property property = blackBoardComponent.getProperty(PropertyType.getFor(actuator.property));
             switch (actuator.mode) {
                 case Assign:
-                    property.value = actuator.value;
+                    if (property.value != actuator.value) {
+                        property.value = actuator.value;
+                        Gdx.app.log("PropertyActuatorSystem", "name " + property.name + " value " + property.value);
+                    }
                     break;
                 case Add:
                     break;
@@ -57,7 +61,6 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
     }
 
 
-    public void processActuator(PropertyActuator actuator) {
-    }
+    public void processActuator(PropertyActuator actuator) {}
 
 }

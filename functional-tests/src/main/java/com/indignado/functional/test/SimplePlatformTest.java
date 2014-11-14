@@ -20,6 +20,7 @@ import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
+import com.indignado.logicbricks.bricks.sensors.PropertySensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -124,6 +125,7 @@ public class SimplePlatformTest extends LogicBricksTest {
 
         BlackBoardComponent blackBoardComponent = new BlackBoardComponent();
         blackBoardComponent.add(new Property<Boolean>("isGround", false));
+        player.add(blackBoardComponent);
 
         Body bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(0.35f, 1))
@@ -309,6 +311,33 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connect(collisionSensor)
                 .addActuator(propertyActuator2, "Idle", "Walking")
                 .connect(controllerNotGround);
+
+
+        KeyboardSensor keySensorJump = new KeyboardSensor();
+        keySensorJump.keyCode = Input.Keys.W;
+
+        PropertySensor propertySensorIsGround = new PropertySensor<Boolean>();
+        propertySensorIsGround.property = "isGround";
+        propertySensorIsGround.evaluationType = PropertySensor.EvaluationType.EQUAL;
+        propertySensorIsGround.value = true;
+
+        ConditionalController controllerJump = new ConditionalController();
+        controllerJump.type = ConditionalController.Type.AND;
+
+
+        MotionActuator motionActuatorJump = new MotionActuator();
+        motionActuatorJump.impulse = new Vector2(0, 3);
+        motionActuatorJump.owner = player;
+        motionActuatorJump.limitVelocityY = 7;
+
+
+        builder.addSensor(keySensorJump, "Idle", "Walking")
+                .addSensor(propertySensorIsGround, "Idle", "Walking")
+                .addController(controllerJump, "Idle", "Walking")
+                .connect(keySensorJump)
+                .connect(propertySensorIsGround)
+                .addActuator(motionActuatorJump, "Idle", "Walking")
+                .connect(controllerJump);
 
         return player;
 

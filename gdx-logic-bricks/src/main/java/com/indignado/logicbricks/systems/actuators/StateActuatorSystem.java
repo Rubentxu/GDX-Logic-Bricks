@@ -24,18 +24,14 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
     public void processEntity(Entity entity, float deltaTime) {
         StateComponent stateComponent = stateMapper.get(entity);
         Integer state = stateComponent.getCurrentState();
-        Gdx.app.log("StateActuatorSystem", "state " + state );
         Set<StateActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (StateActuator actuator : actuators) {
                 boolean evalue = evaluateController(actuator);
-                Gdx.app.log("StateActuatorSystem", "state " + state + " evalue " + evalue);
                 if (evalue) {
                     Gdx.app.log("StateActuatorSystem", "state " + state + " actuator state " + actuator.state);
                     stateComponent.changeCurrentState(actuator.state);
                 }
-
-
             }
         }
 
@@ -43,9 +39,7 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
 
 
     @Override
-    public void processActuator(StateActuator actuator) {
-
-    }
+    public void processActuator(StateActuator actuator) {}
 
 
 }
