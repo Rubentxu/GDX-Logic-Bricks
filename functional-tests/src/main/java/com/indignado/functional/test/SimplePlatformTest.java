@@ -6,7 +6,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -26,6 +28,7 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.data.AnimationView;
+import com.indignado.logicbricks.data.ParticleEffectView;
 import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
@@ -46,6 +49,7 @@ public class SimplePlatformTest extends LogicBricksTest {
     private Animation idle;
     private Animation jump;
     private Animation fall;
+    private ParticleEffect dustEffect;
 
 
     public static void main(String[] args) {
@@ -54,15 +58,6 @@ public class SimplePlatformTest extends LogicBricksTest {
         config.height = 600;
 
         new LwjglApplication(new SimplePlatformTest(), config);
-    }
-
-
-    public FileHandle getFileHandle(String fileName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
-        File file = new File(url.getPath());
-        FileHandle fileHandle = new FileHandle(file);
-        return fileHandle;
-
     }
 
 
@@ -96,6 +91,9 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .mass(1)
                 .build();
 
+
+        dustEffect = new ParticleEffect();
+        dustEffect.load(getFileHandle("assets/particles/dust.pfx"), getFileHandle("assets/particles"));
 
         TextureAtlas atlas = new TextureAtlas(getFileHandle("assets/animations/sprites.pack"));
         Array<TextureAtlas.AtlasRegion> heroWalking = atlas.findRegions("Andando");
@@ -147,8 +145,15 @@ public class SimplePlatformTest extends LogicBricksTest {
         playerView.animations.put(stateComponent.getState("Walking"), walking);
         playerView.layer = 1;
 
+        ParticleEffectView particleEffectView = new ParticleEffectView();
+        particleEffectView.attachedTransform = bodyPlayer.getTransform();
+        particleEffectView.effect = dustEffect;
+        particleEffectView.localPosition = new Vector2(0,-1);
+        particleEffectView.tint = Color.BLUE;
+
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(playerView);
+        viewsComponent.views.add(particleEffectView);
 
         player.add(viewsComponent);
 

@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,9 @@ import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
+
+import java.io.File;
+import java.net.URL;
 
 /**
  * @author Rubentxu.
@@ -136,6 +140,15 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void dispose() {
+
+    }
+
+
+    protected FileHandle getFileHandle(String fileName) {
+        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
+        File file = new File(url.getPath());
+        FileHandle fileHandle = new FileHandle(file);
+        return fileHandle;
 
     }
 
