@@ -12,6 +12,6 @@ import com.badlogic.gdx.utils.IntMap;
  * @author Rubentxu.
  */
 public class ParticleEffectView extends View {
-    public ParticleEffect particleEffect;
+    public ParticleEffect effect;
 
 }

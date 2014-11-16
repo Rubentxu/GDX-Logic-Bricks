@@ -6,11 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
@@ -72,10 +71,13 @@ public class RenderingSystem extends IteratingSystem {
                 batch.setColor(Color.WHITE);
             }
             batch.getColor().a = view.opacity;
-            Transform t = view.transform;
 
             if(view instanceof ParticleEffectView) {
-
+                ParticleEffect effect = ((ParticleEffectView) view).effect;
+                effect.setPosition(view.position.x, view.position.y);
+                effect.update(deltaTime);
+                effect.reset();
+                effect.draw(batch);
 
             } else if(TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
@@ -88,8 +90,8 @@ public class RenderingSystem extends IteratingSystem {
 
                 processTextureFlip(textureView);
 
-                batch.draw(textureView.textureRegion, t.getPosition().x - originX, t.getPosition().y - originY, originX, originY,
-                        textureView.width, textureView.height, 1, 1, MathUtils.radiansToDegrees * t.getRotation());
+                batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
+                        originX, originY, textureView.width, textureView.height, 1, 1,textureView.rotation);
             }
 
 

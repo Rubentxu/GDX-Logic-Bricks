@@ -7,8 +7,8 @@ import com.indignado.logicbricks.data.View;
 /**
  * @author Rubentxu.
  */
-public class TextureViewActuator extends Actuator {
-    public TextureView targetView;
+public class TextureActuator extends Actuator {
+    public TextureView textureView;
     public float height = 0;
     public float width = 0;
     public int opacity = -1;

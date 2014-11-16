@@ -9,8 +9,6 @@ import com.indignado.logicbricks.bricks.sensors.MouseSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.data.TextureView;
-import com.indignado.logicbricks.data.View;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,7 +78,7 @@ public class MouseSensorSystemTest {
         TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
-        view.transform = new Transform(new Vector2(0, 0), 0);
+        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -120,7 +118,7 @@ public class MouseSensorSystemTest {
         TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
-        view.transform = new Transform(new Vector2(0, 0), 0);
+        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -160,7 +158,7 @@ public class MouseSensorSystemTest {
         TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
-        view.transform = new Transform(new Vector2(0, 0), 0);
+        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -200,7 +198,7 @@ public class MouseSensorSystemTest {
         TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
-        view.transform = new Transform(new Vector2(0, 0), 0);
+        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -252,7 +250,7 @@ public class MouseSensorSystemTest {
         TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
-        view.transform = new Transform(new Vector2(0, 0), 0);
+        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);

@@ -7,8 +7,6 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.indignado.logicbricks.components.StateComponent;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class StateSystem extends IteratingSystem {

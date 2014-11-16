@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
+import com.indignado.logicbricks.systems.ViewSystem;
 import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
@@ -57,12 +58,13 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new MotionActuatorSystem());
         engine.addSystem(new RigidBodyPropertyActuatorSystem());
         engine.addSystem(new StateActuatorSystem());
-        engine.addSystem(new ViewActuatorSystem());
+        engine.addSystem(new TextureActuatorSystem());
         engine.addSystem(new PropertyActuatorSystem());
         RenderingSystem renderingSystem = new RenderingSystem(batch, camera);
         renderingSystem.WIDTH = WIDTH;
         renderingSystem.HEIGHT = HEIGHT;
         engine.addSystem(renderingSystem);
+        engine.addSystem(new ViewSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem());
 

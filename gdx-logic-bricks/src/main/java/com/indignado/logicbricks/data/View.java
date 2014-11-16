@@ -12,8 +12,10 @@ import com.badlogic.gdx.utils.IntMap;
  */
 public class View {
     public String name;
-    public Transform transform;
+    public Transform attachedTransform;
+    public Vector2 position = new Vector2();
     public Vector2 localPosition;
+    public float rotation = 0;
     public int opacity = 1;
     public int layer;
     public Color tint;

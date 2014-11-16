@@ -27,8 +27,6 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.data.AnimationView;
 import com.indignado.logicbricks.data.Property;
-import com.indignado.logicbricks.data.TextureView;
-import com.indignado.logicbricks.data.View;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 
@@ -143,7 +141,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         AnimationView playerView = new AnimationView();
         playerView.height = 2.3f;
         playerView.width = 1.8f;
-        playerView.transform = bodyPlayer.getTransform();
+        playerView.attachedTransform = bodyPlayer.getTransform();
         playerView.animations = new IntMap<>();
         playerView.animations.put(stateComponent.getState("Idle"), idle);
         playerView.animations.put(stateComponent.getState("Walking"), walking);
@@ -190,9 +188,9 @@ public class SimplePlatformTest extends LogicBricksTest {
         cameraActuator.camera = camera;
 
 
-        TextureViewActuator textureViewActuator = new TextureViewActuator();
-        textureViewActuator.flipX = false;
-        textureViewActuator.targetView = playerView;
+        TextureActuator textureActuator = new TextureActuator();
+        textureActuator.flipX = false;
+        textureActuator.textureView = playerView;
 
 
         StateActuator stateActuator = new StateActuator();
@@ -212,18 +210,18 @@ public class SimplePlatformTest extends LogicBricksTest {
         builder.addController(controller, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
                 .connectToActuator(motionActuator)
-                .connectToActuator(textureViewActuator)
+                .connectToActuator(textureActuator)
                 .connectToActuator(stateActuator);
 
 
-        TextureViewActuator textureViewActuator2 = new TextureViewActuator();
-        textureViewActuator2.flipX = true;
-        textureViewActuator2.targetView = playerView;
+        TextureActuator textureActuator2 = new TextureActuator();
+        textureActuator2.flipX = true;
+        textureActuator2.textureView = playerView;
 
         builder.addController(controller2, "Idle", "Walking")
                 .connectToSensor(keyboardSensor2)
                 .connectToActuator(motionActuator2)
-                .connectToActuator(textureViewActuator2)
+                .connectToActuator(textureActuator2)
                 .connectToActuator(stateActuatorB);
 
 

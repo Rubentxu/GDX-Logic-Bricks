@@ -66,8 +66,8 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         for (View view : viewsComponent.views) {
             if(TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
-                rectangle.set(textureView.transform.getPosition().x - textureView.width / 2,
-                        textureView.transform.getPosition().y - textureView.height / 2, textureView.width, textureView.height);
+                rectangle.set(textureView.attachedTransform.getPosition().x - textureView.width / 2,
+                        textureView.attachedTransform.getPosition().y - textureView.height / 2, textureView.width, textureView.height);
                 if (rectangle.contains(posX, posY)) return true;
             }
         }
