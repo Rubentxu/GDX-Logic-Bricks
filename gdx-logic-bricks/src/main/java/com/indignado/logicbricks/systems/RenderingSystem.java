@@ -14,6 +14,8 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.data.ParticleEffectView;
+import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.data.View;
 
 import java.util.Comparator;
@@ -62,28 +64,33 @@ public class RenderingSystem extends IteratingSystem {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
+
         for (View view : renderQueue) {
-            if (view.textureRegion == null) {
-                continue;
-            }
-
-            Transform t = view.transform;
-
-            float originX = view.width * 0.5f;
-            float originY = view.height * 0.5f;
-
             if (view.tint != null) {
                 batch.setColor(view.tint);
             } else {
                 batch.setColor(Color.WHITE);
             }
-
             batch.getColor().a = view.opacity;
+            Transform t = view.transform;
 
-            processTextureFlip(view);
+            if(view instanceof ParticleEffectView) {
 
-            batch.draw(view.textureRegion, t.getPosition().x - originX, t.getPosition().y - originY, originX, originY,
-                    view.width, view.height, 1, 1, MathUtils.radiansToDegrees * t.getRotation());
+
+            } else if(TextureView.class.isAssignableFrom(view.getClass())) {
+                TextureView textureView = (TextureView) view;
+                if (textureView.textureRegion == null) {
+                    continue;
+                }
+
+                float originX = textureView.width * 0.5f;
+                float originY = textureView.height * 0.5f;
+
+                processTextureFlip(textureView);
+
+                batch.draw(textureView.textureRegion, t.getPosition().x - originX, t.getPosition().y - originY, originX, originY,
+                        textureView.width, textureView.height, 1, 1, MathUtils.radiansToDegrees * t.getRotation());
+            }
 
 
         }
@@ -92,7 +99,7 @@ public class RenderingSystem extends IteratingSystem {
 
     }
 
-    private void processTextureFlip(View view) {
+    private void processTextureFlip(TextureView view) {
         if ((view.flipX && !view.textureRegion.isFlipX()) || (!view.flipX && view.textureRegion.isFlipX())) {
             float temp = view.textureRegion.getU();
             view.textureRegion.setU(view.textureRegion.getU2());

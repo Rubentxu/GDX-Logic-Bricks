@@ -237,7 +237,7 @@ public class LogicBricksBuilder {
             }
             processActuator(state, actuatorComponent);
 
-        } else if (actuator instanceof ViewActuator) {
+        } else if (actuator instanceof TextureViewActuator) {
             actuatorComponent = entity.getComponent(ViewActuatorComponent.class);
             if (actuatorComponent == null) {
                 actuatorComponent = new ViewActuatorComponent();

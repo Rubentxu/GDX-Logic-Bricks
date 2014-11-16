@@ -16,7 +16,7 @@ import org.mockito.Mockito;
  *
  * @author Rubentxu
  */
-public class ViewsSystemTest extends BaseTest {
+public class AnimationSystemTest extends BaseTest {
 
     PooledEngine engine;
     TextureRegion playerTextureRegion;
@@ -34,7 +34,7 @@ public class ViewsSystemTest extends BaseTest {
     @Before
     public void setup() {
         engine = new PooledEngine();
-        engine.addSystem(new ViewsSystem());
+        engine.addSystem(new AnimationSystem());
 
         playerTextureRegion = Mockito.mock(TextureRegion.class);
 

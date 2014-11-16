@@ -1,13 +1,14 @@
 package com.indignado.logicbricks.bricks.actuators;
 
 import com.badlogic.gdx.graphics.Color;
+import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.data.View;
 
 /**
  * @author Rubentxu.
  */
-public class ViewActuator extends Actuator {
-    public View targetView;
+public class TextureViewActuator extends Actuator {
+    public TextureView targetView;
     public float height = 0;
     public float width = 0;
     public int opacity = -1;

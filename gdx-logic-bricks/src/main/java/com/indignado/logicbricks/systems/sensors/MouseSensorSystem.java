@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
+import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.data.View;
 
 import java.util.HashSet;
@@ -63,9 +64,12 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
         Rectangle rectangle = new Rectangle();
         for (View view : viewsComponent.views) {
-            rectangle.set(view.transform.getPosition().x - view.width / 2, view.transform.getPosition().y - view.height / 2,
-                    view.width, view.height);
-            if (rectangle.contains(posX, posY)) return true;
+            if(TextureView.class.isAssignableFrom(view.getClass())) {
+                TextureView textureView = (TextureView) view;
+                rectangle.set(textureView.transform.getPosition().x - textureView.width / 2,
+                        textureView.transform.getPosition().y - textureView.height / 2, textureView.width, textureView.height);
+                if (rectangle.contains(posX, posY)) return true;
+            }
         }
         return false;
 

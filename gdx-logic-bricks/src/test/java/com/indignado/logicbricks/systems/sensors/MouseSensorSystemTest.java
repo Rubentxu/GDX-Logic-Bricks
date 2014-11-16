@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.data.View;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
@@ -76,7 +77,7 @@ public class MouseSensorSystemTest {
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
-        View view = new View();
+        TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
         view.transform = new Transform(new Vector2(0, 0), 0);
@@ -116,7 +117,7 @@ public class MouseSensorSystemTest {
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
-        View view = new View();
+        TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
         view.transform = new Transform(new Vector2(0, 0), 0);
@@ -156,7 +157,7 @@ public class MouseSensorSystemTest {
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
-        View view = new View();
+        TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
         view.transform = new Transform(new Vector2(0, 0), 0);
@@ -196,7 +197,7 @@ public class MouseSensorSystemTest {
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
-        View view = new View();
+        TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
         view.transform = new Transform(new Vector2(0, 0), 0);
@@ -248,7 +249,7 @@ public class MouseSensorSystemTest {
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
-        View view = new View();
+        TextureView view = new TextureView();
         view.height = 50;
         view.width = 50;
         view.transform = new Transform(new Vector2(0, 0), 0);

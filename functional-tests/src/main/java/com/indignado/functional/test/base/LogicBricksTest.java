@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.ViewsSystem;
 import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
@@ -63,7 +63,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         renderingSystem.WIDTH = WIDTH;
         renderingSystem.HEIGHT = HEIGHT;
         engine.addSystem(renderingSystem);
-        engine.addSystem(new ViewsSystem());
+        engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem());
 
         Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem, mouseSensorSystem));
