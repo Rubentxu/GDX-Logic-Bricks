@@ -42,8 +42,6 @@ import java.net.URL;
  */
 public class SimplePlatformTest extends LogicBricksTest {
     private BodyBuilder bodyBuilder;
-    private World world;
-    private Engine engine;
     private Body ground;
     private Animation walking;
     private Animation idle;

@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
@@ -58,6 +59,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public void processEntity(Entity entity, float deltaTime) {
+        Gdx.app.log("SensorSystem","deltatime "+ deltaTime);
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
@@ -79,8 +81,11 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public boolean isTap(Sensor sensor) {
+        Gdx.app.log("SensorSystem","tap "+ sensor.tap);
         if (sensor.tap) {
-            if (sensor.initialized) {
+            Gdx.app.log("SensorSystem","tap2");
+            if (!sensor.initialized) {
+                Gdx.app.log("SensorSystem","initialized");
                 return true;
             }
             sensor.initialized = true;

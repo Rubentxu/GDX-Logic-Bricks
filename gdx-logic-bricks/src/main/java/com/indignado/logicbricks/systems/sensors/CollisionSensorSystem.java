@@ -114,17 +114,24 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void entityAdded(Entity entity) {
-        IntMap<Set<CollisionSensor>> map = entity.getComponent(CollisionSensorComponent.class).sensors;
-        for (int i = 0; i < map.size; ++i) {
-            collisionSensors.addAll(map.get(i));
+        CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
+        if(collisionSensorComponent != null) {
+            IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;
+            for (int i = 0; i < map.size; ++i) {
+                collisionSensors.addAll(map.get(i));
+            }
         }
+
     }
 
     @Override
     public void entityRemoved(Entity entity) {
-        IntMap<Set<CollisionSensor>> map = entity.getComponent(CollisionSensorComponent.class).sensors;
-        for (int i = 0; i < map.size; ++i) {
-            collisionSensors.removeAll(map.get(i));
+        CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
+        if(collisionSensorComponent != null) {
+            IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;
+            for (int i = 0; i < map.size; ++i) {
+                collisionSensors.removeAll(map.get(i));
+            }
         }
     }
 

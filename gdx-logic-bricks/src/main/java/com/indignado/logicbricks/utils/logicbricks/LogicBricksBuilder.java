@@ -25,7 +25,6 @@ public class LogicBricksBuilder {
     private final Entity entity;
     private final StateComponent stateComponent;
     private Controller controller;
-    private Actuator actuator;
     private Array<String> controllerStates;
 
 
@@ -79,6 +78,7 @@ public class LogicBricksBuilder {
 
         }
         if (sensorsList != null && !sensorsList.contains(sensor)) sensorsList.add(sensor);
+
         return this;
 
     }
@@ -113,7 +113,6 @@ public class LogicBricksBuilder {
 
     public <C extends Controller> LogicBricksBuilder addController(C controller, String... nameStates) {
         controllerStates.clear();
-        controllerStates.addAll(nameStates);
         for (String s : nameStates) {
             addController(controller, s);
         }
@@ -124,6 +123,7 @@ public class LogicBricksBuilder {
 
     public <C extends Controller> LogicBricksBuilder addController(C controller, String nameState) {
         this.controller = controller;
+        controllerStates.add(nameState);
         int state = getKeyState(nameState);
         controller.state = state;
         ControllerComponent controllerComponent = null;
@@ -199,7 +199,6 @@ public class LogicBricksBuilder {
 
 
     private  <A extends Actuator> LogicBricksBuilder addActuator(A actuator, String nameState) {
-        this.actuator = actuator;
         int state = getKeyState(nameState);
         actuator.state = state;
         ActuatorComponent actuatorComponent = null;

@@ -11,10 +11,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
+import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
@@ -23,6 +26,8 @@ import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.utils.box2d.BodyBuilder;
+import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
 
 import java.io.File;
 import java.net.URL;
@@ -39,6 +44,8 @@ public abstract class LogicBricksTest implements ApplicationListener {
     BitmapFont font;
     private Box2DDebugRenderer renderer;
     private float WIDTH = 30;
+    protected BodyBuilder bodyBuilder;
+
 
     @Override
     public void create() {
@@ -48,9 +55,13 @@ public abstract class LogicBricksTest implements ApplicationListener {
         this.font = new BitmapFont();
         this.world = new World(new Vector2(0, -10), true);
         this.engine = new Engine();
+        this.bodyBuilder = new BodyBuilder(world);
+
+        // System
         CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
         this.world.setContactListener(collisionSensorSystem);
         engine.addSystem(collisionSensorSystem);
+        engine.addEntityListener(collisionSensorSystem);
         engine.addSystem(new AlwaysSensorSystem());
         engine.addSystem(new DelaySensorSystem());
         KeyboardSensorSystem keyboardSensorSystem = new KeyboardSensorSystem();
@@ -58,6 +69,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addEntityListener(Family.all(KeyboardSensorComponent.class, StateComponent.class).get(),keyboardSensorSystem);
         MouseSensorSystem mouseSensorSystem = new MouseSensorSystem();
         engine.addSystem(mouseSensorSystem);
+        engine.addEntityListener(Family.all(MouseSensorComponent.class, StateComponent.class).get(),mouseSensorSystem);
         engine.addSystem(new PropertySensorSystem());
         engine.addSystem(new ConditionalControllerSystem());
         engine.addSystem(new ScriptControllerSystem());
@@ -153,6 +165,29 @@ public abstract class LogicBricksTest implements ApplicationListener {
         File file = new File(url.getPath());
         FileHandle fileHandle = new FileHandle(file);
         return fileHandle;
+
+    }
+
+
+    protected Body wall(float x, float y, float width, float height) {
+        return bodyBuilder.fixture(new FixtureDefBuilder()
+                .boxShape(width,height)
+                .restitution(0.4f)
+                .friction(0.5f))
+                .position(x,y)
+                .build();
+
+    }
+
+
+    private Body crate(float x, float y, float width, float height) {
+        return bodyBuilder.fixture(new FixtureDefBuilder()
+                .boxShape(width,height)
+                .restitution(0.4f)
+                .friction(0.5f))
+                .userData("crate")
+                .type(BodyDef.BodyType.DynamicBody)
+                .build();
 
     }
 
