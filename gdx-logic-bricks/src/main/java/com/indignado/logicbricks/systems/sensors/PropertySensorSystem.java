@@ -85,12 +85,6 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
     }
 
 
-    @Override
-    public void clearSensor() {
-
-    }
-
-
     private Boolean greaterThanEvaluation(Number p_value, Number p_valueSignal) {
         int result = compare(p_value, p_valueSignal);
         if (result < 0) return true;

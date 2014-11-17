@@ -51,7 +51,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
     @Override
     public void update(float deltaTime) {
-        clearSensor();
         for (int i = 0; i < entities.size(); ++i) {
             processEntity(entities.get(i), deltaTime);
         }
@@ -77,8 +76,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
     public abstract void processSensor(S sensor);
 
-
-    public abstract void clearSensor();
 
 
     public boolean isTap(Sensor sensor) {

@@ -26,9 +26,4 @@ public class DelaySensorSystem extends SensorSystem<DelaySensor, DelaySensorComp
     }
 
 
-    @Override
-    public void clearSensor() {
-
-    }
-
 }

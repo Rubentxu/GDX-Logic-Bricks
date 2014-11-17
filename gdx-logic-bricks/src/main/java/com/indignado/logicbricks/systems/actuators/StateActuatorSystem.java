@@ -29,7 +29,6 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
             for (StateActuator actuator : actuators) {
                 boolean evalue = evaluateController(actuator);
                 if (evalue) {
-                    Gdx.app.log("StateActuatorSystem", "state " + state + " actuator state " + actuator.state);
                     stateComponent.changeCurrentState(actuator.state);
                 }
             }

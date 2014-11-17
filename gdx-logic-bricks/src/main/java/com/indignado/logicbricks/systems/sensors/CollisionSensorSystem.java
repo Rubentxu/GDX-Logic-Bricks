@@ -1,9 +1,14 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
+import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
+import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +16,7 @@ import java.util.Set;
 /**
  * @author Rubentxu
  */
-public class CollisionSensorSystem extends SensorSystem<CollisionSensor, CollisionSensorComponent> implements ContactListener {
+public class CollisionSensorSystem extends SensorSystem<CollisionSensor, CollisionSensorComponent> implements ContactListener, EntityListener {
     private final Set<CollisionSensor> collisionSensors;
 
 
@@ -24,14 +29,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void processSensor(CollisionSensor sensor) {
-        collisionSensors.add(sensor);
-
-    }
-
-
-    @Override
-    public void clearSensor() {
-        collisionSensors.clear();
+        // collisionSensors.add(sensor);
 
     }
 
@@ -110,6 +108,24 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
             }
         }
 
+    }
+
+
+
+    @Override
+    public void entityAdded(Entity entity) {
+        IntMap<Set<CollisionSensor>> map = entity.getComponent(CollisionSensorComponent.class).sensors;
+        for (int i = 0; i < map.size; ++i) {
+            collisionSensors.addAll(map.get(i));
+        }
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        IntMap<Set<CollisionSensor>> map = entity.getComponent(CollisionSensorComponent.class).sensors;
+        for (int i = 0; i < map.size; ++i) {
+            collisionSensors.removeAll(map.get(i));
+        }
     }
 
 }

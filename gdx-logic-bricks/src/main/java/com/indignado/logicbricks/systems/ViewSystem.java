@@ -1,15 +1,15 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.math.MathUtils;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.data.AnimationView;
 import com.indignado.logicbricks.data.ParticleEffectView;
 import com.indignado.logicbricks.data.View;
 
@@ -31,22 +31,15 @@ public class ViewSystem extends IteratingSystem {
     public void processEntity(Entity entity, float deltaTime) {
         ViewsComponent viewsComponent = tm.get(entity);
         for (View view : viewsComponent.views) {
-            if(view.attachedTransform != null) {
-               view.position = view.attachedTransform.getPosition();
-               view.rotation = MathUtils.radiansToDegrees * view.attachedTransform.getRotation();
+            if (view.attachedTransform != null) {
+                view.position = view.attachedTransform.getPosition();
+                view.rotation = MathUtils.radiansToDegrees * view.attachedTransform.getRotation();
             }
-            if(view.localPosition != null) {
+            if (view.localPosition != null) {
                 view.position = view.position.cpy();
                 view.position.add(view.localPosition);
             }
-            if(view.tint != null && view instanceof ParticleEffectView) {
-                ParticleEffectView effectView = (ParticleEffectView) view;
 
-                float[] colors = effectView.effect.getEmitters().first().getTint().getColors();
-                colors[0] = view.tint.r;
-                colors[1] = view.tint.g;
-                colors[2] = view.tint.b;
-            }
         }
 
     }

@@ -1,7 +1,11 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 
@@ -13,7 +17,7 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardSensorComponent> implements InputProcessor {
+public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardSensorComponent> implements InputProcessor,EntityListener {
     private Set<KeyboardSensor> keyboardSensors;
 
 
@@ -27,7 +31,6 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     @Override
     public void processSensor(KeyboardSensor sensor) {
         boolean isActive = false;
-        keyboardSensors.add(sensor);
         sensor.keysSignal.clear();
 
         if (sensor.keyCode != Input.Keys.UNKNOWN) {
@@ -48,18 +51,13 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     }
 
-    @Override
-    public void clearSensor() {
-        keyboardSensors.clear();
-    }
-
 
     @Override
     public boolean keyDown(int keycode) {
-        //Gdx.app.log("KeyboardSensorSystem", "sensor keyDown event: " + keycode);
+        Gdx.app.log("KeyboardSensorSystem", "key size: " + keyboardSensors.size());
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.add(new Integer(keycode));
-            //Gdx.app.log("KeyboardSensorSystem", "key size: " + ks.keysCodeSignal.size());
+
         }
         return false;
 
@@ -122,4 +120,19 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     }
 
 
+    @Override
+    public void entityAdded(Entity entity) {
+        IntMap<Set<KeyboardSensor>> map = entity.getComponent(KeyboardSensorComponent.class).sensors;
+        for (int i = 0; i < map.size; ++i) {
+           keyboardSensors.addAll(map.get(i));
+        }
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        IntMap<Set<KeyboardSensor>> map = entity.getComponent(KeyboardSensorComponent.class).sensors;
+        for (int i = 0; i < map.size; ++i) {
+            keyboardSensors.removeAll(map.get(i));
+        }
+    }
 }

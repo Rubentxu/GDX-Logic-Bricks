@@ -22,9 +22,4 @@ public class AlwaysSensorSystem extends SensorSystem<AlwaysSensor, AlwaysSensorC
     }
 
 
-    @Override
-    public void clearSensor() {
-
-    }
-
 }

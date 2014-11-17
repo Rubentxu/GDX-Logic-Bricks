@@ -1,6 +1,7 @@
 package com.indignado.functional.test.base;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
@@ -52,6 +55,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new DelaySensorSystem());
         KeyboardSensorSystem keyboardSensorSystem = new KeyboardSensorSystem();
         engine.addSystem(keyboardSensorSystem);
+        engine.addEntityListener(Family.all(KeyboardSensorComponent.class, StateComponent.class).get(),keyboardSensorSystem);
         MouseSensorSystem mouseSensorSystem = new MouseSensorSystem();
         engine.addSystem(mouseSensorSystem);
         engine.addSystem(new PropertySensorSystem());

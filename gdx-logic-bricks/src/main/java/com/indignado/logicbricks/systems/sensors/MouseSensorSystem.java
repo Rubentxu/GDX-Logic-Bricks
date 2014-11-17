@@ -1,11 +1,15 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.IntMap;
+import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.data.View;
@@ -16,7 +20,7 @@ import java.util.Set;
 /**
  * @author Rubentxu
  */
-public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor {
+public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
     private Set<MouseSensor> mouseSensors;
 
     public MouseSensorSystem() {
@@ -29,7 +33,6 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     @Override
     public void processSensor(MouseSensor sensor) {
         boolean isActive = false;
-        this.mouseSensors.add(sensor);
 
         if (sensor.mouseEventSignal) {
             switch (sensor.mouseEvent) {
@@ -47,13 +50,6 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             }
         }
         sensor.pulseSignal = isActive;
-
-    }
-
-
-    @Override
-    public void clearSensor() {
-        mouseSensors.clear();
 
     }
 
@@ -193,4 +189,20 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
     }
 
+
+    @Override
+    public void entityAdded(Entity entity) {
+        IntMap<Set<MouseSensor>> map = entity.getComponent(MouseSensorComponent.class).sensors;
+        for (int i = 0; i < map.size; ++i) {
+            mouseSensors.addAll(map.get(i));
+        }
+    }
+
+    @Override
+    public void entityRemoved(Entity entity) {
+        IntMap<Set<MouseSensor>> map = entity.getComponent(MouseSensorComponent.class).sensors;
+        for (int i = 0; i < map.size; ++i) {
+            mouseSensors.removeAll(map.get(i));
+        }
+    }
 }

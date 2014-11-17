@@ -67,7 +67,6 @@ public class RenderingSystem extends IteratingSystem {
 
         for (View view : renderQueue) {
             if (view.tint != null) {
-                Gdx.app.log("RenderingSystem","localPosition2 " + view.tint);
                 batch.setColor(view.tint);
             } else {
                 batch.setColor(Color.WHITE);
