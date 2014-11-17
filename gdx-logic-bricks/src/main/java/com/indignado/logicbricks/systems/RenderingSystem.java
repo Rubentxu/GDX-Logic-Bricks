@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -73,7 +72,7 @@ public class RenderingSystem extends IteratingSystem {
             }
             batch.getColor().a = view.opacity;
 
-            if(view instanceof ParticleEffectView) {
+            if (view instanceof ParticleEffectView) {
 
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
                 effect.setPosition(view.position.x, view.position.y);
@@ -81,7 +80,7 @@ public class RenderingSystem extends IteratingSystem {
                 effect.start();
                 effect.draw(batch);
 
-            } else if(TextureView.class.isAssignableFrom(view.getClass())) {
+            } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
                 if (textureView.textureRegion == null) {
                     continue;
@@ -93,7 +92,7 @@ public class RenderingSystem extends IteratingSystem {
                 processTextureFlip(textureView);
 
                 batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
-                        originX, originY, textureView.width, textureView.height, 1, 1,textureView.rotation);
+                        originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
             }
 
 

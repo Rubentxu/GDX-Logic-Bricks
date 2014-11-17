@@ -61,6 +61,7 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
     }
 
 
-    public void processActuator(PropertyActuator actuator) {}
+    public void processActuator(PropertyActuator actuator) {
+    }
 
 }

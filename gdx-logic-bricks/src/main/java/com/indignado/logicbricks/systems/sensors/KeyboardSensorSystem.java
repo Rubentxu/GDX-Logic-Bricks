@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Rubentxu
  */
-public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardSensorComponent> implements InputProcessor,EntityListener {
+public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardSensorComponent> implements InputProcessor, EntityListener {
     private Set<KeyboardSensor> keyboardSensors;
 
 
@@ -124,7 +124,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     public void entityAdded(Entity entity) {
         IntMap<Set<KeyboardSensor>> map = entity.getComponent(KeyboardSensorComponent.class).sensors;
         for (int i = 0; i < map.size; ++i) {
-           keyboardSensors.addAll(map.get(i));
+            keyboardSensors.addAll(map.get(i));
         }
     }
 

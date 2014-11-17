@@ -1,7 +1,6 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.actuators.StateActuator;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.StateActuatorComponent;
@@ -38,7 +37,8 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
 
 
     @Override
-    public void processActuator(StateActuator actuator) {}
+    public void processActuator(StateActuator actuator) {
+    }
 
 
 }

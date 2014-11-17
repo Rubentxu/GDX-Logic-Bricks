@@ -59,7 +59,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public void processEntity(Entity entity, float deltaTime) {
-        Gdx.app.log("SensorSystem","deltatime "+ deltaTime);
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
@@ -79,13 +78,10 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     public abstract void processSensor(S sensor);
 
 
-
     public boolean isTap(Sensor sensor) {
-        Gdx.app.log("SensorSystem","tap "+ sensor.tap);
         if (sensor.tap) {
-            Gdx.app.log("SensorSystem","tap2");
             if (!sensor.initialized) {
-                Gdx.app.log("SensorSystem","initialized");
+                Gdx.app.log("SensorSystem", "initialized");
                 return true;
             }
             sensor.initialized = true;

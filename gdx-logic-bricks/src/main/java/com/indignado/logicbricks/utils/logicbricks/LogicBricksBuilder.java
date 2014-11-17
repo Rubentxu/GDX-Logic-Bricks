@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.logicbricks;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -16,6 +17,9 @@ import com.indignado.logicbricks.components.controllers.ConditionalControllerCom
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.components.sensors.*;
+import com.indignado.logicbricks.systems.actuators.*;
+import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
+import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
 
 import java.util.HashSet;
@@ -67,28 +71,33 @@ public class LogicBricksBuilder {
         Set<S> sensorsList = null;
         if (sensor instanceof AlwaysSensor) {
             getSystem(AlwaysSensorSystem.class);
-            sensorComponent = getSensorComponent(AlwaysSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(AlwaysSensor.class, sensorComponent, sensor.state);
+            sensorComponent = getComponent(AlwaysSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
 
         } else if (sensor instanceof CollisionSensor) {
             getSystem(CollisionSensorSystem.class);
-            sensorComponent = getSensorComponent(CollisionSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(CollisionSensor.class, sensorComponent, sensor.state);
+            sensorComponent = getComponent(CollisionSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
+
+        } else if (sensor instanceof DelaySensor) {
+            getSystem(DelaySensorSystem.class);
+            sensorComponent = getComponent(DelaySensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
 
         } else if (sensor instanceof KeyboardSensor) {
             getSystem(KeyboardSensorSystem.class);
-            sensorComponent = getSensorComponent(KeyboardSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(KeyboardSensor.class, sensorComponent, sensor.state);
+            sensorComponent = getComponent(KeyboardSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
 
         } else if (sensor instanceof MouseSensor) {
             getSystem(MouseSensorSystem.class);
-            sensorComponent = getSensorComponent(MouseSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(MouseSensor.class, sensorComponent, sensor.state);
+            sensorComponent = getComponent(MouseSensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
 
         } else if (sensor instanceof PropertySensor) {
             getSystem(PropertySensorSystem.class);
-            sensorComponent = getSensorComponent(PropertySensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(PropertySensor.class, sensorComponent, sensor.state);
+            sensorComponent = getComponent(PropertySensorComponent.class);
+            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
 
         }
         if (sensorsList != null && !sensorsList.contains(sensor)) sensorsList.add(sensor);
@@ -110,11 +119,11 @@ public class LogicBricksBuilder {
             }
             engine.addSystem(entitySystem);
 
-            if(entitySystem instanceof MouseSensorSystem)
+            if (entitySystem instanceof MouseSensorSystem)
                 engine.addEntityListener(((MouseSensorSystem) entitySystem).getFamily(), (MouseSensorSystem) entitySystem);
-            if(entitySystem instanceof KeyboardSensorSystem)
+            if (entitySystem instanceof KeyboardSensorSystem)
                 engine.addEntityListener(((KeyboardSensorSystem) entitySystem).getFamily(), (KeyboardSensorSystem) entitySystem);
-            if(entitySystem instanceof CollisionSensorSystem)
+            if (entitySystem instanceof CollisionSensorSystem)
                 engine.addEntityListener(((CollisionSensorSystem) entitySystem).getFamily(), (CollisionSensorSystem) entitySystem);
 
         }
@@ -123,8 +132,8 @@ public class LogicBricksBuilder {
     }
 
 
-    private <SC extends SensorComponent> SC getSensorComponent(Class<SC> clazz) {
-        SC sensorComponent = entity.getComponent(clazz);
+    private <C extends Component> C getComponent(Class<C> clazz) {
+        C sensorComponent = entity.getComponent(clazz);
         if (sensorComponent == null) {
             try {
                 sensorComponent = clazz.newInstance();
@@ -140,7 +149,7 @@ public class LogicBricksBuilder {
     }
 
 
-    private <S extends Sensor> Set<S> getSensorList(Class<S> clazz, SensorComponent sensorComponent, int state) {
+    private <S extends Sensor> Set<S> getSensorList(SensorComponent sensorComponent, int state) {
         Set<S> sensorsList = (Set<S>) sensorComponent.sensors.get(state);
         if (sensorsList == null) {
             sensorsList = new HashSet<S>();
@@ -170,27 +179,31 @@ public class LogicBricksBuilder {
         Set<C> controllerList = null;
 
         if (controller instanceof ConditionalController) {
-            controllerComponent = entity.getComponent(ConditionalControllerComponent.class);
-            if (controllerComponent == null) {
-                controllerComponent = new ConditionalControllerComponent();
-                entity.add(controllerComponent);
-            }
-            controllerList = (Set<C>) controllerComponent.controllers.get(state);
-            if (controllerList == null) {
-                controllerList = (Set<C>) new HashSet<ConditionalController>();
-                controllerComponent.controllers.put(state, controllerList);
-            }
+            getSystem(ConditionalControllerSystem.class);
+            controllerComponent = getComponent(ConditionalControllerComponent.class);
+            controllerList = (Set<C>) getControllerList(controllerComponent, state);
+
 
         } else if (controller instanceof ScriptController) {
-            controllerComponent = entity.getComponent(ScriptControllerComponent.class);
-            if (controllerComponent == null) {
-                controllerComponent = new ScriptControllerComponent();
-                controllerComponent.controllers.put(state, new HashSet<ScriptController>());
-                entity.add(controllerComponent);
-            }
+            getSystem(ScriptControllerSystem.class);
+            controllerComponent = getComponent(ScriptControllerComponent.class);
+            controllerList = (Set<C>) getControllerList(controllerComponent, state);
+
         }
-        ((Set<C>) controllerComponent.controllers.get(state)).add(controller);
+        if (controllerList != null && !controllerList.contains(controller)) controllerList.add(controller);
+
         return this;
+
+    }
+
+
+    private <C extends Controller> Set<C> getControllerList(ControllerComponent controllerComponent, int state) {
+        Set<C> controllersList = (Set<C>) controllerComponent.controllers.get(state);
+        if (controllersList == null) {
+            controllersList = new HashSet<C>();
+            controllerComponent.controllers.put(state, controllersList);
+        }
+        return controllersList;
 
     }
 
@@ -245,75 +258,65 @@ public class LogicBricksBuilder {
         Set<A> actuatorList = null;
 
         if (actuator instanceof CameraActuator) {
-            actuatorComponent = entity.getComponent(CameraActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new CameraActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
+            getSystem(CameraActuatorSystem.class);
+            actuatorComponent = getComponent(CameraActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
 
-        } else if (actuator instanceof MessageActuator) {
-            actuatorComponent = entity.getComponent(MessageActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new MessageActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
-
-        } else if (actuator instanceof MotionActuator) {
-            actuatorComponent = entity.getComponent(MotionActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new MotionActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
+        } else if (actuator instanceof EditEntityActuator) {
+            getSystem(EditEntityActuatorSystem.class);
+            actuatorComponent = getComponent(EditEntityActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
 
         } else if (actuator instanceof EditRigidBodyActuator) {
-            actuatorComponent = entity.getComponent(EditRigidBodyActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new EditRigidBodyActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
+            getSystem(EditRigidBodyActuatorSystem.class);
+            actuatorComponent = getComponent(EditRigidBodyActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
 
-        } else if (actuator instanceof TextureActuator) {
-            actuatorComponent = entity.getComponent(TextureActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new TextureActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
+        } else if (actuator instanceof EffectActuator) {
+            getSystem(EffectActuatorSystem.class);
+            actuatorComponent = getComponent(EffectActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
 
-        } else if (actuator instanceof StateActuator) {
-            actuatorComponent = entity.getComponent(StateActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new StateActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
+        } else if (actuator instanceof MessageActuator) {
+            getSystem(MessageActuatorSystem.class);
+            actuatorComponent = getComponent(MessageActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
+
+        } else if (actuator instanceof MotionActuator) {
+            getSystem(MotionActuatorSystem.class);
+            actuatorComponent = getComponent(MotionActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
 
         } else if (actuator instanceof PropertyActuator) {
-            actuatorComponent = entity.getComponent(PropertyActuatorComponent.class);
-            if (actuatorComponent == null) {
-                actuatorComponent = new PropertyActuatorComponent();
-                entity.add(actuatorComponent);
-            }
-            processActuator(state, actuatorComponent);
+            getSystem(PropertyActuatorSystem.class);
+            actuatorComponent = getComponent(PropertyActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
+
+        } else if (actuator instanceof StateActuator) {
+            getSystem(StateActuatorSystem.class);
+            actuatorComponent = getComponent(StateActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
+
+        } else if (actuator instanceof TextureActuator) {
+            getSystem(TextureActuatorSystem.class);
+            actuatorComponent = getComponent(TextureActuatorComponent.class);
+            actuatorList = getActuatorList(actuatorComponent, state);
 
         }
-        ((Set<A>) actuatorComponent.actuators.get(state)).add(actuator);
+        if (actuatorList != null && !actuatorList.contains(controller)) actuatorList.add(actuator);
         return this;
 
     }
 
 
-    private <A extends Actuator> void processActuator(int state, ActuatorComponent actuatorComponent) {
-        Set<A> actuatorList;
-        actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
+    private <A extends Actuator> Set<A> getActuatorList(ActuatorComponent actuatorComponent, int state) {
+        Set<A> actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
         if (actuatorList == null) {
             actuatorList = new HashSet<A>();
             actuatorComponent.actuators.put(state, actuatorList);
         }
+        return actuatorList;
+
     }
 
 

@@ -11,7 +11,6 @@ import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

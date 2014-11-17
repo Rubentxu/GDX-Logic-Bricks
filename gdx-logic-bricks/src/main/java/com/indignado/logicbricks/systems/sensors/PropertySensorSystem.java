@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.bricks.sensors.PropertySensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;

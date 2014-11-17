@@ -1,6 +1,7 @@
 package com.indignado.functional.test.base;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
@@ -58,28 +60,6 @@ public abstract class LogicBricksTest implements ApplicationListener {
         this.bodyBuilder = new BodyBuilder(world);
 
         // System
-        CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
-        this.world.setContactListener(collisionSensorSystem);
-        engine.addSystem(collisionSensorSystem);
-        engine.addEntityListener(collisionSensorSystem);
-        engine.addSystem(new AlwaysSensorSystem());
-        engine.addSystem(new DelaySensorSystem());
-        KeyboardSensorSystem keyboardSensorSystem = new KeyboardSensorSystem();
-        engine.addSystem(keyboardSensorSystem);
-        engine.addEntityListener(Family.all(KeyboardSensorComponent.class, StateComponent.class).get(),keyboardSensorSystem);
-        MouseSensorSystem mouseSensorSystem = new MouseSensorSystem();
-        engine.addSystem(mouseSensorSystem);
-        engine.addEntityListener(Family.all(MouseSensorComponent.class, StateComponent.class).get(),mouseSensorSystem);
-        engine.addSystem(new PropertySensorSystem());
-        engine.addSystem(new ConditionalControllerSystem());
-        engine.addSystem(new ScriptControllerSystem());
-        engine.addSystem(new CameraActuatorSystem());
-        engine.addSystem(new MessageActuatorSystem());
-        engine.addSystem(new MotionActuatorSystem());
-        engine.addSystem(new EditRigidBodyActuatorSystem());
-        engine.addSystem(new StateActuatorSystem());
-        engine.addSystem(new TextureActuatorSystem());
-        engine.addSystem(new PropertyActuatorSystem());
         RenderingSystem renderingSystem = new RenderingSystem(batch, camera);
         renderingSystem.WIDTH = WIDTH;
         renderingSystem.HEIGHT = HEIGHT;
@@ -88,8 +68,13 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem());
 
-        Gdx.input.setInputProcessor(new InputMultiplexer(keyboardSensorSystem, mouseSensorSystem));
         createWorld(world, engine);
+
+        InputMultiplexer input = new InputMultiplexer();
+        if (engine.getSystem(KeyboardSensorSystem.class) != null) input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
+        if (engine.getSystem(MouseSensorSystem.class) != null) input.addProcessor(engine.getSystem(MouseSensorSystem.class));
+        Gdx.input.setInputProcessor(input);
+        if (engine.getSystem(CollisionSensorSystem.class) != null) this.world.setContactListener(engine.getSystem(CollisionSensorSystem.class));
 
         engine.update(0);
 
@@ -121,35 +106,17 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void pause() {
-        engine.getSystem(CollisionSensorSystem.class).setProcessing(false);
-        engine.getSystem(DelaySensorSystem.class).setProcessing(false);
-        engine.getSystem(KeyboardSensorSystem.class).setProcessing(false);
-        engine.getSystem(MouseSensorSystem.class).setProcessing(false);
-        engine.getSystem(PropertySensorSystem.class).setProcessing(false);
-        engine.getSystem(ConditionalControllerSystem.class).setProcessing(false);
-        engine.getSystem(ScriptControllerSystem.class).setProcessing(false);
-        engine.getSystem(CameraActuatorSystem.class).setProcessing(false);
-        engine.getSystem(MessageActuatorSystem.class).setProcessing(false);
-        engine.getSystem(MotionActuatorSystem.class).setProcessing(false);
-        engine.getSystem(RenderingSystem.class).setProcessing(false);
-        engine.getSystem(StateSystem.class).setProcessing(false);
+        for ( EntitySystem system : engine.getSystems()) {
+            system.setProcessing(false);
+        }
 
     }
 
     @Override
     public void resume() {
-        engine.getSystem(CollisionSensorSystem.class).setProcessing(true);
-        engine.getSystem(DelaySensorSystem.class).setProcessing(true);
-        engine.getSystem(KeyboardSensorSystem.class).setProcessing(true);
-        engine.getSystem(MouseSensorSystem.class).setProcessing(true);
-        engine.getSystem(PropertySensorSystem.class).setProcessing(true);
-        engine.getSystem(ConditionalControllerSystem.class).setProcessing(true);
-        engine.getSystem(ScriptControllerSystem.class).setProcessing(true);
-        engine.getSystem(CameraActuatorSystem.class).setProcessing(true);
-        engine.getSystem(MessageActuatorSystem.class).setProcessing(true);
-        engine.getSystem(MotionActuatorSystem.class).setProcessing(true);
-        engine.getSystem(RenderingSystem.class).setProcessing(true);
-        engine.getSystem(StateSystem.class).setProcessing(true);
+        for ( EntitySystem system : engine.getSystems()) {
+            system.setProcessing(true);
+        }
 
     }
 

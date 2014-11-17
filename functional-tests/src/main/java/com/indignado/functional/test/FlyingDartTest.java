@@ -126,7 +126,7 @@ public class FlyingDartTest extends LogicBricksTest {
         arrowMotion.impulse = new Vector2((float)(20 * Math.cos(angle)),(float)(20 * Math.sin(angle)));
         arrowMotion.owner = arrow;
 
-        LogicBricksBuilder logicBuilder = new LogicBricksBuilder(arrow);
+        LogicBricksBuilder logicBuilder = new LogicBricksBuilder(engine,arrow);
         logicBuilder.addController(arrowController,"Default")
                     .connectToSensor(initArrow)
                     .connectToActuator(arrowMotion);

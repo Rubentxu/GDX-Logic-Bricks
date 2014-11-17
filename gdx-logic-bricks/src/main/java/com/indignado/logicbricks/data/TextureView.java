@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * @author Rubentxu.
  */
-public class TextureView extends View{
+public class TextureView extends View {
     public TextureRegion textureRegion;
     public float height;
     public float width;

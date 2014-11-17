@@ -6,10 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.bricks.sensors.MouseSensor;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.data.View;
@@ -60,7 +58,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
         Rectangle rectangle = new Rectangle();
         for (View view : viewsComponent.views) {
-            if(TextureView.class.isAssignableFrom(view.getClass())) {
+            if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
                 rectangle.set(textureView.attachedTransform.getPosition().x - textureView.width / 2,
                         textureView.attachedTransform.getPosition().y - textureView.height / 2, textureView.width, textureView.height);

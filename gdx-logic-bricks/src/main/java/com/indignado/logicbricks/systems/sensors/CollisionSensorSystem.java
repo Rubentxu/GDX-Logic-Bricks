@@ -6,9 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
-import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -111,11 +109,11 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     }
 
 
-
     @Override
     public void entityAdded(Entity entity) {
+        Gdx.app.log("CollisionSensorSystem", "entityAdded");
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
-        if(collisionSensorComponent != null) {
+        if (collisionSensorComponent != null) {
             IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
                 collisionSensors.addAll(map.get(i));
@@ -127,7 +125,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     @Override
     public void entityRemoved(Entity entity) {
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
-        if(collisionSensorComponent != null) {
+        if (collisionSensorComponent != null) {
             IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
                 collisionSensors.removeAll(map.get(i));

@@ -2,7 +2,6 @@ package com.indignado.logicbricks.bricks.actuators;
 
 import com.badlogic.gdx.graphics.Color;
 import com.indignado.logicbricks.data.TextureView;
-import com.indignado.logicbricks.data.View;
 
 /**
  * @author Rubentxu.

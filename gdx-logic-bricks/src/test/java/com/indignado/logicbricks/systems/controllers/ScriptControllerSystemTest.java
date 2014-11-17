@@ -43,7 +43,7 @@ public class ScriptControllerSystemTest {
 
         entity.add(stateComponent);
         engine.addEntity(entity);
-        logicBricksBuilder = new LogicBricksBuilder(entity);
+        logicBricksBuilder = new LogicBricksBuilder(engine, entity);
 
     }
 

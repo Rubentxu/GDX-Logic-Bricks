@@ -204,7 +204,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         stateActuator2.owner = player;
         stateActuator2.state = 0;
 
-        LogicBricksBuilder builder = new LogicBricksBuilder(player);
+        LogicBricksBuilder builder = new LogicBricksBuilder(engine,player);
 
         builder.addController(controller, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
