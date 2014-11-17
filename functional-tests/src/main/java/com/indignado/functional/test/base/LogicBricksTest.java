@@ -76,7 +76,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         engine.addSystem(new CameraActuatorSystem());
         engine.addSystem(new MessageActuatorSystem());
         engine.addSystem(new MotionActuatorSystem());
-        engine.addSystem(new RigidBodyPropertyActuatorSystem());
+        engine.addSystem(new EditRigidBodyActuatorSystem());
         engine.addSystem(new StateActuatorSystem());
         engine.addSystem(new TextureActuatorSystem());
         engine.addSystem(new PropertyActuatorSystem());

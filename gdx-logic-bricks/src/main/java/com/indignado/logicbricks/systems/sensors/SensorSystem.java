@@ -100,4 +100,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
 
+    public Family getFamily() {
+        return family;
+    }
 }

@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -32,9 +31,6 @@ import com.indignado.logicbricks.data.ParticleEffectView;
 import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
-
-import java.io.File;
-import java.net.URL;
 
 
 /**
@@ -237,28 +233,28 @@ public class SimplePlatformTest extends LogicBricksTest {
         ConditionalController controller4 = new ConditionalController();
         controller4.type = ConditionalController.Type.NOR;
 
-        RigidBodyPropertyActuator rigidBodyPropertyActuator1 = new RigidBodyPropertyActuator();
-        rigidBodyPropertyActuator1.friction = 40;
-        rigidBodyPropertyActuator1.targetRigidBody = bodyPlayer;
+        EditRigidBodyActuator editRigidBodyActuator1 = new EditRigidBodyActuator();
+        editRigidBodyActuator1.friction = 40;
+        editRigidBodyActuator1.targetRigidBody = bodyPlayer;
 
         builder.addController(controller4, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
                 .connectToSensor(keyboardSensor2)
-                .connectToActuator(rigidBodyPropertyActuator1)
+                .connectToActuator(editRigidBodyActuator1)
                 .connectToActuator(stateActuator2);
 
 
         ConditionalController controller5 = new ConditionalController();
         controller5.type = ConditionalController.Type.OR;
 
-        RigidBodyPropertyActuator rigidBodyPropertyActuator2 = new RigidBodyPropertyActuator();
-        rigidBodyPropertyActuator2.friction = 0.3f;
-        rigidBodyPropertyActuator2.targetRigidBody = bodyPlayer;
+        EditRigidBodyActuator editRigidBodyActuator2 = new EditRigidBodyActuator();
+        editRigidBodyActuator2.friction = 0.3f;
+        editRigidBodyActuator2.targetRigidBody = bodyPlayer;
 
         builder.addController(controller5, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
                 .connectToSensor(keyboardSensor2)
-                .connectToActuator(rigidBodyPropertyActuator2);
+                .connectToActuator(editRigidBodyActuator2);
 
 
         CollisionSensor collisionSensor = new CollisionSensor();

@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 /**
  * @author Rubentxu.
  */
-public class RigidBodyPropertyActuator extends Actuator {
+public class EditRigidBodyActuator extends Actuator {
     public Body targetRigidBody;
     public boolean active = true;
     public boolean awake = true;
