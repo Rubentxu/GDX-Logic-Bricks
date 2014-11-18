@@ -43,7 +43,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
             //Gdx.app.log("KeyboardSensorSystem", "sensor allKeys: ");
             if (sensor.logToggle) {
                 for (Character key : sensor.keysSignal) {
-                    sensor.target += key;
+                    sensor.setTarget(sensor.target + key);
                 }
             }
         }

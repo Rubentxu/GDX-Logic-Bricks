@@ -16,4 +16,18 @@ public class MessageActuator extends Actuator implements Telegraph {
         return true;
     }
 
+
+    public MessageActuator setMessage(int message) {
+        this.message = message;
+        return this;
+
+    }
+
+
+    public MessageActuator setExtraInfo(Object extraInfo) {
+        this.extraInfo = extraInfo;
+        return this;
+
+    }
+
 }

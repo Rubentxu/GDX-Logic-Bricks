@@ -14,4 +14,17 @@ public class Actuator {
     public Entity owner;
 
 
+    public Actuator setName(String name) {
+        this.name = name;
+        return this;
+
+    }
+
+
+    public Actuator setOwner(Entity owner) {
+        this.owner = owner;
+        return this;
+
+    }
+
 }

@@ -13,4 +13,10 @@ public class DelaySensor extends Sensor {
     public float timeSignal = 0;
 
 
+    public DelaySensor setDelay(float delay) {
+        this.delay = delay;
+        return this;
+
+    }
+
 }

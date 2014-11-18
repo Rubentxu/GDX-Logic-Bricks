@@ -15,4 +15,45 @@ public class EditRigidBodyActuator extends Actuator {
     public Entity target;
 
 
+    public EditRigidBodyActuator setTargetRigidBody(Body targetRigidBody) {
+        this.targetRigidBody = targetRigidBody;
+        return this;
+
+    }
+
+
+    public EditRigidBodyActuator setActive(boolean active) {
+        this.active = active;
+        return this;
+
+    }
+
+
+    public EditRigidBodyActuator setAwake(boolean awake) {
+        this.awake = awake;
+        return this;
+
+    }
+
+
+    public EditRigidBodyActuator setFriction(float friction) {
+        this.friction = friction;
+        return this;
+
+    }
+
+
+    public EditRigidBodyActuator setRestitution(float restitution) {
+        this.restitution = restitution;
+        return this;
+
+    }
+
+
+    public EditRigidBodyActuator setTarget(Entity target) {
+        this.target = target;
+        return this;
+
+    }
+
 }

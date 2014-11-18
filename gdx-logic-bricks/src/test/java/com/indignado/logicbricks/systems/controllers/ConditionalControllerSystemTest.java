@@ -56,7 +56,7 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor3 = new AlwaysSensor();
         alwaysSensor3.pulseSignal = true;
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.type = ConditionalController.Type.AND;
+        conditionalController.setType(ConditionalController.Type.AND);
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
@@ -79,7 +79,7 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor3 = new AlwaysSensor();
 
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.type = ConditionalController.Type.AND;
+        conditionalController.setType(ConditionalController.Type.AND);
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
@@ -97,7 +97,7 @@ public class ConditionalControllerSystemTest {
     @Test(expected = LogicBricksException.class)
     public void andControllerExceptionTest() {
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.type = ConditionalController.Type.AND;
+        conditionalController.setType(ConditionalController.Type.AND);
 
         logicBricksBuilder.addController(conditionalController, statePrueba);
         engine.update(1);
@@ -113,7 +113,7 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor3 = new AlwaysSensor();
 
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.type = ConditionalController.Type.OR;
+        conditionalController.setType(ConditionalController.Type.OR);
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
@@ -131,7 +131,7 @@ public class ConditionalControllerSystemTest {
         AlwaysSensor alwaysSensor2 = new AlwaysSensor();
 
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.type = ConditionalController.Type.OR;
+        conditionalController.setType(ConditionalController.Type.OR);
 
         logicBricksBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)

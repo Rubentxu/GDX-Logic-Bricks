@@ -19,10 +19,22 @@ public class MouseSensor extends Sensor {
     public int amountScrollSignal = 0;
     public boolean buttonUP = false;
 
+    public MouseSensor setMouseEvent(MouseEvent mouseEvent) {
+        this.mouseEvent = mouseEvent;
+        return this;
+
+    }
+
+    public MouseSensor setTarget(Entity target) {
+        this.target = target;
+        return this;
+
+    }
+
+
     public enum MouseEvent {
         MOUSE_OVER, MOVEMENT, WHEEL_DOWN, WHEEL_UP, RIGHT_BUTTON,
         MIDDLE_BUTTON, LEFT_BUTTON
     }
-
 
 }

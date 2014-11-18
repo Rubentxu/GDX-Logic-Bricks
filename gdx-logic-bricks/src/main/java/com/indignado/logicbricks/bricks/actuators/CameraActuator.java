@@ -12,4 +12,24 @@ public class CameraActuator extends Actuator {
     public short height = 0;
 
 
+    public CameraActuator setCamera(OrthographicCamera camera) {
+        this.camera = camera;
+        return this;
+
+    }
+
+
+    public CameraActuator setTarget(Entity target) {
+        this.target = target;
+        return this;
+
+    }
+
+
+    public CameraActuator setHeight(short height) {
+        this.height = height;
+        return this;
+
+    }
+
 }

@@ -81,9 +81,9 @@ public class CameraActuatorSystemTest {
 
         cameraActuator = new CameraActuator();
         cameraActuator.controllers.add(conditionalController);
-        cameraActuator.camera = new OrthographicCamera();
-        cameraActuator.target = entity;
-        cameraActuator.height = 5;
+        cameraActuator.setCamera(new OrthographicCamera());
+        cameraActuator.setTarget(entity);
+        cameraActuator.setHeight((short) 5);
 
         logicBricksBuilder.addController(conditionalController, StatePruebas)
                 .connectToSensor(alwaysSensor)
@@ -104,9 +104,9 @@ public class CameraActuatorSystemTest {
         conditionalController.pulseSignal = true;
 
         cameraActuator = new CameraActuator();
-        cameraActuator.camera = new OrthographicCamera();
-        cameraActuator.target = entity;
-        cameraActuator.height = 5;
+        cameraActuator.setCamera(new OrthographicCamera());
+        cameraActuator.setTarget(entity);
+        cameraActuator.setHeight((short) 5);
 
 
         logicBricksBuilder.addController(conditionalController, StatePruebas)

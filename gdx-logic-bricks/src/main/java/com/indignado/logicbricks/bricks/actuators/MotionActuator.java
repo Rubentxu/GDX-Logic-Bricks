@@ -21,4 +21,70 @@ public class MotionActuator extends Actuator {
     public float limitVelocityY = 0;
 
 
+    public MotionActuator setTargetRigidBody(Body targetRigidBody) {
+        this.targetRigidBody = targetRigidBody;
+        return this;
+
+    }
+
+    public MotionActuator setVelocity(Vector2 velocity) {
+        this.velocity = velocity;
+        return this;
+
+    }
+
+    public MotionActuator setForce(Vector2 force) {
+        this.force = force;
+        return this;
+
+    }
+
+    public MotionActuator setImpulse(Vector2 impulse) {
+        this.impulse = impulse;
+        return this;
+
+    }
+
+
+    public MotionActuator setAngularVelocity(float angularVelocity) {
+        this.angularVelocity = angularVelocity;
+        return this;
+
+    }
+
+
+    public MotionActuator setTorque(float torque) {
+        this.torque = torque;
+        return this;
+
+    }
+
+
+    public MotionActuator setAngularImpulse(float angularImpulse) {
+        this.angularImpulse = angularImpulse;
+        return this;
+
+    }
+
+
+    public MotionActuator setFixedRotation(boolean fixedRotation) {
+        this.fixedRotation = fixedRotation;
+        return this;
+
+    }
+
+
+    public MotionActuator setLimitVelocityX(float limitVelocityX) {
+        this.limitVelocityX = limitVelocityX;
+        return this;
+
+    }
+
+
+    public MotionActuator setLimitVelocityY(float limitVelocityY) {
+        this.limitVelocityY = limitVelocityY;
+        return this;
+
+    }
+
 }

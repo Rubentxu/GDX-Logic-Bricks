@@ -13,7 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.functional.test.base.LogicBricksTest;
-import com.indignado.logicbricks.bricks.actuators.*;
+import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
@@ -117,19 +117,23 @@ public class FlyingDartTest extends LogicBricksTest {
         arrow.add(viewsComponent);
 
         KeyboardSensor initArrow = new KeyboardSensor();
-        initArrow.keyCode = Input.Keys.A;
+        initArrow.setKeyCode(Input.Keys.A);
 
         ConditionalController arrowController = new ConditionalController();
-        arrowController.type = ConditionalController.Type.AND;
+        arrowController.setType(ConditionalController.Type.AND);
 
         MotionActuator arrowMotion = new MotionActuator();
-        arrowMotion.impulse = new Vector2((float)(20 * Math.cos(angle)),(float)(20 * Math.sin(angle)));
-        arrowMotion.owner = arrow;
+        arrowMotion.setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))));
+        arrowMotion.setOwner(arrow);
 
         LogicBricksBuilder logicBuilder = new LogicBricksBuilder(engine,arrow);
-        logicBuilder.addController(arrowController,"Default")
-                    .connectToSensor(initArrow)
-                    .connectToActuator(arrowMotion);
+        logicBuilder.addController(logicBuilder.controller(ConditionalController.class)
+                .setType(ConditionalController.Type.AND), "Default")
+                .connectToSensor(logicBuilder.sensor(KeyboardSensor.class)
+                        .setKeyCode(Input.Keys.A))
+                .connectToActuator(logicBuilder.actuator(MotionActuator.class)
+                        .setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))))
+                        .setOwner(arrow));
 
         return arrow;
 

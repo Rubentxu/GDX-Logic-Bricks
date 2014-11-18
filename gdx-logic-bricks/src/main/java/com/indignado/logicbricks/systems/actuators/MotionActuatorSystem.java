@@ -22,7 +22,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
     public void processActuator(MotionActuator actuator) {
         if (evaluateController(actuator)) {
             if (actuator.targetRigidBody == null) {
-                actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
+                actuator.setTargetRigidBody(actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first());
             }
             if (actuator.velocity != null) {
                 Gdx.app.log("MotionActuatorSystem", "apply velocity: " + actuator.velocity);

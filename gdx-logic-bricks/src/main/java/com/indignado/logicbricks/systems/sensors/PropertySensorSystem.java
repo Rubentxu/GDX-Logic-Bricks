@@ -49,7 +49,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
         switch (sensor.evaluationType) {
             case CHANGED:
                 if (!sensor.value.equals(property.value)) {
-                    sensor.value = property.value;
+                    sensor.setValue(property.value);
                     isActive = true;
                 } else {
                     isActive = false;

@@ -262,9 +262,9 @@ public class LogicBricksBuilder {
             actuatorComponent = getComponent(CameraActuatorComponent.class);
             actuatorList = getActuatorList(actuatorComponent, state);
 
-        } else if (actuator instanceof EditEntityActuator) {
-            getSystem(EditEntityActuatorSystem.class);
-            actuatorComponent = getComponent(EditEntityActuatorComponent.class);
+        } else if (actuator instanceof InstanceEntityActuator) {
+            getSystem(InstanceEntityActuatorSystem.class);
+            actuatorComponent = getComponent(InstanceEntityActuatorComponent.class);
             actuatorList = getActuatorList(actuatorComponent, state);
 
         } else if (actuator instanceof EditRigidBodyActuator) {
@@ -319,5 +319,49 @@ public class LogicBricksBuilder {
 
     }
 
+
+    public <S extends Sensor> S sensor(Class<S> clazz) {
+        try {
+            S sensor = clazz.newInstance();
+            return sensor;
+        } catch (InstantiationException e) {
+            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
+            return null;
+        } catch (IllegalAccessException e) {
+            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
+            return null;
+        }
+
+    }
+
+
+    public <C extends Controller> C controller(Class<C> clazz) {
+        try {
+            C controller = clazz.newInstance();
+            return controller;
+        } catch (InstantiationException e) {
+            Gdx.app.log("LogicBricksBuilder", "Error instance controller " + clazz);
+            return null;
+        } catch (IllegalAccessException e) {
+            Gdx.app.log("LogicBricksBuilder", "Error instance controller " + clazz);
+            return null;
+        }
+
+    }
+
+
+    public <A extends Actuator> A actuator(Class<A> clazz) {
+        try {
+            A actuator = clazz.newInstance();
+            return actuator;
+        } catch (InstantiationException e) {
+            Gdx.app.log("LogicBricksBuilder", "Error instance actuator " + clazz);
+            return null;
+        } catch (IllegalAccessException e) {
+            Gdx.app.log("LogicBricksBuilder", "Error instance actuator " + clazz);
+            return null;
+        }
+
+    }
 
 }

@@ -152,57 +152,57 @@ public class SimplePlatformTest extends LogicBricksTest {
         player.add(viewsComponent);
 
         KeyboardSensor keyboardSensor = new KeyboardSensor();
-        keyboardSensor.keyCode = Input.Keys.D;
+        keyboardSensor.setKeyCode(Input.Keys.D);
 
         ConditionalController controller = new ConditionalController();
-        controller.type = ConditionalController.Type.AND;
+        controller.setType(ConditionalController.Type.AND);
 
 
         MotionActuator motionActuator = new MotionActuator();
-        motionActuator.impulse = new Vector2(1, 0);
-        motionActuator.owner = player;
-        motionActuator.limitVelocityX = 7;
+        motionActuator.setImpulse(new Vector2(1, 0));
+        motionActuator.setOwner(player);
+        motionActuator.setLimitVelocityX(7);
 
 
         KeyboardSensor keyboardSensor2 = new KeyboardSensor();
-        keyboardSensor2.keyCode = Input.Keys.A;
+        keyboardSensor2.setKeyCode(Input.Keys.A);
 
         ConditionalController controller2 = new ConditionalController();
-        controller2.type = ConditionalController.Type.AND;
+        controller2.setType(ConditionalController.Type.AND);
 
 
         MotionActuator motionActuator2 = new MotionActuator();
-        motionActuator2.impulse = new Vector2(-1, 0);
-        motionActuator2.owner = player;
-        motionActuator2.limitVelocityX = 7;
+        motionActuator2.setImpulse(new Vector2(-1, 0));
+        motionActuator2.setOwner(player);
+        motionActuator2.setLimitVelocityX(7);
 
 
         ConditionalController controller3 = new ConditionalController();
-        controller3.type = ConditionalController.Type.AND;
+        controller3.setType(ConditionalController.Type.AND);
 
 
         CameraActuator cameraActuator = new CameraActuator();
-        cameraActuator.height = 1;
-        cameraActuator.target = player;
-        cameraActuator.camera = camera;
+        cameraActuator.setHeight((short) 1);
+        cameraActuator.setTarget(player);
+        cameraActuator.setCamera(camera);
 
 
         TextureActuator textureActuator = new TextureActuator();
-        textureActuator.flipX = false;
-        textureActuator.textureView = playerView;
+        textureActuator.setFlipX(false);
+        textureActuator.setTextureView(playerView);
 
 
         StateActuator stateActuator = new StateActuator();
-        stateActuator.owner = player;
-        stateActuator.state = 1;
+        stateActuator.setOwner(player);
+        stateActuator.setState(1);
 
         StateActuator stateActuatorB = new StateActuator();
-        stateActuatorB.owner = player;
-        stateActuatorB.state = 1;
+        stateActuatorB.setOwner(player);
+        stateActuatorB.setState(1);
 
         StateActuator stateActuator2 = new StateActuator();
-        stateActuator2.owner = player;
-        stateActuator2.state = 0;
+        stateActuator2.setOwner(player);
+        stateActuator2.setState(0);
 
         LogicBricksBuilder builder = new LogicBricksBuilder(engine,player);
 
@@ -214,8 +214,8 @@ public class SimplePlatformTest extends LogicBricksTest {
 
 
         TextureActuator textureActuator2 = new TextureActuator();
-        textureActuator2.flipX = true;
-        textureActuator2.textureView = playerView;
+        textureActuator2.setFlipX(true);
+        textureActuator2.setTextureView(playerView);
 
         builder.addController(controller2, "Idle", "Walking")
                 .connectToSensor(keyboardSensor2)
@@ -231,11 +231,11 @@ public class SimplePlatformTest extends LogicBricksTest {
 
 
         ConditionalController controller4 = new ConditionalController();
-        controller4.type = ConditionalController.Type.NOR;
+        controller4.setType(ConditionalController.Type.NOR);
 
         EditRigidBodyActuator editRigidBodyActuator1 = new EditRigidBodyActuator();
-        editRigidBodyActuator1.friction = 40;
-        editRigidBodyActuator1.targetRigidBody = bodyPlayer;
+        editRigidBodyActuator1.setFriction(40);
+        editRigidBodyActuator1.setTargetRigidBody(bodyPlayer);
 
         builder.addController(controller4, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
@@ -245,11 +245,11 @@ public class SimplePlatformTest extends LogicBricksTest {
 
 
         ConditionalController controller5 = new ConditionalController();
-        controller5.type = ConditionalController.Type.OR;
+        controller5.setType(ConditionalController.Type.OR);
 
         EditRigidBodyActuator editRigidBodyActuator2 = new EditRigidBodyActuator();
-        editRigidBodyActuator2.friction = 0.3f;
-        editRigidBodyActuator2.targetRigidBody = bodyPlayer;
+        editRigidBodyActuator2.setFriction(0.3f);
+        editRigidBodyActuator2.setTargetRigidBody(bodyPlayer);
 
         builder.addController(controller5, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
@@ -258,27 +258,27 @@ public class SimplePlatformTest extends LogicBricksTest {
 
 
         CollisionSensor collisionSensor = new CollisionSensor();
-        collisionSensor.ownerRigidBody = bodyPlayer;
-        collisionSensor.targetRigidBody = ground;
+        collisionSensor.setOwnerRigidBody(bodyPlayer);
+        collisionSensor.setTargetRigidBody(ground);
 
         ConditionalController controllerGround = new ConditionalController();
-        controllerGround.type = ConditionalController.Type.AND;
+        controllerGround.setType(ConditionalController.Type.AND);
 
         ConditionalController controllerNotGround = new ConditionalController();
-        controllerNotGround.type = ConditionalController.Type.NOR;
+        controllerNotGround.setType(ConditionalController.Type.NOR);
 
         PropertyActuator<Boolean> propertyActuator = new PropertyActuator();
-        propertyActuator.owner = player;
-        propertyActuator.property = "isGround";
-        propertyActuator.value = true;
-        propertyActuator.mode = PropertyActuator.Mode.Assign;
+        propertyActuator.setOwner(player);
+        propertyActuator.setProperty("isGround");
+        propertyActuator.setValue(true);
+        propertyActuator.setMode(PropertyActuator.Mode.Assign);
 
 
         PropertyActuator<Boolean> propertyActuator2 = new PropertyActuator();
-        propertyActuator2.owner = player;
-        propertyActuator2.property = "isGround";
-        propertyActuator2.value = false;
-        propertyActuator2.mode = PropertyActuator.Mode.Assign;
+        propertyActuator2.setOwner(player);
+        propertyActuator2.setProperty("isGround");
+        propertyActuator2.setValue(false);
+        propertyActuator2.setMode(PropertyActuator.Mode.Assign);
 
 
         builder.addController(controllerGround, "Idle", "Walking")
@@ -292,21 +292,21 @@ public class SimplePlatformTest extends LogicBricksTest {
 
 
         KeyboardSensor keySensorJump = new KeyboardSensor();
-        keySensorJump.keyCode = Input.Keys.W;
+        keySensorJump.setKeyCode(Input.Keys.W);
 
         PropertySensor propertySensorIsGround = new PropertySensor<Boolean>();
-        propertySensorIsGround.property = "isGround";
-        propertySensorIsGround.evaluationType = PropertySensor.EvaluationType.EQUAL;
-        propertySensorIsGround.value = true;
+        propertySensorIsGround.setProperty("isGround");
+        propertySensorIsGround.setEvaluationType(PropertySensor.EvaluationType.EQUAL);
+        propertySensorIsGround.setValue(true);
 
         ConditionalController controllerJump = new ConditionalController();
-        controllerJump.type = ConditionalController.Type.AND;
+        controllerJump.setType(ConditionalController.Type.AND);
 
 
         MotionActuator motionActuatorJump = new MotionActuator();
-        motionActuatorJump.impulse = new Vector2(0, 3);
-        motionActuatorJump.owner = player;
-        motionActuatorJump.limitVelocityY = 7;
+        motionActuatorJump.setImpulse(new Vector2(0, 3));
+        motionActuatorJump.setOwner(player);
+        motionActuatorJump.setLimitVelocityY(7);
 
 
         builder.addController(controllerJump, "Idle", "Walking")

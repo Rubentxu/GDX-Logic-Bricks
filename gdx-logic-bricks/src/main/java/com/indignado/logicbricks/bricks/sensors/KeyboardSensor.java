@@ -22,4 +22,31 @@ public class KeyboardSensor extends Sensor {
     public Set<Integer> keysCodeSignal = new HashSet<Integer>();
 
 
+    public KeyboardSensor setKeyCode(int keyCode) {
+        this.keyCode = keyCode;
+        return this;
+
+    }
+
+
+    public KeyboardSensor setAllKeys(boolean allKeys) {
+        this.allKeys = allKeys;
+        return this;
+
+    }
+
+
+    public KeyboardSensor setLogToggle(boolean logToggle) {
+        this.logToggle = logToggle;
+        return this;
+
+    }
+
+
+    public KeyboardSensor setTarget(String target) {
+        this.target = target;
+        return this;
+
+    }
+
 }
