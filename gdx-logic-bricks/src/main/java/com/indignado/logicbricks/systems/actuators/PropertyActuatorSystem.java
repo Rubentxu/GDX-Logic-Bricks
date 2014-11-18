@@ -41,7 +41,7 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
 
     public void processActuator(PropertyActuator actuator, BlackBoardComponent blackBoardComponent) {
         if (evaluateController(actuator)) {
-            Property property = blackBoardComponent.getProperty(PropertyType.getFor(actuator.property));
+            Property property = blackBoardComponent.getProperty(actuator.property);
             switch (actuator.mode) {
                 case Assign:
                     if (property.value != actuator.value) {

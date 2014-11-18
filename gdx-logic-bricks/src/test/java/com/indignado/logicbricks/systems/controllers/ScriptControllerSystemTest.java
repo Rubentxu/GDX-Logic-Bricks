@@ -3,7 +3,7 @@ package com.indignado.logicbricks.systems.controllers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
-import com.indignado.logicbricks.bricks.controllers.Script;
+import com.indignado.logicbricks.data.Script;
 import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.bricks.sensors.Sensor;

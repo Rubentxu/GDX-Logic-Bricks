@@ -2,6 +2,7 @@ package com.indignado.functional.test;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
@@ -22,6 +24,7 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.data.TextureView;
+import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
@@ -34,6 +37,7 @@ public class FlyingDartTest extends LogicBricksTest {
 
     private Body ground;
     private ParticleEffect dustEffect;
+    private FlyingDartCollisionRule flyingDartCollisionRule;
 
 
     public static void main(String[] args) {
@@ -50,7 +54,7 @@ public class FlyingDartTest extends LogicBricksTest {
         this.world = world;
         this.engine = engine;
         bodyBuilder = new BodyBuilder(world);
-        camera.position.set(0,9,0);
+        camera.position.set(0, 9, 0);
 
         wall(15, 0, 1, 20);
 
@@ -66,7 +70,10 @@ public class FlyingDartTest extends LogicBricksTest {
         engine.addEntity(addArrow(new Vector2(-8, 10), -150));
         engine.addEntity(addArrow(new Vector2(-13, 2), 150));
 
-
+        flyingDartCollisionRule = new FlyingDartCollisionRule();
+        CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
+        collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
+        engine.addSystem(collisionSensorSystem);
 
 
     }
@@ -76,6 +83,7 @@ public class FlyingDartTest extends LogicBricksTest {
         Entity arrow = new Entity();
 
         BlackBoardComponent context = new BlackBoardComponent();
+        context.add(new Property<String>("type", "arrow"));
         context.add(new Property<Boolean>("freeFlight", false));
         context.add(new Property<Boolean>("follow", true));
         arrow.add(context);
@@ -84,11 +92,11 @@ public class FlyingDartTest extends LogicBricksTest {
         state.createState("Default");
         arrow.add(state);
 
-        Vector2[] vertices=new Vector2[4];
-        vertices[0] = new Vector2(-1.5f,0);
-        vertices[1] = new Vector2(0,-0.1f);
-        vertices[2]= new Vector2(0.6f,0);
-        vertices[3]= new Vector2(0,0.1f);
+        Vector2[] vertices = new Vector2[4];
+        vertices[0] = new Vector2(-1.5f, 0);
+        vertices[1] = new Vector2(0, -0.1f);
+        vertices[2] = new Vector2(0.6f, 0);
+        vertices[3] = new Vector2(0, 0.1f);
 
         Body bodyArrow = bodyBuilder.fixture(new FixtureDefBuilder()
                 .polygonShape(vertices)
@@ -97,6 +105,7 @@ public class FlyingDartTest extends LogicBricksTest {
                 .type(BodyDef.BodyType.DynamicBody)
                 .position(position.x, position.y)
                 .bullet()
+                .userData(context)
                 .build();
 
         RigidBodiesComponents bodiesComponents = new RigidBodiesComponents();
@@ -126,7 +135,7 @@ public class FlyingDartTest extends LogicBricksTest {
         arrowMotion.setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))));
         arrowMotion.setOwner(arrow);
 
-        LogicBricksBuilder logicBuilder = new LogicBricksBuilder(engine,arrow);
+        LogicBricksBuilder logicBuilder = new LogicBricksBuilder(engine, arrow);
         logicBuilder.addController(logicBuilder.controller(ConditionalController.class)
                 .setType(ConditionalController.Type.AND), "Default")
                 .connectToSensor(logicBuilder.sensor(KeyboardSensor.class)
@@ -139,4 +148,16 @@ public class FlyingDartTest extends LogicBricksTest {
 
     }
 
+
+    @Override
+    public void render() {
+        super.render();
+        world.clearForces();
+
+        for (WeldJointDef jointDef : flyingDartCollisionRule.jointDefs) {
+            Gdx.app.log("FlyingDartTest","createJoint");
+            world.createJoint(jointDef);
+        }
+
+    }
 }

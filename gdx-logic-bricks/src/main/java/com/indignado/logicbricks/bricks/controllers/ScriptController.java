@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.bricks.controllers;
 
 import com.badlogic.gdx.utils.Array;
+import com.indignado.logicbricks.data.Script;
 
 /**
  * @author Rubentxu.

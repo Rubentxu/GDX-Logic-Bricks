@@ -14,14 +14,14 @@ public class BlackBoardComponent extends Component {
     private Bits propertyBits;
 
 
-    public BlackBoardComponent() {
+    public <V> BlackBoardComponent() {
         properties = new Bag<Property>();
         propertyBits = new Bits();
 
     }
 
 
-    public <V extends Object> BlackBoardComponent add(Property<V> property) {
+    public BlackBoardComponent add(Property property) {
         String propertyName = property.name;
         int propertyTypeIndex = PropertyType.getIndexFor(propertyName);
         properties.set(propertyTypeIndex, property);
@@ -46,7 +46,8 @@ public class BlackBoardComponent extends Component {
     }
 
 
-    public <V extends Object> Property<V> getProperty(PropertyType propertyType) {
+    public <V> Property<V> getProperty(String name) {
+        PropertyType propertyType = PropertyType.getFor(name);
         int propertyTypeIndex = propertyType.getIndex();
         if (propertyTypeIndex < properties.getCapacity()) {
             return properties.get(propertyTypeIndex);
@@ -57,7 +58,19 @@ public class BlackBoardComponent extends Component {
     }
 
 
-    public boolean hasProperty(PropertyType propertyType) {
+    public <V> void setValueProperty(String name, V value) {
+        PropertyType propertyType = PropertyType.getFor(name);
+        int propertyTypeIndex = propertyType.getIndex();
+        if (propertyTypeIndex < properties.getCapacity()) {
+            Property<V> property = properties.get(propertyTypeIndex);
+            property.value = value;
+        }
+
+    }
+
+
+    public boolean hasProperty(String name) {
+        PropertyType propertyType = PropertyType.getFor(name);
         return propertyBits.get(propertyType.getIndex());
 
     }

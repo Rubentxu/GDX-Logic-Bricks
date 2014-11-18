@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.bricks.controllers;
+package com.indignado.logicbricks.data;
 
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.bricks.sensors.Sensor;

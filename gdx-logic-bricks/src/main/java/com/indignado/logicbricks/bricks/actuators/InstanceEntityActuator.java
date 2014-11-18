@@ -27,8 +27,6 @@ public class InstanceEntityActuator extends Actuator {
     }
 
 
-    public enum Type {AddEntity, RemoveEntity}
-
     public InstanceEntityActuator setType(Type type) {
         this.type = type;
         return this;

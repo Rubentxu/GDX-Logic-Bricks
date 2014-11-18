@@ -16,10 +16,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
+import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
+import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
@@ -137,22 +140,27 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
 
     protected Body wall(float x, float y, float width, float height) {
+        BlackBoardComponent context = new BlackBoardComponent();
+        context.add(new Property<String>("type", "wall"));
         return bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(width,height)
+                .boxShape(width, height)
                 .restitution(0.4f)
                 .friction(0.5f))
-                .position(x,y)
+                .position(x, y)
+                .userData(context)
                 .build();
 
     }
 
 
     private Body crate(float x, float y, float width, float height) {
+        BlackBoardComponent context = new BlackBoardComponent();
+        context.add(new Property<String>("type", "crate"));
         return bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(width,height)
                 .restitution(0.4f)
                 .friction(0.5f))
-                .userData("crate")
+                .userData(context)
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 

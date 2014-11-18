@@ -45,7 +45,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
     public void processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {
         boolean isActive = false;
-        Property property = blackBoardComponent.getProperty(PropertyType.getFor(sensor.property));
+        Property property = blackBoardComponent.getProperty(sensor.property);
         switch (sensor.evaluationType) {
             case CHANGED:
                 if (!sensor.value.equals(property.value)) {
