@@ -5,20 +5,16 @@ import com.badlogic.ashley.core.Entity;
 /**
  * @author Rubentxu.
  */
-public class InstanceEntityActuator extends Actuator {
-    public Entity entity;
+public class InstanceEntityActuator<T extends Entity> extends Actuator {
+    public Class<T> clazzInstance;
     public float duration = 0; // 0 = lives forever
     public Type type;
 
-    public enum Type {AddEntity, RemoveEntity}
-
-
-    public InstanceEntityActuator setEntity(Entity entity) {
-        this.entity = entity;
+    public InstanceEntityActuator setType(Class<T> clazzInstance) {
+        this.clazzInstance = clazzInstance;
         return this;
 
     }
-
 
     public InstanceEntityActuator setDuration(float duration) {
         this.duration = duration;
@@ -26,11 +22,13 @@ public class InstanceEntityActuator extends Actuator {
 
     }
 
-
     public InstanceEntityActuator setType(Type type) {
         this.type = type;
         return this;
 
     }
+
+
+    public enum Type {AddEntity, RemoveEntity}
 
 }

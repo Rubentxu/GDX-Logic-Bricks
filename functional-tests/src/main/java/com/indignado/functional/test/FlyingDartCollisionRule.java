@@ -22,10 +22,10 @@ public class FlyingDartCollisionRule implements ContactListener {
             if (bodyA.getUserData() instanceof BlackBoardComponent && bodyB.getUserData() instanceof BlackBoardComponent) {
                 BlackBoardComponent contextA = (BlackBoardComponent) bodyA.getUserData();
                 BlackBoardComponent contextB = (BlackBoardComponent) bodyB.getUserData();
-                String nameA = (String) contextA.getProperty("type").value;
-                String nameB = (String) contextB.getProperty("type").value;
+                String typeA = (String) contextA.getProperty("type").value;
+                String typeB = (String) contextB.getProperty("type").value;
 
-                if (nameA == "arrow" && nameB == "arrow") {
+                if (typeA == "arrow" && typeB == "arrow") {
                     for (JointEdge j : bodyA.getJointList()) {
                         bodyA.getWorld().destroyJoint(j.joint);
                     }
@@ -34,7 +34,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     }
                 }
 
-                if (nameA == "wall" && nameB == "arrow") {
+                if (typeA == "wall" && typeB == "arrow") {
                     if (!(Boolean) contextB.getProperty("freeFlight").value) {
                         weldJointDef = new WeldJointDef();
                         weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
@@ -43,7 +43,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     }
                 }
 
-                if (nameB == "wall" && nameA == "arrow") {
+                if (typeB == "wall" && typeA == "arrow") {
                     if (!(Boolean) contextA.getProperty("freeFlight").value) {
                         weldJointDef = new WeldJointDef();
                         weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
@@ -52,7 +52,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     }
                 }
 
-                if (nameA == "crate" && nameB == "arrow") {
+                if (typeA == "crate" && typeB == "arrow") {
                     contactPoint = contact.getWorldManifold().getPoints()[0];
                     if (!(Boolean) contextB.getProperty("freeFlight").value && Math.round(contactPoint.x * 10) == 6) {
                         weldJointDef = new WeldJointDef();
@@ -62,7 +62,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     }
                 }
 
-                if (nameB == "crate" && nameA == "arrow") {
+                if (typeB == "crate" && typeA == "arrow") {
                     contactPoint = contact.getWorldManifold().getPoints()[0];
                     if (!(Boolean) contextA.getProperty("freeFlight").value && Math.round(contactPoint.x * 10) == 6) {
                         weldJointDef = new WeldJointDef();
@@ -72,11 +72,11 @@ public class FlyingDartCollisionRule implements ContactListener {
                     }
                 }
 
-                if (nameB == "arrow") {
+                if (typeB == "arrow") {
                     contextB.setValueProperty("freeFlight", true);
                 }
 
-                if (nameA == "arrow") {
+                if (typeA == "arrow") {
                     contextA.setValueProperty("freeFlight", true);
                 }
 
