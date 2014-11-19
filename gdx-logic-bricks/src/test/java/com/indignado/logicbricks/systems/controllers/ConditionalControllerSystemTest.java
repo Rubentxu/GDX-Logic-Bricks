@@ -7,7 +7,7 @@ import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
+import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class ConditionalControllerSystemTest {
     private Entity entity;
     private ConditionalControllerSystem conditionalControllerSystem;
     private boolean checkScript;
-    private LogicBricksBuilder logicBricksBuilder;
+    private EntityBuilder entityBuilder;
 
 
     @Before
@@ -42,7 +42,7 @@ public class ConditionalControllerSystemTest {
 
         entity.add(stateComponent);
         engine.addEntity(entity);
-        logicBricksBuilder = new LogicBricksBuilder(engine, entity);
+        entityBuilder = new EntityBuilder(engine);
 
     }
 
@@ -58,7 +58,7 @@ public class ConditionalControllerSystemTest {
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.setType(ConditionalController.Type.AND);
 
-        logicBricksBuilder.addController(conditionalController, statePrueba)
+        entityBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
                 .connectToSensor(alwaysSensor2)
                 .connectToSensor(alwaysSensor3);
@@ -81,7 +81,7 @@ public class ConditionalControllerSystemTest {
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.setType(ConditionalController.Type.AND);
 
-        logicBricksBuilder.addController(conditionalController, statePrueba)
+        entityBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
                 .connectToSensor(alwaysSensor2)
                 .connectToSensor(alwaysSensor3);
@@ -99,7 +99,7 @@ public class ConditionalControllerSystemTest {
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.setType(ConditionalController.Type.AND);
 
-        logicBricksBuilder.addController(conditionalController, statePrueba);
+        entityBuilder.addController(conditionalController, statePrueba);
         engine.update(1);
 
     }
@@ -115,7 +115,7 @@ public class ConditionalControllerSystemTest {
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.setType(ConditionalController.Type.OR);
 
-        logicBricksBuilder.addController(conditionalController, statePrueba)
+        entityBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
                 .connectToSensor(alwaysSensor2)
                 .connectToSensor(alwaysSensor3);
@@ -133,7 +133,7 @@ public class ConditionalControllerSystemTest {
         ConditionalController conditionalController = new ConditionalController();
         conditionalController.setType(ConditionalController.Type.OR);
 
-        logicBricksBuilder.addController(conditionalController, statePrueba)
+        entityBuilder.addController(conditionalController, statePrueba)
                 .connectToSensor(alwaysSensor)
                 .connectToSensor(alwaysSensor2);
 

@@ -14,7 +14,7 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
+import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 
 /**
  * @author Rubentxu.
@@ -36,7 +36,7 @@ public class Dummy extends Entity {
         this.add(bodiesComponents);
 
 
-        LogicBricksBuilder logicBuilder = new LogicBricksBuilder(engine, this);
+        EntityBuilder logicBuilder = new EntityBuilder(engine);
 
         logicBuilder.addController(logicBuilder.controller(ConditionalController.class)
                 .setType(ConditionalController.Type.AND), "Default")

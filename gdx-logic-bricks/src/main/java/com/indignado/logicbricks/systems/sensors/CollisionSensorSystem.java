@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,20 +28,21 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
 
     public void addCollisionRule(ContactListener collisionRule) {
-        if(this.collisionsRules == null) this.collisionsRules = new Array<>();
+        if (this.collisionsRules == null) this.collisionsRules = new Array<>();
         this.collisionsRules.add(collisionRule);
 
     }
 
 
     @Override
-    public void processSensor(CollisionSensor sensor) {}
+    public void processSensor(CollisionSensor sensor) {
+    }
 
 
     @Override
     public void beginContact(Contact contact) {
-        if(collisionsRules != null) {
-            for (ContactListener rule: collisionsRules) {
+        if (collisionsRules != null) {
+            for (ContactListener rule : collisionsRules) {
                 rule.beginContact(contact);
             }
         }
@@ -53,8 +55,8 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void endContact(Contact contact) {
-        if(collisionsRules != null) {
-            for (ContactListener rule: collisionsRules) {
+        if (collisionsRules != null) {
+            for (ContactListener rule : collisionsRules) {
                 rule.endContact(contact);
             }
         }
@@ -66,9 +68,9 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        if(collisionsRules != null) {
-            for (ContactListener rule: collisionsRules) {
-                rule.preSolve(contact,oldManifold);
+        if (collisionsRules != null) {
+            for (ContactListener rule : collisionsRules) {
+                rule.preSolve(contact, oldManifold);
             }
         }
     }
@@ -76,9 +78,9 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        if(collisionsRules != null) {
-            for (ContactListener rule: collisionsRules) {
-                rule.postSolve(contact,impulse);
+        if (collisionsRules != null) {
+            for (ContactListener rule : collisionsRules) {
+                rule.postSolve(contact, impulse);
             }
         }
     }

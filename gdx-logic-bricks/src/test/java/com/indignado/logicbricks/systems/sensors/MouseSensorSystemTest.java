@@ -76,9 +76,9 @@ public class MouseSensorSystemTest {
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         TextureView view = new TextureView();
-        view.height = 50;
-        view.width = 50;
-        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
+        view.setHeight(50);
+        view.setWidth(50);
+        view.setAttachedTransform(new Transform(new Vector2(0, 0), 0));
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -116,9 +116,9 @@ public class MouseSensorSystemTest {
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         TextureView view = new TextureView();
-        view.height = 50;
-        view.width = 50;
-        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
+        view.setHeight(50);
+        view.setWidth(50);
+        view.setAttachedTransform(new Transform(new Vector2(0, 0), 0));
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -156,9 +156,9 @@ public class MouseSensorSystemTest {
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         TextureView view = new TextureView();
-        view.height = 50;
-        view.width = 50;
-        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
+        view.setHeight(50);
+        view.setWidth(50);
+        view.setAttachedTransform(new Transform(new Vector2(0, 0), 0));
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -196,9 +196,9 @@ public class MouseSensorSystemTest {
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         TextureView view = new TextureView();
-        view.height = 50;
-        view.width = 50;
-        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
+        view.setHeight(50);
+        view.setWidth(50);
+        view.setAttachedTransform(new Transform(new Vector2(0, 0), 0));
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);
@@ -248,9 +248,9 @@ public class MouseSensorSystemTest {
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
         TextureView view = new TextureView();
-        view.height = 50;
-        view.width = 50;
-        view.attachedTransform = new Transform(new Vector2(0, 0), 0);
+        view.setHeight(50);
+        view.setWidth(50);
+        view.setAttachedTransform(new Transform(new Vector2(0, 0), 0));
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(view);

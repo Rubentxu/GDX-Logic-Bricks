@@ -25,11 +25,11 @@ public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectA
             if (actuator.active) effect.reset();
             else effect.allowCompletion();
 
-            if (actuator.opacity != -1) view.opacity = actuator.opacity;
-            if (actuator.tint != null) view.tint = actuator.tint;
+            if (actuator.opacity != -1) view.setOpacity(actuator.opacity);
+            if (actuator.tint != null) view.setTint(actuator.tint);
             if (actuator.position != null) {
-                if (view.attachedTransform != null) view.localPosition = actuator.position;
-                else view.position = actuator.position;
+                if (view.attachedTransform != null) view.setLocalPosition(actuator.position);
+                else view.setPosition(actuator.position);
             }
 
         }

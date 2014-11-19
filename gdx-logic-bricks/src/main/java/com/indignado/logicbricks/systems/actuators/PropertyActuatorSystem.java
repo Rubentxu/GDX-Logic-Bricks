@@ -7,7 +7,6 @@ import com.indignado.logicbricks.bricks.actuators.PropertyActuator;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
 import com.indignado.logicbricks.data.Property;
-import com.indignado.logicbricks.data.PropertyType;
 
 import java.util.Set;
 

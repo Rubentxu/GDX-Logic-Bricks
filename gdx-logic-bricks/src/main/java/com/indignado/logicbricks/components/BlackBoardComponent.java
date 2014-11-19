@@ -21,7 +21,7 @@ public class BlackBoardComponent extends Component {
     }
 
 
-    public BlackBoardComponent add(Property property) {
+    public BlackBoardComponent addProperty(Property property) {
         String propertyName = property.name;
         int propertyTypeIndex = PropertyType.getIndexFor(propertyName);
         properties.set(propertyTypeIndex, property);
@@ -31,7 +31,7 @@ public class BlackBoardComponent extends Component {
     }
 
 
-    public BlackBoardComponent remove(Property property) {
+    public BlackBoardComponent removeProperty(Property property) {
         PropertyType propertyType = PropertyType.getFor(property.name);
         int propertyTypeIndex = propertyType.getIndex();
         Property removeProperty = properties.get(propertyTypeIndex);

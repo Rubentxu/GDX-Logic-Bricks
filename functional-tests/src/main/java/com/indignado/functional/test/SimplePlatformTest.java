@@ -30,7 +30,7 @@ import com.indignado.logicbricks.data.AnimationView;
 import com.indignado.logicbricks.data.ParticleEffectView;
 import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
+import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 
 
 /**
@@ -115,7 +115,7 @@ public class SimplePlatformTest extends LogicBricksTest {
 
 
         BlackBoardComponent blackBoardComponent = new BlackBoardComponent();
-        blackBoardComponent.add(new Property<Boolean>("isGround", false));
+        blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
         player.add(blackBoardComponent);
 
         Body bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
@@ -131,19 +131,19 @@ public class SimplePlatformTest extends LogicBricksTest {
         player.add(rbc);
 
         AnimationView playerView = new AnimationView();
-        playerView.height = 2.3f;
-        playerView.width = 1.8f;
-        playerView.attachedTransform = bodyPlayer.getTransform();
+        playerView.setHeight(2.3f);
+        playerView.setWidth(1.8f);
+        playerView.setAttachedTransform(bodyPlayer.getTransform());
         playerView.animations = new IntMap<>();
         playerView.animations.put(stateComponent.getState("Idle"), idle);
         playerView.animations.put(stateComponent.getState("Walking"), walking);
-        playerView.layer = 1;
+        playerView.setLayer(1);
 
         ParticleEffectView particleEffectView = new ParticleEffectView();
-        particleEffectView.attachedTransform = bodyPlayer.getTransform();
+        particleEffectView.setAttachedTransform(bodyPlayer.getTransform());
         particleEffectView.effect = dustEffect;
-        particleEffectView.localPosition = new Vector2(0,-1);
-        particleEffectView.tint = Color.BLUE;
+        particleEffectView.setLocalPosition(new Vector2(0, -1));
+        particleEffectView.setTint(Color.BLUE);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(playerView);
@@ -204,7 +204,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         stateActuator2.setOwner(player);
         stateActuator2.setState(0);
 
-        LogicBricksBuilder builder = new LogicBricksBuilder(engine,player);
+        EntityBuilder builder = new EntityBuilder(engine, player);
 
         builder.addController(controller, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)

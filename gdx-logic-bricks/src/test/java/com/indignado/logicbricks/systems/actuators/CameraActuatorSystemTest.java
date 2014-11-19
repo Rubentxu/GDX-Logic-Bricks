@@ -16,7 +16,7 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
+import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class CameraActuatorSystemTest {
     private World physic;
     private CameraActuator cameraActuator;
     private Body body;
-    private LogicBricksBuilder logicBricksBuilder;
+    private EntityBuilder entityBuilder;
 
 
     @Before
@@ -68,7 +68,7 @@ public class CameraActuatorSystemTest {
         entity.add(stateComponent);
 
         engine.addEntity(entity);
-        logicBricksBuilder = new LogicBricksBuilder(engine, entity);
+        entityBuilder = new EntityBuilder(engine);
 
     }
 
@@ -85,7 +85,7 @@ public class CameraActuatorSystemTest {
         cameraActuator.setTarget(entity);
         cameraActuator.setHeight((short) 5);
 
-        logicBricksBuilder.addController(conditionalController, StatePruebas)
+        entityBuilder.addController(conditionalController, StatePruebas)
                 .connectToSensor(alwaysSensor)
                 .connectToActuator(cameraActuator);
 
@@ -109,7 +109,7 @@ public class CameraActuatorSystemTest {
         cameraActuator.setHeight((short) 5);
 
 
-        logicBricksBuilder.addController(conditionalController, StatePruebas)
+        entityBuilder.addController(conditionalController, StatePruebas)
                 .connectToSensor(alwaysSensor)
                 .connectToActuator(cameraActuator);
 

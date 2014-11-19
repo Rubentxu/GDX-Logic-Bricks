@@ -6,7 +6,6 @@ import com.indignado.logicbricks.bricks.sensors.PropertySensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
 import com.indignado.logicbricks.data.Property;
-import com.indignado.logicbricks.data.PropertyType;
 
 import java.util.Set;
 

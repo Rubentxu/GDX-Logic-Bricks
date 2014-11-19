@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.systems.controllers;
 
-import com.indignado.logicbricks.data.Script;
 import com.indignado.logicbricks.bricks.controllers.ScriptController;
 import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
+import com.indignado.logicbricks.data.Script;
 
 import java.util.Iterator;
 

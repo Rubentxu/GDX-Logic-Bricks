@@ -28,11 +28,11 @@ public class ViewSystem extends IteratingSystem {
         ViewsComponent viewsComponent = tm.get(entity);
         for (View view : viewsComponent.views) {
             if (view.attachedTransform != null) {
-                view.position = view.attachedTransform.getPosition();
-                view.rotation = MathUtils.radiansToDegrees * view.attachedTransform.getRotation();
+                view.setPosition(view.attachedTransform.getPosition());
+                view.setRotation(MathUtils.radiansToDegrees * view.attachedTransform.getRotation());
             }
             if (view.localPosition != null) {
-                view.position = view.position.cpy();
+                view.setPosition(view.position.cpy());
                 view.position.add(view.localPosition);
             }
 

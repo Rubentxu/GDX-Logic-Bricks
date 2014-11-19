@@ -9,7 +9,7 @@ import com.indignado.logicbricks.bricks.actuators.MessageActuator;
 import com.indignado.logicbricks.bricks.controllers.ConditionalController;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
+import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class MessageActuatorSystemTest {
 
     private int MENSAJE_PRUEBAS = 1;
     private Boolean checkMessage = false;
-    private LogicBricksBuilder logicBricksBuilder;
+    private EntityBuilder entityBuilder;
 
 
     @Before
@@ -44,7 +44,7 @@ public class MessageActuatorSystemTest {
 
         entity.add(stateComponent);
         engine.addEntity(entity);
-        logicBricksBuilder = new LogicBricksBuilder(engine, entity);
+        entityBuilder = new EntityBuilder(engine);
 
     }
 
@@ -65,7 +65,7 @@ public class MessageActuatorSystemTest {
         messageActuator.controllers.add(conditionalController);
         messageActuator.setMessage(MENSAJE_PRUEBAS);
 
-        logicBricksBuilder.addController(conditionalController, statePrueba)
+        entityBuilder.addController(conditionalController, statePrueba)
                 .connectToActuator(messageActuator);
 
 

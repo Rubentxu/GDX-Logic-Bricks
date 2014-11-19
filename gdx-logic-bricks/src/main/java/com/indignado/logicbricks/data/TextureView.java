@@ -12,4 +12,39 @@ public class TextureView extends View {
     public boolean flipX;
     public boolean flipY;
 
+
+    public TextureView setTextureRegion(TextureRegion textureRegion) {
+        this.textureRegion = textureRegion;
+        return this;
+
+    }
+
+
+    public TextureView setHeight(float height) {
+        this.height = height;
+        return this;
+
+    }
+
+
+    public TextureView setWidth(float width) {
+        this.width = width;
+        return this;
+
+    }
+
+
+    public TextureView setFlipX(boolean flipX) {
+        this.flipX = flipX;
+        return this;
+
+    }
+
+
+    public TextureView setFlipY(boolean flipY) {
+        this.flipY = flipY;
+        return this;
+
+    }
+
 }

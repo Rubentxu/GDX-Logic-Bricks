@@ -2,7 +2,6 @@ package com.indignado.functional.test.base;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
@@ -16,21 +15,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
-import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.systems.ViewSystem;
-import com.indignado.logicbricks.systems.actuators.*;
-import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
-import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
-import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
+import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
 
@@ -45,12 +38,11 @@ public abstract class LogicBricksTest implements ApplicationListener {
     protected World world;
     protected Engine engine;
     protected OrthographicCamera camera;
+    protected BodyBuilder bodyBuilder;
     SpriteBatch batch;
     BitmapFont font;
     private Box2DDebugRenderer renderer;
     private float WIDTH = 30;
-    protected BodyBuilder bodyBuilder;
-
 
     @Override
     public void create() {
@@ -74,10 +66,13 @@ public abstract class LogicBricksTest implements ApplicationListener {
         createWorld(world, engine);
 
         InputMultiplexer input = new InputMultiplexer();
-        if (engine.getSystem(KeyboardSensorSystem.class) != null) input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
-        if (engine.getSystem(MouseSensorSystem.class) != null) input.addProcessor(engine.getSystem(MouseSensorSystem.class));
+        if (engine.getSystem(KeyboardSensorSystem.class) != null)
+            input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
+        if (engine.getSystem(MouseSensorSystem.class) != null)
+            input.addProcessor(engine.getSystem(MouseSensorSystem.class));
         Gdx.input.setInputProcessor(input);
-        if (engine.getSystem(CollisionSensorSystem.class) != null) this.world.setContactListener(engine.getSystem(CollisionSensorSystem.class));
+        if (engine.getSystem(CollisionSensorSystem.class) != null)
+            this.world.setContactListener(engine.getSystem(CollisionSensorSystem.class));
 
         engine.update(0);
 
@@ -109,7 +104,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void pause() {
-        for ( EntitySystem system : engine.getSystems()) {
+        for (EntitySystem system : engine.getSystems()) {
             system.setProcessing(false);
         }
 
@@ -117,7 +112,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void resume() {
-        for ( EntitySystem system : engine.getSystems()) {
+        for (EntitySystem system : engine.getSystems()) {
             system.setProcessing(true);
         }
 
@@ -141,7 +136,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     protected Body wall(float x, float y, float width, float height) {
         BlackBoardComponent context = new BlackBoardComponent();
-        context.add(new Property<String>("type", "wall"));
+        context.addProperty(new Property<String>("type", "wall"));
         return bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(width, height)
                 .restitution(0.4f)
@@ -155,9 +150,9 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     private Body crate(float x, float y, float width, float height) {
         BlackBoardComponent context = new BlackBoardComponent();
-        context.add(new Property<String>("type", "crate"));
+        context.addProperty(new Property<String>("type", "crate"));
         return bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(width,height)
+                .boxShape(width, height)
                 .restitution(0.4f)
                 .friction(0.5f))
                 .userData(context)

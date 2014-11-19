@@ -20,12 +20,12 @@ public class TextureActuatorSystem extends ActuatorSystem<TextureActuator, Textu
     public void processActuator(TextureActuator actuator) {
         if (evaluateController(actuator)) {
             TextureView view = actuator.textureView;
-            if (actuator.height != 0) view.height = actuator.height;
-            if (actuator.width != 0) view.width = actuator.width;
-            if (actuator.flipX != null) view.flipX = actuator.flipX;
-            if (actuator.flipY != null) view.flipY = actuator.flipY;
-            if (actuator.opacity != -1) view.opacity = actuator.opacity;
-            if (actuator.tint != null) view.tint = actuator.tint;
+            if (actuator.height != 0) view.setHeight(actuator.height);
+            if (actuator.width != 0) view.setWidth(actuator.width);
+            if (actuator.flipX != null) view.setFlipX(actuator.flipX);
+            if (actuator.flipY != null) view.setFlipY(actuator.flipY);
+            if (actuator.opacity != -1) view.setOpacity(actuator.opacity);
+            if (actuator.tint != null) view.setTint(actuator.tint);
 
         }
 

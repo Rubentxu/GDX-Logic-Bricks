@@ -21,7 +21,7 @@ import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
-import com.indignado.logicbricks.utils.logicbricks.LogicBricksBuilder;
+import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 
 import java.io.File;
 import java.net.URL;
@@ -34,9 +34,9 @@ public class Dart extends Entity {
     public Dart(Engine engine, World world, Vector2 position, float angle) {
 
         BlackBoardComponent context = new BlackBoardComponent();
-        context.add(new Property<String>("type", "arrow"));
-        context.add(new Property<Boolean>("freeFlight", false));
-        context.add(new Property<Boolean>("follow", true));
+        context.addProperty(new Property<String>("type", "arrow"));
+        context.addProperty(new Property<Boolean>("freeFlight", false));
+        context.addProperty(new Property<Boolean>("follow", true));
         this.add(context);
 
         StateComponent state = new StateComponent();
@@ -64,12 +64,12 @@ public class Dart extends Entity {
         this.add(bodiesComponents);
 
         TextureView arrowView = new TextureView();
-        arrowView.name = "Arrow";
-        arrowView.textureRegion = new TextureRegion(new Texture(getFileHandle("assets/textures/dart.png")));
-        arrowView.height = 0.4f;
-        arrowView.width = 2.5f;
-        arrowView.attachedTransform = bodyArrow.getTransform();
-        arrowView.layer = 0;
+        arrowView.setName("Arrow");
+        arrowView.setTextureRegion(new TextureRegion(new Texture(getFileHandle("assets/textures/dart.png"))));
+        arrowView.setHeight(0.4f);
+        arrowView.setWidth(2.5f);
+        arrowView.setAttachedTransform(bodyArrow.getTransform());
+        arrowView.setLayer(0);
 
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(arrowView);
@@ -86,14 +86,15 @@ public class Dart extends Entity {
         arrowMotion.setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))));
         arrowMotion.setOwner(this);
 
-        LogicBricksBuilder logicBuilder = new LogicBricksBuilder(engine, this);
+        EntityBuilder logicBuilder = new EntityBuilder(engine);
         logicBuilder.addController(logicBuilder.controller(ConditionalController.class)
                 .setType(ConditionalController.Type.AND), "Default")
                 .connectToSensor(logicBuilder.sensor(KeyboardSensor.class)
                         .setKeyCode(Input.Keys.A))
                 .connectToActuator(logicBuilder.actuator(MotionActuator.class)
                         .setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))))
-                        .setOwner(this));
+                        .setOwner(this))
+                .build(this);
 
 
     }

@@ -46,9 +46,9 @@ public class AnimationSystemTest extends BaseTest {
     public void animationSystemTest() {
 
         Entity player = engine.createEntity();
-        // player.add(new TextureComponent(playerTextureRegion));
-        // player.add(animateStateComponent);
-        // player.add(animationComponent);
+        // player.addProperty(new TextureComponent(playerTextureRegion));
+        // player.addProperty(animateStateComponent);
+        // player.addProperty(animationComponent);
 
         engine.addEntity(player);
 
@@ -66,10 +66,10 @@ public class AnimationSystemTest extends BaseTest {
     public void animationSystem2Test() {
 
        /* Entity player = engine.createEntity();
-        player.add(new TextureComponent(playerTextureRegion));
+        player.addProperty(new TextureComponent(playerTextureRegion));
         animateStateComponent.changeCurrentState(PlayerState.JUMP.ordinal());
-        player.add(animateStateComponent);
-        player.add(animationComponent);
+        player.addProperty(animateStateComponent);
+        player.addProperty(animationComponent);
 
         engine.addEntity(player);
 

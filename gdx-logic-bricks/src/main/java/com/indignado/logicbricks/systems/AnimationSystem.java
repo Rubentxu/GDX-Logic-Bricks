@@ -35,7 +35,7 @@ public class AnimationSystem extends IteratingSystem {
                 AnimationView animationView = ((AnimationView) view);
                 Animation animation = animationView.animations.get(state.getCurrentState());
                 if (animation != null) {
-                    animationView.textureRegion = animation.getKeyFrame(state.time);
+                    animationView.setTextureRegion(animation.getKeyFrame(state.time));
 
                 }
 
