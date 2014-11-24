@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.components.sensors;
 
-import com.indignado.logicbricks.bricks.sensors.MessageSensor;
+import com.indignado.logicbricks.core.sensors.MessageSensor;
 
 /**
  * Created on 05/11/14.

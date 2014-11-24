@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.systems.controllers;
 
-import com.indignado.logicbricks.bricks.controllers.ConditionalController;
-import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
+import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.sensors.Sensor;
 
 import java.util.Iterator;
 

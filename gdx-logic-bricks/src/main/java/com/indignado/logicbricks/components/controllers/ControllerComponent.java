@@ -2,7 +2,7 @@ package com.indignado.logicbricks.components.controllers;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.bricks.controllers.Controller;
+import com.indignado.logicbricks.core.controllers.Controller;
 
 import java.util.Set;
 

@@ -1,7 +1,7 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.indignado.logicbricks.bricks.actuators.TextureActuator;
 import com.indignado.logicbricks.components.actuators.TextureActuatorComponent;
+import com.indignado.logicbricks.core.actuators.TextureActuator;
 import com.indignado.logicbricks.data.TextureView;
 
 /**

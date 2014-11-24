@@ -1,8 +1,8 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.indignado.logicbricks.bricks.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.components.actuators.InstanceEntityActuatorComponent;
+import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 
 /**
  * @author Rubentxu

@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.components.sensors;
 
-import com.indignado.logicbricks.bricks.sensors.PropertySensor;
+import com.indignado.logicbricks.core.sensors.PropertySensor;
 
 /**
  * @author Rubentxu

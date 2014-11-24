@@ -1,8 +1,8 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
-import com.indignado.logicbricks.bricks.actuators.MessageActuator;
 import com.indignado.logicbricks.components.actuators.MessageActuatorComponent;
+import com.indignado.logicbricks.core.actuators.MessageActuator;
 
 /**
  * @author Rubentxu

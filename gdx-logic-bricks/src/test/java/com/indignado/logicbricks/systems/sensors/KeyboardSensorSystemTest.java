@@ -3,8 +3,8 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import org.junit.Before;
 import org.junit.Test;
 

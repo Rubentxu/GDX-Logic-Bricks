@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.indignado.logicbricks.bricks.controllers.Controller;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
+import com.indignado.logicbricks.core.controllers.Controller;
 
 import java.util.Set;
 

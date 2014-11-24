@@ -2,9 +2,9 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.indignado.logicbricks.bricks.actuators.MotionActuator;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
+import com.indignado.logicbricks.core.actuators.MotionActuator;
 
 /**
  * @author Rubentxu

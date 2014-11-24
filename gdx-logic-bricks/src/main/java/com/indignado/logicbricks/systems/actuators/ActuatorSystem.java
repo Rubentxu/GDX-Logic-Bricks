@@ -5,11 +5,11 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.indignado.logicbricks.bricks.actuators.Actuator;
-import com.indignado.logicbricks.bricks.controllers.Controller;
-import com.indignado.logicbricks.bricks.exceptions.LogicBricksException;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
+import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.controllers.Controller;
 
 import java.util.Iterator;
 import java.util.Set;

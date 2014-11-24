@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.components.sensors;
 
-import com.indignado.logicbricks.bricks.sensors.DelaySensor;
+import com.indignado.logicbricks.core.sensors.DelaySensor;
 
 /**
  * Created on 05/11/14.

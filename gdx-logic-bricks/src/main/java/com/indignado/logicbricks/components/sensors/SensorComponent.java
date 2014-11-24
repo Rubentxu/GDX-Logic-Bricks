@@ -2,7 +2,7 @@ package com.indignado.logicbricks.components.sensors;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 
 import java.util.Set;
 

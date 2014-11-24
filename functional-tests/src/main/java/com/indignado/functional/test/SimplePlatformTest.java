@@ -16,21 +16,21 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.functional.test.base.LogicBricksTest;
-import com.indignado.logicbricks.bricks.actuators.*;
-import com.indignado.logicbricks.bricks.controllers.ConditionalController;
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
-import com.indignado.logicbricks.bricks.sensors.PropertySensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.core.EntityBuilder;
+import com.indignado.logicbricks.core.actuators.*;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.CollisionSensor;
+import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.data.AnimationView;
 import com.indignado.logicbricks.data.ParticleEffectView;
 import com.indignado.logicbricks.data.Property;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 
 
 /**
@@ -204,7 +204,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         stateActuator2.setOwner(player);
         stateActuator2.setState(0);
 
-        EntityBuilder builder = new EntityBuilder(engine, player);
+        EntityBuilder builder = new EntityBuilder(engine);
 
         builder.addController(controller, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
@@ -314,7 +314,7 @@ public class SimplePlatformTest extends LogicBricksTest {
                 .connectToSensor(propertySensorIsGround)
                 .connectToActuator(motionActuatorJump);
 
-        return player;
+        return builder.build(player);
 
     }
 

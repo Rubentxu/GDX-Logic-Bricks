@@ -2,8 +2,8 @@ package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.indignado.logicbricks.bricks.base.BaseTest;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 

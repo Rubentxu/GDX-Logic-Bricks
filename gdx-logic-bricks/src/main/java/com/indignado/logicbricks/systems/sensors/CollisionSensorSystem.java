@@ -6,8 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.bricks.sensors.CollisionSensor;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
+import com.indignado.logicbricks.core.sensors.CollisionSensor;
 
 import java.util.HashSet;
 import java.util.Set;

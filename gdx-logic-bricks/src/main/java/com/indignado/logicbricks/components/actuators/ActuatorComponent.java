@@ -2,7 +2,7 @@ package com.indignado.logicbricks.components.actuators;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.bricks.actuators.Actuator;
+import com.indignado.logicbricks.core.actuators.Actuator;
 
 import java.util.Set;
 

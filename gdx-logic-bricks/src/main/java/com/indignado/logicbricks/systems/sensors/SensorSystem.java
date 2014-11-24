@@ -3,10 +3,10 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 
 import java.util.Set;
 

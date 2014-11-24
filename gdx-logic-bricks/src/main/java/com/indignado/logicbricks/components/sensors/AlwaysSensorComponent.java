@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.components.sensors;
 
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 
 /**
  * @author Rubentxu.

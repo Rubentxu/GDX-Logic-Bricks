@@ -1,7 +1,7 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.indignado.logicbricks.bricks.sensors.DelaySensor;
 import com.indignado.logicbricks.components.sensors.DelaySensorComponent;
+import com.indignado.logicbricks.core.sensors.DelaySensor;
 
 /**
  * @author Rubentxu

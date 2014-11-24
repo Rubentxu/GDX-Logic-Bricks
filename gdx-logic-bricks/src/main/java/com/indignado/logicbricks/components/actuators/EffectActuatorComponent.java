@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.components.actuators;
 
-import com.indignado.logicbricks.bricks.actuators.EffectActuator;
+import com.indignado.logicbricks.core.actuators.EffectActuator;
 
 /**
  * @author Rubentxu

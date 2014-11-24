@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.components.actuators;
 
-import com.indignado.logicbricks.bricks.actuators.EditRigidBodyActuator;
+import com.indignado.logicbricks.core.actuators.EditRigidBodyActuator;
 
 /**
  * @author Rubentxu

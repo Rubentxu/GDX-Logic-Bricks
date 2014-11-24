@@ -2,9 +2,9 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.bricks.sensors.PropertySensor;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
+import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.data.Property;
 
 import java.util.Set;

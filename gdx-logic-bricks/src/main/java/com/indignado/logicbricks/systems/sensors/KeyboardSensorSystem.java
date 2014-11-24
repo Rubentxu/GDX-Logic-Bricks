@@ -6,8 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.bricks.sensors.KeyboardSensor;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
+import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,12 +1,10 @@
 package com.indignado.functional.test;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -53,18 +51,13 @@ public class FlyingDartTest extends LogicBricksTest {
                 .build();
 
 
-        engine.addEntity(createArrow(new Vector2(-12, 3), 150));
-        engine.addEntity(createDummy(new Vector2(-14, 2f)));
+        //engine.addEntity(createArrow(new Vector2(-12, 3), 150));
+        // engine.addEntity(createDummy(new Vector2(-14, 2f)));
 
         flyingDartCollisionRule = new FlyingDartCollisionRule();
         CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
         engine.addSystem(collisionSensorSystem);
-
-
-    }
-
-    private Entity createDummy(Vector2 position) {
 
 
     }
@@ -76,7 +69,7 @@ public class FlyingDartTest extends LogicBricksTest {
         world.clearForces();
 
         for (WeldJointDef jointDef : flyingDartCollisionRule.jointDefs) {
-            Gdx.app.log("FlyingDartTest","createJoint");
+            Gdx.app.log("FlyingDartTest", "createJoint");
             world.createJoint(jointDef);
         }
 

@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.bricks.actuators.StateActuator;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.StateActuatorComponent;
+import com.indignado.logicbricks.core.actuators.StateActuator;
 
 import java.util.Set;
 

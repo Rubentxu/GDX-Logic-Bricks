@@ -3,13 +3,13 @@ package com.indignado.logicbricks.systems.controllers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
-import com.indignado.logicbricks.bricks.controllers.ScriptController;
-import com.indignado.logicbricks.bricks.sensors.AlwaysSensor;
-import com.indignado.logicbricks.bricks.sensors.Sensor;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.data.Script;
+import com.indignado.logicbricks.core.EntityBuilder;
+import com.indignado.logicbricks.core.Script;
+import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.utils.logicbricks.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
