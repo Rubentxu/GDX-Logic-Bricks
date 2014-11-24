@@ -13,9 +13,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.data.ParticleEffectView;
-import com.indignado.logicbricks.data.TextureView;
-import com.indignado.logicbricks.data.View;
+import com.indignado.logicbricks.components.data.ParticleEffectView;
+import com.indignado.logicbricks.components.data.TextureView;
+import com.indignado.logicbricks.components.data.View;
 
 import java.util.Comparator;
 

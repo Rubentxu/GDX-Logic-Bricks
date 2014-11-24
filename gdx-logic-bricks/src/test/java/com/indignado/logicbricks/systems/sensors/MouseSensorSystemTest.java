@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
-import com.indignado.logicbricks.data.TextureView;
 import org.junit.Before;
 import org.junit.Test;
 

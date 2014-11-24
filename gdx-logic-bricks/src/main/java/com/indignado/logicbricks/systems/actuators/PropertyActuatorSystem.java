@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
+import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
-import com.indignado.logicbricks.data.Property;
 
 import java.util.Set;
 

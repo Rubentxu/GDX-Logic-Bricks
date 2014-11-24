@@ -2,8 +2,8 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.indignado.logicbricks.components.actuators.EffectActuatorComponent;
+import com.indignado.logicbricks.components.data.ParticleEffectView;
 import com.indignado.logicbricks.core.actuators.EffectActuator;
-import com.indignado.logicbricks.data.ParticleEffectView;
 
 /**
  * @author Rubentxu

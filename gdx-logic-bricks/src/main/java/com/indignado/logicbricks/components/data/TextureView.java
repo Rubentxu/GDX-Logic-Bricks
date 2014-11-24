@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.data;
+package com.indignado.logicbricks.components.data;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 

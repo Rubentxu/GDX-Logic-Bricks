@@ -4,24 +4,22 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.data.RigidBody;
 
 /**
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends Engine {
     private ObjectMap<Long, Entity> entitiesIds;
-    private ObjectMap<String, EntityCreator> entityCreators;
 
 
     public LogicBricksEngine() {
         super();
         this.entitiesIds = new ObjectMap<Long, Entity>();
-        this.entityCreators = new ObjectMap<String, EntityCreator>();
 
     }
 
@@ -35,8 +33,8 @@ public class LogicBricksEngine extends Engine {
         RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
 
         if (rigidBodies != null && identity.filter != null) {
-            for (Body body : rigidBodies.rigidBodies) {
-                for (Fixture fixture : body.getFixtureList()) {
+            for (RigidBody rigidBody : rigidBodies.rigidBodies) {
+                for (Fixture fixture : rigidBody.body.getFixtureList()) {
                     fixture.setFilterData(identity.filter);
                 }
             }
@@ -69,17 +67,6 @@ public class LogicBricksEngine extends Engine {
 
     }
 
-
-    public EntityCreator getEntityCreator(String nameEntity) {
-        return entityCreators.get(nameEntity);
-
-    }
-
-
-    public void addEntityCreator(String nameEntity, EntityCreator creator) {
-        entityCreators.put(nameEntity, creator);
-
-    }
 
 
 }

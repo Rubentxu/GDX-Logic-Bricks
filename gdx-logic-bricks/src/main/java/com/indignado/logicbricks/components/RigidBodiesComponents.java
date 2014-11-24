@@ -1,8 +1,8 @@
 package com.indignado.logicbricks.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.indignado.logicbricks.components.data.RigidBody;
 
 /**
  * Created on 16/10/14.
@@ -10,6 +10,6 @@ import com.badlogic.gdx.utils.Array;
  * @author Rubentxu
  */
 public class RigidBodiesComponents extends Component {
-    public Array<Body> rigidBodies = new Array<Body>();
+    public Array<RigidBody> rigidBodies = new Array<RigidBody>();
 
 }

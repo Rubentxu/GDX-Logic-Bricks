@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.data.Property;
+import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;

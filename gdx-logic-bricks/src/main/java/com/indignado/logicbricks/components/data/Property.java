@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.data;
+package com.indignado.logicbricks.components.data;
 
 /**
  * @author Rubentxu.

@@ -3,8 +3,8 @@ package com.indignado.logicbricks.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.utils.Bag;
 import com.badlogic.gdx.utils.Bits;
-import com.indignado.logicbricks.data.Property;
-import com.indignado.logicbricks.data.PropertyType;
+import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.components.data.PropertyType;
 
 /**
  * @author Rubentxu.

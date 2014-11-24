@@ -7,7 +7,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.data.View;
+import com.indignado.logicbricks.components.data.View;
 
 /**
  * @author Rubentxu

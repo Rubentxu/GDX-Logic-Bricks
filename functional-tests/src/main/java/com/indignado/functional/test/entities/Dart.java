@@ -14,12 +14,12 @@ import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.EntityBuilder;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
-import com.indignado.logicbricks.data.Property;
-import com.indignado.logicbricks.data.TextureView;
 import com.indignado.logicbricks.utils.box2d.BodyBuilder;
 import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
 
