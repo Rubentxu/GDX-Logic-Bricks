@@ -6,7 +6,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
@@ -16,37 +15,31 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
  */
 public class LogicBricksEngine extends Engine {
     private ObjectMap<Long, Entity> entitiesIds;
-    private World physics;
-    private EntityBuilder entityBuilder;
+    private ObjectMap<String, EntityCreator> entityCreators;
 
 
-    public LogicBricksEngine(World physics) {
+    public LogicBricksEngine() {
         super();
-        this.physics = physics;
         this.entitiesIds = new ObjectMap<Long, Entity>();
-        this.entityBuilder = new EntityBuilder(this);
+        this.entityCreators = new ObjectMap<String, EntityCreator>();
 
     }
 
 
+    @Override
     public void addEntity(Entity entity) {
         super.addEntity(entity);
         entitiesIds.put(entity.getId(), entity);
+        IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
+        identity.uuid = entity.getId();
+        RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
 
-        if (LogicEntity.class.isAssignableFrom(entity.getClass())) {
-            ((LogicEntity) entity).createLogicEntity(this, entityBuilder, physics);
-            IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
-            identity.uuid = entity.getId();
-            RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
-
-            if (rigidBodies != null && identity.filter != null) {
-                for (Body body : rigidBodies.rigidBodies) {
-                    for (Fixture fixture : body.getFixtureList()) {
-                        fixture.setFilterData(identity.filter);
-                    }
+        if (rigidBodies != null && identity.filter != null) {
+            for (Body body : rigidBodies.rigidBodies) {
+                for (Fixture fixture : body.getFixtureList()) {
+                    fixture.setFilterData(identity.filter);
                 }
             }
-
         }
 
     }
@@ -70,15 +63,23 @@ public class LogicBricksEngine extends Engine {
 
     }
 
+
     public Entity getEntity(long uuid) {
         return entitiesIds.get(uuid);
 
     }
 
 
-    public EntityBuilder getEntityBuilder() {
-        return entityBuilder;
+    public EntityCreator getEntityCreator(String nameEntity) {
+        return entityCreators.get(nameEntity);
 
     }
+
+
+    public void addEntityCreator(String nameEntity, EntityCreator creator) {
+        entityCreators.put(nameEntity, creator);
+
+    }
+
 
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
  * @author Rubentxu.
  */
 public class IdentityComponent extends Component {
-    public String nameEntity;
+    public String nameEntity = "Dummy";
     public long uuid;
     public Filter filter;
 
