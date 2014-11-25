@@ -10,6 +10,6 @@ import com.indignado.logicbricks.components.data.RigidBody;
  * @author Rubentxu
  */
 public class RigidBodiesComponents extends Component {
-    public Array<RigidBody> rigidBodies = new Array<RigidBody>();
+    public Array<RigidBody> rigidBodies = new Array<>();
 
 }

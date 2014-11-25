@@ -11,23 +11,18 @@ import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.actuators.*;
-import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
+import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
-import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.RigidBody;
 import com.indignado.logicbricks.components.data.View;
-import com.indignado.logicbricks.components.sensors.*;
-import com.indignado.logicbricks.core.actuators.*;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.components.sensors.SensorComponent;
+import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
-import com.indignado.logicbricks.core.controllers.ScriptController;
-import com.indignado.logicbricks.core.sensors.*;
-import com.indignado.logicbricks.systems.actuators.*;
-import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
-import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
-import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
+import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,12 +35,14 @@ public class EntityBuilder {
     private ObjectMap<Class<? extends Component>, Component> components;
     private Controller controller;
     private Array<String> controllerStates;
+    private AssociatedClasses associatedClasses;
 
 
     public EntityBuilder(Engine engine) {
         this.components = new ObjectMap<>();
         this.controllerStates = new Array();
         this.engine = engine;
+        this.associatedClasses = new AssociatedClasses();
 
     }
 
@@ -77,44 +74,18 @@ public class EntityBuilder {
     }
 
 
-    private <S extends Sensor> EntityBuilder addSensor(S sensor, String nameState) {
+    private <S extends Sensor, SC extends SensorComponent> EntityBuilder addSensor(S sensor, String nameState) {
         int state = getKeyState(nameState);
         sensor.state = state;
-        SensorComponent sensorComponent = null;
         Set<S> sensorsList = null;
-        if (sensor instanceof AlwaysSensor) {
-            getSystem(AlwaysSensorSystem.class);
-            sensorComponent = getComponent(AlwaysSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
-
-        } else if (sensor instanceof CollisionSensor) {
-            getSystem(CollisionSensorSystem.class);
-            sensorComponent = getComponent(CollisionSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
-
-        } else if (sensor instanceof DelaySensor) {
-            getSystem(DelaySensorSystem.class);
-            sensorComponent = getComponent(DelaySensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
-
-        } else if (sensor instanceof KeyboardSensor) {
-            getSystem(KeyboardSensorSystem.class);
-            sensorComponent = getComponent(KeyboardSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
-
-        } else if (sensor instanceof MouseSensor) {
-            getSystem(MouseSensorSystem.class);
-            sensorComponent = getComponent(MouseSensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
-
-        } else if (sensor instanceof PropertySensor) {
-            getSystem(PropertySensorSystem.class);
-            sensorComponent = getComponent(PropertySensorComponent.class);
-            sensorsList = (Set<S>) getSensorList(sensorComponent, sensor.state);
-
+        AssociatedClasses.SensorClasses classes = associatedClasses.getSensorClasses(sensor.getClass());
+        if (classes != null) {
+            getSystem(classes.system);
+            SC sensorComponent = (SC) getComponent(classes.component);
+            sensorsList = getSensorList(sensorComponent, sensor.state);
         }
-        if (sensorsList != null && !sensorsList.contains(sensor)) sensorsList.add(sensor);
 
+        if (sensorsList != null && !sensorsList.contains(sensor)) sensorsList.add(sensor);
         return this;
 
     }
@@ -186,28 +157,20 @@ public class EntityBuilder {
     }
 
 
-    public <C extends Controller> EntityBuilder addController(C controller, String nameState) {
+    public <C extends Controller, CC extends ControllerComponent> EntityBuilder addController(C controller, String nameState) {
         this.controller = controller;
         controllerStates.add(nameState);
         int state = getKeyState(nameState);
         controller.state = state;
-        ControllerComponent controllerComponent = null;
         Set<C> controllerList = null;
 
-        if (controller instanceof ConditionalController) {
-            getSystem(ConditionalControllerSystem.class);
-            controllerComponent = getComponent(ConditionalControllerComponent.class);
-            controllerList = (Set<C>) getControllerList(controllerComponent, state);
-
-
-        } else if (controller instanceof ScriptController) {
-            getSystem(ScriptControllerSystem.class);
-            controllerComponent = getComponent(ScriptControllerComponent.class);
-            controllerList = (Set<C>) getControllerList(controllerComponent, state);
-
+        AssociatedClasses.ControllerClasses classes = associatedClasses.getControllerClasses(controller.getClass());
+        if (classes != null) {
+            getSystem(classes.system);
+            CC controllerComponent = (CC) getComponent(classes.component);
+            controllerList = getControllerList(controllerComponent, controller.state);
         }
         if (controllerList != null && !controllerList.contains(controller)) controllerList.add(controller);
-
         return this;
 
     }
@@ -267,58 +230,18 @@ public class EntityBuilder {
     }
 
 
-    private <A extends Actuator> EntityBuilder addActuator(A actuator, String nameState) {
+    private <A extends Actuator, AC extends ActuatorComponent> EntityBuilder addActuator(A actuator, String nameState) {
         int state = getKeyState(nameState);
         actuator.state = state;
-        ActuatorComponent actuatorComponent = null;
         Set<A> actuatorList = null;
 
-        if (actuator instanceof CameraActuator) {
-            getSystem(CameraActuatorSystem.class);
-            actuatorComponent = getComponent(CameraActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof InstanceEntityActuator) {
-            getSystem(InstanceEntityActuatorSystem.class);
-            actuatorComponent = getComponent(InstanceEntityActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof EditRigidBodyActuator) {
-            getSystem(EditRigidBodyActuatorSystem.class);
-            actuatorComponent = getComponent(EditRigidBodyActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof EffectActuator) {
-            getSystem(EffectActuatorSystem.class);
-            actuatorComponent = getComponent(EffectActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof MessageActuator) {
-            getSystem(MessageActuatorSystem.class);
-            actuatorComponent = getComponent(MessageActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof MotionActuator) {
-            getSystem(MotionActuatorSystem.class);
-            actuatorComponent = getComponent(MotionActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof PropertyActuator) {
-            getSystem(PropertyActuatorSystem.class);
-            actuatorComponent = getComponent(PropertyActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof StateActuator) {
-            getSystem(StateActuatorSystem.class);
-            actuatorComponent = getComponent(StateActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
-        } else if (actuator instanceof TextureActuator) {
-            getSystem(TextureActuatorSystem.class);
-            actuatorComponent = getComponent(TextureActuatorComponent.class);
-            actuatorList = getActuatorList(actuatorComponent, state);
-
+        AssociatedClasses.ActuatorClasses classes = associatedClasses.getActuatorClasses(actuator.getClass());
+        if (classes != null) {
+            getSystem(classes.system);
+            AC actuatorComponent = (AC) getComponent(classes.component);
+            actuatorList = getActuatorList(actuatorComponent, actuator.state);
         }
+
         if (actuatorList != null && !actuatorList.contains(controller)) actuatorList.add(actuator);
         return this;
 
@@ -384,8 +307,8 @@ public class EntityBuilder {
     }
 
 
-    public EntityBuilder addRigidBody(RigidBody body) {
-        getComponent(RigidBodiesComponents.class).rigidBodies.add(body);
+    public EntityBuilder addRigidBody(RigidBody rigidBody) {
+        getComponent(RigidBodiesComponents.class).rigidBodies.add(rigidBody);
         return this;
 
     }

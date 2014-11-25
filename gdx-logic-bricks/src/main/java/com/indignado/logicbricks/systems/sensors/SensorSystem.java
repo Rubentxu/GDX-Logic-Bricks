@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
@@ -65,9 +64,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
             for (S sensor : sensors) {
                 if (sensor instanceof AlwaysSensor) {
                     sensor.pulseSignal = true;
-                }
-                if (isTap(sensor)) sensor.pulseSignal = false;
-                else processSensor(sensor);
+                } else processSensor(sensor);
 
             }
         }
@@ -76,19 +73,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public abstract void processSensor(S sensor);
-
-
-    public boolean isTap(Sensor sensor) {
-        if (sensor.tap) {
-            if (!sensor.initialized) {
-                Gdx.app.log("SensorSystem", "initialized");
-                return true;
-            }
-            sensor.initialized = true;
-        }
-        return false;
-
-    }
 
 
     public ImmutableArray<Entity> getEntities() {

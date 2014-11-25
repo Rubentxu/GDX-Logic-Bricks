@@ -1,7 +1,5 @@
 package com.indignado.functional.test.entities;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,19 +7,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.SensorBuilder;
 
 import java.io.File;
 import java.net.URL;
@@ -29,9 +28,20 @@ import java.net.URL;
 /**
  * @author Rubentxu.
  */
-public class Dart extends Entity {
+public class Dart extends LogicEntityTest {
 
-    public Dart(Engine engine, World world, Vector2 position, float angle) {
+
+    protected FileHandle getFileHandle(String fileName) {
+        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
+        File file = new File(url.getPath());
+        FileHandle fileHandle = new FileHandle(file);
+        return fileHandle;
+
+    }
+
+    @Override
+    protected void create(com.indignado.logicbricks.core.World world) {
+        BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         BlackBoardComponent context = new BlackBoardComponent();
         context.addProperty(new Property<String>("type", "arrow"));
@@ -49,12 +59,12 @@ public class Dart extends Entity {
         vertices[2] = new Vector2(0.6f, 0);
         vertices[3] = new Vector2(0, 0.1f);
 
-        Body bodyArrow = new BodyBuilder(world).fixture(new FixtureDefBuilder()
+        Body bodyArrow = bodyBuilder.fixture(new FixtureDefBuilder()
                 .polygonShape(vertices)
                 .friction(0.5f)
                 .restitution(0.5f))
                 .type(BodyDef.BodyType.DynamicBody)
-                .position(position.x, position.y)
+                .position(0, 0)
                 .bullet()
                 .userData(context)
                 .build();
@@ -76,8 +86,9 @@ public class Dart extends Entity {
 
         this.add(viewsComponent);
 
-        KeyboardSensor initArrow = new KeyboardSensor();
-        initArrow.setKeyCode(Input.Keys.A);
+        KeyboardSensor initArrow = SensorBuilder.getInstance(KeyboardSensorBuilder.class)
+                .setKeyCode(Input.Keys.A).getSensor();
+
 
         ConditionalController arrowController = new ConditionalController();
         arrowController.setType(ConditionalController.Type.AND);
@@ -96,16 +107,10 @@ public class Dart extends Entity {
                         .setOwner(this))
                 .build(this);
 
-
     }
 
-
-    protected FileHandle getFileHandle(String fileName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
-        File file = new File(url.getPath());
-        FileHandle fileHandle = new FileHandle(file);
-        return fileHandle;
+    @Override
+    protected void respawned(float posX, float posY, float angle) {
 
     }
-
 }

@@ -2,35 +2,30 @@ package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.core.sensors.*;
 
 /**
  * @author Rubentxu.
  */
 public class SensorBuilder<T extends Sensor> {
-    private static ObjectMap<Class<? extends SensorBuilder>, SensorBuilder> buildersMap = new ObjectMap<>();
+    private static ObjectMap<Class<? extends Sensor>, SensorBuilder> buildersMap = new ObjectMap<>();
     protected T sensor;
 
 
     protected SensorBuilder() {
+        buildersMap.put(CollisionSensor.class, new CollisionSensorBuilder());
+        buildersMap.put(KeyboardSensor.class, new KeyboardSensorBuilder());
+        buildersMap.put(MessageSensor.class, new MessageSensorBuilder());
+        buildersMap.put(MouseSensor.class, new MouseSensorBuilder());
+        buildersMap.put(PropertySensor.class, new PropertySensorBuilder());
         createNewSensor();
 
     }
 
 
-    public static <B extends SensorBuilder> B getInstance(Class<B> clazzBuilder) {
-        B builder = (B) buildersMap.get(clazzBuilder);
-        if (builder == null) {
-            synchronized (clazzBuilder) {
-                try {
-                    builder = clazzBuilder.newInstance();
-                    buildersMap.put(clazzBuilder, builder);
-                } catch (Exception e) {
-                    Gdx.app.log("SensorBuilder", "Error instance sensorBuilder " + clazzBuilder);
-                }
-            }
-        }
-        return builder;
+    public static <B extends SensorBuilder> B getInstance(Class<? extends Sensor> clazzSensor) {
+        return (B) buildersMap.get(clazzSensor);
+
 
     }
 
