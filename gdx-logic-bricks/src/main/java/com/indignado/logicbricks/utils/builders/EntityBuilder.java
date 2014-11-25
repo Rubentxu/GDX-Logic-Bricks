@@ -1,11 +1,10 @@
-package com.indignado.logicbricks.core;
+package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.BlackBoardComponent;
@@ -17,6 +16,7 @@ import com.indignado.logicbricks.components.controllers.ConditionalControllerCom
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.components.data.RigidBody;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.*;
 import com.indignado.logicbricks.core.actuators.*;
@@ -355,9 +355,9 @@ public class EntityBuilder {
         try {
             controller = clazz.newInstance();
         } catch (InstantiationException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance controller " + clazz);
+            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
         } catch (IllegalAccessException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance controller " + clazz);
+            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
         }
         return controller;
 
@@ -369,9 +369,9 @@ public class EntityBuilder {
         try {
             actuator = clazz.newInstance();
         } catch (InstantiationException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance actuator " + clazz);
+            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
         } catch (IllegalAccessException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance actuator " + clazz);
+            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
         }
         return actuator;
     }
@@ -384,7 +384,7 @@ public class EntityBuilder {
     }
 
 
-    public EntityBuilder addRigidBody(Body body) {
+    public EntityBuilder addRigidBody(RigidBody body) {
         getComponent(RigidBodiesComponents.class).rigidBodies.add(body);
         return this;
 

@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.utils.box2d;
+package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;

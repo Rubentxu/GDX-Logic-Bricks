@@ -17,33 +17,8 @@ public class CollisionSensor extends Sensor {
     public Fixture targetFixture;
     public Body targetRigidBody;
 
-
     // Signal Values
     public Contact contact;
 
-
-    public CollisionSensor setOwnerFixture(Fixture ownerFixture) {
-        this.ownerFixture = ownerFixture;
-        return this;
-
-    }
-
-    public CollisionSensor setOwnerRigidBody(Body ownerRigidBody) {
-        this.ownerRigidBody = ownerRigidBody;
-        return this;
-
-    }
-
-    public CollisionSensor setTargetFixture(Fixture targetFixture) {
-        this.targetFixture = targetFixture;
-        return this;
-
-    }
-
-    public CollisionSensor setTargetRigidBody(Body targetRigidBody) {
-        this.targetRigidBody = targetRigidBody;
-        return this;
-
-    }
 
 }

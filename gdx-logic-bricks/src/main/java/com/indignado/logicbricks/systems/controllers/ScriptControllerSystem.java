@@ -22,7 +22,7 @@ public class ScriptControllerSystem extends ControllerSystem<ScriptController, S
     @Override
     public void processController(ScriptController controller) {
         if (controller.sensors.size == 0)
-            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         Iterator<Script> it = controller.scripts.iterator();
         while (it.hasNext()) {
             it.next().execute(controller.sensors);

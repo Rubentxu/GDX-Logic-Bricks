@@ -11,14 +11,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.utils.box2d.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
 
 /**
  * @author Rubentxu.
  */
 public class FlyingDartTest extends LogicBricksTest {
-
     private Body ground;
     private ParticleEffect dustEffect;
     private FlyingDartCollisionRule flyingDartCollisionRule;

@@ -3,11 +3,11 @@ package com.indignado.logicbricks.systems.controllers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.EntityBuilder;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.systems.StateSystem;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

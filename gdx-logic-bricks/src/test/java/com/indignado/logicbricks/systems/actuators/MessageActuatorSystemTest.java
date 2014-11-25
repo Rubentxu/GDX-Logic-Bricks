@@ -6,10 +6,10 @@ import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.EntityBuilder;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.systems.StateSystem;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

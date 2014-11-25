@@ -23,14 +23,14 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.AnimationView;
 import com.indignado.logicbricks.components.data.ParticleEffectView;
 import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.core.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
-import com.indignado.logicbricks.utils.box2d.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
 
 /**

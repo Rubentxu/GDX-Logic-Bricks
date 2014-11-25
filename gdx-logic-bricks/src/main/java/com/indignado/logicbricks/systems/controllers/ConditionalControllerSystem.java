@@ -32,7 +32,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
         controller.pulseSignal = true;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
             if (s.pulseSignal == false) {
@@ -49,7 +49,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
         controller.pulseSignal = false;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
             if (s.pulseSignal == true) {
@@ -65,7 +65,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
         controller.pulseSignal = false;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
             if (s.pulseSignal == false) {
@@ -81,7 +81,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
         controller.pulseSignal = true;
         Iterator<Sensor> it = controller.sensors.iterator();
         if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This controller does not have any associated sensor");
+            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
             if (s.pulseSignal == true) {

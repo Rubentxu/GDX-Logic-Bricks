@@ -8,8 +8,6 @@ package com.indignado.logicbricks.core.sensors;
 public abstract class Sensor {
     // Config Values
     public String name;
-    public boolean tap = false;
-    public boolean initialized = false;
     public int state = -1;
     // pulse
     public boolean pulseSignal = false;
@@ -18,13 +16,6 @@ public abstract class Sensor {
     public Sensor setName(String name) {
         this.name = name;
         return this;
-    }
-
-
-    public Sensor setTap(boolean tap) {
-        this.tap = tap;
-        return this;
-
     }
 
 }

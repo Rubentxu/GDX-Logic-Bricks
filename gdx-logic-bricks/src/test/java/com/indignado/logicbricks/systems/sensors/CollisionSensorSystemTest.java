@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
-import com.indignado.logicbricks.utils.box2d.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import org.junit.Before;
 import org.junit.Test;
 

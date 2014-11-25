@@ -27,8 +27,8 @@ public class LogicBricksBuilderTest {
 
     @Test
     public void addControllerTest() {
-        ConditionalController controller = new ConditionalController();
-        LogicBricks logicBricks = logicBricksBuilder.addController(controller).build();
+        ConditionalController sensor = new ConditionalController();
+        LogicBricks logicBricks = logicBricksBuilder.addController(sensor).build();
         assertTrue(logicBricks.controllers.containsKey(ConditionalController.class));
 
     }

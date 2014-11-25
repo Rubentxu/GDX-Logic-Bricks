@@ -28,7 +28,7 @@ public class CameraActuatorSystem extends ActuatorSystem<CameraActuator, CameraA
             RigidBodiesComponents rc = actuator.target.getComponent(RigidBodiesComponents.class);
             Body body = rc.rigidBodies.first();
             Vector2 targetPosition = body.getPosition();
-            //Gdx.app.log("CameraActuatorSystem", "Distancia: " + targetPosition.dst2(actuator.camera.position.x, actuator.camera.position.y));
+            //Gdx.app.log("CameraActuatorSystem", "Distancia: " + targetPosition.dst2(sensor.camera.position.x, sensor.camera.position.y));
             moveCamera(actuator.camera, rc.rigidBodies.first().getTransform());
 
 

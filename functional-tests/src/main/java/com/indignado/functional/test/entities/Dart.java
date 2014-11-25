@@ -16,12 +16,12 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.core.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
-import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 import java.io.File;
 import java.net.URL;

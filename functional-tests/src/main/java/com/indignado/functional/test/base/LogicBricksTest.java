@@ -24,8 +24,8 @@ import com.indignado.logicbricks.systems.ViewSystem;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
-import com.indignado.logicbricks.utils.box2d.BodyBuilder;
-import com.indignado.logicbricks.utils.box2d.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 import java.io.File;
 import java.net.URL;

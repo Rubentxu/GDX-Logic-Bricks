@@ -8,7 +8,7 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.8'
     testCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
     testCompile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    testCompile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+    testCompile "com.badlogicgames.gdx:gdx-buildersMap-platform:$gdxVersion:natives-desktop"
 }
 
 
