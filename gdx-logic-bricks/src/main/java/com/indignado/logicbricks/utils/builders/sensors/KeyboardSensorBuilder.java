@@ -1,36 +1,37 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class KeyboardSensorBuilder extends SensorBuilder<KeyboardSensor> {
+public class KeyboardSensorBuilder extends BrickBuilder<KeyboardSensor> {
 
 
     public KeyboardSensorBuilder setKeyCode(int keyCode) {
-        sensor.keyCode = keyCode;
+        brick.keyCode = keyCode;
         return this;
 
     }
 
 
     public KeyboardSensorBuilder setAllKeys(boolean allKeys) {
-        sensor.allKeys = allKeys;
+        brick.allKeys = allKeys;
         return this;
 
     }
 
 
     public KeyboardSensorBuilder setLogToggle(boolean logToggle) {
-        sensor.logToggle = logToggle;
+        brick.logToggle = logToggle;
         return this;
 
     }
 
 
     public KeyboardSensorBuilder setTarget(String target) {
-        sensor.target = target;
+        brick.target = target;
         return this;
 
     }

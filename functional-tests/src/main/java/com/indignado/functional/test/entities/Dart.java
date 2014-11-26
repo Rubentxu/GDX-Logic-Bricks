@@ -13,10 +13,14 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.TextureView;
+import com.indignado.logicbricks.core.EntityPool;
+import com.indignado.logicbricks.core.LogicEntity;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
@@ -28,16 +32,8 @@ import java.net.URL;
 /**
  * @author Rubentxu.
  */
-public class Dart extends LogicEntityTest {
+public class Dart extends LogicEntity {
 
-
-    protected FileHandle getFileHandle(String fileName) {
-        URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
-        File file = new File(url.getPath());
-        FileHandle fileHandle = new FileHandle(file);
-        return fileHandle;
-
-    }
 
     @Override
     protected void create(com.indignado.logicbricks.core.World world) {
@@ -75,7 +71,7 @@ public class Dart extends LogicEntityTest {
 
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
-        arrowView.setTextureRegion(new TextureRegion(new Texture(getFileHandle("assets/textures/dart.png"))));
+        arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get("assets/textures/dart.png",Texture.class)));
         arrowView.setHeight(0.4f);
         arrowView.setWidth(2.5f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());
@@ -86,11 +82,11 @@ public class Dart extends LogicEntityTest {
 
         this.add(viewsComponent);
 
-        KeyboardSensor initArrow = SensorBuilder.getInstance(KeyboardSensorBuilder.class)
-                .setKeyCode(Input.Keys.A).getSensor();
+        KeyboardSensor initArrow = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+                .setKeyCode(Input.Keys.A).getBrick();
 
 
-        ConditionalController arrowController = new ConditionalController();
+        ConditionalController arrowController = BricksUtils.getBuilder(ConditionalControllerB.class).
         arrowController.setType(ConditionalController.Type.AND);
 
         MotionActuator arrowMotion = new MotionActuator();

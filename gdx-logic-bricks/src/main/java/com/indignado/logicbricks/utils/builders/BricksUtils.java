@@ -2,6 +2,7 @@ package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
@@ -18,17 +19,20 @@ import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem
 import com.indignado.logicbricks.systems.controllers.ControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.utils.builders.controllers.ControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.*;
 
 /**
  * @author Rubentxu.
  */
-public class AssociatedClasses {
-    private static final ObjectMap<Class<? extends Sensor>, SensorClasses> sensorsClasses = new ObjectMap<>();
-    private final ObjectMap<Class<? extends Controller>, ControllerClasses> controllersClasses = new ObjectMap<>();
-    private final ObjectMap<Class<? extends Actuator>, ActuatorClasses> actuatorsClasses = new ObjectMap<>();
-    private static AssociatedClasses instance;
+public class BricksUtils {
+    private static ObjectMap<Class<? extends BrickBuilder>, BrickBuilder> buildersMap = new ObjectMap<>();
+    private static ObjectMap<Class<? extends Sensor>, SensorClasses> sensorsClasses = new ObjectMap<>();
+    private ObjectMap<Class<? extends Controller>, ControllerClasses> controllersClasses = new ObjectMap<>();
+    private ObjectMap<Class<? extends Actuator>, ActuatorClasses> actuatorsClasses = new ObjectMap<>();
+    private static BricksUtils instance;
 
-    private AssociatedClasses() {
+    private BricksUtils() {
         sensorsClasses.put(AlwaysSensor.class, new SensorClasses<AlwaysSensorComponent, AlwaysSensorSystem>());
         sensorsClasses.put(CollisionSensor.class, new SensorClasses<CollisionSensorComponent, CollisionSensorSystem>());
         sensorsClasses.put(DelaySensor.class, new SensorClasses<DelaySensorComponent, DelaySensorSystem>());
@@ -49,13 +53,31 @@ public class AssociatedClasses {
         actuatorsClasses.put(StateActuator.class, new ActuatorClasses<StateActuatorComponent, StateActuatorSystem>());
         actuatorsClasses.put(TextureActuator.class, new ActuatorClasses<TextureActuatorComponent, TextureActuatorSystem>());
 
+
     }
 
 
     private static synchronized void checkInstance() {
-        if(instance == null) {
-            instance = new AssociatedClasses();
+        if (instance == null) {
+            instance = new BricksUtils();
         }
+    }
+
+
+    public static <B extends BrickBuilder> B getBuilder(Class<B> clazzBuilder) {
+        B builder = (B) buildersMap.get(clazzBuilder);
+        if (builder == null) {
+            synchronized (clazzBuilder) {
+                try {
+                    builder = clazzBuilder.newInstance();
+                    buildersMap.put(clazzBuilder, builder);
+                } catch (Exception e) {
+                    Gdx.app.log("ActuatorBuilder", "Error instance actuatorBuilder " + clazzBuilder);
+                }
+            }
+        }
+        return builder;
+
     }
 
 
@@ -87,13 +109,13 @@ public class AssociatedClasses {
     }
 
 
-    class SensorClasses<C extends SensorComponent, S extends SensorSystem> extends Classes {
+    public class SensorClasses<C extends SensorComponent, S extends SensorSystem> extends Classes {
     }
 
-    class ControllerClasses<C extends ControllerComponent, S extends ControllerSystem> extends Classes {
+    public class ControllerClasses<C extends ControllerComponent, S extends ControllerSystem> extends Classes {
     }
 
-    class ActuatorClasses<C extends ActuatorComponent, S extends ActuatorSystem> extends Classes {
+    public class ActuatorClasses<C extends ActuatorComponent, S extends ActuatorSystem> extends Classes {
     }
 
 

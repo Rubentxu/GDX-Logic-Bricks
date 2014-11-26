@@ -1,43 +1,44 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.indignado.logicbricks.core.sensors.PropertySensor;
+import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class PropertySensorBuilder extends SensorBuilder<PropertySensor> {
+public class PropertySensorBuilder extends BrickBuilder<PropertySensor> {
 
 
     public PropertySensorBuilder setProperty(String property) {
-        sensor.property = property;
+        brick.property = property;
         return this;
 
     }
 
 
     public PropertySensorBuilder setValue(Object value) {
-        sensor.value = value;
+        brick.value = value;
         return this;
 
     }
 
 
     public PropertySensorBuilder setEvaluationType(PropertySensor.EvaluationType evaluationType) {
-        sensor.evaluationType = evaluationType;
+        brick.evaluationType = evaluationType;
         return this;
 
     }
 
 
     public PropertySensorBuilder setMin(Number min) {
-        sensor.min = min;
+        brick.min = min;
         return this;
 
     }
 
 
     public PropertySensorBuilder setMax(Number max) {
-        sensor.max = max;
+        brick.max = max;
         return this;
 
     }

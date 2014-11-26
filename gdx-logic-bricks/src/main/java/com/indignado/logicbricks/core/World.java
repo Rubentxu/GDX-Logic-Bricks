@@ -1,11 +1,19 @@
 package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.*;
+import com.indignado.logicbricks.systems.AnimationSystem;
+import com.indignado.logicbricks.systems.RenderingSystem;
+import com.indignado.logicbricks.systems.StateSystem;
+import com.indignado.logicbricks.systems.ViewSystem;
+import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
+import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 
@@ -20,15 +28,58 @@ public class World implements Disposable {
     private final BodyBuilder bodyBuilder;
     private final com.badlogic.gdx.physics.box2d.World physics;
     private final ObjectMap<Class, EntityPool> entityPools;
+    private final IntMap<LevelCreator> levelsCreators;
+    private static int levelIndex = 0;
 
 
-    public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager) {
+    public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
+                 SpriteBatch batch, OrthographicCamera camera) {
         this.physics = physics;
         this.engine = new LogicBricksEngine();
+
+        engine.addSystem(new RenderingSystem(batch, camera, physics));
+        engine.addSystem(new ViewSystem());
+        engine.addSystem(new AnimationSystem());
+        engine.addSystem(new StateSystem());
+        engine.addSystem(new KeyboardSensorSystem());
+        engine.addSystem(new MouseSensorSystem());
+        engine.addSystem(new CollisionSensorSystem());
+
+        InputMultiplexer input = new InputMultiplexer();
+        input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
+        input.addProcessor(engine.getSystem(MouseSensorSystem.class));
+        Gdx.input.setInputProcessor(input);
+        physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
+
         this.assetManager = assetManager;
         this.entityBuilder = new EntityBuilder(engine);
         this.bodyBuilder = new BodyBuilder(physics);
         this.entityPools = new ObjectMap<Class, EntityPool>();
+        this.levelsCreators = new IntMap<LevelCreator>();
+        engine.update(0);
+
+    }
+
+
+    public void addLevelCreator(LevelCreator level) {
+        levelIndex++;
+        levelsCreators.put(levelIndex, level);
+
+    }
+
+
+    public int getLevelsSize() {
+        return levelIndex;
+
+    }
+
+
+    public void createLevel(int levelNumber) {
+        engine.removeAllEntities();
+        LevelCreator level = levelsCreators.get(levelNumber);
+        if (level != null) {
+            level.createLevel(this);
+        }
 
     }
 

@@ -35,14 +35,13 @@ public class EntityBuilder {
     private ObjectMap<Class<? extends Component>, Component> components;
     private Controller controller;
     private Array<String> controllerStates;
-    private AssociatedClasses associatedClasses;
+    private BricksUtils bricksUtils;
 
 
     public EntityBuilder(Engine engine) {
         this.components = new ObjectMap<>();
         this.controllerStates = new Array();
         this.engine = engine;
-        this.associatedClasses = new AssociatedClasses();
 
     }
 
@@ -78,7 +77,7 @@ public class EntityBuilder {
         int state = getKeyState(nameState);
         sensor.state = state;
         Set<S> sensorsList = null;
-        AssociatedClasses.SensorClasses classes = associatedClasses.getSensorClasses(sensor.getClass());
+        BricksUtils.SensorClasses classes = BricksUtils.getSensorClasses(sensor.getClass());
         if (classes != null) {
             getSystem(classes.system);
             SC sensorComponent = (SC) getComponent(classes.component);
@@ -164,7 +163,7 @@ public class EntityBuilder {
         controller.state = state;
         Set<C> controllerList = null;
 
-        AssociatedClasses.ControllerClasses classes = associatedClasses.getControllerClasses(controller.getClass());
+        BricksUtils.ControllerClasses classes = bricksUtils.getControllerClasses(controller.getClass());
         if (classes != null) {
             getSystem(classes.system);
             CC controllerComponent = (CC) getComponent(classes.component);
@@ -235,7 +234,7 @@ public class EntityBuilder {
         actuator.state = state;
         Set<A> actuatorList = null;
 
-        AssociatedClasses.ActuatorClasses classes = associatedClasses.getActuatorClasses(actuator.getClass());
+        BricksUtils.ActuatorClasses classes = bricksUtils.getActuatorClasses(actuator.getClass());
         if (classes != null) {
             getSystem(classes.system);
             AC actuatorComponent = (AC) getComponent(classes.component);

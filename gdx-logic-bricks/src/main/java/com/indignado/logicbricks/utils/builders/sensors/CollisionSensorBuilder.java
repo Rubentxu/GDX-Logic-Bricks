@@ -3,33 +3,34 @@ package com.indignado.logicbricks.utils.builders.sensors;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
+import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class CollisionSensorBuilder extends SensorBuilder<CollisionSensor> {
+public class CollisionSensorBuilder extends BrickBuilder<CollisionSensor> {
 
 
     public CollisionSensorBuilder setOwnerFixture(Fixture ownerFixture) {
-        sensor.ownerFixture = ownerFixture;
+        brick.ownerFixture = ownerFixture;
         return this;
 
     }
 
     public CollisionSensorBuilder setOwnerRigidBody(Body ownerRigidBody) {
-        sensor.ownerRigidBody = ownerRigidBody;
+        brick.ownerRigidBody = ownerRigidBody;
         return this;
 
     }
 
     public CollisionSensorBuilder setTargetFixture(Fixture targetFixture) {
-        sensor.targetFixture = targetFixture;
+        brick.targetFixture = targetFixture;
         return this;
 
     }
 
     public CollisionSensorBuilder setTargetRigidBody(Body targetRigidBody) {
-        sensor.targetRigidBody = targetRigidBody;
+        brick.targetRigidBody = targetRigidBody;
         return this;
 
     }
