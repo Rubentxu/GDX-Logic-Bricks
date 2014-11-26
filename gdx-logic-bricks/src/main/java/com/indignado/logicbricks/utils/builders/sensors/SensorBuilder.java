@@ -9,10 +9,11 @@ import com.indignado.logicbricks.core.sensors.*;
  */
 public class SensorBuilder<T extends Sensor> {
     private static ObjectMap<Class<? extends Sensor>, SensorBuilder> buildersMap = new ObjectMap<>();
+    private static SensorBuilder instance;
     protected T sensor;
 
 
-    protected SensorBuilder() {
+    private SensorBuilder() {
         buildersMap.put(CollisionSensor.class, new CollisionSensorBuilder());
         buildersMap.put(KeyboardSensor.class, new KeyboardSensorBuilder());
         buildersMap.put(MessageSensor.class, new MessageSensorBuilder());
@@ -23,9 +24,16 @@ public class SensorBuilder<T extends Sensor> {
     }
 
 
-    public static <B extends SensorBuilder> B getInstance(Class<? extends Sensor> clazzSensor) {
-        return (B) buildersMap.get(clazzSensor);
+    private static synchronized void checkInstance() {
+        if(instance == null) {
+            instance = new SensorBuilder<>();
+        }
+    }
 
+
+    public static <B extends SensorBuilder> B getBuilder(Class<? extends Sensor> clazzSensor) {
+        checkInstance();
+        return (B) buildersMap.get(clazzSensor);
 
     }
 

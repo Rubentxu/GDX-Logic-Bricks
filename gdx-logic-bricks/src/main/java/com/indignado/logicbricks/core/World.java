@@ -44,26 +44,26 @@ public class World implements Disposable {
     }
 
 
-    public <T extends LogicEntity> T obtain(Class<T> type) {
+    public <T extends LogicEntity> T obtainEntity(Class<T> type) {
         return (T) getEntityPool(type).obtain();
 
     }
 
 
-    public void free(Object object) {
-        if (object == null) throw new IllegalArgumentException("object cannot be null.");
-        EntityPool pool = entityPools.get(object.getClass());
+    public void free(LogicEntity entity) {
+        if (entity == null) throw new IllegalArgumentException("object cannot be null.");
+        EntityPool pool = entityPools.get(entity.getClass());
         if (pool == null) return;
-        pool.free(object);
+        pool.free(entity);
 
     }
 
 
-    public void freeAll(Array objects, boolean samePool) {
-        if (objects == null) throw new IllegalArgumentException("objects cannot be null.");
+    public void freeAll(Array entities, boolean samePool) {
+        if (entities == null) throw new IllegalArgumentException("objects cannot be null.");
         EntityPool pool = null;
-        for (int i = 0, n = objects.size; i < n; i++) {
-            Object object = objects.get(i);
+        for (int i = 0, n = entities.size; i < n; i++) {
+            Object object = entities.get(i);
             if (object == null) continue;
             if (pool == null) {
                 pool = entityPools.get(object.getClass());

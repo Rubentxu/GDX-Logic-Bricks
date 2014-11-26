@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.data.RigidBody;
 
 /**
  * @author Rubentxu.
@@ -32,7 +33,7 @@ public class LogicBricksEngine extends Engine {
         RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
 
         if (rigidBodies != null && identity.filter != null) {
-            for (Body rigidBody : rigidBodies.rigidBodies) {
+            for (RigidBody rigidBody : rigidBodies.rigidBodies) {
                 for (Fixture fixture : rigidBody.body.getFixtureList()) {
                     fixture.setFilterData(identity.filter);
                 }

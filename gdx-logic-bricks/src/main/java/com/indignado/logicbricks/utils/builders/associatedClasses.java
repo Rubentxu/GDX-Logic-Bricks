@@ -23,13 +23,12 @@ import com.indignado.logicbricks.systems.sensors.*;
  * @author Rubentxu.
  */
 public class AssociatedClasses {
-    private final ObjectMap<Class<? extends Sensor>, SensorClasses> sensorsClasses;
-    private final ObjectMap<Class<? extends Controller>, ControllerClasses> controllersClasses;
-    private final ObjectMap<Class<? extends Actuator>, ActuatorClasses> actuatorsClasses;
+    private static final ObjectMap<Class<? extends Sensor>, SensorClasses> sensorsClasses = new ObjectMap<>();
+    private final ObjectMap<Class<? extends Controller>, ControllerClasses> controllersClasses = new ObjectMap<>();
+    private final ObjectMap<Class<? extends Actuator>, ActuatorClasses> actuatorsClasses = new ObjectMap<>();
+    private static AssociatedClasses instance;
 
-
-    public AssociatedClasses() {
-        sensorsClasses = new ObjectMap<>();
+    private AssociatedClasses() {
         sensorsClasses.put(AlwaysSensor.class, new SensorClasses<AlwaysSensorComponent, AlwaysSensorSystem>());
         sensorsClasses.put(CollisionSensor.class, new SensorClasses<CollisionSensorComponent, CollisionSensorSystem>());
         sensorsClasses.put(DelaySensor.class, new SensorClasses<DelaySensorComponent, DelaySensorSystem>());
@@ -37,11 +36,9 @@ public class AssociatedClasses {
         sensorsClasses.put(MouseSensor.class, new SensorClasses<MouseSensorComponent, MouseSensorSystem>());
         sensorsClasses.put(PropertySensor.class, new SensorClasses<PropertySensorComponent, PropertySensorSystem>());
 
-        controllersClasses = new ObjectMap<>();
         controllersClasses.put(ConditionalController.class, new ControllerClasses<ConditionalControllerComponent, ConditionalControllerSystem>());
         controllersClasses.put(ScriptController.class, new ControllerClasses<ScriptControllerComponent, ScriptControllerSystem>());
 
-        actuatorsClasses = new ObjectMap<>();
         actuatorsClasses.put(CameraActuator.class, new ActuatorClasses<CameraActuatorComponent, CameraActuatorSystem>());
         actuatorsClasses.put(InstanceEntityActuator.class, new ActuatorClasses<InstanceEntityActuatorComponent, InstanceEntityActuatorSystem>());
         actuatorsClasses.put(EditRigidBodyActuator.class, new ActuatorClasses<EditRigidBodyActuatorComponent, EditRigidBodyActuatorSystem>());
@@ -55,19 +52,29 @@ public class AssociatedClasses {
     }
 
 
-    public <S extends Sensor> SensorClasses getSensorClasses(Class<S> clazz) {
+    private static synchronized void checkInstance() {
+        if(instance == null) {
+            instance = new AssociatedClasses();
+        }
+    }
+
+
+    public static <S extends Sensor> SensorClasses getSensorClasses(Class<S> clazz) {
+        checkInstance();
         return sensorsClasses.get(clazz);
 
     }
 
 
     public <C extends Controller> ControllerClasses getControllerClasses(Class<C> clazz) {
+        checkInstance();
         return controllersClasses.get(clazz);
 
     }
 
 
     public <A extends Actuator> ActuatorClasses getActuatorClasses(Class<A> clazz) {
+        checkInstance();
         return actuatorsClasses.get(clazz);
 
     }
