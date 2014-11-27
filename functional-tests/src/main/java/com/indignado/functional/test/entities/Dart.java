@@ -1,7 +1,6 @@
 package com.indignado.functional.test.entities;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -12,22 +11,18 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.components.data.RigidBody;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.core.EntityPool;
-import com.indignado.logicbricks.core.LogicEntity;
-import com.indignado.logicbricks.core.World;
+import com.badlogic.ashley.core.LogicEntity;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.SensorBuilder;
-
-import java.io.File;
-import java.net.URL;
 
 /**
  * @author Rubentxu.
@@ -66,12 +61,14 @@ public class Dart extends LogicEntity {
                 .build();
 
         RigidBodiesComponents bodiesComponents = new RigidBodiesComponents();
-        bodiesComponents.rigidBodies.add(bodyArrow);
+        RigidBody rigidBody = new RigidBody();
+        rigidBody.body = bodyArrow;
+        bodiesComponents.rigidBodies.add(rigidBody);
         this.add(bodiesComponents);
 
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
-        arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get("assets/textures/dart.png",Texture.class)));
+        arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get("assets/textures/dart.png", Texture.class)));
         arrowView.setHeight(0.4f);
         arrowView.setWidth(2.5f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());
@@ -85,28 +82,29 @@ public class Dart extends LogicEntity {
         KeyboardSensor initArrow = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A).getBrick();
 
+        ConditionalController arrowController = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND).getBrick();
 
-        ConditionalController arrowController = BricksUtils.getBuilder(ConditionalControllerB.class).
-        arrowController.setType(ConditionalController.Type.AND);
+        MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                .setImpulse(new Vector2((float) (20 * Math.cos(0)), (float) (20 * Math.sin(0))))
+                .setOwner(this).getBrick();
 
-        MotionActuator arrowMotion = new MotionActuator();
-        arrowMotion.setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))));
-        arrowMotion.setOwner(this);
-
-        EntityBuilder logicBuilder = new EntityBuilder(engine);
-        logicBuilder.addController(logicBuilder.controller(ConditionalController.class)
-                .setType(ConditionalController.Type.AND), "Default")
-                .connectToSensor(logicBuilder.sensor(KeyboardSensor.class)
-                        .setKeyCode(Input.Keys.A))
-                .connectToActuator(logicBuilder.actuator(MotionActuator.class)
-                        .setImpulse(new Vector2((float) (20 * Math.cos(angle)), (float) (20 * Math.sin(angle))))
-                        .setOwner(this))
+        world.getEntityBuilder().addController(arrowController, "Default")
+                .connectToSensor(initArrow)
+                .connectToActuator(motionActuator)
                 .build(this);
 
     }
 
+
     @Override
     protected void respawned(float posX, float posY, float angle) {
+        RigidBodiesComponents rbc = this.getComponent(RigidBodiesComponents.class);
+        for(RigidBody rigidBody : rbc.rigidBodies) {
+            Vector2 centroidPosition = new Vector2(posX, posY);
+            centroidPosition.add(rigidBody.localPosition);
+            rigidBody.body.setTransform(centroidPosition,angle);
 
+        }
     }
 }

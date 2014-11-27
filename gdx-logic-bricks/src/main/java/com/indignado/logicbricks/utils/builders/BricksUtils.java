@@ -28,10 +28,11 @@ import com.indignado.logicbricks.utils.builders.sensors.*;
 public class BricksUtils {
     private static ObjectMap<Class<? extends BrickBuilder>, BrickBuilder> buildersMap = new ObjectMap<>();
     private static ObjectMap<Class<? extends Sensor>, SensorClasses> sensorsClasses = new ObjectMap<>();
-    private ObjectMap<Class<? extends Controller>, ControllerClasses> controllersClasses = new ObjectMap<>();
-    private ObjectMap<Class<? extends Actuator>, ActuatorClasses> actuatorsClasses = new ObjectMap<>();
+    private static ObjectMap<Class<? extends Controller>, ControllerClasses> controllersClasses = new ObjectMap<>();
+    private static ObjectMap<Class<? extends Actuator>, ActuatorClasses> actuatorsClasses = new ObjectMap<>();
     private static BricksUtils instance;
 
+    
     private BricksUtils() {
         sensorsClasses.put(AlwaysSensor.class, new SensorClasses<AlwaysSensorComponent, AlwaysSensorSystem>());
         sensorsClasses.put(CollisionSensor.class, new SensorClasses<CollisionSensorComponent, CollisionSensorSystem>());
@@ -88,14 +89,14 @@ public class BricksUtils {
     }
 
 
-    public <C extends Controller> ControllerClasses getControllerClasses(Class<C> clazz) {
+    public static <C extends Controller> ControllerClasses getControllerClasses(Class<C> clazz) {
         checkInstance();
         return controllersClasses.get(clazz);
 
     }
 
 
-    public <A extends Actuator> ActuatorClasses getActuatorClasses(Class<A> clazz) {
+    public static <A extends Actuator> ActuatorClasses getActuatorClasses(Class<A> clazz) {
         checkInstance();
         return actuatorsClasses.get(clazz);
 

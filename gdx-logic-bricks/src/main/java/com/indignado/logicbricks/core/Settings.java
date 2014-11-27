@@ -18,6 +18,10 @@ public class Settings {
     public static boolean catchMenu = true;
     public static Color backgroundColor = Color.BLUE;
 
+    // LogicBricksEngine
+    public static int entityTypePoolInitialSize =10;
+    private static final int entityTypePoolMaxSize = 100;
+
     // Physics
     public static Vector2 gravity = new Vector2(0, 0.98f);
     public static boolean doSleep = false;

@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.core;
 
+import com.badlogic.ashley.core.LogicEntity;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Pool;
 
@@ -10,8 +11,8 @@ public class EntityPool<T extends LogicEntity> extends Pool<T> {
     private Class<T> clazz;
     private World world;
 
-    public EntityPool(Class<T> clazz, World world) {
-        super(10, Integer.MAX_VALUE);
+    public EntityPool(Class<T> clazz, World world,int initialSize,int maxSize) {
+        super(initialSize, maxSize);
         this.clazz = clazz;
         this.world = world;
 

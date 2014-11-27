@@ -27,7 +27,6 @@ public class World implements Disposable {
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
     private final com.badlogic.gdx.physics.box2d.World physics;
-    private final ObjectMap<Class, EntityPool> entityPools;
     private final IntMap<LevelCreator> levelsCreators;
     private static int levelIndex = 0;
 
@@ -35,8 +34,7 @@ public class World implements Disposable {
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
                  SpriteBatch batch, OrthographicCamera camera) {
         this.physics = physics;
-        this.engine = new LogicBricksEngine();
-
+        this.engine = new LogicBricksEngine(this);
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         engine.addSystem(new ViewSystem());
         engine.addSystem(new AnimationSystem());
@@ -54,7 +52,6 @@ public class World implements Disposable {
         this.assetManager = assetManager;
         this.entityBuilder = new EntityBuilder(engine);
         this.bodyBuilder = new BodyBuilder(physics);
-        this.entityPools = new ObjectMap<Class, EntityPool>();
         this.levelsCreators = new IntMap<LevelCreator>();
         engine.update(0);
 
@@ -76,6 +73,7 @@ public class World implements Disposable {
 
     public void createLevel(int levelNumber) {
         engine.removeAllEntities();
+
         LevelCreator level = levelsCreators.get(levelNumber);
         if (level != null) {
             level.createLevel(this);
@@ -84,46 +82,6 @@ public class World implements Disposable {
     }
 
 
-    private <T extends LogicEntity> Pool<T> getEntityPool(Class<T> clazz) {
-        EntityPool pool = entityPools.get(clazz);
-        if (pool == null) {
-            pool = new EntityPool(clazz, this);
-            entityPools.put(clazz, pool);
-        }
-        return pool;
-
-    }
-
-
-    public <T extends LogicEntity> T obtainEntity(Class<T> type) {
-        return (T) getEntityPool(type).obtain();
-
-    }
-
-
-    public void free(LogicEntity entity) {
-        if (entity == null) throw new IllegalArgumentException("object cannot be null.");
-        EntityPool pool = entityPools.get(entity.getClass());
-        if (pool == null) return;
-        pool.free(entity);
-
-    }
-
-
-    public void freeAll(Array entities, boolean samePool) {
-        if (entities == null) throw new IllegalArgumentException("objects cannot be null.");
-        EntityPool pool = null;
-        for (int i = 0, n = entities.size; i < n; i++) {
-            Object object = entities.get(i);
-            if (object == null) continue;
-            if (pool == null) {
-                pool = entityPools.get(object.getClass());
-                if (pool == null) continue;
-            }
-            pool.free(object);
-            if (!samePool) pool = null;
-        }
-    }
 
 
     public EntityBuilder getEntityBuilder() {
@@ -140,6 +98,12 @@ public class World implements Disposable {
 
     public AssetManager getAssetManager() {
         return assetManager;
+
+    }
+
+
+    public LogicBricksEngine getEngine() {
+        return engine;
 
     }
 
@@ -184,5 +148,6 @@ public class World implements Disposable {
     public void dispose() {
 
     }
+
 
 }

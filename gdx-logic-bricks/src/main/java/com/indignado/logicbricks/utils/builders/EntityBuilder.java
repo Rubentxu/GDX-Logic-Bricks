@@ -35,7 +35,6 @@ public class EntityBuilder {
     private ObjectMap<Class<? extends Component>, Component> components;
     private Controller controller;
     private Array<String> controllerStates;
-    private BricksUtils bricksUtils;
 
 
     public EntityBuilder(Engine engine) {
@@ -163,7 +162,7 @@ public class EntityBuilder {
         controller.state = state;
         Set<C> controllerList = null;
 
-        BricksUtils.ControllerClasses classes = bricksUtils.getControllerClasses(controller.getClass());
+        BricksUtils.ControllerClasses classes = BricksUtils.getControllerClasses(controller.getClass());
         if (classes != null) {
             getSystem(classes.system);
             CC controllerComponent = (CC) getComponent(classes.component);
@@ -234,7 +233,7 @@ public class EntityBuilder {
         actuator.state = state;
         Set<A> actuatorList = null;
 
-        BricksUtils.ActuatorClasses classes = bricksUtils.getActuatorClasses(actuator.getClass());
+        BricksUtils.ActuatorClasses classes = BricksUtils.getActuatorClasses(actuator.getClass());
         if (classes != null) {
             getSystem(classes.system);
             AC actuatorComponent = (AC) getComponent(classes.component);
@@ -255,47 +254,6 @@ public class EntityBuilder {
         }
         return actuatorList;
 
-    }
-
-
-    public <S extends Sensor> S sensor(Class<S> clazz) {
-        S sensor = null;
-        try {
-            sensor = clazz.newInstance();
-        } catch (InstantiationException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
-        } catch (IllegalAccessException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
-        }
-        return sensor;
-
-    }
-
-
-    public <C extends Controller> C controller(Class<C> clazz) {
-        C controller = null;
-        try {
-            controller = clazz.newInstance();
-        } catch (InstantiationException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
-        } catch (IllegalAccessException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
-        }
-        return controller;
-
-    }
-
-
-    public <A extends Actuator> A actuator(Class<A> clazz) {
-        A actuator = null;
-        try {
-            actuator = clazz.newInstance();
-        } catch (InstantiationException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
-        } catch (IllegalAccessException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance sensor " + clazz);
-        }
-        return actuator;
     }
 
 

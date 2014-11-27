@@ -26,10 +26,11 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void create() {
-        this.batch = new SpriteBatch();
-        this.camera = new OrthographicCamera();
-        this.world = new com.indignado.logicbricks.core.World(new World(new Vector2(0, 0.98f), true)
+        batch = new SpriteBatch();
+        camera = new OrthographicCamera();
+        world = new com.indignado.logicbricks.core.World(new World(new Vector2(0, 0.98f), true)
                 , new AssetManager(new TestFileHandleResolver()), batch, camera);
+
 
     }
 
