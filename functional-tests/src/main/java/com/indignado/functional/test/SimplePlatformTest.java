@@ -55,7 +55,7 @@ public class SimplePlatformTest extends LogicBricksTest {
     }
 
 
-    @Override
+    /*@Override
     protected void createWorld(World world, Engine engine) {
         this.world = world;
         this.engine = engine;
@@ -316,6 +316,6 @@ public class SimplePlatformTest extends LogicBricksTest {
 
         return builder.build(player);
 
-    }
+    }*/
 
 }

@@ -2,6 +2,7 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.EditRigidBodyActuator;
 
 /**
@@ -9,6 +10,9 @@ import com.indignado.logicbricks.core.actuators.EditRigidBodyActuator;
  */
 public class EditRigidBodyActuatorBuilder extends ActuatorBuilder<EditRigidBodyActuator> {
 
+    public EditRigidBodyActuatorBuilder() {
+        brick = new EditRigidBodyActuator();
+    }
 
     public EditRigidBodyActuatorBuilder setTargetRigidBody(Body targetRigidBody) {
         brick.targetRigidBody = targetRigidBody;
@@ -48,6 +52,14 @@ public class EditRigidBodyActuatorBuilder extends ActuatorBuilder<EditRigidBodyA
     public EditRigidBodyActuatorBuilder setTarget(Entity target) {
         brick.target = target;
         return this;
+
+    }
+
+    @Override
+    public EditRigidBodyActuator getBrick() {
+        EditRigidBodyActuator brickTemp = brick;
+        brick = new EditRigidBodyActuator();
+        return brickTemp;
 
     }
 

@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 
 /**
@@ -7,6 +8,10 @@ import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
  */
 public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntityActuator> {
 
+    public InstanceEntityActuatorBuilder() {
+        brick = new InstanceEntityActuator();
+
+    }
 
     public InstanceEntityActuatorBuilder setType(Class clazzInstance) {
         brick.clazzInstance = clazzInstance;
@@ -26,5 +31,13 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
 
     }
 
+
+    @Override
+    public InstanceEntityActuator getBrick() {
+        InstanceEntityActuator brickTemp = brick;
+        brick = new InstanceEntityActuator();
+        return brickTemp;
+
+    }
 
 }

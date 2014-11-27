@@ -1,6 +1,5 @@
 package com.indignado.functional.test.base;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -11,6 +10,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Logger;
+import com.indignado.logicbricks.core.LevelCreator;
+import com.indignado.logicbricks.core.Settings;
 
 import java.io.File;
 import java.net.URL;
@@ -26,11 +28,24 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void create() {
+        Settings.debug = true;
+        Settings.debugLevel = Logger.DEBUG;
+        Settings.drawABBs = true;
+        Settings.drawBodies = true;
+        Settings.drawJoints = true;
+
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         world = new com.indignado.logicbricks.core.World(new World(new Vector2(0, 0.98f), true)
                 , new AssetManager(new TestFileHandleResolver()), batch, camera);
 
+
+    }
+
+
+    public void addLevel(LevelCreator levelCreator) {
+        world.addLevelCreator(levelCreator);
+        world.createLevel(1);
 
     }
 
@@ -84,31 +99,5 @@ public abstract class LogicBricksTest implements ApplicationListener {
     }
 
 
-    /*protected Body wall(float x, float y, float width, float height) {
-        BlackBoardComponent context = new BlackBoardComponent();
-        context.addProperty(new Property<String>("type", "wall"));
-        return bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(width, height)
-                .restitution(0.4f)
-                .friction(0.5f))
-                .position(x, y)
-                .userData(context)
-                .build();
 
-    }
-
-
-    private Body crate(float x, float y, float width, float height) {
-        BlackBoardComponent context = new BlackBoardComponent();
-        context.addProperty(new Property<String>("type", "crate"));
-        return bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(width, height)
-                .restitution(0.4f)
-                .friction(0.5f))
-                .userData(context)
-                .type(BodyDef.BodyType.DynamicBody)
-                .build();
-
-    }
-*/
 }

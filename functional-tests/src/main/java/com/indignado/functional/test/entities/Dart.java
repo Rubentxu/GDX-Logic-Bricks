@@ -31,7 +31,7 @@ public class Dart extends LogicEntity {
 
 
     @Override
-    protected void create(com.indignado.logicbricks.core.World world) {
+    public void create(com.indignado.logicbricks.core.World world) {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         BlackBoardComponent context = new BlackBoardComponent();
@@ -68,7 +68,13 @@ public class Dart extends LogicEntity {
 
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
-        arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get("assets/textures/dart.png", Texture.class)));
+        world.getAssetManager().load("assets/textures/dart.png", Texture.class);
+        world.getAssetManager().finishLoading();
+        Texture tex = null;
+        if( world.getAssetManager().isLoaded("assets/textures/dart.png")) {
+            tex =  world.getAssetManager().get("assets/textures/dart.png", Texture.class);
+        }
+        arrowView.setTextureRegion(new TextureRegion(tex));
         arrowView.setHeight(0.4f);
         arrowView.setWidth(2.5f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());
@@ -98,7 +104,7 @@ public class Dart extends LogicEntity {
 
 
     @Override
-    protected void respawned(float posX, float posY, float angle) {
+    public void init(float posX, float posY, float angle) {
         RigidBodiesComponents rbc = this.getComponent(RigidBodiesComponents.class);
         for(RigidBody rigidBody : rbc.rigidBodies) {
             Vector2 centroidPosition = new Vector2(posX, posY);

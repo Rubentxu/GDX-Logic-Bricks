@@ -59,7 +59,7 @@ public class CameraActuatorSystemTest {
                 .build();
 
         RigidBodiesComponents rigidBodiesComponents = new RigidBodiesComponents();
-        rigidBodiesComponents.rigidBodies.add(body);
+        //rigidBodiesComponents.rigidBodies.add(body);
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState("StatePruebas"));
@@ -81,9 +81,9 @@ public class CameraActuatorSystemTest {
 
         cameraActuator = new CameraActuator();
         cameraActuator.controllers.add(conditionalController);
-        cameraActuator.setCamera(new OrthographicCamera());
-        cameraActuator.setTarget(entity);
-        cameraActuator.setHeight((short) 5);
+        cameraActuator.camera = new OrthographicCamera();
+        cameraActuator.target = entity;
+        cameraActuator.height = (short) 5;
 
         entityBuilder.addController(conditionalController, StatePruebas)
                 .connectToSensor(alwaysSensor)
@@ -104,9 +104,9 @@ public class CameraActuatorSystemTest {
         conditionalController.pulseSignal = true;
 
         cameraActuator = new CameraActuator();
-        cameraActuator.setCamera(new OrthographicCamera());
-        cameraActuator.setTarget(entity);
-        cameraActuator.setHeight((short) 5);
+        cameraActuator.camera = new OrthographicCamera();
+        cameraActuator.target = entity;
+        cameraActuator.height = (short) 5;
 
 
         entityBuilder.addController(conditionalController, StatePruebas)

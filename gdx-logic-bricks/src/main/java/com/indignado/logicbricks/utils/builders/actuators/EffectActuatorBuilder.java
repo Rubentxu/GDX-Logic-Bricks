@@ -3,6 +3,7 @@ package com.indignado.logicbricks.utils.builders.actuators;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.indignado.logicbricks.components.data.ParticleEffectView;
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.EffectActuator;
 
 /**
@@ -10,6 +11,9 @@ import com.indignado.logicbricks.core.actuators.EffectActuator;
  */
 public class EffectActuatorBuilder extends ActuatorBuilder<EffectActuator> {
 
+    public EffectActuatorBuilder() {
+        brick = new EffectActuator();
+    }
 
     public EffectActuatorBuilder setEffectView(ParticleEffectView effectView) {
         brick.effectView = effectView;
@@ -52,4 +56,11 @@ public class EffectActuatorBuilder extends ActuatorBuilder<EffectActuator> {
 
     }
 
+    @Override
+    public EffectActuator getBrick() {
+        EffectActuator brickTemp = brick;
+        brick = new EffectActuator();
+        return brickTemp;
+
+    }
 }

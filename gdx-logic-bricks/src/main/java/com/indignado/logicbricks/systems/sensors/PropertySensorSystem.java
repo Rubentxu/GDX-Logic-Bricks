@@ -28,8 +28,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
         Set<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (PropertySensor sensor : sensors) {
-                if (isTap(sensor)) sensor.pulseSignal = false;
-                else processSensor(sensor, blackBoardMapper.get(entity));
+                processSensor(sensor, blackBoardMapper.get(entity));
 
             }
         }
@@ -48,7 +47,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
         switch (sensor.evaluationType) {
             case CHANGED:
                 if (!sensor.value.equals(property.value)) {
-                    sensor.setValue(property.value);
+                    sensor.value = property.value;
                     isActive = true;
                 } else {
                     isActive = false;

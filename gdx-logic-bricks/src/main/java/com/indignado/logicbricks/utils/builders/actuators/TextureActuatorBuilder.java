@@ -2,12 +2,18 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.gdx.graphics.Color;
 import com.indignado.logicbricks.components.data.TextureView;
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.TextureActuator;
 
 /**
  * @author Rubentxu.
  */
 public class TextureActuatorBuilder extends ActuatorBuilder<TextureActuator> {
+
+    public TextureActuatorBuilder() {
+        brick = new TextureActuator();
+
+    }
 
 
     public TextureActuatorBuilder setTextureView(TextureView textureView) {
@@ -58,5 +64,13 @@ public class TextureActuatorBuilder extends ActuatorBuilder<TextureActuator> {
 
     }
 
+
+    @Override
+    public TextureActuator getBrick() {
+        TextureActuator brickTemp = brick;
+        brick = new TextureActuator();
+        return brickTemp;
+
+    }
 
 }

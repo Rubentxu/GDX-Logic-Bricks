@@ -82,8 +82,6 @@ public class World implements Disposable {
     }
 
 
-
-
     public EntityBuilder getEntityBuilder() {
         return entityBuilder;
 
@@ -108,9 +106,16 @@ public class World implements Disposable {
     }
 
 
+    public com.badlogic.gdx.physics.box2d.World getPhysics() {
+        return physics;
+
+    }
+
+
     public void update(float deltaTime) {
         engine.update(deltaTime);
         physics.step(deltaTime, 10, 8);
+        Gdx.app.log("World", "Update : " + deltaTime);
 
     }
 
@@ -148,6 +153,5 @@ public class World implements Disposable {
     public void dispose() {
 
     }
-
 
 }

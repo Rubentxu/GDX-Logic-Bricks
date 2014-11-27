@@ -41,7 +41,7 @@ public class MouseSensorSystemTest {
     public void mouseSensorMovementEventTest() {
         Entity player = engine.createEntity();
         MouseSensor sensor = new MouseSensor();
-        sensor.setMouseEvent(MouseSensor.MouseEvent.MOVEMENT);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.MOVEMENT);
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -67,8 +67,8 @@ public class MouseSensorSystemTest {
     public void mouseSensorMouseOvertEventTest() {
         Entity player = engine.createEntity();
         MouseSensor sensor = new MouseSensor();
-        sensor.setMouseEvent(MouseSensor.MouseEvent.MOUSE_OVER);
-        sensor.setTarget(player);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.MOUSE_OVER);
+        sensor.target = (player);
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -108,7 +108,7 @@ public class MouseSensorSystemTest {
     public void mouseSensorWheelDownEventTest() {
         Entity player = engine.createEntity();
         MouseSensor sensor = new MouseSensor();
-        sensor.setMouseEvent(MouseSensor.MouseEvent.WHEEL_DOWN);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.WHEEL_DOWN);
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -148,7 +148,7 @@ public class MouseSensorSystemTest {
     public void mouseSensorWheelUpEventTest() {
         Entity player = engine.createEntity();
         MouseSensor sensor = new MouseSensor();
-        sensor.setMouseEvent(MouseSensor.MouseEvent.WHEEL_UP);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.WHEEL_UP);
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -188,7 +188,7 @@ public class MouseSensorSystemTest {
     public void mouseSensorTouchDownEventTest() {
         Entity player = engine.createEntity();
         MouseSensor sensor = new MouseSensor();
-        sensor.setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.LEFT_BUTTON);
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -218,14 +218,14 @@ public class MouseSensorSystemTest {
         engine.update(1);
         assertTrue(sensor.pulseSignal);
 
-        sensor.setMouseEvent(MouseSensor.MouseEvent.RIGHT_BUTTON);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.RIGHT_BUTTON);
 
         engine.update(1);
         inputSensorSystem.touchDown(5, 5, 1, Input.Buttons.RIGHT);
         engine.update(1);
         assertTrue(sensor.pulseSignal);
 
-        sensor.setMouseEvent(MouseSensor.MouseEvent.MIDDLE_BUTTON);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.MIDDLE_BUTTON);
 
         engine.update(1);
         inputSensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
@@ -239,8 +239,8 @@ public class MouseSensorSystemTest {
     public void mouseSensorTouchUpEventTest() {
         Entity player = engine.createEntity();
         MouseSensor sensor = new MouseSensor();
-        sensor.setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON);
-        sensor.setTarget(player);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.LEFT_BUTTON);
+        sensor.target = (player);
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -270,7 +270,7 @@ public class MouseSensorSystemTest {
         engine.update(1);
         assertFalse(sensor.pulseSignal);
 
-        sensor.setMouseEvent(MouseSensor.MouseEvent.MIDDLE_BUTTON);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.MIDDLE_BUTTON);
 
         engine.update(1);
         inputSensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
@@ -282,7 +282,7 @@ public class MouseSensorSystemTest {
         engine.update(1);
         assertFalse(sensor.pulseSignal);
 
-        sensor.setMouseEvent(MouseSensor.MouseEvent.RIGHT_BUTTON);
+        sensor.mouseEvent = (MouseSensor.MouseEvent.RIGHT_BUTTON);
 
         engine.update(1);
         inputSensorSystem.touchDown(5, 5, 1, Input.Buttons.RIGHT);

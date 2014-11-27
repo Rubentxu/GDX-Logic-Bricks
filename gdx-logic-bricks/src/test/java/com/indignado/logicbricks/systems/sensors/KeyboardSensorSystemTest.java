@@ -37,7 +37,7 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSensorKeyTypedEventTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor();
-        sensor.setKeyCode(Input.Keys.A);
+        sensor.keyCode = Input.Keys.A;
 
 
         StateComponent stateComponent = new StateComponent();
@@ -62,7 +62,7 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSystemAllKeysConfigTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor();
-        sensor.setAllKeys(true);
+        sensor.allKeys = true;
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 
@@ -90,8 +90,8 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor();
-        sensor.setAllKeys(true);
-        sensor.setLogToggle(true);
+        sensor.allKeys =true;
+        sensor.logToggle = true;
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
 

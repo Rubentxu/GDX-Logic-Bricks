@@ -43,7 +43,7 @@ public class LogicBricksEngine extends Engine {
     public <T extends LogicEntity> T obtainEntity(Class<T> clazz) {
         EntityPool pool = entityPools.get(clazz);
         if (pool == null) {
-            pool = new EntityPool(clazz, world,Settings.particlePoolInitialCapacity,Settings.particlePoolMaxCapacity);
+            pool = new EntityPool(clazz, world, Settings.particlePoolInitialCapacity, Settings.particlePoolMaxCapacity);
             entityPools.put(clazz, pool);
         }
         return (T) pool.obtain();
@@ -132,5 +132,10 @@ public class LogicBricksEngine extends Engine {
 
     }
 
+
+    @Override
+    public void update (float deltaTime) {
+        Gdx.app.log("LogicBricksEngine", "Update " + entitiesIds.size);
+    }
 
 }

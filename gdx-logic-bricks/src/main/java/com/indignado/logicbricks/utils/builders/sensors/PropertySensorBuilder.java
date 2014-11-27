@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
@@ -8,6 +9,10 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
  */
 public class PropertySensorBuilder extends BrickBuilder<PropertySensor> {
 
+    public PropertySensorBuilder() {
+        brick = new PropertySensor();
+
+    }
 
     public PropertySensorBuilder setProperty(String property) {
         brick.property = property;
@@ -43,5 +48,13 @@ public class PropertySensorBuilder extends BrickBuilder<PropertySensor> {
 
     }
 
+
+    @Override
+    public PropertySensor getBrick() {
+        PropertySensor brickTemp = brick;
+        brick = new PropertySensor();
+        return brickTemp;
+
+    }
 
 }

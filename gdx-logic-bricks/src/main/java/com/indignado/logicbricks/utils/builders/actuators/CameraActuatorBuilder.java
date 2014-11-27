@@ -10,6 +10,11 @@ import com.indignado.logicbricks.core.actuators.CameraActuator;
 public class CameraActuatorBuilder extends ActuatorBuilder<CameraActuator> {
 
 
+    public CameraActuatorBuilder() {
+        brick = new CameraActuator();
+
+    }
+
     public CameraActuatorBuilder setCamera(OrthographicCamera camera) {
         brick.camera = camera;
         return this;
@@ -30,4 +35,11 @@ public class CameraActuatorBuilder extends ActuatorBuilder<CameraActuator> {
 
     }
 
+    @Override
+    public CameraActuator getBrick() {
+        CameraActuator brickTemp = brick;
+        brick = new CameraActuator();
+        return brickTemp;
+
+    }
 }

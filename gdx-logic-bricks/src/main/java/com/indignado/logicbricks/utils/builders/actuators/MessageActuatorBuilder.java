@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 
 /**
@@ -7,6 +8,10 @@ import com.indignado.logicbricks.core.actuators.MessageActuator;
  */
 public class MessageActuatorBuilder extends ActuatorBuilder<MessageActuator> {
 
+    public MessageActuatorBuilder() {
+        brick = new MessageActuator();
+
+    }
 
     public MessageActuatorBuilder setMessage(int message) {
         brick.message = message;
@@ -21,5 +26,13 @@ public class MessageActuatorBuilder extends ActuatorBuilder<MessageActuator> {
 
     }
 
+
+    @Override
+    public MessageActuator getBrick() {
+        MessageActuator brickTemp = brick;
+        brick = new MessageActuator();
+        return brickTemp;
+
+    }
 
 }

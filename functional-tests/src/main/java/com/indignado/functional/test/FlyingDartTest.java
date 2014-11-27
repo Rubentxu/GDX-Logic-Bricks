@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
+import com.indignado.functional.test.levels.FlyingDartLevel;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
@@ -31,46 +32,27 @@ public class FlyingDartTest extends LogicBricksTest {
         new LwjglApplication(new FlyingDartTest(), config);
     }
 
-
     @Override
-    protected void createWorld(World world, Engine engine) {
-        this.world = world;
-        this.engine = engine;
-        bodyBuilder = new BodyBuilder(world);
-        camera.position.set(0, 9, 0);
-
-        wall(15, 7.5F
-                , 1, 20);
-
-        ground = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
-                .boxShape(50, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(0, 0)
-                .mass(1)
-                .build();
-
-
-        //engine.addEntity(createArrow(new Vector2(-12, 3), 150));
-        // engine.addEntity(createDummy(new Vector2(-14, 2f)));
-
+    public void create() {
+        super.create();
+        addLevel(new FlyingDartLevel());
         flyingDartCollisionRule = new FlyingDartCollisionRule();
-        CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
+        CollisionSensorSystem collisionSensorSystem = world.getEngine().getSystem(CollisionSensorSystem.class);
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
-        engine.addSystem(collisionSensorSystem);
-
-
     }
 
 
     @Override
     public void render() {
         super.render();
-        world.clearForces();
+        world.getPhysics().clearForces();
 
         for (WeldJointDef jointDef : flyingDartCollisionRule.jointDefs) {
             Gdx.app.log("FlyingDartTest", "createJoint");
-            world.createJoint(jointDef);
+            world.getPhysics().createJoint(jointDef);
         }
 
+
     }
+
 }

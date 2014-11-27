@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
@@ -7,6 +8,11 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
  * @author Rubentxu.
  */
 public class KeyboardSensorBuilder extends BrickBuilder<KeyboardSensor> {
+
+    public KeyboardSensorBuilder() {
+        brick = new KeyboardSensor();
+
+    }
 
 
     public KeyboardSensorBuilder setKeyCode(int keyCode) {
@@ -33,6 +39,14 @@ public class KeyboardSensorBuilder extends BrickBuilder<KeyboardSensor> {
     public KeyboardSensorBuilder setTarget(String target) {
         brick.target = target;
         return this;
+
+    }
+
+    @Override
+    public KeyboardSensor getBrick() {
+        KeyboardSensor brickTemp = brick;
+        brick = new KeyboardSensor();
+        return brickTemp;
 
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.Script;
+import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -54,13 +55,12 @@ public class ScriptControllerSystemTest {
         checkScript = false;
 
         ScriptController scriptController = new ScriptController();
-        scriptController.scripts.add(new Script() {
+        scriptController.script = new Script() {
             @Override
-            public void execute(Array<Sensor> sensors) {
-                checkScript = true;
+            public void execute(Array<Sensor> sensors, Array<Actuator> actuators) {
 
             }
-        });
+        };
 
         entityBuilder.addController(scriptController, statePrueba)
                 .connectToSensor(alwaysSensor);

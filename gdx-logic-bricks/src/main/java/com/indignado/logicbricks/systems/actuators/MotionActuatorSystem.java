@@ -23,7 +23,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
     public void processActuator(MotionActuator actuator) {
         if (evaluateController(actuator)) {
             if (actuator.targetRigidBody == null) {
-                actuator.setTargetRigidBody(actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first());
+                actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
             }
             Body body = actuator.targetRigidBody.body;
             if (actuator.velocity != null) {

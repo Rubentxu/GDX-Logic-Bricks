@@ -67,6 +67,7 @@ public class RenderingSystem extends IteratingSystem {    private SpriteBatch ba
             this.debugRenderer = new Box2DDebugRenderer(Settings.drawBodies, Settings.drawJoints, Settings.drawABBs,
                     Settings.drawInactiveBodies, Settings.drawVelocities, Settings.drawContacts);
             this.debugFont = new BitmapFont();
+            uiCamera = new OrthographicCamera();
 
         }
 

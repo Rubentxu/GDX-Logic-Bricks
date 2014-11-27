@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.ashley.core.Entity;
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
 
 /**
@@ -8,6 +9,10 @@ import com.indignado.logicbricks.core.actuators.PropertyActuator;
  */
 public class PropertyActuatorBuilder extends ActuatorBuilder<PropertyActuator> {
 
+    public PropertyActuatorBuilder() {
+        brick = new PropertyActuator();
+
+    }
 
     public PropertyActuatorBuilder setTarget(Entity target) {
         brick.target = target;
@@ -33,6 +38,15 @@ public class PropertyActuatorBuilder extends ActuatorBuilder<PropertyActuator> {
     public PropertyActuatorBuilder setMode(PropertyActuator.Mode mode) {
         brick.mode = mode;
         return this;
+
+    }
+
+
+    @Override
+    public PropertyActuator getBrick() {
+        PropertyActuator brickTemp = brick;
+        brick = new PropertyActuator();
+        return brickTemp;
 
     }
 

@@ -63,7 +63,7 @@ public class MessageActuatorSystemTest {
 
         messageActuator = new MessageActuator();
         messageActuator.controllers.add(conditionalController);
-        messageActuator.setMessage(MENSAJE_PRUEBAS);
+        messageActuator.message = MENSAJE_PRUEBAS;
 
         entityBuilder.addController(conditionalController, statePrueba)
                 .connectToActuator(messageActuator);

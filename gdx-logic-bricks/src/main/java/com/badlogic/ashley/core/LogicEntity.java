@@ -8,7 +8,7 @@ import com.indignado.logicbricks.core.World;
  */
 public abstract class LogicEntity extends Entity implements Poolable {
 
-    protected abstract void create(World world);
+    public abstract void create(World world);
 
 
     protected abstract void init(float posX, float posY, float angle);

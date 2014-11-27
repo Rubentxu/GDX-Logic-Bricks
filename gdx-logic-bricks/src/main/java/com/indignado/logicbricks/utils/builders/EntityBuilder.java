@@ -76,7 +76,7 @@ public class EntityBuilder {
         int state = getKeyState(nameState);
         sensor.state = state;
         Set<S> sensorsList = null;
-        BricksUtils.SensorClasses classes = BricksUtils.getSensorClasses(sensor.getClass());
+        BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(sensor.getClass());
         if (classes != null) {
             getSystem(classes.system);
             SC sensorComponent = (SC) getComponent(classes.component);
@@ -162,7 +162,7 @@ public class EntityBuilder {
         controller.state = state;
         Set<C> controllerList = null;
 
-        BricksUtils.ControllerClasses classes = BricksUtils.getControllerClasses(controller.getClass());
+        BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(controller.getClass());
         if (classes != null) {
             getSystem(classes.system);
             CC controllerComponent = (CC) getComponent(classes.component);
@@ -233,7 +233,7 @@ public class EntityBuilder {
         actuator.state = state;
         Set<A> actuatorList = null;
 
-        BricksUtils.ActuatorClasses classes = BricksUtils.getActuatorClasses(actuator.getClass());
+        BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(actuator.getClass());
         if (classes != null) {
             getSystem(classes.system);
             AC actuatorComponent = (AC) getComponent(classes.component);

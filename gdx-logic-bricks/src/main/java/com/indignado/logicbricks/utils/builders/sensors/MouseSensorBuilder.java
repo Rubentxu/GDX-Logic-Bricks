@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.badlogic.ashley.core.Entity;
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
@@ -9,6 +10,10 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
  */
 public class MouseSensorBuilder extends BrickBuilder<MouseSensor> {
 
+    public MouseSensorBuilder() {
+        brick = new MouseSensor();
+
+    }
 
     public MouseSensorBuilder setMouseEvent(MouseSensor.MouseEvent mouseEvent) {
         brick.mouseEvent = mouseEvent;
@@ -22,5 +27,13 @@ public class MouseSensorBuilder extends BrickBuilder<MouseSensor> {
 
     }
 
+
+    @Override
+    public MouseSensor getBrick() {
+        MouseSensor brickTemp = brick;
+        brick = new MouseSensor();
+        return brickTemp;
+
+    }
 
 }

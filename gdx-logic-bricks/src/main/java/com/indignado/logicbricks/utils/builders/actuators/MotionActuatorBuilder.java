@@ -2,6 +2,7 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.gdx.math.Vector2;
 import com.indignado.logicbricks.components.data.RigidBody;
+import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 
 /**
@@ -9,6 +10,10 @@ import com.indignado.logicbricks.core.actuators.MotionActuator;
  */
 public class MotionActuatorBuilder extends ActuatorBuilder<MotionActuator> {
 
+    public MotionActuatorBuilder() {
+        brick = new MotionActuator();
+
+    }
 
     public MotionActuatorBuilder setTargetRigidBody(RigidBody targetRigidBody) {
         brick.targetRigidBody = targetRigidBody;
@@ -76,5 +81,13 @@ public class MotionActuatorBuilder extends ActuatorBuilder<MotionActuator> {
 
     }
 
+
+    @Override
+    public MotionActuator getBrick() {
+        MotionActuator brickTemp = brick;
+        brick = new MotionActuator();
+        return brickTemp;
+
+    }
 
 }
