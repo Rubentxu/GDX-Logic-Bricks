@@ -14,7 +14,8 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.RigidBody;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.badlogic.ashley.core.LogicEntity;
+import com.indignado.logicbricks.core.EntityFactory;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
@@ -28,7 +29,7 @@ import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 /**
  * @author Rubentxu.
  */
-public class Dart extends LogicEntity {
+public class Dart implements EntityFactory {
 
 
     @Override
@@ -38,7 +39,7 @@ public class Dart extends LogicEntity {
 
 
     @Override
-    public void create(com.indignado.logicbricks.core.World world) {
+    public void createEntity(World world) {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         BlackBoardComponent context = new BlackBoardComponent();
@@ -102,7 +103,7 @@ public class Dart extends LogicEntity {
         world.getEntityBuilder().addController(arrowController, "Default")
                 .connectToSensor(initArrow)
                 .connectToActuator(motionActuator)
-                .build(this);
+                .build();
 
     }
 

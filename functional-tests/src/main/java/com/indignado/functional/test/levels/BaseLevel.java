@@ -4,14 +4,14 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.core.LevelCreator;
+import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 /**
  * @author Rubentxu.
  */
-public abstract class BaseLevel implements LevelCreator {
+public abstract class BaseLevel extends LevelFactory {
 
     protected Body wall(BodyBuilder builder,float x, float y, float width, float height) {
         BlackBoardComponent context = new BlackBoardComponent();

@@ -8,10 +8,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
-import com.indignado.logicbricks.core.LevelCreator;
+import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
 
 import java.io.File;
@@ -47,8 +46,8 @@ public abstract class LogicBricksTest implements ApplicationListener {
     }
 
 
-    public void addLevel(LevelCreator levelCreator) {
-        world.addLevelCreator(levelCreator);
+    public void addLevel(LevelFactory levelFactory) {
+        world.addLevelCreator(levelFactory);
         world.createLevel(1);
 
     }

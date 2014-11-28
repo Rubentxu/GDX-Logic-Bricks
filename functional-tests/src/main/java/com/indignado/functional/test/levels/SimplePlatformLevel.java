@@ -1,18 +1,11 @@
 package com.indignado.functional.test.levels;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.functional.test.entities.Dart;
 import com.indignado.functional.test.entities.PlayerPlatform;
-import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.core.LevelCreator;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.World;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 /**
  * @author Rubentxu.

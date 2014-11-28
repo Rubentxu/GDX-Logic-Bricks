@@ -24,10 +24,8 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
 public class World implements Disposable {
     private final LogicBricksEngine engine;
     private final AssetManager assetManager;
-    private final EntityBuilder entityBuilder;
-    private final BodyBuilder bodyBuilder;
     private final com.badlogic.gdx.physics.box2d.World physics;
-    private final IntMap<LevelCreator> levelsCreators;
+    private final IntMap<LevelFactory> levelFactories;
     private static int levelIndex = 0;
     private final OrthographicCamera camera;
 
@@ -37,7 +35,7 @@ public class World implements Disposable {
         this.physics = physics;
         this.assetManager = assetManager;
         this.camera = camera;
-        this.engine = new LogicBricksEngine(this);
+        this.engine = new LogicBricksEngine();
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         engine.addSystem(new ViewSystem());
         engine.addSystem(new AnimationSystem());
@@ -56,18 +54,17 @@ public class World implements Disposable {
         Gdx.input.setInputProcessor(input);
         physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
 
-
-        this.entityBuilder = new EntityBuilder(engine);
-        this.bodyBuilder = new BodyBuilder(physics);
-        this.levelsCreators = new IntMap<LevelCreator>();
+        LevelFactory.setEntityBuilder(new EntityBuilder(engine));
+        LevelFactory.setBodyBuilder(new BodyBuilder(physics));
+        this.levelFactories = new IntMap<LevelFactory>();
         engine.update(0);
 
     }
 
 
-    public void addLevelCreator(LevelCreator level) {
+    public void addLevelCreator(LevelFactory level) {
         levelIndex++;
-        levelsCreators.put(levelIndex, level);
+        levelFactories.put(levelIndex, level);
 
     }
 
@@ -80,23 +77,11 @@ public class World implements Disposable {
 
     public void createLevel(int levelNumber) {
         engine.removeAllEntities();
-
-        LevelCreator level = levelsCreators.get(levelNumber);
+        LevelFactory level = levelFactories.get(levelNumber);
         if (level != null) {
+            level.loadAssets(assetManager);
             level.createLevel(this);
         }
-
-    }
-
-
-    public EntityBuilder getEntityBuilder() {
-        return entityBuilder;
-
-    }
-
-
-    public BodyBuilder getBodyBuilder() {
-        return bodyBuilder;
 
     }
 
