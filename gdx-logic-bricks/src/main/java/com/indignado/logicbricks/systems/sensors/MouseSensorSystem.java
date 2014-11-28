@@ -182,7 +182,6 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             }
             sensor.amountScrollSignal = amount;
         }
-
         return false;
 
     }
@@ -190,17 +189,24 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
     @Override
     public void entityAdded(Entity entity) {
-        IntMap<Set<MouseSensor>> map = entity.getComponent(MouseSensorComponent.class).sensors;
-        for (int i = 0; i < map.size; ++i) {
-            mouseSensors.addAll(map.get(i));
+        MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
+        if (mouseComponent != null) {
+            IntMap<Set<MouseSensor>> map = mouseComponent.sensors;
+            for (int i = 0; i < map.size; ++i) {
+                mouseSensors.addAll(map.get(i));
+            }
         }
+
     }
 
     @Override
     public void entityRemoved(Entity entity) {
-        IntMap<Set<MouseSensor>> map = entity.getComponent(MouseSensorComponent.class).sensors;
-        for (int i = 0; i < map.size; ++i) {
-            mouseSensors.removeAll(map.get(i));
+        MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
+        if (mouseComponent != null) {
+            IntMap<Set<MouseSensor>> map = mouseComponent.sensors;
+            for (int i = 0; i < map.size; ++i) {
+                mouseSensors.removeAll(map.get(i));
+            }
         }
     }
 }

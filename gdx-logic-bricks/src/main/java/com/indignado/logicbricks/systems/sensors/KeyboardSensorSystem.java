@@ -122,17 +122,27 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public void entityAdded(Entity entity) {
-        IntMap<Set<KeyboardSensor>> map = entity.getComponent(KeyboardSensorComponent.class).sensors;
-        for (int i = 0; i < map.size; ++i) {
-            keyboardSensors.addAll(map.get(i));
+        KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
+        if (keyboardSensorComponent != null) {
+            IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
+            Gdx.app.log("KeyboardSensorSystem", "KeyboardSensor added " + map.size);
+            for (int i = 0; i < map.size; ++i) {
+                keyboardSensors.addAll(map.get(i));
+            }
         }
     }
 
+
     @Override
     public void entityRemoved(Entity entity) {
-        IntMap<Set<KeyboardSensor>> map = entity.getComponent(KeyboardSensorComponent.class).sensors;
-        for (int i = 0; i < map.size; ++i) {
-            keyboardSensors.removeAll(map.get(i));
+        KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
+        if (keyboardSensorComponent != null) {
+            IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
+            Gdx.app.log("KeyboardSensorSystem", "KeyboardSensor remove " + map.size);
+            for (int i = 0; i < map.size; ++i) {
+                keyboardSensors.removeAll(map.get(i));
+            }
         }
     }
+
 }

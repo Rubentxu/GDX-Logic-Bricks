@@ -1,6 +1,7 @@
 package com.indignado.functional.test.entities;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -28,6 +29,12 @@ import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
  * @author Rubentxu.
  */
 public class Dart extends LogicEntity {
+
+
+    @Override
+    public void loadAssets(AssetManager manager) {
+
+    }
 
 
     @Override
@@ -70,12 +77,9 @@ public class Dart extends LogicEntity {
         arrowView.setName("Arrow");
         world.getAssetManager().load("assets/textures/dart.png", Texture.class);
         world.getAssetManager().finishLoading();
-        Texture tex = null;
-        if( world.getAssetManager().isLoaded("assets/textures/dart.png")) {
-            tex =  world.getAssetManager().get("assets/textures/dart.png", Texture.class);
-        }
+        Texture tex = world.getAssetManager().get("assets/textures/dart.png", Texture.class);
         arrowView.setTextureRegion(new TextureRegion(tex));
-        arrowView.setHeight(0.4f);
+        arrowView.setHeight(1f);
         arrowView.setWidth(2.5f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());
         arrowView.setLayer(0);
@@ -113,4 +117,5 @@ public class Dart extends LogicEntity {
 
         }
     }
+
 }

@@ -23,7 +23,7 @@ public class Settings {
     private static final int entityTypePoolMaxSize = 100;
 
     // Physics
-    public static Vector2 gravity = new Vector2(0, 0.98f);
+    public static Vector2 gravity = new Vector2(0, -9.81f);
     public static boolean doSleep = false;
     public static int velocityIterations = 6;
     public static int positionIterations = 10;

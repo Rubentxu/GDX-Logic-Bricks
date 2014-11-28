@@ -1,102 +1,39 @@
-package com.indignado.functional.test;
+package com.indignado.functional.test.entities;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.LogicEntity;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntMap;
-import com.indignado.functional.test.base.LogicBricksTest;
-import com.indignado.functional.test.levels.FlyingDartLevel;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.data.AnimationView;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
 import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
-import com.indignado.logicbricks.core.actuators.*;
+import com.indignado.logicbricks.components.data.RigidBody;
+import com.indignado.logicbricks.components.data.TextureView;
+import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
-import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-
+import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class SimplePlatformTest extends LogicBricksTest {
-    private BodyBuilder bodyBuilder;
-    private Body ground;
-    private Animation walking;
-    private Animation idle;
-    private Animation jump;
-    private Animation fall;
-    private ParticleEffect dustEffect;
-
-
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 800;
-        config.height = 600;
-
-        new LwjglApplication(new SimplePlatformTest(), config);
-    }
+public class PlayerPlatform extends LogicEntity {
 
 
     @Override
-    public void create() {
-        super.create();
-        addLevel(new FlyingDartLevel());
-
-
-    }
-
-    /*@Override
-    protected void createWorld(World world, Engine engine) {
-        this.world = world;
-        this.engine = engine;
-        bodyBuilder = new BodyBuilder(world);
-
-
-        ground = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
-                .boxShape(50, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(0, 0)
-                .mass(1)
-                .build();
-
-
-        bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
-                .boxShape(1, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(3, 5)
-                .mass(1)
-                .build();
-
-
-        bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
-                .boxShape(1, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(9, 7)
-                .mass(1)
-                .build();
-
-
-        dustEffect = new ParticleEffect();
+    public void create(com.indignado.logicbricks.core.World world) {
+        ParticleEffect dustEffect = new ParticleEffect();
         dustEffect.load(getFileHandle("assets/particles/dust.pfx"), getFileHandle("assets/particles"));
 
         TextureAtlas atlas = new TextureAtlas(getFileHandle("assets/animations/sprites.pack"));
@@ -110,13 +47,6 @@ public class SimplePlatformTest extends LogicBricksTest {
         fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
         idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
 
-        engine.addEntity(createPlayer());
-
-    }
-
-
-    private Entity createPlayer() {
-        Entity player = new Entity();
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.createState("Idle");
@@ -128,7 +58,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
         player.add(blackBoardComponent);
 
-        Body bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+        Body bodyPlayer = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
                 .boxShape(0.35f, 1))
                 .type(BodyDef.BodyType.DynamicBody)
                 .position(0, 5)
@@ -326,6 +256,17 @@ public class SimplePlatformTest extends LogicBricksTest {
 
         return builder.build(player);
 
-    }*/
+    }
 
+
+    @Override
+    public void init(float posX, float posY, float angle) {
+        RigidBodiesComponents rbc = this.getComponent(RigidBodiesComponents.class);
+        for(RigidBody rigidBody : rbc.rigidBodies) {
+            Vector2 centroidPosition = new Vector2(posX, posY);
+            centroidPosition.add(rigidBody.localPosition);
+            rigidBody.body.setTransform(centroidPosition,angle);
+
+        }
+    }
 }

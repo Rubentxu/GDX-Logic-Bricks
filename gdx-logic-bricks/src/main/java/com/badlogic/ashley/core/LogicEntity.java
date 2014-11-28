@@ -1,5 +1,6 @@
 package com.badlogic.ashley.core;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.indignado.logicbricks.core.World;
 
@@ -7,6 +8,10 @@ import com.indignado.logicbricks.core.World;
  * @author Rubentxu.
  */
 public abstract class LogicEntity extends Entity implements Poolable {
+
+
+
+    public abstract void loadAssets(AssetManager manager);
 
     public abstract void create(World world);
 

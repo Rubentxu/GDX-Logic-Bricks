@@ -39,6 +39,7 @@ public class FlyingDartTest extends LogicBricksTest {
         flyingDartCollisionRule = new FlyingDartCollisionRule();
         CollisionSensorSystem collisionSensorSystem = world.getEngine().getSystem(CollisionSensorSystem.class);
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
+
     }
 
 
@@ -51,7 +52,6 @@ public class FlyingDartTest extends LogicBricksTest {
             Gdx.app.log("FlyingDartTest", "createJoint");
             world.getPhysics().createJoint(jointDef);
         }
-
 
     }
 

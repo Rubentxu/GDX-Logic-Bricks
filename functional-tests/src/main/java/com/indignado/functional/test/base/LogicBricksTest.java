@@ -33,10 +33,14 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawABBs = true;
         Settings.drawBodies = true;
         Settings.drawJoints = true;
+        Settings.drawContacts = true;
+        Settings.drawVelocities = true;
+        Settings.drawStage = true;
+
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        world = new com.indignado.logicbricks.core.World(new World(new Vector2(0, 0.98f), true)
+        world = new com.indignado.logicbricks.core.World(new World(Settings.gravity, true)
                 , new AssetManager(new TestFileHandleResolver()), batch, camera);
 
 
@@ -59,6 +63,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void render() {
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;

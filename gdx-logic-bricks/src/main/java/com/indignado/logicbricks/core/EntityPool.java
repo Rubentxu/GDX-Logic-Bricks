@@ -18,9 +18,16 @@ public class EntityPool<T extends LogicEntity> extends ReflectionPool<T> {
 
     protected T newObject() {
         T instance = (T) super.newObject();
+        if (getFree() == 0) instance.loadAssets(world.getAssetManager());
         instance.create(world);
         return instance;
 
+    }
+
+
+    public T obtain () {
+
+        return super.obtain();
     }
 
 }

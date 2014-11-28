@@ -7,7 +7,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
+import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
+import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -151,6 +153,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         }
 
     }
+
 
     @Override
     public void entityRemoved(Entity entity) {

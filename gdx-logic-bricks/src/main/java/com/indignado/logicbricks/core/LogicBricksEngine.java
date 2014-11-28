@@ -1,9 +1,6 @@
 package com.indignado.logicbricks.core;
 
-import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.LogicEntity;
+import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
@@ -15,7 +12,7 @@ import com.indignado.logicbricks.components.data.RigidBody;
 /**
  * @author Rubentxu.
  */
-public class LogicBricksEngine extends Engine {
+public class LogicBricksEngine extends PooledEngine {
     private final World world;
     private ObjectMap<Long, Entity> entitiesIds;
     private ObjectMap<Class, Array<Entity>> entitiesTypes;
@@ -33,21 +30,23 @@ public class LogicBricksEngine extends Engine {
 
 
     public <T extends LogicEntity> T createEntity (Class<T> clazz) {
-        T entity = obtainEntity(clazz);
+        T entity = (T) entityPools.get(clazz).obtain();
         this.addEntity(entity);
         return entity;
 
     }
 
 
-    public <T extends LogicEntity> T obtainEntity(Class<T> clazz) {
+    public <T extends LogicEntity> void registerEntity(Class<T> clazz) {
         EntityPool pool = entityPools.get(clazz);
         if (pool == null) {
             pool = new EntityPool(clazz, world, Settings.particlePoolInitialCapacity, Settings.particlePoolMaxCapacity);
             entityPools.put(clazz, pool);
-        }
-        return (T) pool.obtain();
+            T entity = (T) pool.obtain();
+            entity.loadAssets(world.getAssetManager());
+            pool.free(entity);
 
+        }
     }
 
 
@@ -132,10 +131,5 @@ public class LogicBricksEngine extends Engine {
 
     }
 
-
-    @Override
-    public void update (float deltaTime) {
-        Gdx.app.log("LogicBricksEngine", "Update " + entitiesIds.size);
-    }
 
 }

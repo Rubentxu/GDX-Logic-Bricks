@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -31,13 +31,13 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public class EntityBuilder {
-    private Engine engine;
+    private PooledEngine engine;
     private ObjectMap<Class<? extends Component>, Component> components;
     private Controller controller;
     private Array<String> controllerStates;
 
 
-    public EntityBuilder(Engine engine) {
+    public EntityBuilder(PooledEngine engine) {
         this.components = new ObjectMap<>();
         this.controllerStates = new Array();
         this.engine = engine;
@@ -116,19 +116,13 @@ public class EntityBuilder {
 
     public <C extends Component> C getComponent(Class<C> clazz) {
         C comp = null;
-        try {
-            if (components.containsKey(clazz)) {
-                comp = (C) components.get(clazz);
-            } else {
-                comp = clazz.newInstance();
-                components.put(clazz, comp);
-            }
-
-        } catch (InstantiationException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance Component " + clazz);
-        } catch (IllegalAccessException e) {
-            Gdx.app.log("LogicBricksBuilder", "Error instance Component " + clazz);
+        if (components.containsKey(clazz)) {
+            comp = (C) components.get(clazz);
+        } else {
+            comp = engine.createComponent(clazz);
+            components.put(clazz, comp);
         }
+
         return comp;
 
     }
@@ -279,7 +273,7 @@ public class EntityBuilder {
 
 
     public Entity build() {
-        Entity entity = new Entity();
+        Entity entity = engine.createEntity();
         for (Component c : components.values()) {
             entity.add(c);
         }
@@ -289,16 +283,5 @@ public class EntityBuilder {
 
     }
 
-
-    public Entity build(Entity entity) {
-        for (Component c : components.values()) {
-            entity.add(c);
-        }
-        controller = null;
-        components.clear();
-        controllerStates.clear();
-        return entity;
-
-    }
 
 }

@@ -29,19 +29,26 @@ public class World implements Disposable {
     private final com.badlogic.gdx.physics.box2d.World physics;
     private final IntMap<LevelCreator> levelsCreators;
     private static int levelIndex = 0;
+    private final OrthographicCamera camera;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
                  SpriteBatch batch, OrthographicCamera camera) {
         this.physics = physics;
+        this.assetManager = assetManager;
+        this.camera = camera;
         this.engine = new LogicBricksEngine(this);
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         engine.addSystem(new ViewSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem());
         engine.addSystem(new KeyboardSensorSystem());
+        engine.addEntityListener(engine.getSystem(KeyboardSensorSystem.class));
         engine.addSystem(new MouseSensorSystem());
+        engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
         engine.addSystem(new CollisionSensorSystem());
+        engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
+
 
         InputMultiplexer input = new InputMultiplexer();
         input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
@@ -49,7 +56,7 @@ public class World implements Disposable {
         Gdx.input.setInputProcessor(input);
         physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
 
-        this.assetManager = assetManager;
+
         this.entityBuilder = new EntityBuilder(engine);
         this.bodyBuilder = new BodyBuilder(physics);
         this.levelsCreators = new IntMap<LevelCreator>();
@@ -112,15 +119,21 @@ public class World implements Disposable {
     }
 
 
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+
     public void update(float deltaTime) {
         engine.update(deltaTime);
         physics.step(deltaTime, 10, 8);
-        Gdx.app.log("World", "Update : " + deltaTime);
 
     }
 
 
     public void resize(int width, int height) {
+        this.camera.viewportHeight = Settings.Height;
+        this.camera.viewportWidth = ( Settings.Height / height) * width;
 
     }
 

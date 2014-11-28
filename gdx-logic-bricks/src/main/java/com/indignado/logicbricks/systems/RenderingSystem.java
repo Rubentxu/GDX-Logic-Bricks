@@ -100,9 +100,6 @@ public class RenderingSystem extends IteratingSystem {    private SpriteBatch ba
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
-                if (textureView.textureRegion == null) {
-                    continue;
-                }
 
                 float originX = textureView.width * 0.5f;
                 float originY = textureView.height * 0.5f;
@@ -111,6 +108,9 @@ public class RenderingSystem extends IteratingSystem {    private SpriteBatch ba
 
                 batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
                         originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
+
+                Gdx.app.log("RederingSystem","texture width " + textureView.width + " height " + textureView.height
+                        + " texture position " + textureView.position);
             }
 
 
