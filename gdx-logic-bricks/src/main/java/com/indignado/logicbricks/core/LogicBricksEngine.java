@@ -3,6 +3,7 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
@@ -13,12 +14,14 @@ import com.indignado.logicbricks.components.data.RigidBody;
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends PooledEngine {
-    private ObjectMap<Long, Entity> entitiesIds;
+    private ObjectMap<Long, Entity> idEntities;
+    private ObjectMap<String, Entity> tagEntities;
 
 
     public LogicBricksEngine() {
         super();
-        this.entitiesIds = new ObjectMap<Long, Entity>();
+        this.idEntities = new ObjectMap<Long, Entity>();
+        this.tagEntities = new ObjectMap<String, Entity>();
 
     }
 
@@ -26,7 +29,9 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     protected void removeEntityInternal(Entity entity) {
         super.removeEntityInternal(entity);
-        entitiesIds.remove(entity.getId());
+        idEntities.remove(entity.getId());
+        IdentityComponent identity = getComponent(entity, IdentityComponent.class, false);
+        tagEntities.remove(identity.tag);
 
     }
 
@@ -34,18 +39,32 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     public void addEntity(Entity entity) {
         super.addEntity(entity);
-        entitiesIds.put(entity.getId(), entity);
+        idEntities.put(entity.getId(), entity);
+        configEntity(entity);
 
+
+    }
+
+
+    private void configEntity(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
         identity.uuid = entity.getId();
+        tagEntities.put(identity.tag, entity);
+
         RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
 
-        if (rigidBodies != null && identity.filter != null) {
+        if (rigidBodies != null) {
             for (RigidBody rigidBody : rigidBodies.rigidBodies) {
                 for (Fixture fixture : rigidBody.body.getFixtureList()) {
-                    fixture.setFilterData(identity.filter);
+                    Filter filter = new Filter();
+                    filter.categoryBits = identity.category;
+                    filter.maskBits = identity.collisionMask;
+                    filter.groupIndex = identity.group;
+                    fixture.setFilterData(filter);
                 }
             }
+        } else {
+            throw new LogicBricksException("LogicBricksEngine", "At least one rigid body is necessary for each entity");
         }
 
     }
@@ -64,7 +83,7 @@ public class LogicBricksEngine extends PooledEngine {
 
 
     public Entity getEntity(long uuid) {
-        return entitiesIds.get(uuid);
+        return idEntities.get(uuid);
 
     }
 

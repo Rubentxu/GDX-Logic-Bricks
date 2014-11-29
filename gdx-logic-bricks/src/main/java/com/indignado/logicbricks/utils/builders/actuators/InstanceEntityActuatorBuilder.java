@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 
 /**

@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.utils.builders.controllers;
 
-import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.builders.BrickBuilder;

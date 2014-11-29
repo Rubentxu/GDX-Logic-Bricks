@@ -1,10 +1,6 @@
 package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Constructor;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.indignado.logicbricks.core.LogicBrick;
 
 /**

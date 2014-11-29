@@ -13,7 +13,7 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
  */
 public abstract class BaseLevel extends LevelFactory {
 
-    protected Body wall(BodyBuilder builder,float x, float y, float width, float height) {
+    protected Body wall(BodyBuilder builder, float x, float y, float width, float height) {
         BlackBoardComponent context = new BlackBoardComponent();
         context.addProperty(new Property<String>("type", "wall"));
         return builder.fixture(new FixtureDefBuilder()
@@ -27,7 +27,7 @@ public abstract class BaseLevel extends LevelFactory {
     }
 
 
-    private Body crate(BodyBuilder builder,float x, float y, float width, float height) {
+    private Body crate(BodyBuilder builder, float x, float y, float width, float height) {
         BlackBoardComponent context = new BlackBoardComponent();
         context.addProperty(new Property<String>("type", "crate"));
         return builder.fixture(new FixtureDefBuilder()

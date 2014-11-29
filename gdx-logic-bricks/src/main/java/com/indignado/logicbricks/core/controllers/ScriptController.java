@@ -3,7 +3,6 @@ package com.indignado.logicbricks.core.controllers;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.actuators.Actuator;
-import com.indignado.logicbricks.core.sensors.Sensor;
 
 /**
  * @author Rubentxu.

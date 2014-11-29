@@ -90,7 +90,7 @@ public class KeyboardSensorSystemTest {
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
         Entity player = engine.createEntity();
         KeyboardSensor sensor = new KeyboardSensor();
-        sensor.allKeys =true;
+        sensor.allKeys = true;
         sensor.logToggle = true;
 
         //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);

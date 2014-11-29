@@ -1,9 +1,11 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
@@ -21,9 +23,11 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     private Set<KeyboardSensor> keyboardSensors;
 
 
-    public KeyboardSensorSystem() {
+    public KeyboardSensorSystem(Engine engine, InputMultiplexer input) {
         super(KeyboardSensorComponent.class);
         keyboardSensors = new HashSet<KeyboardSensor>();
+        engine.addEntityListener(this);
+        input.addProcessor(this);
 
     }
 

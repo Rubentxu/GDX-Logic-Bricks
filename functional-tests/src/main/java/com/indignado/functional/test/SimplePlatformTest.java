@@ -1,37 +1,12 @@
 package com.indignado.functional.test;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntMap;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.functional.test.levels.FlyingDartLevel;
-import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.data.AnimationView;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
-import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
-import com.indignado.logicbricks.core.actuators.*;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
-import com.indignado.logicbricks.core.sensors.KeyboardSensor;
-import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
 

@@ -2,7 +2,6 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.gdx.graphics.Color;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.TextureActuator;
 
 /**

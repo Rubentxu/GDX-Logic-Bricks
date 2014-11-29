@@ -1,18 +1,14 @@
 package com.indignado.functional.test;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.functional.test.levels.FlyingDartLevel;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
 
 /**

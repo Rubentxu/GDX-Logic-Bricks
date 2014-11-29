@@ -1,5 +1,7 @@
 package com.indignado.functional.test.entities;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,27 +32,30 @@ import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
  * @author Rubentxu.
  */
 public class Dart implements EntityFactory {
-
+    private String dartTexture = "assets/textures/dart.png";
 
     @Override
     public void loadAssets(AssetManager manager) {
+        manager.load(dartTexture, Texture.class);
 
     }
 
 
     @Override
-    public void createEntity(World world) {
+    public Entity createEntity(World world) {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
+        PooledEngine engine = world.getEngine();
+        Entity entity = engine.createEntity();
 
-        BlackBoardComponent context = new BlackBoardComponent();
+        BlackBoardComponent context = engine.createComponent(BlackBoardComponent.class);
         context.addProperty(new Property<String>("type", "arrow"));
         context.addProperty(new Property<Boolean>("freeFlight", false));
         context.addProperty(new Property<Boolean>("follow", true));
-        this.add(context);
+        entity.add(context);
 
-        StateComponent state = new StateComponent();
+        StateComponent state = engine.createComponent(StateComponent.class);
         state.createState("Default");
-        this.add(state);
+        entity.add(state);
 
         Vector2[] vertices = new Vector2[4];
         vertices[0] = new Vector2(-1.5f, 0);
@@ -68,18 +73,16 @@ public class Dart implements EntityFactory {
                 .userData(context)
                 .build();
 
-        RigidBodiesComponents bodiesComponents = new RigidBodiesComponents();
+        RigidBodiesComponents bodiesComponents = engine.createComponent(RigidBodiesComponents.class);
         RigidBody rigidBody = new RigidBody();
         rigidBody.body = bodyArrow;
         bodiesComponents.rigidBodies.add(rigidBody);
-        this.add(bodiesComponents);
+        entity.add(bodiesComponents);
 
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
-        world.getAssetManager().load("assets/textures/dart.png", Texture.class);
-        world.getAssetManager().finishLoading();
-        Texture tex = world.getAssetManager().get("assets/textures/dart.png", Texture.class);
-        arrowView.setTextureRegion(new TextureRegion(tex));
+
+        arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get(dartTexture, Texture.class)));
         arrowView.setHeight(1f);
         arrowView.setWidth(2.5f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());
@@ -88,7 +91,7 @@ public class Dart implements EntityFactory {
         ViewsComponent viewsComponent = new ViewsComponent();
         viewsComponent.views.add(arrowView);
 
-        this.add(viewsComponent);
+        entity.add(viewsComponent);
 
         KeyboardSensor initArrow = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A).getBrick();
@@ -98,25 +101,16 @@ public class Dart implements EntityFactory {
 
         MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
                 .setImpulse(new Vector2((float) (20 * Math.cos(0)), (float) (20 * Math.sin(0))))
-                .setOwner(this).getBrick();
+                .setOwner(entity).getBrick();
 
         world.getEntityBuilder().addController(arrowController, "Default")
                 .connectToSensor(initArrow)
                 .connectToActuator(motionActuator)
                 .build();
 
+        return entity;
+
     }
 
-
-    @Override
-    public void init(float posX, float posY, float angle) {
-        RigidBodiesComponents rbc = this.getComponent(RigidBodiesComponents.class);
-        for(RigidBody rigidBody : rbc.rigidBodies) {
-            Vector2 centroidPosition = new Vector2(posX, posY);
-            centroidPosition.add(rigidBody.localPosition);
-            rigidBody.body.setTransform(centroidPosition,angle);
-
-        }
-    }
 
 }

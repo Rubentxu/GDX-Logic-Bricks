@@ -9,18 +9,15 @@ import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
-import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.components.sensors.*;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
-import com.indignado.logicbricks.systems.controllers.ControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
 
@@ -32,7 +29,7 @@ public class BricksUtils {
     private static ObjectMap<Class<? extends LogicBrick>, BricksClasses> bricksClasses = new ObjectMap<>();
     private static BricksUtils instance;
 
-    
+
     private BricksUtils() {
         bricksClasses.put(AlwaysSensor.class, new BricksClasses(AlwaysSensorComponent.class, AlwaysSensorSystem.class));
         bricksClasses.put(CollisionSensor.class, new BricksClasses(CollisionSensorComponent.class, CollisionSensorSystem.class));
@@ -71,7 +68,7 @@ public class BricksUtils {
             synchronized (clazzBuilder) {
                 try {
                     Constructor constructor = findConstructor(clazzBuilder);
-                    builder = (B) constructor.newInstance((Object[])null);
+                    builder = (B) constructor.newInstance((Object[]) null);
                     buildersMap.put(clazzBuilder, builder);
                 } catch (Exception e) {
                     Gdx.app.log("ActuatorBuilder", "Error instance actuatorBuilder " + clazzBuilder);
@@ -88,7 +85,7 @@ public class BricksUtils {
             return ClassReflection.getConstructor(type, (Class[]) null);
         } catch (Exception ex1) {
             try {
-                Constructor constructor = ClassReflection.getDeclaredConstructor(type, (Class[])null);
+                Constructor constructor = ClassReflection.getDeclaredConstructor(type, (Class[]) null);
                 constructor.setAccessible(true);
                 return constructor;
             } catch (ReflectionException ex2) {
@@ -116,8 +113,6 @@ public class BricksUtils {
         }
 
     }
-
-
 
 
 }

@@ -6,11 +6,12 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.ViewSystem;
+import com.indignado.logicbricks.systems.ViewPositionSystem;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
@@ -28,6 +29,8 @@ public class World implements Disposable {
     private final IntMap<LevelFactory> levelFactories;
     private static int levelIndex = 0;
     private final OrthographicCamera camera;
+    private final EntityBuilder entityBuilder;
+    private final BodyBuilder bodyBuilder;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -37,25 +40,17 @@ public class World implements Disposable {
         this.camera = camera;
         this.engine = new LogicBricksEngine();
         engine.addSystem(new RenderingSystem(batch, camera, physics));
-        engine.addSystem(new ViewSystem());
+        engine.addSystem(new ViewPositionSystem());
         engine.addSystem(new AnimationSystem());
-        engine.addSystem(new StateSystem());
-        engine.addSystem(new KeyboardSensorSystem());
-        engine.addEntityListener(engine.getSystem(KeyboardSensorSystem.class));
-        engine.addSystem(new MouseSensorSystem());
-        engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
-        engine.addSystem(new CollisionSensorSystem());
-        engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
-
-
+        engine.addSystem(new StateSystem(engine));
         InputMultiplexer input = new InputMultiplexer();
-        input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
-        input.addProcessor(engine.getSystem(MouseSensorSystem.class));
+        engine.addSystem(new KeyboardSensorSystem(engine, input));
+        engine.addSystem(new MouseSensorSystem(engine, input));
+        engine.addSystem(new CollisionSensorSystem(engine, physics));
         Gdx.input.setInputProcessor(input);
-        physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
 
-        LevelFactory.setEntityBuilder(new EntityBuilder(engine));
-        LevelFactory.setBodyBuilder(new BodyBuilder(physics));
+        entityBuilder = new EntityBuilder(engine);
+        bodyBuilder = new BodyBuilder(physics);
         this.levelFactories = new IntMap<LevelFactory>();
         engine.update(0);
 
@@ -118,7 +113,7 @@ public class World implements Disposable {
 
     public void resize(int width, int height) {
         this.camera.viewportHeight = Settings.Height;
-        this.camera.viewportWidth = ( Settings.Height / height) * width;
+        this.camera.viewportWidth = (Settings.Height / height) * width;
 
     }
 
@@ -152,4 +147,11 @@ public class World implements Disposable {
 
     }
 
+    public EntityBuilder getEntityBuilder() {
+        return entityBuilder;
+    }
+
+    public BodyBuilder getBodyBuilder() {
+        return bodyBuilder;
+    }
 }

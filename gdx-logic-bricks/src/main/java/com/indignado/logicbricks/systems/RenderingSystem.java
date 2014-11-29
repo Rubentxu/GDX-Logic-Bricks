@@ -28,7 +28,8 @@ import java.util.Comparator;
 /**
  * @author Rubentxu
  */
-public class RenderingSystem extends IteratingSystem {    private SpriteBatch batch;
+public class RenderingSystem extends IteratingSystem {
+    private SpriteBatch batch;
     private OrthographicCamera camera;
     private final World physics;
     protected Viewport viewport;
@@ -109,7 +110,7 @@ public class RenderingSystem extends IteratingSystem {    private SpriteBatch ba
                 batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
                         originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
 
-                Gdx.app.log("RederingSystem","texture width " + textureView.width + " height " + textureView.height
+                Gdx.app.log("RederingSystem", "texture width " + textureView.width + " height " + textureView.height
                         + " texture position " + textureView.position);
             }
 

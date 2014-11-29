@@ -12,11 +12,11 @@ import com.indignado.logicbricks.components.data.View;
 /**
  * @author Rubentxu
  */
-public class ViewSystem extends IteratingSystem {
+public class ViewPositionSystem extends IteratingSystem {
     private ComponentMapper<ViewsComponent> tm;
 
 
-    public ViewSystem() {
+    public ViewPositionSystem() {
         super(Family.all(ViewsComponent.class, StateComponent.class).get(), 0);
         tm = ComponentMapper.getFor(ViewsComponent.class);
 

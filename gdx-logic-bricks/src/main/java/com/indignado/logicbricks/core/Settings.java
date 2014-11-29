@@ -19,7 +19,7 @@ public class Settings {
     public static Color backgroundColor = Color.BLUE;
 
     // LogicBricksEngine
-    public static int entityTypePoolInitialSize =10;
+    public static int entityTypePoolInitialSize = 10;
     private static final int entityTypePoolMaxSize = 100;
 
     // Physics

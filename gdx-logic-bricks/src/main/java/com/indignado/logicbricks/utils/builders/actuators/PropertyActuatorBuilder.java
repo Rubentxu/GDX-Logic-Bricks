@@ -1,7 +1,6 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
 
 /**

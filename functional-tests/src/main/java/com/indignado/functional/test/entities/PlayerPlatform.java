@@ -1,6 +1,5 @@
 package com.indignado.functional.test.entities;
 
-import com.indignado.logicbricks.core.EntityFactory;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +11,7 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.RigidBody;
+import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
@@ -253,10 +253,10 @@ public class PlayerPlatform extends EntityFactory {
     @Override
     public void init(float posX, float posY, float angle) {
         RigidBodiesComponents rbc = this.getComponent(RigidBodiesComponents.class);
-        for(RigidBody rigidBody : rbc.rigidBodies) {
+        for (RigidBody rigidBody : rbc.rigidBodies) {
             Vector2 centroidPosition = new Vector2(posX, posY);
             centroidPosition.add(rigidBody.localPosition);
-            rigidBody.body.setTransform(centroidPosition,angle);
+            rigidBody.body.setTransform(centroidPosition, angle);
 
         }
     }

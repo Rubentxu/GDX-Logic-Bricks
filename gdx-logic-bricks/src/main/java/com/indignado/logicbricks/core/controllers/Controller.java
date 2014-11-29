@@ -7,7 +7,7 @@ import com.indignado.logicbricks.core.sensors.Sensor;
 /**
  * @author Rubentxu.
  */
-public class Controller extends LogicBrick{
+public class Controller extends LogicBrick {
     public Array<Sensor> sensors = new Array<Sensor>();
     public boolean pulseSignal = false;
 

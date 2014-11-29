@@ -103,5 +103,4 @@ public abstract class LogicBricksTest implements ApplicationListener {
     }
 
 
-
 }

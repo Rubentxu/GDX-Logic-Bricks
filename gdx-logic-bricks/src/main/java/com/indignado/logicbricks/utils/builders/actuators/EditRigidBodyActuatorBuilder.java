@@ -2,7 +2,6 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.EditRigidBodyActuator;
 
 /**

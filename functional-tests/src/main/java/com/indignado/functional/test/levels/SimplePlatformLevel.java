@@ -17,11 +17,11 @@ public class SimplePlatformLevel extends BaseLevel {
 
     @Override
     public void createLevel(World world) {
-        world.getCamera().position.set(0,7,0);
+        world.getCamera().position.set(0, 7, 0);
         world.getCamera().viewportWidth = Settings.Width;
         world.getCamera().viewportHeight = Settings.Height;
         PlayerPlatform player = world.getEngine().createEntity(PlayerPlatform.class);
-        player.init(-0,3f,0);
+        player.init(-0, 3f, 0);
 
         Body ground = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
                 .boxShape(50, 1))
@@ -47,10 +47,9 @@ public class SimplePlatformLevel extends BaseLevel {
                 .build();
 
 
-        wall(world.getBodyBuilder(),15, 7.5F, 1, 20);
+        wall(world.getBodyBuilder(), 15, 7.5F, 1, 20);
 
     }
-
 
 
 }

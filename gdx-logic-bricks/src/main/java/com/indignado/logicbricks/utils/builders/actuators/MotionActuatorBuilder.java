@@ -2,7 +2,6 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.gdx.math.Vector2;
 import com.indignado.logicbricks.components.data.RigidBody;
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 
 /**

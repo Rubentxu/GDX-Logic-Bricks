@@ -2,7 +2,6 @@ package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.utils.builders.BrickBuilder;
 

@@ -1,7 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.badlogic.gdx.ai.msg.Telegram;
-import com.indignado.logicbricks.core.actuators.CameraActuator;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.utils.builders.BrickBuilder;
 

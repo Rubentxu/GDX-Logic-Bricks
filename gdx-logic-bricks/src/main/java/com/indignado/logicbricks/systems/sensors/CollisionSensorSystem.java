@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.systems.sensors;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
@@ -7,9 +8,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
-import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
-import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,9 +21,11 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     private Array<ContactListener> collisionsRules;
 
 
-    public CollisionSensorSystem() {
+    public CollisionSensorSystem(Engine engine, World physics) {
         super(CollisionSensorComponent.class);
         collisionSensors = new HashSet<CollisionSensor>();
+        engine.addEntityListener(this);
+        physics.setContactListener(this);
 
     }
 
