@@ -1,9 +1,9 @@
-package com.indignado.functional.test.levels;
+package com.indignado.functional.test.levels.simpleplatform;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.functional.test.entities.PlayerPlatform;
+import com.indignado.functional.test.levels.base.BaseLevel;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.World;
 

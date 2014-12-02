@@ -1,12 +1,12 @@
-package com.indignado.functional.test.levels;
+package com.indignado.functional.test.levels.flyingDart;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.functional.test.entities.Dart;
+import com.indignado.functional.test.levels.flyingDart.entities.Dart;
+import com.indignado.functional.test.levels.base.BaseLevel;
 import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.World;

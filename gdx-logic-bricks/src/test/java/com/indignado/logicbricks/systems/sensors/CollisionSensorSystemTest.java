@@ -59,7 +59,6 @@ public class CollisionSensorSystemTest {
                 .position(40, 23)
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
-                .userData(player)
                 .build();
 
         rigidBodiesComponents = new RigidBodiesComponents();
@@ -81,7 +80,6 @@ public class CollisionSensorSystemTest {
                 .position(40, 20)
                 .mass(1f)
                 .type(BodyDef.BodyType.StaticBody)
-                .userData(player)
                 .build();
 
 

@@ -1,11 +1,10 @@
-package com.indignado.functional.test.entities;
+package com.indignado.functional.test.levels.simpleplatform.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -14,10 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.data.AnimationView;
 import com.indignado.logicbricks.components.data.ParticleEffectView;
 import com.indignado.logicbricks.components.data.Property;
@@ -58,9 +54,8 @@ public class PlayerPlatform implements EntityFactory {
         Entity player = world.getEngine().createEntity();
         OrthographicCamera camera = world.getCamera();
         EntityBuilder entityBuilder = world.getEntityBuilder();
+
         ParticleEffect dustEffect = world.getAssetManager().get(effect, ParticleEffect.class);
-
-
 
         TextureAtlas textureAtlas = world.getAssetManager().get(atlas,TextureAtlas.class);
         Array<TextureAtlas.AtlasRegion> heroWalking = textureAtlas.findRegions("Andando");
@@ -73,6 +68,8 @@ public class PlayerPlatform implements EntityFactory {
         Animation fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
         Animation idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
 
+        IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
+        identity.tag = "Player";
 
         StateComponent stateComponent = entityBuilder.getComponent(StateComponent.class);
         stateComponent.createState("Idle");
@@ -86,7 +83,6 @@ public class PlayerPlatform implements EntityFactory {
                 .type(BodyDef.BodyType.DynamicBody)
                 .position(0, 5)
                 .mass(1)
-                .userData(player)
                 .build();
 
         RigidBodiesComponents rbc = entityBuilder.getComponent(RigidBodiesComponents.class);

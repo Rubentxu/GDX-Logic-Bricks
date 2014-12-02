@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.functional.test.base.LogicBricksTest;
-import com.indignado.functional.test.levels.FlyingDartLevel;
-import com.indignado.functional.test.levels.SimplePlatformLevel;
+import com.indignado.functional.test.levels.simpleplatform.SimplePlatformLevel;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
 

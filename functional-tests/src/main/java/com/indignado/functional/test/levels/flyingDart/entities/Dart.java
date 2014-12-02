@@ -1,4 +1,4 @@
-package com.indignado.functional.test.entities;
+package com.indignado.functional.test.levels.flyingDart.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.EntityFactory;
@@ -49,10 +46,11 @@ public class Dart implements EntityFactory {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         BlackBoardComponent context = entityBuilder.getComponent(BlackBoardComponent.class);
-        context.addProperty(new Property<String>("type", "arrow"));
-        context.addProperty(new Property<Boolean>("freeFlight", false));
+        context.addProperty(new Property<Boolean>("freeFlight", true));
         context.addProperty(new Property<Boolean>("follow", true));
 
+        IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
+        identity.tag = "Dart";
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
@@ -69,26 +67,22 @@ public class Dart implements EntityFactory {
                 .friction(0.5f)
                 .restitution(0.5f))
                 .type(BodyDef.BodyType.DynamicBody)
-                .position(0, 0)
                 .bullet()
                 .build();
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyArrow);
 
-
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
-
         arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get(dartTexture, Texture.class)));
         arrowView.setHeight(1f);
-        arrowView.setWidth(2.5f);
+        arrowView.setWidth(2.3f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());
         arrowView.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
         viewsComponent.views.add(arrowView);
-
 
         KeyboardSensor initArrow = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A).getBrick();

@@ -30,7 +30,6 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public void processSensor(KeyboardSensor sensor) {
-        Gdx.app.log("KeyboardSensorSystem", "procesorSensor: " + getEntities().size());
         boolean isActive = false;
         sensor.keysSignal.clear();
 

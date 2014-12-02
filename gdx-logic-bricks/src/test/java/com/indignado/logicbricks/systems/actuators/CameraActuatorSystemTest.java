@@ -55,7 +55,6 @@ public class CameraActuatorSystemTest {
                 .position(40, 23)
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
-                .userData(entity)
                 .build();
 
         RigidBodiesComponents rigidBodiesComponents = new RigidBodiesComponents();
