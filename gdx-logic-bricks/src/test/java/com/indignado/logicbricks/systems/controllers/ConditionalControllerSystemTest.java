@@ -35,7 +35,7 @@ public class ConditionalControllerSystemTest {
         engine = new PooledEngine();
         conditionalControllerSystem = new ConditionalControllerSystem();
         engine.addSystem(conditionalControllerSystem);
-        engine.addSystem(new StateSystem());
+        engine.addSystem(new StateSystem(engine));
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePrueba));

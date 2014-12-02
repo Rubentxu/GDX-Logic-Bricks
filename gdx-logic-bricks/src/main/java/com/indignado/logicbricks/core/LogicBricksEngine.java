@@ -3,25 +3,27 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.data.RigidBody;
 
 /**
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends PooledEngine {
     private ObjectMap<Long, Entity> idEntities;
-    private ObjectMap<String, Entity> tagEntities;
+    private ObjectMap<String, Array<Entity>> tagEntities;
 
 
     public LogicBricksEngine() {
         super();
         this.idEntities = new ObjectMap<Long, Entity>();
-        this.tagEntities = new ObjectMap<String, Entity>();
+        this.tagEntities = new ObjectMap<String, Array<Entity>>();
 
     }
 
@@ -41,7 +43,7 @@ public class LogicBricksEngine extends PooledEngine {
         super.addEntity(entity);
         idEntities.put(entity.getId(), entity);
         configEntity(entity);
-
+        Gdx.app.log("LogicBricks", "AddEntity " + entity.getId());
 
     }
 
@@ -49,13 +51,18 @@ public class LogicBricksEngine extends PooledEngine {
     private void configEntity(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
         identity.uuid = entity.getId();
-        tagEntities.put(identity.tag, entity);
+        if (!tagEntities.containsKey(identity.tag)) {
+            tagEntities.put(identity.tag, new Array<Entity>());
+
+        }
+        tagEntities.get(identity.tag).add(entity);
 
         RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
 
         if (rigidBodies != null) {
-            for (RigidBody rigidBody : rigidBodies.rigidBodies) {
-                for (Fixture fixture : rigidBody.body.getFixtureList()) {
+            for (Body rigidBody : rigidBodies.rigidBodies) {
+                rigidBody.setUserData(entity);
+                for (Fixture fixture : rigidBody.getFixtureList()) {
                     Filter filter = new Filter();
                     filter.categoryBits = identity.category;
                     filter.maskBits = identity.collisionMask;
@@ -87,5 +94,10 @@ public class LogicBricksEngine extends PooledEngine {
 
     }
 
+
+    public Array<Entity> getEntities(String tag) {
+        return tagEntities.get(tag);
+
+    }
 
 }

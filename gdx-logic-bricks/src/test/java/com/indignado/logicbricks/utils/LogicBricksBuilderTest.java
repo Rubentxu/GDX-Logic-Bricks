@@ -5,13 +5,13 @@ package com.indignado.logicbricks.utils;
  */
 public class LogicBricksBuilderTest {
     /*private LogicBricksBuilder logicBricksBuilder;
-    private String name;
+    private String tag;
 
 
     @Before
     public void setup() {
-        this.name = "BricksPruebas";
-        logicBricksBuilder = new LogicBricksBuilder(name);
+        this.tag = "BricksPruebas";
+        logicBricksBuilder = new LogicBricksBuilder(tag);
 
     }
 

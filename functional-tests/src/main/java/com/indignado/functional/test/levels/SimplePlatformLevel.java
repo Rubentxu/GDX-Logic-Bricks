@@ -20,8 +20,8 @@ public class SimplePlatformLevel extends BaseLevel {
         world.getCamera().position.set(0, 7, 0);
         world.getCamera().viewportWidth = Settings.Width;
         world.getCamera().viewportHeight = Settings.Height;
-        PlayerPlatform player = world.getEngine().createEntity(PlayerPlatform.class);
-        player.init(-0, 3f, 0);
+     /*   PlayerPlatform player = world.getEngine().createEntity(PlayerPlatform.class);
+        player.initPosition(-0, 3f, 0);*/
 
         Body ground = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
                 .boxShape(50, 1))

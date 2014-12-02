@@ -22,13 +22,6 @@ public class CameraActuatorBuilder extends ActuatorBuilder<CameraActuator> {
     }
 
 
-    public CameraActuatorBuilder setTarget(Entity target) {
-        brick.target = target;
-        return this;
-
-    }
-
-
     public CameraActuatorBuilder setHeight(short height) {
         brick.height = height;
         return this;

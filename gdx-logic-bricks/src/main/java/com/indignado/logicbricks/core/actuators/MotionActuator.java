@@ -1,13 +1,13 @@
 package com.indignado.logicbricks.core.actuators;
 
 import com.badlogic.gdx.math.Vector2;
-import com.indignado.logicbricks.components.data.RigidBody;
+import com.badlogic.gdx.physics.box2d.Body;
 
 /**
  * @author Rubentxu.
  */
 public class MotionActuator extends Actuator {
-    public RigidBody targetRigidBody;
+    public Body targetRigidBody;
     public Vector2 velocity;
     public Vector2 force;
     public Vector2 impulse;

@@ -37,7 +37,7 @@ public class ScriptControllerSystemTest {
         engine = new PooledEngine();
         scriptControllerSystem = new ScriptControllerSystem();
         engine.addSystem(scriptControllerSystem);
-        engine.addSystem(new StateSystem());
+        engine.addSystem(new StateSystem(engine));
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePrueba));

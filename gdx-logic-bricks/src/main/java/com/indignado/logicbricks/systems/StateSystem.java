@@ -12,9 +12,9 @@ import com.indignado.logicbricks.components.StateComponent;
  * @author Rubentxu
  */
 public class StateSystem extends IteratingSystem {
-    private ComponentMapper<StateComponent> sm;
     private final PooledEngine engine;
     Array<Entity> toRemove;
+    private ComponentMapper<StateComponent> sm;
     private int eraseID = -1;
 
     public StateSystem(PooledEngine engine) {

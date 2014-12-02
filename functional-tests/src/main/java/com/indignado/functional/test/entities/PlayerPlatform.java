@@ -1,53 +1,85 @@
 package com.indignado.functional.test.entities;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleEffect;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.data.AnimationView;
+import com.indignado.logicbricks.components.data.ParticleEffectView;
 import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.components.data.RigidBody;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.actuators.MotionActuator;
+import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.core.sensors.PropertySensor;
+import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.actuators.*;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class PlayerPlatform extends EntityFactory {
+public class PlayerPlatform implements EntityFactory {
+    private String effect = "assets/particles/dust.pfx";
+    private String atlas = "assets/animations/sprites.pack";
 
 
     @Override
-    public void create(com.indignado.logicbricks.core.World world) {
-        ParticleEffect dustEffect = new ParticleEffect();
-        dustEffect.load(getFileHandle("assets/particles/dust.pfx"), getFileHandle("assets/particles"));
+    public void loadAssets(AssetManager manager) {
+        if(! manager.isLoaded(effect)) manager.load(effect, ParticleEffect.class);
+        if(! manager.isLoaded(atlas)) manager.load(atlas, TextureAtlas.class);
 
-        TextureAtlas atlas = new TextureAtlas(getFileHandle("assets/animations/sprites.pack"));
-        Array<TextureAtlas.AtlasRegion> heroWalking = atlas.findRegions("Andando");
-        Array<TextureAtlas.AtlasRegion> heroJump = atlas.findRegions("Saltando");
-        Array<TextureAtlas.AtlasRegion> heroFall = atlas.findRegions("Cayendo");
-        Array<TextureAtlas.AtlasRegion> heroIdle = atlas.findRegions("Parado");
-
-        walking = new Animation(0.02f, heroWalking, Animation.PlayMode.LOOP);
-        jump = new Animation(0.02f * 7, heroJump, Animation.PlayMode.NORMAL);
-        fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
-        idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
+    }
 
 
-        StateComponent stateComponent = new StateComponent();
+    @Override
+    public Entity createEntity(World world) {
+        Entity player = world.getEngine().createEntity();
+        OrthographicCamera camera = world.getCamera();
+        EntityBuilder entityBuilder = world.getEntityBuilder();
+        ParticleEffect dustEffect = world.getAssetManager().get(effect, ParticleEffect.class);
+
+
+
+        TextureAtlas textureAtlas = world.getAssetManager().get(atlas,TextureAtlas.class);
+        Array<TextureAtlas.AtlasRegion> heroWalking = textureAtlas.findRegions("Andando");
+        Array<TextureAtlas.AtlasRegion> heroJump = textureAtlas.findRegions("Saltando");
+        Array<TextureAtlas.AtlasRegion> heroFall = textureAtlas.findRegions("Cayendo");
+        Array<TextureAtlas.AtlasRegion> heroIdle = textureAtlas.findRegions("Parado");
+
+        Animation walking = new Animation(0.02f, heroWalking, Animation.PlayMode.LOOP);
+        Animation jump = new Animation(0.02f * 7, heroJump, Animation.PlayMode.NORMAL);
+        Animation fall = new Animation(0.02f * 5, heroFall, Animation.PlayMode.NORMAL);
+        Animation idle = new Animation(0.02f * 4, heroIdle, Animation.PlayMode.LOOP);
+
+
+        StateComponent stateComponent = entityBuilder.getComponent(StateComponent.class);
         stateComponent.createState("Idle");
         stateComponent.createState("Walking");
-        player.add(stateComponent);
 
-
-        BlackBoardComponent blackBoardComponent = new BlackBoardComponent();
+        BlackBoardComponent blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
-        player.add(blackBoardComponent);
 
         Body bodyPlayer = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
                 .boxShape(0.35f, 1))
@@ -57,9 +89,9 @@ public class PlayerPlatform extends EntityFactory {
                 .userData(player)
                 .build();
 
-        RigidBodiesComponents rbc = new RigidBodiesComponents();
+        RigidBodiesComponents rbc = entityBuilder.getComponent(RigidBodiesComponents.class);
         rbc.rigidBodies.add(bodyPlayer);
-        player.add(rbc);
+
 
         AnimationView playerView = new AnimationView();
         playerView.setHeight(2.3f);
@@ -76,79 +108,83 @@ public class PlayerPlatform extends EntityFactory {
         particleEffectView.setLocalPosition(new Vector2(0, -1));
         particleEffectView.setTint(Color.BLUE);
 
-        ViewsComponent viewsComponent = new ViewsComponent();
+        ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
         viewsComponent.views.add(playerView);
         viewsComponent.views.add(particleEffectView);
 
-        player.add(viewsComponent);
 
-        KeyboardSensor keyboardSensor = new KeyboardSensor();
-        keyboardSensor.setKeyCode(Input.Keys.D);
+        KeyboardSensor keyboardSensor = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+                .setKeyCode(Input.Keys.D)
+                .getBrick();
 
-        ConditionalController controller = new ConditionalController();
-        controller.setType(ConditionalController.Type.AND);
-
-
-        MotionActuator motionActuator = new MotionActuator();
-        motionActuator.setImpulse(new Vector2(1, 0));
-        motionActuator.setOwner(player);
-        motionActuator.setLimitVelocityX(7);
+        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
 
 
-        KeyboardSensor keyboardSensor2 = new KeyboardSensor();
-        keyboardSensor2.setKeyCode(Input.Keys.A);
-
-        ConditionalController controller2 = new ConditionalController();
-        controller2.setType(ConditionalController.Type.AND);
-
-
-        MotionActuator motionActuator2 = new MotionActuator();
-        motionActuator2.setImpulse(new Vector2(-1, 0));
-        motionActuator2.setOwner(player);
-        motionActuator2.setLimitVelocityX(7);
+        MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                                        .setImpulse(new Vector2(1, 0))
+                                        .setLimitVelocityX(7)
+                                        .getBrick();
 
 
-        ConditionalController controller3 = new ConditionalController();
-        controller3.setType(ConditionalController.Type.AND);
+        KeyboardSensor keyboardSensor2 =  BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+                                        .setKeyCode(Input.Keys.A)
+                                        .getBrick();
+
+        ConditionalController controller2 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
+
+        MotionActuator motionActuator2 =  BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                                        .setImpulse(new Vector2(-1, 0))
+                                        .setLimitVelocityX(7)
+                                        .getBrick();
 
 
-        CameraActuator cameraActuator = new CameraActuator();
-        cameraActuator.setHeight((short) 1);
-        cameraActuator.setTarget(player);
-        cameraActuator.setCamera(camera);
+        ConditionalController controller3 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
 
 
-        TextureActuator textureActuator = new TextureActuator();
-        textureActuator.setFlipX(false);
-        textureActuator.setTextureView(playerView);
+        CameraActuator cameraActuator =  BricksUtils.getBuilder(CameraActuatorBuilder.class)
+                                        .setHeight((short) 1)
+                                        .setCamera(camera)
+                                        .getBrick();
+
+
+        TextureActuator textureActuator = BricksUtils.getBuilder(TextureActuatorBuilder.class)
+                                        .setFlipX(false)
+                                        .setTextureView(playerView)
+                                        .getBrick();
 
 
         StateActuator stateActuator = new StateActuator();
-        stateActuator.setOwner(player);
+        
         stateActuator.setState(1);
 
-        StateActuator stateActuatorB = new StateActuator();
-        stateActuatorB.setOwner(player);
+        StateActuator stateActuatorB = new StateActuator();        
         stateActuatorB.setState(1);
 
         StateActuator stateActuator2 = new StateActuator();
-        stateActuator2.setOwner(player);
+        
         stateActuator2.setState(0);
 
-        EntityBuilder builder = new EntityBuilder(engine);
+        
 
-        builder.addController(controller, "Idle", "Walking")
+        entityBuilder.addController(controller, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
                 .connectToActuator(motionActuator)
                 .connectToActuator(textureActuator)
                 .connectToActuator(stateActuator);
 
 
-        TextureActuator textureActuator2 = new TextureActuator();
-        textureActuator2.setFlipX(true);
-        textureActuator2.setTextureView(playerView);
+        TextureActuator textureActuator2 = BricksUtils.getBuilder(TextureActuatorBuilder.class)
+                                        .setFlipX(true)
+                                        .setTextureView(playerView)
+                                        .getBrick();
 
-        builder.addController(controller2, "Idle", "Walking")
+        entityBuilder.addController(controller2, "Idle", "Walking")
                 .connectToSensor(keyboardSensor2)
                 .connectToActuator(motionActuator2)
                 .connectToActuator(textureActuator2)
@@ -156,108 +192,106 @@ public class PlayerPlatform extends EntityFactory {
 
 
         AlwaysSensor alwaysSensor = new AlwaysSensor();
-        builder.addController(controller3, "Idle", "Walking")
+        entityBuilder.addController(controller3, "Idle", "Walking")
                 .connectToSensor(alwaysSensor)
                 .connectToActuator(cameraActuator);
 
 
-        ConditionalController controller4 = new ConditionalController();
-        controller4.setType(ConditionalController.Type.NOR);
+        ConditionalController controller4 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                                          .setType(ConditionalController.Type.NOR)
+                                          .getBrick();
 
-        EditRigidBodyActuator editRigidBodyActuator1 = new EditRigidBodyActuator();
-        editRigidBodyActuator1.setFriction(40);
-        editRigidBodyActuator1.setTargetRigidBody(bodyPlayer);
+        EditRigidBodyActuator editRigidBodyActuator1 =  BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
+                                                    .setFriction(40)
+                                                    .setTargetRigidBody(bodyPlayer)
+                                                    .getBrick();
 
-        builder.addController(controller4, "Idle", "Walking")
+        entityBuilder.addController(controller4, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
                 .connectToSensor(keyboardSensor2)
                 .connectToActuator(editRigidBodyActuator1)
                 .connectToActuator(stateActuator2);
 
 
-        ConditionalController controller5 = new ConditionalController();
-        controller5.setType(ConditionalController.Type.OR);
+        ConditionalController controller5 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                                          .setType(ConditionalController.Type.OR)
+                                          .getBrick();
 
-        EditRigidBodyActuator editRigidBodyActuator2 = new EditRigidBodyActuator();
-        editRigidBodyActuator2.setFriction(0.3f);
-        editRigidBodyActuator2.setTargetRigidBody(bodyPlayer);
+        EditRigidBodyActuator editRigidBodyActuator2 = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
+                                                    .setFriction(0.3f)
+                                                    .setTargetRigidBody(bodyPlayer)
+                                                    .getBrick()   ;
 
-        builder.addController(controller5, "Idle", "Walking")
+        entityBuilder.addController(controller5, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
                 .connectToSensor(keyboardSensor2)
                 .connectToActuator(editRigidBodyActuator2);
 
 
-        CollisionSensor collisionSensor = new CollisionSensor();
-        collisionSensor.setOwnerRigidBody(bodyPlayer);
-        collisionSensor.setTargetRigidBody(ground);
+        CollisionSensor collisionSensor = BricksUtils.getBuilder(CollisionSensorBuilder.class)
+                                        .setTargetName("Ground")
+                                        .getBrick();
 
-        ConditionalController controllerGround = new ConditionalController();
-        controllerGround.setType(ConditionalController.Type.AND);
+        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                                            .setType(ConditionalController.Type.AND)
+                                            .getBrick();
 
-        ConditionalController controllerNotGround = new ConditionalController();
-        controllerNotGround.setType(ConditionalController.Type.NOR);
+        ConditionalController controllerNotGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                                                .setType(ConditionalController.Type.NOR)
+                                                .getBrick();
 
-        PropertyActuator<Boolean> propertyActuator = new PropertyActuator();
-        propertyActuator.setOwner(player);
-        propertyActuator.setProperty("isGround");
-        propertyActuator.setValue(true);
-        propertyActuator.setMode(PropertyActuator.Mode.Assign);
-
-
-        PropertyActuator<Boolean> propertyActuator2 = new PropertyActuator();
-        propertyActuator2.setOwner(player);
-        propertyActuator2.setProperty("isGround");
-        propertyActuator2.setValue(false);
-        propertyActuator2.setMode(PropertyActuator.Mode.Assign);
+        PropertyActuator<Boolean> propertyActuator = BricksUtils.getBuilder(PropertyActuatorBuilder.class)
+                                                .setProperty("isGround")
+                                                .setValue(true)
+                                                .setMode(PropertyActuator.Mode.Assign)
+                                                .getBrick();
 
 
-        builder.addController(controllerGround, "Idle", "Walking")
+        PropertyActuator<Boolean> propertyActuator2 = BricksUtils.getBuilder(PropertyActuatorBuilder.class)
+        .setProperty("isGround")
+        .setValue(false)
+        .setMode(PropertyActuator.Mode.Assign)
+                .getBrick();
+
+
+        entityBuilder.addController(controllerGround, "Idle", "Walking")
                 .connectToSensor(collisionSensor)
                 .connectToActuator(propertyActuator);
 
 
-        builder.addController(controllerNotGround, "Idle", "Walking")
+        entityBuilder.addController(controllerNotGround, "Idle", "Walking")
                 .connectToSensor(collisionSensor)
                 .connectToActuator(propertyActuator2);
 
 
-        KeyboardSensor keySensorJump = new KeyboardSensor();
-        keySensorJump.setKeyCode(Input.Keys.W);
+        KeyboardSensor keySensorJump = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+                                    .setKeyCode(Input.Keys.W)
+                                    .getBrick();
 
-        PropertySensor propertySensorIsGround = new PropertySensor<Boolean>();
-        propertySensorIsGround.setProperty("isGround");
-        propertySensorIsGround.setEvaluationType(PropertySensor.EvaluationType.EQUAL);
-        propertySensorIsGround.setValue(true);
+        PropertySensor propertySensorIsGround = BricksUtils.getBuilder(PropertySensorBuilder.class)
+                                            .setProperty("isGround")
+                                            .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
+                                            .setValue(true)
+                                            .getBrick();
 
-        ConditionalController controllerJump = new ConditionalController();
-        controllerJump.setType(ConditionalController.Type.AND);
-
-
-        MotionActuator motionActuatorJump = new MotionActuator();
-        motionActuatorJump.setImpulse(new Vector2(0, 3));
-        motionActuatorJump.setOwner(player);
-        motionActuatorJump.setLimitVelocityY(7);
+        ConditionalController controllerJump = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                                            .setType(ConditionalController.Type.AND)
+                                            .getBrick();
 
 
-        builder.addController(controllerJump, "Idle", "Walking")
+        MotionActuator motionActuatorJump = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                                        .setImpulse(new Vector2(0, 3))
+                                        .setLimitVelocityY(7)
+                                        .getBrick();
+
+
+        entityBuilder.addController(controllerJump, "Idle", "Walking")
                 .connectToSensor(keySensorJump)
                 .connectToSensor(propertySensorIsGround)
                 .connectToActuator(motionActuatorJump);
 
-        return builder.build(player);
+        return entityBuilder.build(player);
 
     }
 
-
-    @Override
-    public void init(float posX, float posY, float angle) {
-        RigidBodiesComponents rbc = this.getComponent(RigidBodiesComponents.class);
-        for (RigidBody rigidBody : rbc.rigidBodies) {
-            Vector2 centroidPosition = new Vector2(posX, posY);
-            centroidPosition.add(rigidBody.localPosition);
-            rigidBody.body.setTransform(centroidPosition, angle);
-
-        }
-    }
 }

@@ -21,7 +21,7 @@ public class EditRigidBodyActuatorSystem extends ActuatorSystem<EditRigidBodyAct
     public void processActuator(EditRigidBodyActuator actuator) {
         if (evaluateController(actuator)) {
             if (actuator.targetRigidBody == null) {
-                actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first().body;
+                actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
             }
             actuator.targetRigidBody.setActive(actuator.active);
             actuator.targetRigidBody.setAwake(actuator.awake);

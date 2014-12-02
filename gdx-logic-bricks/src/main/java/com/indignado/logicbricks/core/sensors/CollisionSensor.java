@@ -1,8 +1,6 @@
 package com.indignado.logicbricks.core.sensors;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Fixture;
 
 /**
  * Created on 13/10/14.
@@ -12,10 +10,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 public class CollisionSensor extends Sensor {
 
     // Config Values
-    public Fixture ownerFixture;
-    public Body ownerRigidBody;
-    public Fixture targetFixture;
-    public Body targetRigidBody;
+    public String targetTag;
 
     // Signal Values
     public Contact contact;

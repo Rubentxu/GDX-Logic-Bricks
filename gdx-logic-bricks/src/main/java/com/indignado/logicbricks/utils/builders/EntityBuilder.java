@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.BlackBoardComponent;
@@ -14,9 +15,9 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.components.data.RigidBody;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
+import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -258,7 +259,7 @@ public class EntityBuilder {
     }
 
 
-    public EntityBuilder addRigidBody(RigidBody rigidBody) {
+    public EntityBuilder addRigidBody(Body rigidBody) {
         getComponent(RigidBodiesComponents.class).rigidBodies.add(rigidBody);
         return this;
 
@@ -272,10 +273,49 @@ public class EntityBuilder {
     }
 
 
+    private void addOwnerToSensor(SensorComponent sensorComponent, Entity entity) {
+        for (int i = 0; i < sensorComponent.sensors.size; i++) {
+            for (LogicBrick brick : (Set<Sensor>) sensorComponent.sensors.get(i)) {
+                brick.owner = entity;
+            }
+        }
+
+    }
+
+
+    private void addOwnerToController(ControllerComponent controllerComponent, Entity entity) {
+        for (int i = 0; i < controllerComponent.controllers.size; i++) {
+            for (LogicBrick brick : (Set<Sensor>) controllerComponent.controllers.get(i)) {
+                brick.owner = entity;
+            }
+        }
+
+    }
+
+
+    private void addOwnerToActuator(ActuatorComponent actuatorComponent, Entity entity) {
+        for (int i = 0; i < actuatorComponent.actuators.size; i++) {
+            for (LogicBrick brick : (Set<Sensor>) actuatorComponent.actuators.get(i)) {
+                brick.owner = entity;
+            }
+        }
+
+    }
+
+
     public Entity build() {
         Entity entity = engine.createEntity();
         for (Component c : components.values()) {
             entity.add(c);
+            if (c instanceof SensorComponent) {
+                addOwnerToSensor((SensorComponent) c, entity);
+            }
+            if (c instanceof ControllerComponent) {
+                addOwnerToController((ControllerComponent) c, entity);
+            }
+            if (c instanceof ActuatorComponent) {
+                addOwnerToActuator((ActuatorComponent) c, entity);
+            }
         }
         components.clear();
         controllerStates.clear();
@@ -283,5 +323,24 @@ public class EntityBuilder {
 
     }
 
+
+    public Entity build(Entity entity) {
+        for (Component c : components.values()) {
+            entity.add(c);
+            if (c instanceof SensorComponent) {
+                addOwnerToSensor((SensorComponent) c, entity);
+            }
+            if (c instanceof ControllerComponent) {
+                addOwnerToController((ControllerComponent) c, entity);
+            }
+            if (c instanceof ActuatorComponent) {
+                addOwnerToActuator((ActuatorComponent) c, entity);
+            }
+        }
+        components.clear();
+        controllerStates.clear();
+        return entity;
+
+    }
 
 }

@@ -45,7 +45,7 @@ public class CameraActuatorSystemTest {
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new CameraActuatorSystem());
-        engine.addSystem(new StateSystem());
+        engine.addSystem(new StateSystem(engine));
 
         BodyBuilder bodyBuilder = new BodyBuilder(physic);
         body = bodyBuilder
@@ -82,7 +82,6 @@ public class CameraActuatorSystemTest {
         cameraActuator = new CameraActuator();
         cameraActuator.controllers.add(conditionalController);
         cameraActuator.camera = new OrthographicCamera();
-        cameraActuator.target = entity;
         cameraActuator.height = (short) 5;
 
         entityBuilder.addController(conditionalController, StatePruebas)
@@ -105,7 +104,6 @@ public class CameraActuatorSystemTest {
 
         cameraActuator = new CameraActuator();
         cameraActuator.camera = new OrthographicCamera();
-        cameraActuator.target = entity;
         cameraActuator.height = (short) 5;
 
 

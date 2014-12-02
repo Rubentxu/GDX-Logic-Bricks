@@ -1,10 +1,8 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.IntMap;
@@ -23,11 +21,9 @@ import java.util.Set;
 public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
     private Set<MouseSensor> mouseSensors;
 
-    public MouseSensorSystem(Engine engine, InputMultiplexer input) {
+    public MouseSensorSystem() {
         super(MouseSensorComponent.class);
         mouseSensors = new HashSet<MouseSensor>();
-        engine.addEntityListener(this);
-        input.addProcessor(this);
 
     }
 

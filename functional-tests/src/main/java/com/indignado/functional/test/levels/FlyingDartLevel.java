@@ -1,6 +1,7 @@
 package com.indignado.functional.test.levels;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.functional.test.entities.Dart;
@@ -15,6 +16,7 @@ import com.indignado.logicbricks.core.World;
  */
 public class FlyingDartLevel extends BaseLevel {
 
+
     public FlyingDartLevel() {
         addEntityFactory(new Dart());
 
@@ -23,17 +25,20 @@ public class FlyingDartLevel extends BaseLevel {
 
     @Override
     public void createLevel(World world) {
-        world.getCamera().position.set(0, 7, 0);
+        PooledEngine engine = world.getEngine();
+        world.getCamera().position.set(0, 9, 0);
         world.getCamera().viewportWidth = Settings.Width;
         world.getCamera().viewportHeight = Settings.Height;
         Entity dart = entityFactories.get(Dart.class).createEntity(world);
-        dart.getComponent(RigidBodiesComponents.class).rigidBodies.first().body.setTransform(-13, 6f, 0);
+        positioningEntity(dart, -13, 6f, 0);
+        engine.addEntity(dart);
 
         Entity dart2 = entityFactories.get(Dart.class).createEntity(world);
-        dart.getComponent(RigidBodiesComponents.class).rigidBodies.first().body.setTransform(-12, 3, 0);
+        positioningEntity(dart2,-6, 3, 0);
+        engine.addEntity(dart2);
 
         Body ground = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
-                .boxShape(50, 1))
+                .boxShape(50, 0.6f))
                 .type(BodyDef.BodyType.StaticBody)
                 .position(0, 0)
                 .mass(1)

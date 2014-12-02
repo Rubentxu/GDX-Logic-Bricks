@@ -15,8 +15,6 @@ import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
  * @author Rubentxu.
  */
 public class FlyingDartTest extends LogicBricksTest {
-    private Body ground;
-    private ParticleEffect dustEffect;
     private FlyingDartCollisionRule flyingDartCollisionRule;
 
 

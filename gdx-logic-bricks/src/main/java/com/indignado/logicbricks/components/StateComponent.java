@@ -2,11 +2,12 @@ package com.indignado.logicbricks.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 /**
  * @author Rubentxu
  */
-public class StateComponent extends Component {
+public class StateComponent extends Component implements Poolable {
     public float time = 0.0f;
     private IntMap<String> states = new IntMap<>();
     private int typeIndex = -1;
@@ -50,6 +51,16 @@ public class StateComponent extends Component {
             currentState = newState;
             time = 0.0f;
         }
+
+    }
+
+
+    @Override
+    public void reset() {
+        time = 0.0f;
+        states.clear();
+        typeIndex = -1;
+        currentState = 0;
 
     }
 

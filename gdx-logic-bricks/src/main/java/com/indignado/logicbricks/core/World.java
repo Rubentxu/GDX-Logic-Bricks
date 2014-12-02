@@ -23,14 +23,14 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
  * @author Rubentxu.
  */
 public class World implements Disposable {
-    private final LogicBricksEngine engine;
+    private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
     private final IntMap<LevelFactory> levelFactories;
-    private static int levelIndex = 0;
     private final OrthographicCamera camera;
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
+    private LogicBricksEngine engine;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -43,11 +43,19 @@ public class World implements Disposable {
         engine.addSystem(new ViewPositionSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem(engine));
+        engine.addSystem(new KeyboardSensorSystem());
+        engine.addEntityListener(engine.getSystem(KeyboardSensorSystem.class));
+        engine.addSystem(new MouseSensorSystem());
+        engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
+        engine.addSystem(new CollisionSensorSystem());
+        engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
+
+
         InputMultiplexer input = new InputMultiplexer();
-        engine.addSystem(new KeyboardSensorSystem(engine, input));
-        engine.addSystem(new MouseSensorSystem(engine, input));
-        engine.addSystem(new CollisionSensorSystem(engine, physics));
+        input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
+        input.addProcessor(engine.getSystem(MouseSensorSystem.class));
         Gdx.input.setInputProcessor(input);
+        physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
 
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
@@ -76,6 +84,7 @@ public class World implements Disposable {
         if (level != null) {
             level.loadAssets(assetManager);
             level.createLevel(this);
+
         }
 
     }

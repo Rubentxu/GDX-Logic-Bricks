@@ -27,7 +27,7 @@ public class PropertyActuatorBuilder extends ActuatorBuilder<PropertyActuator> {
     }
 
 
-    public PropertyActuatorBuilder setValue(Object value) {
+    public <T> PropertyActuatorBuilder setValue(T value) {
         brick.value = value;
         return this;
 

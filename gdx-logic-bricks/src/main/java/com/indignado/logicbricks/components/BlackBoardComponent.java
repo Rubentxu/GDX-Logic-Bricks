@@ -3,13 +3,14 @@ package com.indignado.logicbricks.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.utils.Bag;
 import com.badlogic.gdx.utils.Bits;
+import com.badlogic.gdx.utils.Pool.Poolable;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.PropertyType;
 
 /**
  * @author Rubentxu.
  */
-public class BlackBoardComponent extends Component {
+public class BlackBoardComponent extends Component implements Poolable {
     private Bag<Property> properties;
     private Bits propertyBits;
 
@@ -81,5 +82,12 @@ public class BlackBoardComponent extends Component {
 
     }
 
+
+    @Override
+    public void reset() {
+        properties.clear();
+        propertyBits.clear();
+
+    }
 
 }

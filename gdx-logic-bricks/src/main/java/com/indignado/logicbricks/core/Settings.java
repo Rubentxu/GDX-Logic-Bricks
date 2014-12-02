@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Logger;
  * @author Rubentxu.
  */
 public class Settings {
+    private static final int entityTypePoolMaxSize = 100;
     // Application config
     public static float Width = 30; //30 metres
     public static float Height = 20; // 20 metres
@@ -17,11 +18,8 @@ public class Settings {
     public static boolean catchBack = true;
     public static boolean catchMenu = true;
     public static Color backgroundColor = Color.BLUE;
-
     // LogicBricksEngine
     public static int entityTypePoolInitialSize = 10;
-    private static final int entityTypePoolMaxSize = 100;
-
     // Physics
     public static Vector2 gravity = new Vector2(0, -9.81f);
     public static boolean doSleep = false;

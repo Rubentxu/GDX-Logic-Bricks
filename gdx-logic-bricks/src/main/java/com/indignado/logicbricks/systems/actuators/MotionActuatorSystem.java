@@ -25,7 +25,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
             if (actuator.targetRigidBody == null) {
                 actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
             }
-            Body body = actuator.targetRigidBody.body;
+            Body body = actuator.targetRigidBody;
             if (actuator.velocity != null) {
                 Gdx.app.log("MotionActuatorSystem", "apply velocity: " + actuator.velocity);
                 body.setLinearVelocity(actuator.velocity);
@@ -48,7 +48,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 if (actuator.angularImpulse != 0)
                     body.applyAngularImpulse(actuator.angularImpulse, true);
             } else {
-                if (!actuator.targetRigidBody.body.isFixedRotation()) body.setFixedRotation(true);
+                if (!actuator.targetRigidBody.isFixedRotation()) body.setFixedRotation(true);
             }
             if (actuator.limitVelocityX > 0) {
                 Vector2 vel = body.getLinearVelocity();

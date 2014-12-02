@@ -29,11 +29,11 @@ import java.util.Comparator;
  * @author Rubentxu
  */
 public class RenderingSystem extends IteratingSystem {
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
     private final World physics;
     protected Viewport viewport;
     protected OrthographicCamera uiCamera;
+    private SpriteBatch batch;
+    private OrthographicCamera camera;
     private Array<View> renderQueue;
     private Comparator<View> comparator;
     private ComponentMapper<ViewsComponent> vm;
@@ -110,8 +110,8 @@ public class RenderingSystem extends IteratingSystem {
                 batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
                         originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
 
-                Gdx.app.log("RederingSystem", "texture width " + textureView.width + " height " + textureView.height
-                        + " texture position " + textureView.position);
+                // Gdx.app.log("RederingSystem", "texture width " + textureView.width + " height " + textureView.height
+                //        + " texture position " + textureView.position);
             }
 
 

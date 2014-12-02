@@ -20,7 +20,7 @@ public class PropertySensorBuilder extends BrickBuilder<PropertySensor> {
     }
 
 
-    public PropertySensorBuilder setValue(Object value) {
+    public <T> PropertySensorBuilder setValue(T value) {
         brick.value = value;
         return this;
 

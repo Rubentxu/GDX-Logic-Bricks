@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
@@ -40,6 +41,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     @Override
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(family);
+        Gdx.app.log(this.getClass().getSimpleName(), "Entities size " + entities.size());
     }
 
 

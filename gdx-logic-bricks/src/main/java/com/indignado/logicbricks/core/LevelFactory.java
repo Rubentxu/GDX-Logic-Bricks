@@ -1,7 +1,11 @@
 package com.indignado.logicbricks.core;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.logicbricks.components.RigidBodiesComponents;
 
 /**
  * @author Rubentxu.
@@ -34,5 +38,15 @@ public abstract class LevelFactory {
 
     public abstract void createLevel(World world);
 
+
+    public void positioningEntity(Entity entity, float posX, float posY, float angle) {
+        RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
+        for (Body rigidBody : rbc.rigidBodies) {
+            Vector2 originPosition = new Vector2(posX, posY);
+            originPosition.add(rigidBody.getPosition());
+            rigidBody.setTransform(originPosition, rigidBody.getAngle() + angle);
+
+        }
+    }
 
 }

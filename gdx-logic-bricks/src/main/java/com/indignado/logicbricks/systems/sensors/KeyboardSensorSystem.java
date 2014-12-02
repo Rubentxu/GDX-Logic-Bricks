@@ -1,11 +1,9 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
@@ -23,17 +21,16 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     private Set<KeyboardSensor> keyboardSensors;
 
 
-    public KeyboardSensorSystem(Engine engine, InputMultiplexer input) {
+    public KeyboardSensorSystem() {
         super(KeyboardSensorComponent.class);
         keyboardSensors = new HashSet<KeyboardSensor>();
-        engine.addEntityListener(this);
-        input.addProcessor(this);
 
     }
 
 
     @Override
     public void processSensor(KeyboardSensor sensor) {
+        Gdx.app.log("KeyboardSensorSystem", "procesorSensor: " + getEntities().size());
         boolean isActive = false;
         sensor.keysSignal.clear();
 
@@ -126,6 +123,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public void entityAdded(Entity entity) {
+        Gdx.app.log("KeyboardSensorSystem", "KeyboardSensor add ");
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
             IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;

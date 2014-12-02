@@ -4,10 +4,14 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
+import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
 
 import java.util.HashSet;
@@ -18,14 +22,13 @@ import java.util.Set;
  */
 public class CollisionSensorSystem extends SensorSystem<CollisionSensor, CollisionSensorComponent> implements ContactListener, EntityListener {
     private final Set<CollisionSensor> collisionSensors;
+    private LogicBricksEngine engine;
     private Array<ContactListener> collisionsRules;
 
 
-    public CollisionSensorSystem(Engine engine, World physics) {
+    public CollisionSensorSystem() {
         super(CollisionSensorComponent.class);
         collisionSensors = new HashSet<CollisionSensor>();
-        engine.addEntityListener(this);
-        physics.setContactListener(this);
 
     }
 
@@ -90,33 +93,13 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
 
     private void processContact(Contact contact) {
+        Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
+        Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
+
         for (CollisionSensor collisionSensor : collisionSensors) {
-            if (collisionSensor.ownerFixture != null) {
-                processFixtureContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
-                processFixtureContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
-                continue;
-            }
-            if (collisionSensor.ownerRigidBody != null) {
-                processRigidBodyContact(contact, collisionSensor, contact.getFixtureA(), contact.getFixtureB());
-                processRigidBodyContact(contact, collisionSensor, contact.getFixtureB(), contact.getFixtureA());
+            Array<Entity> targetEntities = engine.getEntities(collisionSensor.targetTag);
 
-            }
-        }
-
-    }
-
-
-    private void processRigidBodyContact(Contact contact, CollisionSensor collisionSensor,
-                                         Fixture fixtureA, Fixture fixtureB) {
-        if (collisionSensor.ownerRigidBody.getFixtureList().contains(fixtureA, false)) {
-            if (collisionSensor.targetRigidBody != null && fixtureB.getBody().equals(collisionSensor.targetRigidBody)) {
-                collisionSensor.contact = contact;
-                collisionSensor.pulseSignal = contact.isTouching();
-                Gdx.app.log("CollisionSensorSystem", "Sensor isTouching " + collisionSensor.pulseSignal);
-                return;
-            }
-
-            if (collisionSensor.targetFixture != null && fixtureB.equals(collisionSensor.targetFixture)) {
+            if (targetEntities.contains(entityA, false) || targetEntities.contains(entityB, false)) {
                 collisionSensor.contact = contact;
                 collisionSensor.pulseSignal = contact.isTouching();
             }
@@ -125,19 +108,10 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     }
 
 
-    private void processFixtureContact(Contact contact, CollisionSensor collisionSensor, Fixture fixtureA, Fixture fixtureB) {
-        if (collisionSensor.ownerFixture.equals(fixtureA)) {
-            if (collisionSensor.targetRigidBody != null && fixtureB.getBody().equals(collisionSensor.targetRigidBody)) {
-                collisionSensor.contact = contact;
-                collisionSensor.pulseSignal = contact.isTouching();
-                return;
-            }
-            if (collisionSensor.targetFixture != null && collisionSensor.targetFixture.equals(fixtureB)) {
-                collisionSensor.contact = contact;
-                collisionSensor.pulseSignal = contact.isTouching();
-
-            }
-        }
+    @Override
+    public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
+        this.engine = (LogicBricksEngine) engine;
 
     }
 

@@ -17,7 +17,6 @@ public class BodyBuilder {
     private BodyDef bodyDef;
     private ArrayList<FixtureDef> fixtureDefs;
     private ArrayList<Object> fixtureUserDatas;
-    private Object userData = null;
     private Vector2 position = new Vector2();
     private float angle;
     private MassData massData = new MassData();
@@ -53,7 +52,6 @@ public class BodyBuilder {
         fixtureDefs.clear();
         fixtureUserDatas.clear();
         angle = 0f;
-        userData = null;
         position.set(0f, 0f);
         massSet = false;
 
@@ -158,12 +156,6 @@ public class BodyBuilder {
         return this;
     }
 
-    public BodyBuilder userData(Object userData) {
-        this.userData = userData;
-        return this;
-
-    }
-
 
     public BodyBuilder position(float x, float y) {
         this.position.set(x, y);
@@ -204,7 +196,6 @@ public class BodyBuilder {
             body.setMassData(massData);
         }
 
-        body.setUserData(userData);
         body.setTransform(position, angle);
 
         reset(disposeShapes);

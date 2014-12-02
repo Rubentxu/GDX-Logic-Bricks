@@ -36,7 +36,6 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawVelocities = true;
         Settings.drawStage = true;
 
-
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         world = new com.indignado.logicbricks.core.World(new World(Settings.gravity, true)
