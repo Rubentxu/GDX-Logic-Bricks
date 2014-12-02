@@ -25,6 +25,7 @@ public class Ground implements EntityFactory {
 
     @Override
     public Entity createEntity(World world) {
+        Gdx.app.log("Ground","init instance");
         EntityBuilder entityBuilder = world.getEntityBuilder();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
@@ -33,15 +34,15 @@ public class Ground implements EntityFactory {
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
-
+        Gdx.app.log("Ground","init instance2");
         Body bodyWall = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(50, 0.6f)
-                .friction(0.5f)
-                .restitution(0.5f))
+                .friction(0.5f))
                 .build();
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyWall);
+        Gdx.app.log("Ground","init instance3");
 
         Entity entity = entityBuilder.build();
         Gdx.app.log("Ground","instance" + entity);

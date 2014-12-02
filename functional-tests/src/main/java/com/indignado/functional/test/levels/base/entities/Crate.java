@@ -36,10 +36,10 @@ public class Crate implements EntityFactory {
         state.createState("Default");
 
         Body bodyCrate = bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(1, 20)
+                .boxShape(1, 1)
                 .friction(0.5f)
                 .restitution(0.5f))
-                .type(BodyDef.BodyType.DynamicBody)
+                .type(BodyDef.BodyType.StaticBody)
                 .build();
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);

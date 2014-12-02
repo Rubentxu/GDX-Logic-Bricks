@@ -6,8 +6,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
-import com.indignado.functional.test.levels.base.BaseLevel;
 import com.indignado.functional.test.levels.flyingDart.FlyingDartCollisionRule;
+import com.indignado.functional.test.levels.flyingDart.FlyingDartLevel;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 
 
@@ -29,7 +29,7 @@ public class FlyingDartTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new BaseLevel.FlyingDartLevel());
+        addLevel(new FlyingDartLevel());
         flyingDartCollisionRule = new FlyingDartCollisionRule();
         CollisionSensorSystem collisionSensorSystem = world.getEngine().getSystem(CollisionSensorSystem.class);
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);

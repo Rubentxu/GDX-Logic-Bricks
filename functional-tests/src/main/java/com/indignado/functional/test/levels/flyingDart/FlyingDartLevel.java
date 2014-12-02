@@ -2,23 +2,23 @@ package com.indignado.functional.test.levels.flyingDart;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.indignado.functional.test.levels.base.entities.Ground;
+import com.indignado.functional.test.levels.base.entities.Wall;
 import com.indignado.functional.test.levels.flyingDart.entities.Dart;
-import com.indignado.functional.test.levels.base.BaseLevel;
-import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.World;
 
 /**
  * @author Rubentxu.
  */
-public class FlyingDartLevel extends BaseLevel {
+public class FlyingDartLevel extends LevelFactory {
 
 
     public FlyingDartLevel() {
         addEntityFactory(new Dart());
+        addEntityFactory(new Ground());
+        addEntityFactory(new Wall());
 
     }
 
@@ -37,18 +37,11 @@ public class FlyingDartLevel extends BaseLevel {
         positioningEntity(dart2,-6, 3, 0);
         engine.addEntity(dart2);
 
-        Body ground = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
-                .boxShape(50, 0.6f))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(0, 0)
-                .mass(1)
-                .build();
-
-        BlackBoardComponent context = new BlackBoardComponent();
-        context.addProperty(new Property<String>("type", "wall"));
-
-        wall(world.getBodyBuilder(), 15, 7.5F, 1, 20);
-
+        Entity ground = entityFactories.get(Ground.class).createEntity(world);
+        engine.addEntity(ground);
+        Entity wall = entityFactories.get(Wall.class).createEntity(world);
+        positioningEntity(wall, 14, 10, 0);
+        engine.addEntity(wall);
     }
 
 }

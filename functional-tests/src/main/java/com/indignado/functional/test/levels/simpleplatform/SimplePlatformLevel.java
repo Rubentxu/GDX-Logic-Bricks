@@ -1,55 +1,50 @@
 package com.indignado.functional.test.levels.simpleplatform;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.functional.test.levels.base.BaseLevel;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.indignado.functional.test.levels.base.entities.Crate;
+import com.indignado.functional.test.levels.base.entities.Ground;
+import com.indignado.functional.test.levels.base.entities.Wall;
+import com.indignado.functional.test.levels.simpleplatform.entities.PlayerPlatform;
+import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.World;
 
 /**
  * @author Rubentxu.
  */
-public class SimplePlatformLevel extends BaseLevel {
+public class SimplePlatformLevel extends LevelFactory {
 
-    private World world;
-    private Engine engine;
+
+    public SimplePlatformLevel() {
+        addEntityFactory(new PlayerPlatform());
+        addEntityFactory(new Ground());
+        addEntityFactory(new Crate());
+    }
+
 
     @Override
     public void createLevel(World world) {
+        PooledEngine engine = world.getEngine();
         world.getCamera().position.set(0, 7, 0);
         world.getCamera().viewportWidth = Settings.Width;
         world.getCamera().viewportHeight = Settings.Height;
-     /*   PlayerPlatform player = world.getEngine().createEntity(PlayerPlatform.class);
-        player.initPosition(-0, 3f, 0);*/
 
-        Body ground = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
-                .boxShape(50, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(0, 0)
-                .mass(1)
-                .build();
+        Entity player = entityFactories.get(PlayerPlatform.class).createEntity(world);
+        engine.addEntity(player);
 
+        Entity ground =  entityFactories.get(Ground.class).createEntity(world);
+        engine.addEntity(ground);
 
-        world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
-                .boxShape(1, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(3, 5)
-                .mass(1)
-                .build();
+        Entity box = entityFactories.get(Crate.class).createEntity(world);
+        positioningEntity(box, -3, 5f, 0);
+        engine.addEntity(box);
 
-
-        world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
-                .boxShape(1, 1))
-                .type(BodyDef.BodyType.StaticBody)
-                .position(9, 7)
-                .mass(1)
-                .build();
-
-
-        wall(world.getBodyBuilder(), 15, 7.5F, 1, 20);
+        Entity box2 = entityFactories.get(Crate.class).createEntity(world);
+        positioningEntity(box2, 9, 7f, 0);
+        engine.addEntity(box2);
 
     }
-
 
 }

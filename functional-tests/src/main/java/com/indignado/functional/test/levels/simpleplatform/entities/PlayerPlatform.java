@@ -79,7 +79,8 @@ public class PlayerPlatform implements EntityFactory {
         blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
 
         Body bodyPlayer = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
-                .boxShape(0.35f, 1))
+                .boxShape(0.35f, 1)
+                .density(1))
                 .type(BodyDef.BodyType.DynamicBody)
                 .position(0, 5)
                 .mass(1)
