@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -52,6 +53,9 @@ public class TriggerDart extends EntityFactory {
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Trigger";
+        identity.category = world.getCategoryBitsManager().getCategoryBits("TriggerDart");
+        identity.collisionMask = (short) ~identity.category;
+
 
         Body bodyArrow = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(1, 2))
@@ -78,6 +82,7 @@ public class TriggerDart extends EntityFactory {
         InstanceEntityActuator instanceEntityActuator = BricksUtils.getBuilder(InstanceEntityActuatorBuilder.class)
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
+                .setLocalPosition(new Vector2(3,0))
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 

@@ -38,6 +38,7 @@ public class Crate extends EntityFactory {
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Crate";
+        identity.category = world.getCategoryBitsManager().getCategoryBits("Crate");
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

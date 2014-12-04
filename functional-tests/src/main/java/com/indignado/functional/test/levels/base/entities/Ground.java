@@ -38,6 +38,8 @@ public class Ground extends EntityFactory {
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Ground";
+        identity.category = world.getCategoryBitsManager().getCategoryBits("Ground");
+
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

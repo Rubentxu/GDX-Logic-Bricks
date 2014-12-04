@@ -20,6 +20,7 @@ import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
+import com.indignado.logicbricks.utils.CategoryBitsManager;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -59,6 +60,8 @@ public class Dart extends EntityFactory {
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Dart";
+        identity.category = world.getCategoryBitsManager().getCategoryBits("Dart");
+        identity.collisionMask = (short) (world.getCategoryBitsManager().getCategoryBits("Wall") | world.getCategoryBitsManager().getCategoryBits("Ground"));
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

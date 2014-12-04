@@ -21,6 +21,7 @@ import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
+import com.indignado.logicbricks.utils.CategoryBitsManager;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 
@@ -38,6 +39,7 @@ public class World implements Disposable {
     private final BodyBuilder bodyBuilder;
     private LogicBricksEngine engine;
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
+    private CategoryBitsManager categoryBitsManager;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -68,6 +70,7 @@ public class World implements Disposable {
         bodyBuilder = new BodyBuilder(physics);
         this.levelFactories = new IntMap<LevelFactory>();
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
+        this.categoryBitsManager = new CategoryBitsManager();
         engine.update(0);
 
     }
@@ -194,6 +197,12 @@ public class World implements Disposable {
 
     public ObjectMap<Class<? extends EntityFactory>, EntityFactory> getEntityFactories() {
         return entityFactories;
+
+    }
+
+
+    public CategoryBitsManager getCategoryBitsManager() {
+        return categoryBitsManager;
 
     }
 

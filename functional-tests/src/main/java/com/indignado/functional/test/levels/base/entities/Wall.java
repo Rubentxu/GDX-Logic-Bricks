@@ -35,6 +35,7 @@ public class Wall extends EntityFactory {
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Wall";
+        identity.category = world.getCategoryBitsManager().getCategoryBits("Wall");
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

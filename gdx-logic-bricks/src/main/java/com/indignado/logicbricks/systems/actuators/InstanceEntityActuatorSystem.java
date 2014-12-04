@@ -3,6 +3,7 @@ package com.indignado.logicbricks.systems.actuators;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import com.indignado.logicbricks.components.RigidBodiesComponents;
@@ -31,7 +32,10 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
             if (actuator.type == InstanceEntityActuator.Type.AddEntity) {
                 Entity entity = actuator.entityFactory.createEntity();
                 Body body = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-                world.positioningEntity(entity,body.getPosition().x,body.getPosition().y,0);
+                Vector2 position = body.getPosition().cpy();
+                if(actuator.localPosition != null) position.add(actuator.localPosition);
+
+                world.positioningEntity(entity,position.x,position.y,0);
                 world.getEngine().addEntity(entity);
             }
         }

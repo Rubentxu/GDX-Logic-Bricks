@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
+import com.badlogic.gdx.math.Vector2;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 
@@ -19,11 +20,20 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
 
     }
 
+
+    public InstanceEntityActuatorBuilder setLocalPosition(Vector2 localPosition) {
+        brick.localPosition = localPosition;
+        return this;
+
+    }
+
+
     public InstanceEntityActuatorBuilder setDuration(float duration) {
         brick.duration = duration;
         return this;
 
     }
+
 
     public InstanceEntityActuatorBuilder setType(InstanceEntityActuator.Type type) {
         brick.type = type;
