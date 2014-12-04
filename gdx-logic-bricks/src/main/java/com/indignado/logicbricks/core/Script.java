@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.core;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.sensors.Sensor;
 
@@ -9,6 +10,6 @@ import com.indignado.logicbricks.core.sensors.Sensor;
  */
 public interface Script {
 
-    public void execute(Array<Sensor> sensors, Array<Actuator> actuators);
+    public void execute(ObjectMap<String,Sensor> sensors, ObjectMap<String,Actuator> actuators);
 
 }

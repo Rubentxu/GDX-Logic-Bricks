@@ -51,7 +51,6 @@ public class PlayerPlatform implements EntityFactory {
 
     @Override
     public Entity createEntity(World world) {
-        Entity player = world.getEngine().createEntity();
         OrthographicCamera camera = world.getCamera();
         EntityBuilder entityBuilder = world.getEntityBuilder();
 
@@ -287,7 +286,7 @@ public class PlayerPlatform implements EntityFactory {
                 .connectToSensor(propertySensorIsGround)
                 .connectToActuator(motionActuatorJump);
 
-        return entityBuilder.build(player);
+        return entityBuilder.build();
 
     }
 

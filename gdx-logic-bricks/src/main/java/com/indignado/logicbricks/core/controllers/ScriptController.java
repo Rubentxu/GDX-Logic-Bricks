@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.core.controllers;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.actuators.Actuator;
 
@@ -9,7 +10,6 @@ import com.indignado.logicbricks.core.actuators.Actuator;
  */
 public class ScriptController extends Controller {
     public Script script;
-    public Array<Actuator> actuators = new Array<Actuator>();
 
 
 }

@@ -3,6 +3,7 @@ package com.indignado.logicbricks.systems.controllers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.actuators.Actuator;
@@ -56,8 +57,9 @@ public class ScriptControllerSystemTest {
 
         ScriptController scriptController = new ScriptController();
         scriptController.script = new Script() {
+
             @Override
-            public void execute(Array<Sensor> sensors, Array<Actuator> actuators) {
+            public void execute(ObjectMap<String, Sensor> sensors, ObjectMap<String, Actuator> actuators) {
 
             }
         };

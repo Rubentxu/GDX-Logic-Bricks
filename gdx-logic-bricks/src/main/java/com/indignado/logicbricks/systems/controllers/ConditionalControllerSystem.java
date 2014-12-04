@@ -30,7 +30,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     public void evaluateANDConditional(ConditionalController controller) {
         controller.pulseSignal = true;
-        Iterator<Sensor> it = controller.sensors.iterator();
+        Iterator<Sensor> it = controller.sensors.values();
         if (!it.hasNext())
             throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
@@ -47,7 +47,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     public void evaluateORConditional(ConditionalController controller) {
         controller.pulseSignal = false;
-        Iterator<Sensor> it = controller.sensors.iterator();
+        Iterator<Sensor> it = controller.sensors.values();
         if (!it.hasNext())
             throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
@@ -63,7 +63,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     public void evaluateNANDConditional(ConditionalController controller) {
         controller.pulseSignal = false;
-        Iterator<Sensor> it = controller.sensors.iterator();
+        Iterator<Sensor> it = controller.sensors.values();
         if (!it.hasNext())
             throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
@@ -79,7 +79,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     public void evaluateNORConditional(ConditionalController controller) {
         controller.pulseSignal = true;
-        Iterator<Sensor> it = controller.sensors.iterator();
+        Iterator<Sensor> it = controller.sensors.values();
         if (!it.hasNext())
             throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
