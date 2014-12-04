@@ -5,7 +5,6 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
-import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 
 import java.util.Set;
@@ -64,9 +63,8 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (S sensor : sensors) {
-                if (sensor instanceof AlwaysSensor) {
-                    sensor.pulseSignal = true;
-                } else processSensor(sensor);
+                sensor.pulseSignal = false;
+                processSensor(sensor);
 
             }
         }

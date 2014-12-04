@@ -2,16 +2,23 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.utils.ObjectMap;
 
 
 /**
  * @author Rubentxu.
  */
-public interface EntityFactory {
+public abstract class EntityFactory {
+    protected World world;
 
-    public abstract void loadAssets(AssetManager manager);
+    public EntityFactory(World world) {
+        this.world = world;
 
-    public abstract Entity createEntity(World world);
+    }
+
+    public abstract void loadAssets();
+
+    public abstract Entity createEntity();
 
 
 }

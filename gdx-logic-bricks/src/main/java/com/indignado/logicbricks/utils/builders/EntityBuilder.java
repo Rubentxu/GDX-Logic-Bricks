@@ -9,6 +9,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Constructor;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -91,15 +94,32 @@ public class EntityBuilder {
     }
 
 
+
+    private static  Constructor findConstructor(Class type) {
+        try {
+            return ClassReflection.getConstructor(type, (Class[]) null);
+        } catch (Exception ex1) {
+            try {
+                Constructor constructor = ClassReflection.getDeclaredConstructor(type, (Class[]) null);
+                constructor.setAccessible(true);
+                return constructor;
+            } catch (ReflectionException ex2) {
+                Gdx.app.log("LogicBricksBuilder", "Error instance entitySystem " + ex2.getMessage());
+                return null;
+            }
+        }
+    }
+
+
     private <ES extends EntitySystem> ES getSystem(Class<ES> clazz) {
         ES entitySystem = engine.getSystem(clazz);
         if (entitySystem == null) {
             try {
-                entitySystem = clazz.newInstance();
-            } catch (InstantiationException e) {
+                Constructor constructor = findConstructor(clazz);
+                entitySystem = (ES) constructor.newInstance((Object[]) null);
+            } catch (Exception ex){
                 Gdx.app.log("LogicBricksBuilder", "Error instance entitySystem " + clazz);
-            } catch (IllegalAccessException e) {
-                Gdx.app.log("LogicBricksBuilder", "Error instance entitySystem " + clazz);
+
             }
             engine.addSystem(entitySystem);
 

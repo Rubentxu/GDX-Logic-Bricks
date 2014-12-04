@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -17,15 +18,21 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 /**
  * @author Rubentxu.
  */
-public class Crate implements EntityFactory {
+public class Crate extends EntityFactory {
+
+
+    public Crate(World world) {
+        super(world);
+
+    }
 
 
     @Override
-    public void loadAssets(AssetManager manager) {}
+    public void loadAssets() {}
 
 
     @Override
-    public Entity createEntity(World world) {
+    public Entity createEntity() {
         EntityBuilder entityBuilder = world.getEntityBuilder();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 

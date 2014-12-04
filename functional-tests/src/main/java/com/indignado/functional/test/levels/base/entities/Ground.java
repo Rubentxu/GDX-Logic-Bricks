@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -16,15 +17,21 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 /**
  * @author Rubentxu.
  */
-public class Ground implements EntityFactory {
+public class Ground extends EntityFactory {
+
+
+    public Ground(World world) {
+        super(world);
+
+    }
 
 
     @Override
-    public void loadAssets(AssetManager manager) {}
+    public void loadAssets() {}
 
 
     @Override
-    public Entity createEntity(World world) {
+    public Entity createEntity() {
         Gdx.app.log("Ground","init instance");
         EntityBuilder entityBuilder = world.getEntityBuilder();
         BodyBuilder bodyBuilder = world.getBodyBuilder();

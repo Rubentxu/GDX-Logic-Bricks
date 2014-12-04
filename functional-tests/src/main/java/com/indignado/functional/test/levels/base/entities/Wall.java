@@ -2,41 +2,34 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.*;
-import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
-import com.indignado.logicbricks.core.actuators.MotionActuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
-import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
-import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class Wall implements EntityFactory {
+public class Wall extends EntityFactory {
+
+
+    public Wall(World world) {
+        super(world);
+
+    }
 
 
     @Override
-    public void loadAssets(AssetManager manager) {}
+    public void loadAssets() {}
 
 
     @Override
-    public Entity createEntity(World world) {
+    public Entity createEntity() {
         EntityBuilder entityBuilder = world.getEntityBuilder();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 

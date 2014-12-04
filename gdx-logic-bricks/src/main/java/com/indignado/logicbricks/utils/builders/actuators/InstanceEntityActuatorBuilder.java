@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
+import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 
 /**
@@ -12,8 +13,8 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
 
     }
 
-    public InstanceEntityActuatorBuilder setType(Class clazzInstance) {
-        brick.clazzInstance = clazzInstance;
+    public InstanceEntityActuatorBuilder setEntityFactory(EntityFactory entityFactory) {
+        brick.entityFactory = entityFactory;
         return this;
 
     }

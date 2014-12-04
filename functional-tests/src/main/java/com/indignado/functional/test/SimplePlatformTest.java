@@ -35,7 +35,7 @@ public class SimplePlatformTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new SimplePlatformLevel());
+        addLevel(new SimplePlatformLevel(world));
 
 
     }

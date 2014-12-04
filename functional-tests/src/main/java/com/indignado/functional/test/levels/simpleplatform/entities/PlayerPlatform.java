@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.data.AnimationView;
 import com.indignado.logicbricks.components.data.ParticleEffectView;
@@ -21,7 +22,6 @@ import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
@@ -36,21 +36,26 @@ import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
 /**
  * @author Rubentxu.
  */
-public class PlayerPlatform implements EntityFactory {
+public class PlayerPlatform extends EntityFactory {
     private String effect = "assets/particles/dust.pfx";
     private String atlas = "assets/animations/sprites.pack";
 
 
+    public PlayerPlatform(World world) {
+        super(world);
+    }
+
+
     @Override
-    public void loadAssets(AssetManager manager) {
-        if(! manager.isLoaded(effect)) manager.load(effect, ParticleEffect.class);
-        if(! manager.isLoaded(atlas)) manager.load(atlas, TextureAtlas.class);
+    public void loadAssets() {
+        if(! world.getAssetManager().isLoaded(effect)) world.getAssetManager().load(effect, ParticleEffect.class);
+        if(! world.getAssetManager().isLoaded(atlas)) world.getAssetManager().load(atlas, TextureAtlas.class);
 
     }
 
 
     @Override
-    public Entity createEntity(World world) {
+    public Entity createEntity() {
         OrthographicCamera camera = world.getCamera();
         EntityBuilder entityBuilder = world.getEntityBuilder();
 
@@ -186,11 +191,11 @@ public class PlayerPlatform implements EntityFactory {
                 .connectToActuator(textureActuator2)
                 .connectToActuator(stateActuatorB);
 
-
+/*
         AlwaysSensor alwaysSensor = new AlwaysSensor();
         entityBuilder.addController(controller3, "Idle", "Walking")
                 .connectToSensor(alwaysSensor)
-                .connectToActuator(cameraActuator);
+                .connectToActuator(cameraActuator);*/
 
 
         ConditionalController controller4 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)

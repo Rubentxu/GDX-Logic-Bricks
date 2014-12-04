@@ -29,7 +29,7 @@ public class FlyingDartTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new FlyingDartLevel());
+        addLevel(new FlyingDartLevel(world));
         flyingDartCollisionRule = new FlyingDartCollisionRule();
         CollisionSensorSystem collisionSensorSystem = world.getEngine().getSystem(CollisionSensorSystem.class);
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);

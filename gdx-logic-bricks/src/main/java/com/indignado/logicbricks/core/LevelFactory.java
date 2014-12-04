@@ -11,42 +11,27 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
  * @author Rubentxu.
  */
 public abstract class LevelFactory {
-    protected ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
+    protected World world;
 
 
-    protected LevelFactory() {
-        this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
+    protected LevelFactory(World world) {
+        this.world = world;
 
     }
 
 
-    public void loadAssets(AssetManager manager) {
-        for (EntityFactory factory : entityFactories.values()) {
-            factory.loadAssets(manager);
+    public void loadAssets() {
+        for (EntityFactory factory : world.getEntityFactories().values()) {
+            factory.loadAssets();
         }
-        manager.finishLoading();
+        world.getAssetManager().finishLoading();
 
     }
 
 
-    public <T extends EntityFactory> LevelFactory addEntityFactory(T factory) {
-        entityFactories.put(factory.getClass(), factory);
-        return this;
-
-    }
+    public abstract void createLevel();
 
 
-    public abstract void createLevel(World world);
 
-
-    public void positioningEntity(Entity entity, float posX, float posY, float angle) {
-        RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
-        for (Body rigidBody : rbc.rigidBodies) {
-            Vector2 originPosition = new Vector2(posX, posY);
-            originPosition.add(rigidBody.getPosition());
-            rigidBody.setTransform(originPosition, rigidBody.getAngle() + angle);
-
-        }
-    }
 
 }

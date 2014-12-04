@@ -30,6 +30,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         Set<C> controllers = (Set<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {
             for (C controller : controllers) {
+                controller.pulseSignal = false;
                 processController(controller);
 
             }

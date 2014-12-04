@@ -36,11 +36,11 @@ public class FlyingDartCollisionRule implements ContactListener {
             if (identityA.tag == "Dart" && identityB.tag == "Dart") {
                 for (JointEdge j : bodyA.getJointList()) {
                     destroyJoints.add(j.joint);
-                    contextA.setValueProperty("freeFlight", true);
+
                 }
                 for (JointEdge j : bodyB.getJointList()) {
                     destroyJoints.add(j.joint);
-                    contextB.setValueProperty("freeFlight", true);
+
                 }
             }
 
@@ -49,7 +49,6 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    contextB.setValueProperty("freeFlight", false);
                     Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
 
                 }
@@ -60,7 +59,6 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    contextA.setValueProperty("freeFlight", false);
                     Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
                 }
             }
@@ -71,7 +69,6 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    contextB.setValueProperty("freeFlight", false);
                     Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
                 }
             }
@@ -82,11 +79,18 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    contextA.setValueProperty("freeFlight", false);
                     Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
                 }
             }
 
+
+            if(identityA.tag == "Dart") {
+                contextA.setValueProperty("freeFlight", true);
+            }
+
+            if(identityB.tag == "Dart") {
+                contextB.setValueProperty("freeFlight", true);
+            }
 
         }
     }

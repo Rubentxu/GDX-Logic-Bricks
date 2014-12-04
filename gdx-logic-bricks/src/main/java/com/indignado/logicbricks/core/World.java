@@ -1,17 +1,23 @@
 package com.indignado.logicbricks.core;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.systems.ViewPositionSystem;
+import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
@@ -31,6 +37,7 @@ public class World implements Disposable {
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
     private LogicBricksEngine engine;
+    private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -49,7 +56,7 @@ public class World implements Disposable {
         engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
         engine.addSystem(new CollisionSensorSystem());
         engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
-
+        engine.addSystem(new InstanceEntityActuatorSystem(this));
 
         InputMultiplexer input = new InputMultiplexer();
         input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
@@ -60,6 +67,7 @@ public class World implements Disposable {
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
         this.levelFactories = new IntMap<LevelFactory>();
+        this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         engine.update(0);
 
     }
@@ -82,8 +90,20 @@ public class World implements Disposable {
         engine.removeAllEntities();
         LevelFactory level = levelFactories.get(levelNumber);
         if (level != null) {
-            level.loadAssets(assetManager);
-            level.createLevel(this);
+            level.loadAssets();
+            level.createLevel();
+
+        }
+
+    }
+
+
+    public void positioningEntity(Entity entity, float posX, float posY, float angle) {
+        RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
+        for (Body rigidBody : rbc.rigidBodies) {
+            Vector2 originPosition = new Vector2(posX, posY);
+            originPosition.add(rigidBody.getPosition());
+            rigidBody.setTransform(originPosition, rigidBody.getAngle() + angle);
 
         }
 
@@ -160,7 +180,21 @@ public class World implements Disposable {
         return entityBuilder;
     }
 
+
     public BodyBuilder getBodyBuilder() {
         return bodyBuilder;
     }
+
+
+    public <T extends EntityFactory> void addEntityFactory(T factory) {
+        entityFactories.put(factory.getClass(), factory);
+
+    }
+
+
+    public ObjectMap<Class<? extends EntityFactory>, EntityFactory> getEntityFactories() {
+        return entityFactories;
+
+    }
+
 }
