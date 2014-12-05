@@ -41,7 +41,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
 
     @Override
-    public void processSensor(CollisionSensor sensor) {
+    public void processSensor(CollisionSensor sensor, float deltaTime) {
     }
 
 

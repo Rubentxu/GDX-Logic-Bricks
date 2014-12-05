@@ -31,9 +31,8 @@ public class BricksUtils {
 
 
     private BricksUtils() {
-        bricksClasses.put(RepeatedlySensor.class, new BricksClasses(RepeatedlySensorComponent.class, RepeatedlySensorComponent.class));
+        bricksClasses.put(TimerSensor.class, new BricksClasses(TimerSensorComponent.class, TimerSensorSystem.class));
         bricksClasses.put(CollisionSensor.class, new BricksClasses(CollisionSensorComponent.class, CollisionSensorSystem.class));
-        bricksClasses.put(DelaySensor.class, new BricksClasses(DelaySensorComponent.class, DelaySensorSystem.class));
         bricksClasses.put(KeyboardSensor.class, new BricksClasses(KeyboardSensorComponent.class, KeyboardSensorSystem.class));
         bricksClasses.put(MouseSensor.class, new BricksClasses(MouseSensorComponent.class, MouseSensorSystem.class));
         bricksClasses.put(PropertySensor.class, new BricksClasses(PropertySensorComponent.class, PropertySensorSystem.class));

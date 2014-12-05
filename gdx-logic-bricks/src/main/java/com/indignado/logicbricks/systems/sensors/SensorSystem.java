@@ -64,7 +64,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         if (sensors != null) {
             for (S sensor : sensors) {
                 sensor.pulseSignal = false;
-                processSensor(sensor);
+                processSensor(sensor,deltaTime);
 
             }
         }
@@ -72,7 +72,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
 
-    public abstract void processSensor(S sensor);
+    public abstract void processSensor(S sensor, float deltaTime);
 
 
     public ImmutableArray<Entity> getEntities() {

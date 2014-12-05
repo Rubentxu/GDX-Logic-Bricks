@@ -18,7 +18,7 @@ public class MessageActuatorSystem extends ActuatorSystem<MessageActuator, Messa
 
 
     @Override
-    public void processActuator(MessageActuator actuator) {
+    public void processActuator(MessageActuator actuator, float deltaTime) {
         if (evaluateController(actuator))
             MessageDispatcher.getInstance().dispatchMessage(actuator, actuator.message, actuator.extraInfo);
 

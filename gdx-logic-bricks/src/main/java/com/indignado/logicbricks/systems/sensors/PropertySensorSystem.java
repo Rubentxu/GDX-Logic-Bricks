@@ -37,7 +37,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
 
     @Override
-    public void processSensor(PropertySensor sensor) {
+    public void processSensor(PropertySensor sensor, float deltaTime) {
     }
 
 

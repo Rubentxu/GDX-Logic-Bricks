@@ -44,7 +44,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
         Set<A> actuators = (Set<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (A actuator : actuators) {
-                processActuator(actuator);
+                processActuator(actuator, deltaTime);
 
             }
         }
@@ -52,7 +52,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
     }
 
 
-    public abstract void processActuator(A actuator);
+    public abstract void processActuator(A actuator, float deltaTime);
 
 
     protected boolean evaluateController(Actuator actuator) {

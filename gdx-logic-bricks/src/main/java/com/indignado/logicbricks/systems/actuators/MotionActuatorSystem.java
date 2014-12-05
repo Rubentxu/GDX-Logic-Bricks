@@ -20,7 +20,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
 
 
     @Override
-    public void processActuator(MotionActuator actuator) {
+    public void processActuator(MotionActuator actuator, float deltaTime) {
         if (evaluateController(actuator)) {
             if (actuator.targetRigidBody == null) {
                 actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();

@@ -17,7 +17,7 @@ public class TextureActuatorSystem extends ActuatorSystem<TextureActuator, Textu
 
 
     @Override
-    public void processActuator(TextureActuator actuator) {
+    public void processActuator(TextureActuator actuator, float deltaTime) {
         if (evaluateController(actuator)) {
             TextureView view = actuator.textureView;
             if (actuator.height != 0) view.setHeight(actuator.height);

@@ -162,14 +162,13 @@ public class PlayerPlatform extends EntityFactory {
 
         StateActuator stateActuator = new StateActuator();
         
-        stateActuator.setState(1);
+        stateActuator.state = 1;
 
         StateActuator stateActuatorB = new StateActuator();        
-        stateActuatorB.setState(1);
+        stateActuatorB.state = 1;
 
         StateActuator stateActuator2 = new StateActuator();
-        
-        stateActuator2.setState(0);
+        stateActuator2.state = 0;
 
         
 

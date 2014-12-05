@@ -171,6 +171,16 @@ public class EntityBuilder {
     }
 
 
+    public <C extends Controller> EntityBuilder addController(C controller, Array<String> nameStates) {
+        controllerStates.clear();
+        for (String s : nameStates) {
+            addController(controller, s);
+        }
+        return this;
+
+    }
+
+
     public <C extends Controller, CC extends ControllerComponent> EntityBuilder addController(C controller, String nameState) {
         this.controller = controller;
         controllerStates.add(nameState);
@@ -307,7 +317,12 @@ public class EntityBuilder {
 
 
     public Entity build() {
-        Entity entity = engine.createEntity();
+        return build( engine.createEntity());
+
+    }
+
+
+    public Entity build(Entity entity) {
         for (Component c : components.values()) {
             entity.add(c);
             if (c instanceof SensorComponent) {

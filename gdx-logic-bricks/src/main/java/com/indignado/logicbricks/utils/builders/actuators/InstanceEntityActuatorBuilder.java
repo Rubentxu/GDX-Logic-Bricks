@@ -28,7 +28,7 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
     }
 
 
-    public InstanceEntityActuatorBuilder setDuration(float duration) {
+    public InstanceEntityActuatorBuilder setDuration(short duration) {
         brick.duration = duration;
         return this;
 

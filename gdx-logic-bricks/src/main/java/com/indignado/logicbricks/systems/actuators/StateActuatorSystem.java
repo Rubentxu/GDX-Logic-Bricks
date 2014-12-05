@@ -37,7 +37,8 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
 
 
     @Override
-    public void processActuator(StateActuator actuator) {
+    public void processActuator(StateActuator actuator, float deltaTime) {
+
     }
 
 

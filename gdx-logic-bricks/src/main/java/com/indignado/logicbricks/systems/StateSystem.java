@@ -15,7 +15,7 @@ public class StateSystem extends IteratingSystem {
     private final PooledEngine engine;
     Array<Entity> toRemove;
     private ComponentMapper<StateComponent> sm;
-    private int eraseID = -1;
+
 
     public StateSystem(PooledEngine engine) {
         super(Family.all(StateComponent.class).get(), 0);
@@ -32,7 +32,6 @@ public class StateSystem extends IteratingSystem {
         for (Entity entity : toRemove) {
             engine.removeEntity(entity);
         }
-
         toRemove.clear();
 
     }
@@ -43,7 +42,7 @@ public class StateSystem extends IteratingSystem {
         StateComponent state = sm.get(entity);
         state.time += deltaTime;
 
-        if (state.getCurrentState() == eraseID) {
+        if (state.getCurrentState() == StateComponent.eraseID) {
             toRemove.add(entity);
         }
     }

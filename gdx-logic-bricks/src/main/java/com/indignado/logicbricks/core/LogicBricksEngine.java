@@ -11,11 +11,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.utils.Logger;
 
 /**
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends PooledEngine {
+    private Logger log = new Logger(this.getClass().getSimpleName());
     private ObjectMap<Long, Entity> idEntities;
     private ObjectMap<String, Array<Entity>> tagEntities;
 
@@ -31,9 +33,12 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     protected void removeEntityInternal(Entity entity) {
         super.removeEntityInternal(entity);
-        idEntities.remove(entity.getId());
+
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, false);
+        log.debug("LogicBricksEngine");
+        idEntities.remove(identity.uuid);
         tagEntities.remove(identity.tag);
+
 
     }
 

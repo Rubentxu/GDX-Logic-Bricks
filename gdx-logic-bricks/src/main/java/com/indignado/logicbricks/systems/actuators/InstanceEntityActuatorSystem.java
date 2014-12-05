@@ -7,10 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.InstanceEntityActuatorComponent;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
+import com.indignado.logicbricks.core.actuators.StateActuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.sensors.TimerSensor;
+import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.TimerSensorBuilder;
 
 /**
  * @author Rubentxu
@@ -27,7 +36,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     @Override
-    public void processActuator(InstanceEntityActuator actuator) {
+    public void processActuator(InstanceEntityActuator actuator, float deltaTime) {
         if (evaluateController(actuator)) {
             if (actuator.type == InstanceEntityActuator.Type.AddEntity) {
                 Entity entity = actuator.entityFactory.createEntity();
@@ -37,8 +46,31 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
                 world.positioningEntity(entity,position.x,position.y,0);
                 world.getEngine().addEntity(entity);
+                if(actuator.duration != 0) addDurationComponents(world,entity,actuator);
             }
+
         }
+
+    }
+
+
+    private void addDurationComponents(World world, Entity entity, InstanceEntityActuator actuator) {
+        TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
+                .setDuration(actuator.duration)
+                .getBrick();
+
+        StateActuator stateActuator = new StateActuator();
+        stateActuator.state = StateComponent.eraseID;
+
+        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
+
+        world.getEntityBuilder()
+                .addController(controller, entity.getComponent(StateComponent.class).getStates())
+                .connectToSensor(timeSensor)
+                .connectToActuator(stateActuator)
+                .build(entity);
 
     }
 

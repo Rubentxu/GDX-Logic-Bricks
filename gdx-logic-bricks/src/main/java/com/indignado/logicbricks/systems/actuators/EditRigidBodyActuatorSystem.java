@@ -18,7 +18,7 @@ public class EditRigidBodyActuatorSystem extends ActuatorSystem<EditRigidBodyAct
 
 
     @Override
-    public void processActuator(EditRigidBodyActuator actuator) {
+    public void processActuator(EditRigidBodyActuator actuator, float deltaTime) {
         if (evaluateController(actuator)) {
             if (actuator.targetRigidBody == null) {
                 actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();

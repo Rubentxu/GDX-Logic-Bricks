@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
@@ -8,6 +9,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
  * @author Rubentxu
  */
 public class StateComponent extends Component implements Poolable {
+    public static int eraseID = -1;
     public float time = 0.0f;
     private IntMap<String> states = new IntMap<>();
     private int typeIndex = -1;
@@ -61,6 +63,12 @@ public class StateComponent extends Component implements Poolable {
         states.clear();
         typeIndex = -1;
         currentState = 0;
+
+    }
+
+
+    public Array<String> getStates() {
+        return states.values().toArray();
 
     }
 

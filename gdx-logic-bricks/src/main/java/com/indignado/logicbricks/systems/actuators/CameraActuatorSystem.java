@@ -22,7 +22,7 @@ public class CameraActuatorSystem extends ActuatorSystem<CameraActuator, CameraA
 
 
     @Override
-    public void processActuator(CameraActuator actuator) {
+    public void processActuator(CameraActuator actuator, float deltaTime) {
         if (evaluateController(actuator)) {
 
             RigidBodiesComponents rc = actuator.owner.getComponent(RigidBodiesComponents.class);

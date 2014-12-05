@@ -18,7 +18,7 @@ public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectA
 
 
     @Override
-    public void processActuator(EffectActuator actuator) {
+    public void processActuator(EffectActuator actuator, float deltaTime) {
         if (evaluateController(actuator)) {
             ParticleEffectView view = actuator.effectView;
             ParticleEffect effect = view.effect;
