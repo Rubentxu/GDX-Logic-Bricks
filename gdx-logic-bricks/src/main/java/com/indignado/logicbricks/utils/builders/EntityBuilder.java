@@ -28,6 +28,7 @@ import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
+import com.indignado.logicbricks.utils.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +37,7 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public class EntityBuilder {
+    private static Logger log = new Logger("EntityBuilder");
     private PooledEngine engine;
     private ObjectMap<Class<? extends Component>, Component> components;
     private Controller controller;
@@ -104,7 +106,7 @@ public class EntityBuilder {
                 constructor.setAccessible(true);
                 return constructor;
             } catch (ReflectionException ex2) {
-                Gdx.app.log("LogicBricksBuilder", "Error instance entitySystem " + ex2.getMessage());
+                log.debug("Error instance entitySystem %s" + ex2.getMessage());
                 return null;
             }
         }
@@ -118,7 +120,7 @@ public class EntityBuilder {
                 Constructor constructor = findConstructor(clazz);
                 entitySystem = (ES) constructor.newInstance((Object[]) null);
             } catch (Exception ex){
-                Gdx.app.log("LogicBricksBuilder", "Error instance entitySystem " + clazz);
+                log.debug("Error instance entitySystem %s" + clazz.getSimpleName());
 
             }
             engine.addSystem(entitySystem);

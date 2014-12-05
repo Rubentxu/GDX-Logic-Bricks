@@ -10,6 +10,7 @@ import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.utils.Logger;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -18,6 +19,7 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComponent> extends IteratingSystem {
+    protected Logger log = new Logger(this.getClass().getSimpleName());
     protected ComponentMapper<AC> actuatorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 

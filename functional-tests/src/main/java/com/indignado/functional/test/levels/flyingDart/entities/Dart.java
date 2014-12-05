@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,6 +18,7 @@ import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
@@ -26,6 +28,7 @@ import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
@@ -98,14 +101,15 @@ public class Dart extends EntityFactory {
 
         MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
                 .setTargetRigidBody(bodyArrow)
-                .setImpulse(new Vector2((float) (20 * Math.cos(0)), (float) (20 * Math.sin(0))))
-                .setName("ActuatorFreeFlight")
-                .getBrick();
+                .setImpulse(new Vector2(30 * MathUtils.cos(38), 30 * MathUtils.sin(38)).nor().sub(0.1f, 0.1f))
+                        .setName("ActuatorFreeFlight")
+                        .getBrick();
 
         PropertySensor freeFlight = BricksUtils.getBuilder(PropertySensorBuilder.class)
                                     .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
                                     .setProperty("freeFlight")
                                     .setValue(false)
+                                    .setOnce(true)
                                     .setName("SensorFreeFlight")
                                     .getBrick();
 
@@ -113,8 +117,13 @@ public class Dart extends EntityFactory {
                                     .setScript(new FlyingDartScript())
                                     .getBrick();
 
+        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
+
+
         Entity entity = entityBuilder
-                .addController(dartScript, "Default")
+                .addController(controller, "Default")
                 .connectToSensor(freeFlight)
                 .connectToActuator(motionActuator)
                 .build();

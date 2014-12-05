@@ -6,7 +6,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
 /**
  * @author Rubentxu.
  */
-public class CollisionSensorBuilder extends BrickBuilder<CollisionSensor> {
+public class CollisionSensorBuilder extends SensorBuilder<CollisionSensor> {
 
     public CollisionSensorBuilder() {
         brick = new CollisionSensor();

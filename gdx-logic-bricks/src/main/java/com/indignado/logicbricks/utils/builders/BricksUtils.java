@@ -20,11 +20,13 @@ import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.utils.Logger;
 
 /**
  * @author Rubentxu.
  */
 public class BricksUtils {
+    private static Logger log = new Logger("BricksUtils");
     private static ObjectMap<Class<? extends BrickBuilder>, BrickBuilder> buildersMap = new ObjectMap<>();
     private static ObjectMap<Class<? extends LogicBrick>, BricksClasses> bricksClasses = new ObjectMap<>();
     private static BricksUtils instance;
@@ -70,7 +72,7 @@ public class BricksUtils {
                     builder = (B) constructor.newInstance((Object[]) null);
                     buildersMap.put(clazzBuilder, builder);
                 } catch (Exception e) {
-                    Gdx.app.log("ActuatorBuilder", "Error instance actuatorBuilder " + clazzBuilder);
+                    log.debug("Error instance actuatorBuilder %s" + clazzBuilder.getSimpleName());
                 }
             }
         }

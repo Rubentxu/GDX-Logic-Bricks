@@ -7,7 +7,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
 /**
  * @author Rubentxu.
  */
-public class TimerSensorBuilder extends BrickBuilder<TimerSensor> {
+public class TimerSensorBuilder extends SensorBuilder<TimerSensor> {
 
     public TimerSensorBuilder() {
         brick = new TimerSensor();

@@ -54,7 +54,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyDown(int keycode) {
-        Gdx.app.log("KeyboardSensorSystem", "key size: " + keyboardSensors.size());
+        log.debug("key size: %d",keyboardSensors.size());
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.add(new Integer(keycode));
 
@@ -122,11 +122,11 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public void entityAdded(Entity entity) {
-        Gdx.app.log("KeyboardSensorSystem", "KeyboardSensor add ");
+        log.debug("KeyboardSensor add");
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
             IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
-            Gdx.app.log("KeyboardSensorSystem", "KeyboardSensor added " + map.size);
+            log.debug("KeyboardSensor added %d", map.size);
             for (int i = 0; i < map.size; ++i) {
                 keyboardSensors.addAll(map.get(i));
             }
@@ -139,7 +139,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
             IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
-            Gdx.app.log("KeyboardSensorSystem", "KeyboardSensor remove " + map.size);
+            log.debug("KeyboardSensor remove %d", map.size);
             for (int i = 0; i < map.size; ++i) {
                 keyboardSensors.removeAll(map.get(i));
             }

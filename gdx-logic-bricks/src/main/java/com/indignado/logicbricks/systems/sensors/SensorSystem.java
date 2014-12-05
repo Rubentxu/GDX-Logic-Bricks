@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.core.sensors.TimerSensor;
+import com.indignado.logicbricks.utils.Logger;
 
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends EntitySystem {
+    protected Logger log = new Logger(this.getClass().getSimpleName());
     protected ComponentMapper<SC> sensorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
     private Family family;
@@ -40,7 +43,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     @Override
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(family);
-        Gdx.app.log(this.getClass().getSimpleName(), "Entities size " + entities.size());
+        log.debug("Entities size %d", entities.size());
     }
 
 
@@ -64,8 +67,24 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         if (sensors != null) {
             for (S sensor : sensors) {
                 sensor.pulseSignal = false;
-                processSensor(sensor,deltaTime);
-
+                log.debug("Sensor init %b once %b", sensor.initialized,sensor.once);
+                if (!sensor.initialized && sensor.once) {
+                    processSensor(sensor, deltaTime);
+                    log.debug("Sensor once Time %f", sensor.time);
+                } else if (!sensor.once) {
+                    if (sensor.frequency != 0 && !(sensor instanceof TimerSensor)) {
+                        if (sensor.time < sensor.frequency) sensor.time += deltaTime;
+                        if (sensor.time >= sensor.frequency) {
+                            log.debug("Sensor Frequency %f Time %f", sensor.frequency, sensor.time);
+                            processSensor(sensor, deltaTime);
+                            if (sensor.pulseSignal) sensor.time = 0;
+                        }
+                    } else {
+                        log.debug("Sensor proccess Time %f", sensor.time);
+                        processSensor(sensor, deltaTime);
+                    }
+                }
+                if (!sensor.initialized) sensor.initialized = true;
             }
         }
 

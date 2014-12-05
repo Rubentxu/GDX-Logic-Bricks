@@ -9,7 +9,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
  */
 public abstract class ActuatorBuilder<T extends Actuator> extends BrickBuilder<T> {
 
-    public ActuatorBuilder addController(Controller controller) {
+    public ActuatorBuilder<T> addController(Controller controller) {
         brick.controllers.add(controller);
         return this;
 

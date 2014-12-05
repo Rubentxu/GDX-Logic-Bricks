@@ -6,7 +6,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
 /**
  * @author Rubentxu.
  */
-public class PropertySensorBuilder extends BrickBuilder<PropertySensor> {
+public class PropertySensorBuilder extends SensorBuilder<PropertySensor> {
 
     public PropertySensorBuilder() {
         brick = new PropertySensor();

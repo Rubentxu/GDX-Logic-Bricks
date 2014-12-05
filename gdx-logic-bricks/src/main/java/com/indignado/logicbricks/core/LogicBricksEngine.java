@@ -46,7 +46,7 @@ public class LogicBricksEngine extends PooledEngine {
         super.addEntity(entity);
         idEntities.put(entity.getId(), entity);
         configEntity(entity);
-        Gdx.app.log("LogicBricks", "AddEntity " + entity.getId());
+        log.debug("AddEntity %d", entity.getId());
 
     }
 

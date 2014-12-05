@@ -8,11 +8,13 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
+import com.indignado.logicbricks.utils.Logger;
 
 /**
  * @author Rubentxu.
  */
 public class FlyingDartCollisionRule implements ContactListener {
+    private Logger log = new Logger(this.getClass().getSimpleName());
     public Array<WeldJointDef> jointDefs = new Array<>();
     public Array<Joint> destroyJoints = new Array<>();
 
@@ -28,7 +30,7 @@ public class FlyingDartCollisionRule implements ContactListener {
             IdentityComponent identityA = ((Entity) bodyA.getUserData()).getComponent(IdentityComponent.class);
             IdentityComponent identityB = ((Entity) bodyB.getUserData()).getComponent(IdentityComponent.class);
 
-            Gdx.app.log("CollisionRule","Contact BodyA " + identityA.tag + " BodyB " + identityB.tag);
+            log.debug("Contact BodyA %s BodyB %s",identityA.tag, identityB.tag);
 
             BlackBoardComponent contextA = ((Entity) bodyA.getUserData()).getComponent(BlackBoardComponent.class);
             BlackBoardComponent contextB = ((Entity) bodyB.getUserData()).getComponent(BlackBoardComponent.class);
@@ -49,7 +51,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
+                    log.debug("Create WeldJoint");
 
                 }
             }
@@ -59,7 +61,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
+                    log.debug("Create WeldJoint");
                 }
             }
 
@@ -69,7 +71,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
+                    log.debug("Create WeldJoint");
                 }
             }
 
@@ -79,7 +81,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
-                    Gdx.app.log("FlyingDartCollisionRule","Create WeldJoint");
+                    log.debug("Create WeldJoint");
                 }
             }
 

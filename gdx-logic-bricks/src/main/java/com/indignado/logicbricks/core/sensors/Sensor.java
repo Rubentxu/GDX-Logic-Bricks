@@ -10,6 +10,10 @@ import com.indignado.logicbricks.core.LogicBrick;
 public abstract class Sensor extends LogicBrick {
     // pulse
     public boolean pulseSignal = false;
+    public float frequency = 0;
+    public boolean once = false;
 
+    public float time = 0;
+    public boolean initialized = false;
 
 }

@@ -6,7 +6,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
 /**
  * @author Rubentxu.
  */
-public class KeyboardSensorBuilder extends BrickBuilder<KeyboardSensor> {
+public class KeyboardSensorBuilder extends SensorBuilder<KeyboardSensor> {
 
     public KeyboardSensorBuilder() {
         brick = new KeyboardSensor();

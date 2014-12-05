@@ -118,7 +118,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void entityAdded(Entity entity) {
-        Gdx.app.log("CollisionSensorSystem", "entityAdded");
+        log.debug("EntityAdded");
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
             IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;

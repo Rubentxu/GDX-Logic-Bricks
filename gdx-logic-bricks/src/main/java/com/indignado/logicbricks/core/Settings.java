@@ -2,7 +2,9 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+
 
 /**
  * @author Rubentxu.
@@ -33,8 +35,9 @@ public class Settings {
 
     // Debug
     public static int debugLevel = Logger.INFO;
+    public static Array<String> debugTags = new Array<>();
     public static boolean debug = debugLevel > Logger.ERROR;
-    ;
+
     public static boolean drawBodies = false;
     public static boolean drawJoints = false;
     public static boolean drawABBs = false;

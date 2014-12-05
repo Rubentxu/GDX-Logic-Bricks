@@ -28,6 +28,13 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
     }
 
 
+    public InstanceEntityActuatorBuilder setAngle(float angle) {
+        brick.angle = angle;
+        return this;
+
+    }
+
+
     public InstanceEntityActuatorBuilder setDuration(short duration) {
         brick.duration = duration;
         return this;

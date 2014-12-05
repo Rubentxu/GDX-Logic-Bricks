@@ -45,7 +45,7 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
                 case Assign:
                     if (property.value != actuator.value) {
                         property.value = actuator.value;
-                        Gdx.app.log("PropertyActuatorSystem", "tag " + property.name + " value " + property.value);
+                        log.debug("tag %s value %s",property.name, property.value);
                     }
                     break;
                 case Add:

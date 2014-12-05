@@ -7,7 +7,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
 /**
  * @author Rubentxu.
  */
-public class MouseSensorBuilder extends BrickBuilder<MouseSensor> {
+public class MouseSensorBuilder extends SensorBuilder<MouseSensor> {
 
     public MouseSensorBuilder() {
         brick = new MouseSensor();

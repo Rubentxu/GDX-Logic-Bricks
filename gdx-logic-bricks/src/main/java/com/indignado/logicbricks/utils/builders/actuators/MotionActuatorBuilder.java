@@ -32,6 +32,7 @@ public class MotionActuatorBuilder extends ActuatorBuilder<MotionActuator> {
 
     }
 
+
     public MotionActuatorBuilder setImpulse(Vector2 impulse) {
         brick.impulse = impulse;
         return this;

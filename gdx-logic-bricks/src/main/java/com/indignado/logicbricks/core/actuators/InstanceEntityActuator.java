@@ -10,6 +10,7 @@ import com.indignado.logicbricks.core.EntityFactory;
 public class InstanceEntityActuator<T extends Entity> extends Actuator {
     public EntityFactory entityFactory;
     public Vector2 localPosition;
+    public float angle = 0;
     public short duration = 0; // 0 = lives forever
     public Type type;
 

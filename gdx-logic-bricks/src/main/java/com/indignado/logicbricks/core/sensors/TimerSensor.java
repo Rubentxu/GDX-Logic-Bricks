@@ -11,6 +11,5 @@ public class TimerSensor extends Sensor {
     public short delay = 0;
     public short duration = ALWAYS;
 
-    public float time = 0;
 
 }

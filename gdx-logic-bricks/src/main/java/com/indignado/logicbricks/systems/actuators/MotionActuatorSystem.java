@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
@@ -27,26 +28,34 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
             }
             Body body = actuator.targetRigidBody;
             if (actuator.velocity != null) {
-                Gdx.app.log("MotionActuatorSystem", "apply velocity: " + actuator.velocity);
+                log.debug("apply velocity: %s" + actuator.velocity);
                 body.setLinearVelocity(actuator.velocity);
             }
             if (actuator.force != null) {
-                Gdx.app.log("MotionActuatorSystem", "apply force: " + actuator.force);
+                log.debug("apply force: %s" + actuator.force);
                 body.applyForce(actuator.force, body.getWorldCenter(), true);
+                float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
+                body.setTransform(body.getPosition().x,body.getPosition().y,angle);
             }
 
             if (actuator.impulse != null) {
                 //Gdx.app.log("MotionActuatorSystem", "apply impulse: " + sensor.impulse);
                 body.applyLinearImpulse(actuator.impulse, body.getWorldCenter(), true);
 
+
             }
 
             if (!actuator.fixedRotation) {
                 if (actuator.angularVelocity != 0)
                     body.setAngularVelocity(actuator.angularVelocity);
-                if (actuator.torque != 0) body.applyTorque(actuator.torque, true);
-                if (actuator.angularImpulse != 0)
+                else if (actuator.torque != 0) body.applyTorque(actuator.torque, true);
+                else if (actuator.angularImpulse != 0)
                     body.applyAngularImpulse(actuator.angularImpulse, true);
+                else {
+                    float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
+                    log.debug("apply angle: %f" + angle);
+                    body.setTransform(body.getPosition().x,body.getPosition().y,angle);
+                }
             } else {
                 if (!actuator.targetRigidBody.isFixedRotation()) body.setFixedRotation(true);
             }

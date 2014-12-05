@@ -27,12 +27,12 @@ public class FlyingDartScript implements Script {
 
         if(!init) controller.pulseSignal = true;
 
-        if(sensorFreeFlight.pulseSignal && init) {
+       /* if(sensorFreeFlight.pulseSignal && init) {
            float angle =  MathUtils.atan2(ownerBody.getLinearVelocity().y ,ownerBody.getLinearVelocity().x);
            Gdx.app.log("FlyingDart","Angle dart " + angle);
            ownerBody.setTransform(ownerBody.getPosition().x,ownerBody.getPosition().y,angle);
 
-        }
+        }*/
 
     }
 

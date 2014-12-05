@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
@@ -72,6 +73,7 @@ public class World implements Disposable {
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         this.categoryBitsManager = new CategoryBitsManager();
         engine.update(0);
+        Gdx.app.setLogLevel(Settings.debugLevel);
 
     }
 
@@ -106,7 +108,7 @@ public class World implements Disposable {
         for (Body rigidBody : rbc.rigidBodies) {
             Vector2 originPosition = new Vector2(posX, posY);
             originPosition.add(rigidBody.getPosition());
-            rigidBody.setTransform(originPosition, rigidBody.getAngle() + angle);
+            rigidBody.setTransform(originPosition, (rigidBody.getAngle() + angle) * MathUtils.degreesToRadians);
 
         }
 

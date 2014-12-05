@@ -7,7 +7,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
 /**
  * @author Rubentxu.
  */
-public class MessageSensorBuilder extends BrickBuilder<MessageSensor> {
+public class MessageSensorBuilder extends SensorBuilder<MessageSensor> {
 
     public MessageSensorBuilder() {
         brick = new MessageSensor();

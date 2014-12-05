@@ -44,7 +44,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 Vector2 position = body.getPosition().cpy();
                 if(actuator.localPosition != null) position.add(actuator.localPosition);
 
-                world.positioningEntity(entity,position.x,position.y,0);
+                world.positioningEntity(entity,position.x,position.y,actuator.angle);
                 world.getEngine().addEntity(entity);
                 if(actuator.duration != 0) addDurationComponents(world,entity,actuator);
             }
