@@ -51,7 +51,7 @@ public class World implements Disposable {
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         engine.addSystem(new ViewPositionSystem());
         engine.addSystem(new AnimationSystem());
-        engine.addSystem(new StateSystem(engine));
+        engine.addSystem(new StateSystem(this));
         engine.addSystem(new KeyboardSensorSystem());
         engine.addEntityListener(engine.getSystem(KeyboardSensorSystem.class));
         engine.addSystem(new MouseSensorSystem());

@@ -5,21 +5,24 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.World;
 
 /**
  * @author Rubentxu
  */
 public class StateSystem extends IteratingSystem {
-    private final PooledEngine engine;
+    private World world;
     Array<Entity> toRemove;
     private ComponentMapper<StateComponent> sm;
 
 
-    public StateSystem(PooledEngine engine) {
+    public StateSystem(World world) {
         super(Family.all(StateComponent.class).get(), 0);
-        this.engine = engine;
+        this.world = world;
         sm = ComponentMapper.getFor(StateComponent.class);
         toRemove = new Array<Entity>();
 
@@ -30,7 +33,14 @@ public class StateSystem extends IteratingSystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
         for (Entity entity : toRemove) {
-            engine.removeEntity(entity);
+            world.getEngine().removeEntity(entity);
+            RigidBodiesComponents rigidBodies = entity.getComponent(RigidBodiesComponents.class);
+            if(rigidBodies != null) {
+                for(Body body : rigidBodies.rigidBodies) {
+                    world.getPhysics().destroyBody(body);
+
+                }
+            }
         }
         toRemove.clear();
 

@@ -44,7 +44,7 @@ public class CameraActuatorSystemTest {
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new CameraActuatorSystem());
-        engine.addSystem(new StateSystem(engine));
+        engine.addSystem(new StateSystem(new com.indignado.logicbricks.core.World(null,null,null,null)));
 
         BodyBuilder bodyBuilder = new BodyBuilder(physic);
         body = bodyBuilder

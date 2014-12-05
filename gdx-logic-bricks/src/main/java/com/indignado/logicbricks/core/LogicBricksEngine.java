@@ -32,13 +32,11 @@ public class LogicBricksEngine extends PooledEngine {
 
     @Override
     protected void removeEntityInternal(Entity entity) {
-        super.removeEntityInternal(entity);
-
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, false);
         log.debug("LogicBricksEngine");
         idEntities.remove(identity.uuid);
-        tagEntities.remove(identity.tag);
-
+        tagEntities.get(identity.tag).removeValue(entity,false);
+        super.removeEntityInternal(entity);
 
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -34,7 +35,7 @@ public class ConditionalControllerSystemTest {
         engine = new PooledEngine();
         conditionalControllerSystem = new ConditionalControllerSystem();
         engine.addSystem(conditionalControllerSystem);
-        engine.addSystem(new StateSystem(engine));
+        engine.addSystem(new StateSystem(new World(null,null,null,null)));
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePrueba));

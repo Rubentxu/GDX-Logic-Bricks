@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.Script;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -37,7 +38,7 @@ public class ScriptControllerSystemTest {
         engine = new PooledEngine();
         scriptControllerSystem = new ScriptControllerSystem();
         engine.addSystem(scriptControllerSystem);
-        engine.addSystem(new StateSystem(engine));
+        engine.addSystem(new StateSystem(new World(null,null,null,null)));
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePrueba));

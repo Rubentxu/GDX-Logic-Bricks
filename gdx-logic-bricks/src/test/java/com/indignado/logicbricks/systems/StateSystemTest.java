@@ -3,6 +3,7 @@ package com.indignado.logicbricks.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class StateSystemTest extends BaseTest {
     @Before
     public void setup() {
         engine = new PooledEngine();
-        engine.addSystem(new StateSystem(engine));
+        engine.addSystem(new StateSystem(new World(null,null,null,null)));
 
         stateComponent = new StateComponent();
         stateComponent.changeCurrentState(PlayerState.WALKING.ordinal());
