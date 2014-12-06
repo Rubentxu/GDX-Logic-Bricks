@@ -2,11 +2,13 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.BlackBoardComponent;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
 import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.Set;
 
@@ -26,6 +28,7 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
+        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(),entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<PropertyActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
@@ -45,7 +48,7 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
                 case Assign:
                     if (property.value != actuator.value) {
                         property.value = actuator.value;
-                        log.debug("tag %s value %s",property.name, property.value);
+                        Log.debug(tag, "tag %s value %s", property.name, property.value);
                     }
                     break;
                 case Add:

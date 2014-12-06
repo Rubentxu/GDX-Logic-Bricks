@@ -2,12 +2,12 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -54,7 +54,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyDown(int keycode) {
-        log.debug("key size: %d",keyboardSensors.size());
+        Log.debug(tag, "key size: %d", keyboardSensors.size());
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.add(new Integer(keycode));
 
@@ -122,11 +122,11 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public void entityAdded(Entity entity) {
-        log.debug("KeyboardSensor add");
+        Log.debug(tag, "KeyboardSensor add");
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
             IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
-            log.debug("KeyboardSensor added %d", map.size);
+            Log.debug(tag, "KeyboardSensor added %d", map.size);
             for (int i = 0; i < map.size; ++i) {
                 keyboardSensors.addAll(map.get(i));
             }
@@ -139,7 +139,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
             IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
-            log.debug("KeyboardSensor remove %d", map.size);
+            Log.debug(tag, "KeyboardSensor remove %d", map.size);
             for (int i = 0; i < map.size; ++i) {
                 keyboardSensors.removeAll(map.get(i));
             }

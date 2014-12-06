@@ -85,7 +85,7 @@ public class TriggerDart extends EntityFactory {
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(3, 0))
-                .setDuration((short) 3)
+                .setDuration((short) 6)
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 

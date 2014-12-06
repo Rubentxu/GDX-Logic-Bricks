@@ -2,7 +2,6 @@ package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
@@ -20,13 +19,13 @@ import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
-import com.indignado.logicbricks.utils.Logger;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
  */
 public class BricksUtils {
-    private static Logger log = new Logger("BricksUtils");
+    private static String tag = "BricksUtils";
     private static ObjectMap<Class<? extends BrickBuilder>, BrickBuilder> buildersMap = new ObjectMap<>();
     private static ObjectMap<Class<? extends LogicBrick>, BricksClasses> bricksClasses = new ObjectMap<>();
     private static BricksUtils instance;
@@ -72,7 +71,7 @@ public class BricksUtils {
                     builder = (B) constructor.newInstance((Object[]) null);
                     buildersMap.put(clazzBuilder, builder);
                 } catch (Exception e) {
-                    log.debug("Error instance actuatorBuilder %s" + clazzBuilder.getSimpleName());
+                    Log.debug(tag, "Error instance actuatorBuilder %s" + clazzBuilder.getSimpleName());
                 }
             }
         }

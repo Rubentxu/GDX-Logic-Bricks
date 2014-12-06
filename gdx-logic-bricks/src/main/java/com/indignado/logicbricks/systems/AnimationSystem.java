@@ -5,15 +5,19 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.AnimationView;
 import com.indignado.logicbricks.components.data.View;
+import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
  */
 public class AnimationSystem extends IteratingSystem {
+    private String tag = "AnimationSystem";
     private ComponentMapper<ViewsComponent> tm;
     private ComponentMapper<StateComponent> sm;
 
@@ -28,6 +32,7 @@ public class AnimationSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
+        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         ViewsComponent viewsComponent = tm.get(entity);
         StateComponent state = sm.get(entity);
         for (View view : viewsComponent.views) {

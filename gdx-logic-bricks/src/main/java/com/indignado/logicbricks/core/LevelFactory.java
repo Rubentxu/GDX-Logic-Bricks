@@ -11,6 +11,7 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
  * @author Rubentxu.
  */
 public abstract class LevelFactory {
+    protected String tag = this.getClass().getSimpleName();
     protected World world;
 
 

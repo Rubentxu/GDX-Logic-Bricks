@@ -4,6 +4,7 @@ import com.indignado.logicbricks.components.controllers.ConditionalControllerCom
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.Iterator;
 
@@ -35,14 +36,14 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
-            log.debug("Sensor name %s pulseSignal %b",s.name, s.pulseSignal);
+            Log.debug(tag, "Sensor name %s pulseSignal %b", s.name, s.pulseSignal);
             if (s.pulseSignal == false) {
                 controller.pulseSignal = false;
 
             }
 
         }
-        if(controller.pulseSignal) log.debug("Controller %s AND pulseSignal %b",controller.name, controller.pulseSignal);
+        if(controller.pulseSignal) Log.debug(tag, "Controller %s AND pulseSignal %b", controller.name, controller.pulseSignal);
 
     }
 
@@ -58,7 +59,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = true;
             }
         }
-        if(controller.pulseSignal) log.debug("OR pulseSignal %b", controller.pulseSignal);
+        if(controller.pulseSignal) Log.debug(tag, "OR pulseSignal %b", controller.pulseSignal);
 
     }
 
@@ -74,7 +75,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = true;
             }
         }
-        if(controller.pulseSignal) log.debug("NAND pulseSignal %b", controller.pulseSignal);
+        if(controller.pulseSignal) Log.debug(tag, "NAND pulseSignal %b", controller.pulseSignal);
 
     }
 
@@ -92,7 +93,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             }
 
         }
-        if(controller.pulseSignal) log.debug("NOR pulseSignal %b", controller.pulseSignal);
+        if(controller.pulseSignal) Log.debug(tag, "NOR pulseSignal %b", controller.pulseSignal);
 
     }
 

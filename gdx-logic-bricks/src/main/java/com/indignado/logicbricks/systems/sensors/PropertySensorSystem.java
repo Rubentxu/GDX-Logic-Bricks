@@ -3,9 +3,12 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.components.BlackBoardComponent;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.Set;
 
@@ -24,6 +27,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
+        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(),entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
@@ -79,7 +83,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                 break;
         }
         sensor.pulseSignal = isActive;
-        if(sensor.pulseSignal) log.debug("Sensor name %s property %s value %s pulseSignal %b", sensor.name,
+        if(sensor.pulseSignal) Log.debug(tag, "Sensor name %s property %s value %s pulseSignal %b", sensor.name,
                 sensor.property, sensor.value, sensor.pulseSignal);
 
     }

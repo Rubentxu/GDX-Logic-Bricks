@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 
 import com.badlogic.gdx.math.Vector2;
@@ -10,15 +9,13 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.InstanceEntityActuatorComponent;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
-import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.TimerSensor;
+import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
-import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
-import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.TimerSensorBuilder;
 
@@ -67,17 +64,16 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 .setType(ConditionalController.Type.AND)
                 .setName("DurationController")
                 .getBrick();
-        log.debug("controllers size %d controller name %s",entity.getComponent(ConditionalControllerComponent.class).controllers.size
-        ,entity.getComponent(ConditionalControllerComponent.class).controllers.get(0).iterator().next().name);
-        Entity entity2 = world.getEntityBuilder()
+
+        world.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
                 .connectToSensor(timeSensor)
                 .connectToActuator(stateActuator)
                 .getEntity();
 
-        log.debug("controllers2 size %d controller name %s",entity.getComponent(ConditionalControllerComponent.class).controllers.size
-                ,entity.getComponent(ConditionalControllerComponent.class).controllers.get(0).iterator().next().name);
+        Log.debug(tag, "controllers2 size %d controller name %s", entity.getComponent(ConditionalControllerComponent.class).controllers.size
+                , entity.getComponent(ConditionalControllerComponent.class).controllers.get(0).iterator().next().name);
     }
 
 }

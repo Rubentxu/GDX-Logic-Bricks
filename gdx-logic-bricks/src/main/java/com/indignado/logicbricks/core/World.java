@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.AnimationSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
@@ -23,6 +24,7 @@ import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.CategoryBitsManager;
+import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 
@@ -31,6 +33,7 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
  * @author Rubentxu.
  */
 public class World implements Disposable {
+    private String tag = this.getClass().getSimpleName();
     private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
@@ -104,11 +107,13 @@ public class World implements Disposable {
 
 
     public void positioningEntity(Entity entity, float posX, float posY, float angle) {
+        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(),entity);
         RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
         for (Body rigidBody : rbc.rigidBodies) {
             Vector2 originPosition = new Vector2(posX, posY);
             originPosition.add(rigidBody.getPosition());
             rigidBody.setTransform(originPosition, (rigidBody.getAngle() + angle) * MathUtils.degreesToRadians);
+            Log.debug(tag,"Entity initial position %s",originPosition.toString());
 
         }
 

@@ -36,6 +36,7 @@ public class Settings {
     // Debug
     public static int debugLevel = Logger.INFO;
     public static Array<String> debugTags = new Array<>();
+    public static String debugEntity;
     public static boolean debug = debugLevel > Logger.ERROR;
 
     public static boolean drawBodies = false;
@@ -47,5 +48,6 @@ public class Settings {
     public static boolean drawStage = false;
     public static boolean drawGrid = false;
     public static boolean drawFPS = true;
+
 
 }

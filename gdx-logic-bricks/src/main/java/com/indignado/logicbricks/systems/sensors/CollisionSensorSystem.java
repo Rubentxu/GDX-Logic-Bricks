@@ -3,7 +3,6 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -118,7 +118,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public void entityAdded(Entity entity) {
-        log.debug("EntityAdded");
+        Log.debug(tag, "EntityAdded");
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
             IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;

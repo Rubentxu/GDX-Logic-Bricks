@@ -5,13 +5,14 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
-import com.indignado.logicbricks.utils.Logger;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -20,7 +21,7 @@ import java.util.Set;
  * @author Rubentxu.
  */
 public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComponent> extends IteratingSystem {
-    protected Logger log = new Logger(this.getClass().getSimpleName());
+    protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<AC> actuatorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 
@@ -43,6 +44,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
+        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<A> actuators = (Set<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
@@ -65,14 +67,10 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
         while (controllers.hasNext()) {
             Controller controller = controllers.next();
             boolean signal= controller.pulseSignal;
-            log.debug("Evaluate Controller %s pulseSignal %b size sensors %d size actuators %d sensor signal %b sensor name %s",controller.name,signal
-                    ,controller.sensors.size,controller.actuators.size,controller.sensors.values().toArray().first().pulseSignal,
-                    controller.sensors.values().toArray().first().name);
-            if(controller instanceof ConditionalController) log.debug("Controller type: %s", ((ConditionalController) controller).type);
             if ( signal == false) return false;
-
         }
         return true;
+
     }
 
 }

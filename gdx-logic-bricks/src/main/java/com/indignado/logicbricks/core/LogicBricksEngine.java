@@ -3,7 +3,6 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -11,13 +10,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.utils.Logger;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends PooledEngine {
-    private Logger log = new Logger(this.getClass().getSimpleName());
+    private String tag = this.getClass().getSimpleName();
     private ObjectMap<Long, Entity> idEntities;
     private ObjectMap<String, Array<Entity>> tagEntities;
 
@@ -33,7 +32,8 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     protected void removeEntityInternal(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, false);
-        log.debug("LogicBricksEngine");
+        if(Settings.debugEntity != null) tag = String.format("%s::%s:",this.getClass().getSimpleName(),identity.tag);
+        Log.debug(tag, "LogicBricksEngine");
         idEntities.remove(identity.uuid);
         tagEntities.get(identity.tag).removeValue(entity,false);
         super.removeEntityInternal(entity);
@@ -44,9 +44,10 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     public void addEntity(Entity entity) {
         super.addEntity(entity);
+
         idEntities.put(entity.getId(), entity);
         configEntity(entity);
-        log.debug("AddEntity %d", entity.getId());
+        Log.debug(tag, "AddEntity %d", entity.getId());
 
     }
 
@@ -54,6 +55,7 @@ public class LogicBricksEngine extends PooledEngine {
     private void configEntity(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
         identity.uuid = entity.getId();
+        if(Settings.debugEntity != null) tag = String.format("%s::%s:",this.getClass().getSimpleName(),identity.tag);
         if (!tagEntities.containsKey(identity.tag)) {
             tagEntities.put(identity.tag, new Array<Entity>());
 

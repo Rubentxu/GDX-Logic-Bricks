@@ -1,12 +1,12 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
@@ -24,24 +24,24 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
     public void processActuator(MotionActuator actuator, float deltaTime) {
 
         if (evaluateController(actuator)) {
-            log.debug("Actuator: %s", actuator.name);
+            Log.debug(tag, "Actuator: %s", actuator.name);
             if (actuator.targetRigidBody == null) {
                 actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
             }
             Body body = actuator.targetRigidBody;
             if (actuator.velocity != null) {
-                log.debug("apply velocity: %s", actuator.velocity);
+                Log.debug(tag, "apply velocity: %s", actuator.velocity);
                 body.setLinearVelocity(actuator.velocity);
             }
             if (actuator.force != null) {
-                log.debug("apply force: %s", actuator.force);
+                Log.debug(tag, "apply force: %s", actuator.force);
                 body.applyForce(actuator.force, body.getWorldCenter(), true);
                 float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
                 body.setTransform(body.getPosition().x,body.getPosition().y,angle);
             }
 
             if (actuator.impulse != null) {
-                log.debug("Apply impulse: %s", actuator.impulse);
+                Log.debug(tag, "Apply impulse: %s", actuator.impulse);
                 body.applyLinearImpulse(actuator.impulse, body.getWorldCenter(), true);
 
             }
@@ -54,7 +54,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                     body.applyAngularImpulse(actuator.angularImpulse, true);
                 else {
                     float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
-                    log.debug("apply angle: %f", angle);
+                    Log.debug(tag, "apply angle: %f", angle);
                     body.setTransform(body.getPosition().x,body.getPosition().y,angle);
                 }
             } else {

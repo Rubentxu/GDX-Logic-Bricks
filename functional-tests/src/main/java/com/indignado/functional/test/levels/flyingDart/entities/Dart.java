@@ -110,7 +110,7 @@ public class Dart extends EntityFactory {
                                     .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
                                     .setProperty("freeFlight")
                                     .setValue(false)
-                                    //.setOnce(true)
+                                    .setOnce(true)
                                     .setName("DartSensor")
                                     .getBrick();
 
@@ -130,7 +130,7 @@ public class Dart extends EntityFactory {
                 .connectToActuator(motionActuator)
                 .getEntity();
 
-        Gdx.app.log("Dart","size components" + entity.getComponents().size());
+        Gdx.app.log("Dart","size components " + entity.getComponents().size());
         return entity;
     }
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * @author Rubentxu.
  */
 public abstract class EntityFactory {
+    protected String tag = this.getClass().getSimpleName();
     protected World world;
 
     public EntityFactory(World world) {
