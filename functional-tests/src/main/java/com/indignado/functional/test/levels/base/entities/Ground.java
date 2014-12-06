@@ -34,6 +34,7 @@ public class Ground extends EntityFactory {
     public Entity createEntity() {
         Gdx.app.log("Ground","init instance");
         EntityBuilder entityBuilder = world.getEntityBuilder();
+        entityBuilder.initialize();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
@@ -53,7 +54,7 @@ public class Ground extends EntityFactory {
         bodiesComponents.rigidBodies.add(bodyWall);
         Gdx.app.log("Ground","init instance3");
 
-        Entity entity = entityBuilder.build();
+        Entity entity = entityBuilder.getEntity();
         Gdx.app.log("Ground","instance" + entity);
         return entity;
 

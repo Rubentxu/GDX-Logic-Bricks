@@ -35,12 +35,14 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
         while (it.hasNext()) {
             Sensor s = it.next();
+            log.debug("Sensor name %s pulseSignal %b",s.name, s.pulseSignal);
             if (s.pulseSignal == false) {
                 controller.pulseSignal = false;
 
             }
 
         }
+        if(controller.pulseSignal) log.debug("Controller %s AND pulseSignal %b",controller.name, controller.pulseSignal);
 
     }
 
@@ -56,7 +58,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = true;
             }
         }
-
+        if(controller.pulseSignal) log.debug("OR pulseSignal %b", controller.pulseSignal);
 
     }
 
@@ -72,7 +74,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = true;
             }
         }
-
+        if(controller.pulseSignal) log.debug("NAND pulseSignal %b", controller.pulseSignal);
 
     }
 
@@ -90,6 +92,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             }
 
         }
+        if(controller.pulseSignal) log.debug("NOR pulseSignal %b", controller.pulseSignal);
 
     }
 

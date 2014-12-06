@@ -9,6 +9,7 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.utils.Logger;
 
@@ -62,7 +63,13 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
         if (!controllers.hasNext())
             throw new LogicBricksException("ActuatorSystem", "This sensor does not have any associated sensor");
         while (controllers.hasNext()) {
-            if (controllers.next().pulseSignal == false) return false;
+            Controller controller = controllers.next();
+            boolean signal= controller.pulseSignal;
+            log.debug("Evaluate Controller %s pulseSignal %b size sensors %d size actuators %d sensor signal %b sensor name %s",controller.name,signal
+                    ,controller.sensors.size,controller.actuators.size,controller.sensors.values().toArray().first().pulseSignal,
+                    controller.sensors.values().toArray().first().name);
+            if(controller instanceof ConditionalController) log.debug("Controller type: %s", ((ConditionalController) controller).type);
+            if ( signal == false) return false;
 
         }
         return true;

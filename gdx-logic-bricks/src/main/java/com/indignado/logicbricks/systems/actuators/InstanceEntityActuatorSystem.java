@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.InstanceEntityActuatorComponent;
+import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
@@ -64,14 +65,19 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setType(ConditionalController.Type.AND)
+                .setName("DurationController")
                 .getBrick();
-
-        world.getEntityBuilder()
+        log.debug("controllers size %d controller name %s",entity.getComponent(ConditionalControllerComponent.class).controllers.size
+        ,entity.getComponent(ConditionalControllerComponent.class).controllers.get(0).iterator().next().name);
+        Entity entity2 = world.getEntityBuilder()
+                .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
                 .connectToSensor(timeSensor)
                 .connectToActuator(stateActuator)
-                .build(entity);
+                .getEntity();
 
+        log.debug("controllers2 size %d controller name %s",entity.getComponent(ConditionalControllerComponent.class).controllers.size
+                ,entity.getComponent(ConditionalControllerComponent.class).controllers.get(0).iterator().next().name);
     }
 
 }

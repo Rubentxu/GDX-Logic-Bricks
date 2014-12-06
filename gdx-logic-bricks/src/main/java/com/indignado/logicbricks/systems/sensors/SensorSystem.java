@@ -27,7 +27,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         this.family = Family.all(clazz, StateComponent.class).get();
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
-
+        log.debug("Create system family %s",clazz.getSimpleName());
     }
 
 
@@ -36,6 +36,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         this.family = Family.all(clazz, clazz2, StateComponent.class).get();
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
+        log.debug("Create system family %s and %s",clazz.getSimpleName(),clazz2.getSimpleName());
 
     }
 

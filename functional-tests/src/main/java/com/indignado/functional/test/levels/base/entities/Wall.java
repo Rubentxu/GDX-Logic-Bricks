@@ -31,6 +31,7 @@ public class Wall extends EntityFactory {
     @Override
     public Entity createEntity() {
         EntityBuilder entityBuilder = world.getEntityBuilder();
+        entityBuilder.initialize();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
@@ -49,7 +50,7 @@ public class Wall extends EntityFactory {
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyWall);
 
-        Entity entity = entityBuilder.build();
+        Entity entity = entityBuilder.getEntity();
         Gdx.app.log("Wall","instance" + entity);
         return entity;
 

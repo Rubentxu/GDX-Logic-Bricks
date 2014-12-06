@@ -55,6 +55,7 @@ public class Dart extends EntityFactory {
     @Override
     public Entity createEntity() {
         EntityBuilder entityBuilder = world.getEntityBuilder();
+        entityBuilder.initialize();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         BlackBoardComponent context = entityBuilder.getComponent(BlackBoardComponent.class);
@@ -109,8 +110,8 @@ public class Dart extends EntityFactory {
                                     .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
                                     .setProperty("freeFlight")
                                     .setValue(false)
-                                    .setOnce(true)
-                                    .setName("SensorFreeFlight")
+                                    //.setOnce(true)
+                                    .setName("DartSensor")
                                     .getBrick();
 
         ScriptController dartScript = BricksUtils.getBuilder(ScriptControllerBuilder.class)
@@ -119,6 +120,7 @@ public class Dart extends EntityFactory {
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setType(ConditionalController.Type.AND)
+                .setName("Dart")
                 .getBrick();
 
 
@@ -126,9 +128,9 @@ public class Dart extends EntityFactory {
                 .addController(controller, "Default")
                 .connectToSensor(freeFlight)
                 .connectToActuator(motionActuator)
-                .build();
+                .getEntity();
 
-        Gdx.app.log("Dart","instance" + entity);
+        Gdx.app.log("Dart","size components" + entity.getComponents().size());
         return entity;
     }
 

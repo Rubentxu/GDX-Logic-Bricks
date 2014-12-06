@@ -43,6 +43,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
     public void processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {
         boolean isActive = false;
+
         Property property = blackBoardComponent.getProperty(sensor.property);
         switch (sensor.evaluationType) {
             case CHANGED:
@@ -78,6 +79,8 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                 break;
         }
         sensor.pulseSignal = isActive;
+        if(sensor.pulseSignal) log.debug("Sensor name %s property %s value %s pulseSignal %b", sensor.name,
+                sensor.property, sensor.value, sensor.pulseSignal);
 
     }
 

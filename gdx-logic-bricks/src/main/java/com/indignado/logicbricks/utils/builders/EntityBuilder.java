@@ -4,11 +4,9 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -39,27 +37,34 @@ import java.util.Set;
 public class EntityBuilder {
     private static Logger log = new Logger("EntityBuilder");
     private PooledEngine engine;
-    private ObjectMap<Class<? extends Component>, Component> components;
+    private Entity entity;
     private Controller controller;
     private Array<String> controllerStates;
 
 
     public EntityBuilder(PooledEngine engine) {
-        this.components = new ObjectMap<>();
         this.controllerStates = new Array();
         this.engine = engine;
 
     }
 
 
+    public EntityBuilder initialize() {
+        entity = engine.createEntity();
+        return this;
+
+    }
+
+
+    public EntityBuilder initialize(Entity entity) {
+        this.entity = entity;
+        return this;
+
+    }
+
+
     private int getKeyState(String state) {
-        StateComponent stateComponent = null;
-        if (components.containsKey(StateComponent.class)) {
-            stateComponent = (StateComponent) components.get(StateComponent.class);
-        } else {
-            stateComponent = new StateComponent();
-            components.put(StateComponent.class, stateComponent);
-        }
+        StateComponent stateComponent = getComponent(StateComponent.class);
 
         int keyState = stateComponent.getState(state);
         if (keyState == -1) {
@@ -140,13 +145,12 @@ public class EntityBuilder {
 
     public <C extends Component> C getComponent(Class<C> clazz) {
         C comp = null;
-        if (components.containsKey(clazz)) {
-            comp = (C) components.get(clazz);
+        if (entity.getComponent(clazz) != null) {
+            comp = (C) entity.getComponent(clazz);
         } else {
             comp = engine.createComponent(clazz);
-            components.put(clazz, comp);
+            entity.add(comp);
         }
-
         return comp;
 
     }
@@ -315,18 +319,12 @@ public class EntityBuilder {
                 brick.owner = entity;
             }
         }
-    }
-
-
-    public Entity build() {
-        return build( engine.createEntity());
 
     }
 
 
-    public Entity build(Entity entity) {
-        for (Component c : components.values()) {
-            entity.add(c);
+    public Entity getEntity() {
+        for (Component c : entity.getComponents()) {
             if (c instanceof SensorComponent) {
                 config(((SensorComponent) c).sensors, entity);
             }
@@ -337,7 +335,6 @@ public class EntityBuilder {
                 config(((ActuatorComponent) c).actuators, entity);
             }
         }
-        components.clear();
         controllerStates.clear();
         return entity;
 

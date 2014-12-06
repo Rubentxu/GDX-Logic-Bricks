@@ -58,6 +58,7 @@ public class PlayerPlatform extends EntityFactory {
     public Entity createEntity() {
         OrthographicCamera camera = world.getCamera();
         EntityBuilder entityBuilder = world.getEntityBuilder();
+        entityBuilder.initialize();
 
         ParticleEffect dustEffect = world.getAssetManager().get(effect, ParticleEffect.class);
 
@@ -290,7 +291,7 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToSensor(propertySensorIsGround)
                 .connectToActuator(motionActuatorJump);
 
-        return entityBuilder.build();
+        return entityBuilder.getEntity();
 
     }
 

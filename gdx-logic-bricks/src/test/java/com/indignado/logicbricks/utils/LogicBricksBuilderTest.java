@@ -19,7 +19,7 @@ public class LogicBricksBuilderTest {
     @Test
     public void addSensorTest() {
         AlwaysSensor alwaysSensor = new AlwaysSensor(new Entity());
-        LogicBricks logicBricks = logicBricksBuilder.addSensor(alwaysSensor).build();
+        LogicBricks logicBricks = logicBricksBuilder.addSensor(alwaysSensor).getEntity();
         assertTrue(logicBricks.sensors.containsKey(AlwaysSensor.class));
 
     }
@@ -28,7 +28,7 @@ public class LogicBricksBuilderTest {
     @Test
     public void addControllerTest() {
         ConditionalController sensor = new ConditionalController();
-        LogicBricks logicBricks = logicBricksBuilder.addController(sensor).build();
+        LogicBricks logicBricks = logicBricksBuilder.addController(sensor).getEntity();
         assertTrue(logicBricks.controllers.containsKey(ConditionalController.class));
 
     }
@@ -37,7 +37,7 @@ public class LogicBricksBuilderTest {
     @Test
     public void addActuatorTest() {
         MotionActuator motionActuator = new MotionActuator();
-        LogicBricks logicBricks = logicBricksBuilder.addActuator(motionActuator).build();
+        LogicBricks logicBricks = logicBricksBuilder.addActuator(motionActuator).getEntity();
         assertTrue(logicBricks.actuators.containsKey(MotionActuator.class));
 
     }*/

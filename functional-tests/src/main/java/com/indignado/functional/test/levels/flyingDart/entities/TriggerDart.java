@@ -49,6 +49,7 @@ public class TriggerDart extends EntityFactory {
     @Override
     public Entity createEntity() {
         EntityBuilder entityBuilder = world.getEntityBuilder();
+        entityBuilder.initialize();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
@@ -90,13 +91,14 @@ public class TriggerDart extends EntityFactory {
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                                         .setType(ConditionalController.Type.AND)
+                                        .setName("TriggerDart")
                                         .getBrick();
 
         Entity entity = entityBuilder
                 .addController(controller, "Default")
                 .connectToSensor(trigger)
                 .connectToActuator(instanceEntityActuator)
-                .build();
+                .getEntity();
 
         Gdx.app.log("TriggerDart","instance" + entity);
         return entity;

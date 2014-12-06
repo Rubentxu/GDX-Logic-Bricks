@@ -36,7 +36,9 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawVelocities = true;
         Settings.drawStage = true;
         Settings.debugTags.add("PropertySensorSystem");
-        //Settings.debugTags.add("KeyboardSensorSystem");
+        Settings.debugTags.add("MotionActuatorSystem");
+        Settings.debugTags.add("ConditionalControllerSystem");
+        Settings.debugTags.add("InstanceEntityActuatorSystem");
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();

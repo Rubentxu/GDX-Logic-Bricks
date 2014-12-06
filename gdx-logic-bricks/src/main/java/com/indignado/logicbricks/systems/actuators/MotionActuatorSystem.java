@@ -22,26 +22,27 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
 
     @Override
     public void processActuator(MotionActuator actuator, float deltaTime) {
+
         if (evaluateController(actuator)) {
+            log.debug("Actuator: %s", actuator.name);
             if (actuator.targetRigidBody == null) {
                 actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
             }
             Body body = actuator.targetRigidBody;
             if (actuator.velocity != null) {
-                log.debug("apply velocity: %s" + actuator.velocity);
+                log.debug("apply velocity: %s", actuator.velocity);
                 body.setLinearVelocity(actuator.velocity);
             }
             if (actuator.force != null) {
-                log.debug("apply force: %s" + actuator.force);
+                log.debug("apply force: %s", actuator.force);
                 body.applyForce(actuator.force, body.getWorldCenter(), true);
                 float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
                 body.setTransform(body.getPosition().x,body.getPosition().y,angle);
             }
 
             if (actuator.impulse != null) {
-                //Gdx.app.log("MotionActuatorSystem", "apply impulse: " + sensor.impulse);
+                log.debug("Apply impulse: %s", actuator.impulse);
                 body.applyLinearImpulse(actuator.impulse, body.getWorldCenter(), true);
-
 
             }
 
@@ -53,7 +54,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                     body.applyAngularImpulse(actuator.angularImpulse, true);
                 else {
                     float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
-                    log.debug("apply angle: %f" + angle);
+                    log.debug("apply angle: %f", angle);
                     body.setTransform(body.getPosition().x,body.getPosition().y,angle);
                 }
             } else {

@@ -34,6 +34,7 @@ public class Crate extends EntityFactory {
     @Override
     public Entity createEntity() {
         EntityBuilder entityBuilder = world.getEntityBuilder();
+        entityBuilder.initialize();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
@@ -53,7 +54,7 @@ public class Crate extends EntityFactory {
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyCrate);
 
-        Entity entity = entityBuilder.build();
+        Entity entity = entityBuilder.getEntity();
         Gdx.app.log("Crate","instance" + entity);
         return entity;
 
