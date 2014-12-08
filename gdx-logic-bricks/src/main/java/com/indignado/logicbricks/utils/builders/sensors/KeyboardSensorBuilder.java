@@ -1,7 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
-import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.

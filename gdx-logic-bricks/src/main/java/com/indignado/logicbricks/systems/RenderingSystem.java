@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.ParticleEffectView;
 import com.indignado.logicbricks.components.data.TextureView;
@@ -31,10 +30,10 @@ import java.util.Comparator;
  * @author Rubentxu
  */
 public class RenderingSystem extends IteratingSystem {
-    private String tag = this.getClass().getSimpleName();
     private final World physics;
     protected Viewport viewport;
     protected OrthographicCamera uiCamera;
+    private String tag = this.getClass().getSimpleName();
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Array<View> renderQueue;
@@ -206,7 +205,7 @@ public class RenderingSystem extends IteratingSystem {
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         for (View view : entity.getComponent(ViewsComponent.class).views) {
             renderQueue.add(view);
         }

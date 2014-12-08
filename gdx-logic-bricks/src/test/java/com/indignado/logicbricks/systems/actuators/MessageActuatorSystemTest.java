@@ -39,7 +39,7 @@ public class MessageActuatorSystemTest {
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new MessageActuatorSystem());
-        engine.addSystem(new StateSystem(new World(null,null,null,null)));
+        engine.addSystem(new StateSystem(new World(null, null, null, null)));
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePrueba));

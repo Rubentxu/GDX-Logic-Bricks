@@ -13,9 +13,9 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public class FlyingDartCollisionRule implements ContactListener {
-    private String tag = this.getClass().getSimpleName();
     public Array<WeldJointDef> jointDefs = new Array<>();
     public Array<Joint> destroyJoints = new Array<>();
+    private String tag = this.getClass().getSimpleName();
 
     @Override
     public void beginContact(Contact contact) {
@@ -29,7 +29,7 @@ public class FlyingDartCollisionRule implements ContactListener {
             IdentityComponent identityA = ((Entity) bodyA.getUserData()).getComponent(IdentityComponent.class);
             IdentityComponent identityB = ((Entity) bodyB.getUserData()).getComponent(IdentityComponent.class);
 
-            Log.debug(tag, "Contact BodyA %s id %d BodyB %s id %d", identityA.tag, identityA.uuid, identityB.tag,  identityB.uuid);
+            Log.debug(tag, "Contact BodyA %s id %d BodyB %s id %d", identityA.tag, identityA.uuid, identityB.tag, identityB.uuid);
 
             BlackBoardComponent contextA = ((Entity) bodyA.getUserData()).getComponent(BlackBoardComponent.class);
             BlackBoardComponent contextB = ((Entity) bodyB.getUserData()).getComponent(BlackBoardComponent.class);
@@ -85,11 +85,11 @@ public class FlyingDartCollisionRule implements ContactListener {
             }
 
 
-            if(identityA.tag == "Dart") {
+            if (identityA.tag == "Dart") {
                 contextA.setValueProperty("freeFlight", true);
             }
 
-            if(identityB.tag == "Dart") {
+            if (identityB.tag == "Dart") {
                 contextB.setValueProperty("freeFlight", true);
             }
 

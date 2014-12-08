@@ -118,7 +118,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                     }
                     break;
             }
-            Vector3 worldCoordinates = new Vector3(screenX,screenY,0);
+            Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
             world.getCamera().unproject(worldCoordinates);
 
             sensor.positionXsignal = (int) worldCoordinates.x;

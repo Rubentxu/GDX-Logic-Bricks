@@ -2,7 +2,6 @@ package com.indignado.logicbricks.utils.builders.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
-import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.

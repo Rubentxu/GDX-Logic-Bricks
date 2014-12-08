@@ -48,6 +48,20 @@ public class EntityBuilder {
 
     }
 
+    private static Constructor findConstructor(Class type) {
+        try {
+            return ClassReflection.getConstructor(type, (Class[]) null);
+        } catch (Exception ex1) {
+            try {
+                Constructor constructor = ClassReflection.getDeclaredConstructor(type, (Class[]) null);
+                constructor.setAccessible(true);
+                return constructor;
+            } catch (ReflectionException ex2) {
+                Log.debug(tag, "Error instance entitySystem %s", ex2.getMessage());
+                return null;
+            }
+        }
+    }
 
     public EntityBuilder initialize() {
         entity = engine.createEntity();
@@ -55,13 +69,11 @@ public class EntityBuilder {
 
     }
 
-
     public EntityBuilder initialize(Entity entity) {
         this.entity = entity;
         return this;
 
     }
-
 
     private int getKeyState(String state) {
         StateComponent stateComponent = getComponent(StateComponent.class);
@@ -74,7 +86,6 @@ public class EntityBuilder {
 
     }
 
-
     private <S extends Sensor> EntityBuilder addSensor(Sensor sensor, Array<String> nameStates) {
         for (String s : nameStates) {
             addSensor(sensor, s);
@@ -82,7 +93,6 @@ public class EntityBuilder {
         return this;
 
     }
-
 
     private <S extends Sensor, SC extends SensorComponent> EntityBuilder addSensor(S sensor, String nameState) {
         int state = getKeyState(nameState);
@@ -100,31 +110,13 @@ public class EntityBuilder {
 
     }
 
-
-
-    private static  Constructor findConstructor(Class type) {
-        try {
-            return ClassReflection.getConstructor(type, (Class[]) null);
-        } catch (Exception ex1) {
-            try {
-                Constructor constructor = ClassReflection.getDeclaredConstructor(type, (Class[]) null);
-                constructor.setAccessible(true);
-                return constructor;
-            } catch (ReflectionException ex2) {
-                Log.debug(tag, "Error instance entitySystem %s", ex2.getMessage());
-                return null;
-            }
-        }
-    }
-
-
     private <ES extends EntitySystem> ES getSystem(Class<ES> clazz) {
         ES entitySystem = engine.getSystem(clazz);
         if (entitySystem == null) {
             try {
                 Constructor constructor = findConstructor(clazz);
                 entitySystem = (ES) constructor.newInstance((Object[]) null);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 Log.debug(tag, "Error instance entitySystem %s", clazz.getSimpleName());
 
             }
@@ -228,7 +220,7 @@ public class EntityBuilder {
 
     public EntityBuilder connectToSensor(Sensor sensor) {
         addSensor(sensor, controllerStates);
-        if(sensor.name == null) sensor.name = sensor.getClass().getSimpleName() + "_" + controller.sensors.size;
+        if (sensor.name == null) sensor.name = sensor.getClass().getSimpleName() + "_" + controller.sensors.size;
         controller.sensors.put(sensor.name, sensor);
         return this;
 
@@ -246,7 +238,8 @@ public class EntityBuilder {
 
     public EntityBuilder connectToActuator(Actuator actuator) {
         addActuators(actuator, controllerStates);
-        if(actuator.name == null) actuator.name = actuator.getClass().getSimpleName() + "_" + controller.actuators.size;
+        if (actuator.name == null)
+            actuator.name = actuator.getClass().getSimpleName() + "_" + controller.actuators.size;
         actuator.controllers.add(controller);
         controller.actuators.put(actuator.name, actuator);
         return this;

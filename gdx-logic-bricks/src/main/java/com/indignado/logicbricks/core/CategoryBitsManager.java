@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.logicbricks.core.Settings;
 
 /**
  * copy Sioncore class
@@ -34,9 +33,8 @@ public class CategoryBitsManager {
             if (nextCategory >= 16) {
                 logger.error("maximum number of collision categories reached");
                 return 0;
-            }
-            else {
-                short newCategory = (short)(1 << (nextCategory++));
+            } else {
+                short newCategory = (short) (1 << (nextCategory++));
                 categoryBits.put(name, newCategory);
                 categoryNames.put(newCategory, name);
                 logger.info("registering category " + name + " => " + newCategory);

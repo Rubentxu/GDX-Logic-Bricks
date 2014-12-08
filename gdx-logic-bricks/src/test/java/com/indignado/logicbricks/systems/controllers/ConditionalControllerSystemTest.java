@@ -11,9 +11,6 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 /**
  * @author Rubentxu.
  */
@@ -35,7 +32,7 @@ public class ConditionalControllerSystemTest {
         engine = new PooledEngine();
         conditionalControllerSystem = new ConditionalControllerSystem();
         engine.addSystem(conditionalControllerSystem);
-        engine.addSystem(new StateSystem(new World(null,null,null,null)));
+        engine.addSystem(new StateSystem(new World(null, null, null, null)));
 
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePrueba));

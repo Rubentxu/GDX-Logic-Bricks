@@ -2,7 +2,6 @@ package com.indignado.functional.test.levels.simpleplatform.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.data.AnimationView;
 import com.indignado.logicbricks.components.data.ParticleEffectView;
@@ -48,8 +46,8 @@ public class PlayerPlatform extends EntityFactory {
 
     @Override
     public void loadAssets() {
-        if(! world.getAssetManager().isLoaded(effect)) world.getAssetManager().load(effect, ParticleEffect.class);
-        if(! world.getAssetManager().isLoaded(atlas)) world.getAssetManager().load(atlas, TextureAtlas.class);
+        if (!world.getAssetManager().isLoaded(effect)) world.getAssetManager().load(effect, ParticleEffect.class);
+        if (!world.getAssetManager().isLoaded(atlas)) world.getAssetManager().load(atlas, TextureAtlas.class);
 
     }
 
@@ -62,7 +60,7 @@ public class PlayerPlatform extends EntityFactory {
 
         ParticleEffect dustEffect = world.getAssetManager().get(effect, ParticleEffect.class);
 
-        TextureAtlas textureAtlas = world.getAssetManager().get(atlas,TextureAtlas.class);
+        TextureAtlas textureAtlas = world.getAssetManager().get(atlas, TextureAtlas.class);
         Array<TextureAtlas.AtlasRegion> heroWalking = textureAtlas.findRegions("Andando");
         Array<TextureAtlas.AtlasRegion> heroJump = textureAtlas.findRegions("Saltando");
         Array<TextureAtlas.AtlasRegion> heroFall = textureAtlas.findRegions("Cayendo");
@@ -125,23 +123,23 @@ public class PlayerPlatform extends EntityFactory {
 
 
         MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                                        .setImpulse(new Vector2(1, 0))
-                                        .setLimitVelocityX(7)
-                                        .getBrick();
+                .setImpulse(new Vector2(1, 0))
+                .setLimitVelocityX(7)
+                .getBrick();
 
 
-        KeyboardSensor keyboardSensor2 =  BricksUtils.getBuilder(KeyboardSensorBuilder.class)
-                                        .setKeyCode(Input.Keys.A)
-                                        .getBrick();
+        KeyboardSensor keyboardSensor2 = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+                .setKeyCode(Input.Keys.A)
+                .getBrick();
 
         ConditionalController controller2 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setType(ConditionalController.Type.AND)
                 .getBrick();
 
-        MotionActuator motionActuator2 =  BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                                        .setImpulse(new Vector2(-1, 0))
-                                        .setLimitVelocityX(7)
-                                        .getBrick();
+        MotionActuator motionActuator2 = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                .setImpulse(new Vector2(-1, 0))
+                .setLimitVelocityX(7)
+                .getBrick();
 
 
         ConditionalController controller3 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
@@ -149,29 +147,28 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
 
-        CameraActuator cameraActuator =  BricksUtils.getBuilder(CameraActuatorBuilder.class)
-                                        .setHeight((short) 1)
-                                        .setCamera(camera)
-                                        .getBrick();
+        CameraActuator cameraActuator = BricksUtils.getBuilder(CameraActuatorBuilder.class)
+                .setHeight((short) 1)
+                .setCamera(camera)
+                .getBrick();
 
 
         TextureActuator textureActuator = BricksUtils.getBuilder(TextureActuatorBuilder.class)
-                                        .setFlipX(false)
-                                        .setTextureView(playerView)
-                                        .getBrick();
+                .setFlipX(false)
+                .setTextureView(playerView)
+                .getBrick();
 
 
         StateActuator stateActuator = new StateActuator();
-        
+
         stateActuator.state = 1;
 
-        StateActuator stateActuatorB = new StateActuator();        
+        StateActuator stateActuatorB = new StateActuator();
         stateActuatorB.state = 1;
 
         StateActuator stateActuator2 = new StateActuator();
         stateActuator2.state = 0;
 
-        
 
         entityBuilder.addController(controller, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
@@ -181,9 +178,9 @@ public class PlayerPlatform extends EntityFactory {
 
 
         TextureActuator textureActuator2 = BricksUtils.getBuilder(TextureActuatorBuilder.class)
-                                        .setFlipX(true)
-                                        .setTextureView(playerView)
-                                        .getBrick();
+                .setFlipX(true)
+                .setTextureView(playerView)
+                .getBrick();
 
         entityBuilder.addController(controller2, "Idle", "Walking")
                 .connectToSensor(keyboardSensor2)
@@ -199,13 +196,13 @@ public class PlayerPlatform extends EntityFactory {
 
 
         ConditionalController controller4 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                                          .setType(ConditionalController.Type.NOR)
-                                          .getBrick();
+                .setType(ConditionalController.Type.NOR)
+                .getBrick();
 
-        EditRigidBodyActuator editRigidBodyActuator1 =  BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
-                                                    .setFriction(40)
-                                                    .setTargetRigidBody(bodyPlayer)
-                                                    .getBrick();
+        EditRigidBodyActuator editRigidBodyActuator1 = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
+                .setFriction(40)
+                .setTargetRigidBody(bodyPlayer)
+                .getBrick();
 
         entityBuilder.addController(controller4, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
@@ -215,13 +212,13 @@ public class PlayerPlatform extends EntityFactory {
 
 
         ConditionalController controller5 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                                          .setType(ConditionalController.Type.OR)
-                                          .getBrick();
+                .setType(ConditionalController.Type.OR)
+                .getBrick();
 
         EditRigidBodyActuator editRigidBodyActuator2 = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
-                                                    .setFriction(0.3f)
-                                                    .setTargetRigidBody(bodyPlayer)
-                                                    .getBrick()   ;
+                .setFriction(0.3f)
+                .setTargetRigidBody(bodyPlayer)
+                .getBrick();
 
         entityBuilder.addController(controller5, "Idle", "Walking")
                 .connectToSensor(keyboardSensor)
@@ -230,28 +227,28 @@ public class PlayerPlatform extends EntityFactory {
 
 
         CollisionSensor collisionSensor = BricksUtils.getBuilder(CollisionSensorBuilder.class)
-                                        .setTargetName("Ground")
-                                        .getBrick();
+                .setTargetName("Ground")
+                .getBrick();
 
         ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                                            .setType(ConditionalController.Type.AND)
-                                            .getBrick();
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
 
         ConditionalController controllerNotGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                                                .setType(ConditionalController.Type.NOR)
-                                                .getBrick();
+                .setType(ConditionalController.Type.NOR)
+                .getBrick();
 
         PropertyActuator<Boolean> propertyActuator = BricksUtils.getBuilder(PropertyActuatorBuilder.class)
-                                                .setProperty("isGround")
-                                                .setValue(true)
-                                                .setMode(PropertyActuator.Mode.Assign)
-                                                .getBrick();
+                .setProperty("isGround")
+                .setValue(true)
+                .setMode(PropertyActuator.Mode.Assign)
+                .getBrick();
 
 
         PropertyActuator<Boolean> propertyActuator2 = BricksUtils.getBuilder(PropertyActuatorBuilder.class)
-        .setProperty("isGround")
-        .setValue(false)
-        .setMode(PropertyActuator.Mode.Assign)
+                .setProperty("isGround")
+                .setValue(false)
+                .setMode(PropertyActuator.Mode.Assign)
                 .getBrick();
 
 
@@ -266,24 +263,24 @@ public class PlayerPlatform extends EntityFactory {
 
 
         KeyboardSensor keySensorJump = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
-                                    .setKeyCode(Input.Keys.W)
-                                    .getBrick();
+                .setKeyCode(Input.Keys.W)
+                .getBrick();
 
         PropertySensor propertySensorIsGround = BricksUtils.getBuilder(PropertySensorBuilder.class)
-                                            .setProperty("isGround")
-                                            .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
-                                            .setValue(true)
-                                            .getBrick();
+                .setProperty("isGround")
+                .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
+                .setValue(true)
+                .getBrick();
 
         ConditionalController controllerJump = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                                            .setType(ConditionalController.Type.AND)
-                                            .getBrick();
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
 
 
         MotionActuator motionActuatorJump = BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                                        .setImpulse(new Vector2(0, 3))
-                                        .setLimitVelocityY(7)
-                                        .getBrick();
+                .setImpulse(new Vector2(0, 3))
+                .setLimitVelocityY(7)
+                .getBrick();
 
 
         entityBuilder.addController(controllerJump, "Idle", "Walking")

@@ -1,21 +1,20 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.InstanceEntityActuatorComponent;
-import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
+import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.TimerSensor;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.TimerSensorBuilder;
 
@@ -40,19 +39,17 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 Entity entity = actuator.entityFactory.createEntity();
                 Body body = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
                 Vector2 position = body.getPosition().cpy();
-                if(actuator.localPosition != null) position.add(actuator.localPosition);
+                if (actuator.localPosition != null) position.add(actuator.localPosition);
 
-                world.positioningEntity(entity,position.x,position.y,actuator.angle);
-                Log.debug(tag,"Create with position %s", position);
+                world.positioningEntity(entity, position.x, position.y, actuator.angle);
+                Log.debug(tag, "Create with position %s", position);
 
-                if(actuator.initialVelocity != null) {
-                    Body bodyEntity = entity.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-                    bodyEntity.setLinearVelocity(actuator.initialVelocity);
-                    Log.debug(tag,"Initial Velocity %s Angle %f",actuator.initialVelocity.toString(),actuator.angle);
+                if (actuator.initialVelocity != null) {
+                    addMotionComponents(world, entity, actuator);
                 }
 
                 world.getEngine().addEntity(entity);
-                if(actuator.duration != 0) addDurationComponents(world,entity,actuator);
+                if (actuator.duration != 0) addDurationComponents(world, entity, actuator);
             }
 
         }
@@ -78,6 +75,32 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
                 .connectToSensor(timeSensor)
                 .connectToActuator(stateActuator)
+                .getEntity();
+
+
+    }
+
+
+    private void addMotionComponents(World world, Entity entity, InstanceEntityActuator actuator) {
+        TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
+                .setOnce(true)
+                .getBrick();
+
+        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setType(ConditionalController.Type.AND)
+                .getBrick();
+
+        MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                .setVelocity(actuator.initialVelocity)
+                .getBrick();
+
+        Log.debug(tag, "Initial Velocity %s Angle %f", actuator.initialVelocity.toString(), actuator.angle);
+
+        world.getEntityBuilder()
+                .initialize(entity)
+                .addController(controller, entity.getComponent(StateComponent.class).getStates())
+                .connectToSensor(timeSensor)
+                .connectToActuator(motionActuator)
                 .getEntity();
 
 

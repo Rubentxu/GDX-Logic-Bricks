@@ -1,12 +1,5 @@
 package com.indignado.logicbricks.core;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-
 /**
  * @author Rubentxu.
  */
@@ -31,8 +24,6 @@ public abstract class LevelFactory {
 
 
     public abstract void createLevel();
-
-
 
 
 }

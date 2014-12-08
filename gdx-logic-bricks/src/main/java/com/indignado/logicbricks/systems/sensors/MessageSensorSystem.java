@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.sensors.MessageSensorComponent;
 import com.indignado.logicbricks.core.MessageManager;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
+
 import java.util.Set;
 
 /**
@@ -36,7 +37,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
             IntMap<Set<MessageSensor>> map = messageSensors.sensors;
             for (int i = 0; i < map.size; ++i) {
                 for (MessageSensor sensor : map.get(i)) {
-                    if(sensor.autoRegister)
+                    if (sensor.autoRegister)
                         MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.messageListen));
                 }
 

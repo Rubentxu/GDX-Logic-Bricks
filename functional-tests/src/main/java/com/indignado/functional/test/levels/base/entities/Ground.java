@@ -2,9 +2,7 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -27,12 +25,13 @@ public class Ground extends EntityFactory {
 
 
     @Override
-    public void loadAssets() {}
+    public void loadAssets() {
+    }
 
 
     @Override
     public Entity createEntity() {
-        Gdx.app.log("Ground","init instance");
+        Gdx.app.log("Ground", "init instance");
         EntityBuilder entityBuilder = world.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = world.getBodyBuilder();
@@ -44,7 +43,7 @@ public class Ground extends EntityFactory {
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
-        Gdx.app.log("Ground","init instance2");
+        Gdx.app.log("Ground", "init instance2");
         Body bodyWall = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(50, 0.6f)
                 .friction(0.5f))
@@ -52,10 +51,10 @@ public class Ground extends EntityFactory {
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyWall);
-        Gdx.app.log("Ground","init instance3");
+        Gdx.app.log("Ground", "init instance3");
 
         Entity entity = entityBuilder.getEntity();
-        Gdx.app.log("Ground","instance" + entity);
+        Gdx.app.log("Ground", "instance" + entity);
         return entity;
 
     }

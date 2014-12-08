@@ -32,10 +32,10 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     protected void removeEntityInternal(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, false);
-        if(Settings.debugEntity != null) tag = String.format("%s::%s:",this.getClass().getSimpleName(),identity.tag);
+        if (Settings.debugEntity != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
         Log.debug(tag, "LogicBricksEngine");
         idEntities.remove(identity.uuid);
-        tagEntities.get(identity.tag).removeValue(entity,false);
+        tagEntities.get(identity.tag).removeValue(entity, false);
         super.removeEntityInternal(entity);
 
     }
@@ -55,7 +55,7 @@ public class LogicBricksEngine extends PooledEngine {
     private void configEntity(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
         identity.uuid = entity.getId();
-        if(Settings.debugEntity != null) tag = String.format("%s::%s:",this.getClass().getSimpleName(),identity.tag);
+        if (Settings.debugEntity != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
         if (!tagEntities.containsKey(identity.tag)) {
             tagEntities.put(identity.tag, new Array<Entity>());
 

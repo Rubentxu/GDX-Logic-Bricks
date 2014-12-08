@@ -35,10 +35,9 @@ public class Settings {
 
     // Debug
     public static int debugLevel = Logger.INFO;
+    public static boolean debug = debugLevel > Logger.ERROR;
     public static Array<String> debugTags = new Array<>();
     public static String debugEntity;
-    public static boolean debug = debugLevel > Logger.ERROR;
-
     public static boolean drawBodies = false;
     public static boolean drawJoints = false;
     public static boolean drawABBs = false;

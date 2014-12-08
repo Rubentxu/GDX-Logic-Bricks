@@ -32,7 +32,6 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
  * @author Rubentxu.
  */
 public class World implements Disposable {
-    private String tag = this.getClass().getSimpleName();
     private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
@@ -40,6 +39,7 @@ public class World implements Disposable {
     private final OrthographicCamera camera;
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
+    private String tag = this.getClass().getSimpleName();
     private LogicBricksEngine engine;
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
     private CategoryBitsManager categoryBitsManager;
@@ -108,13 +108,13 @@ public class World implements Disposable {
 
 
     public void positioningEntity(Entity entity, float posX, float posY, float angle) {
-        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(),entity);
+        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
         for (Body rigidBody : rbc.rigidBodies) {
             Vector2 originPosition = new Vector2(posX, posY);
             originPosition.add(rigidBody.getPosition());
             rigidBody.setTransform(originPosition, (rigidBody.getAngle() + angle) * MathUtils.degreesToRadians);
-            Log.debug(tag,"Entity initial position %s",originPosition.toString());
+            Log.debug(tag, "Entity initial position %s", originPosition.toString());
 
         }
 

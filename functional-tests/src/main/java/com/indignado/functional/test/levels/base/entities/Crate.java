@@ -2,10 +2,8 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -28,7 +26,8 @@ public class Crate extends EntityFactory {
 
 
     @Override
-    public void loadAssets() {}
+    public void loadAssets() {
+    }
 
 
     @Override
@@ -55,7 +54,7 @@ public class Crate extends EntityFactory {
         bodiesComponents.rigidBodies.add(bodyCrate);
 
         Entity entity = entityBuilder.getEntity();
-        Gdx.app.log("Crate","instance" + entity);
+        Gdx.app.log("Crate", "instance" + entity);
         return entity;
 
     }

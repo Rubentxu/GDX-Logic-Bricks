@@ -37,8 +37,8 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
             if (actuator.force != null) {
                 Log.debug(tag, "apply force: %s", actuator.force);
                 body.applyForce(actuator.force, body.getWorldCenter(), true);
-                float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
-                body.setTransform(body.getPosition().x,body.getPosition().y,angle);
+                float angle = MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
+                body.setTransform(body.getPosition().x, body.getPosition().y, angle);
             }
 
             if (actuator.impulse != null) {
@@ -74,10 +74,10 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 body.setLinearVelocity(velocity);
             }
         }
-        if(!actuator.fixedRotation && actuator.angularVelocity == 0 && actuator.torque == 0 && actuator.angularImpulse == 0) {
-            float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
+        if (!actuator.fixedRotation && actuator.angularVelocity == 0 && actuator.torque == 0 && actuator.angularImpulse == 0) {
+            float angle = MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
             Log.debug(tag, "apply angle: %f", angle);
-            body.setTransform(body.getPosition().x,body.getPosition().y,angle);
+            body.setTransform(body.getPosition().x, body.getPosition().y, angle);
         }
 
     }

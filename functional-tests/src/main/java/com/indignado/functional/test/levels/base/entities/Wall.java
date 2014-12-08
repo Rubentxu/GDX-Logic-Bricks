@@ -2,10 +2,10 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.logicbricks.components.*;
+import com.indignado.logicbricks.components.IdentityComponent;
+import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
@@ -25,7 +25,8 @@ public class Wall extends EntityFactory {
 
 
     @Override
-    public void loadAssets() {}
+    public void loadAssets() {
+    }
 
 
     @Override
@@ -51,7 +52,7 @@ public class Wall extends EntityFactory {
         bodiesComponents.rigidBodies.add(bodyWall);
 
         Entity entity = entityBuilder.getEntity();
-        Gdx.app.log("Wall","instance" + entity);
+        Gdx.app.log("Wall", "instance" + entity);
         return entity;
 
     }

@@ -9,10 +9,7 @@ import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
-import com.indignado.logicbricks.core.actuators.MessageActuator;
-import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
-import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;
@@ -29,17 +26,16 @@ public class MousePositionScript implements Script {
 
         if (mouseSensor.pulseSignal) {
             controller.pulseSignal = true;
-            Vector2 mousePosition = new Vector2(mouseSensor.positionXsignal,mouseSensor.positionYsignal);
-            Log.debug("MousePositionScript::Trigger","mouse position %s",mousePosition);
+            Vector2 mousePosition = new Vector2(mouseSensor.positionXsignal, mouseSensor.positionYsignal);
+            Log.debug("MousePositionScript::Trigger", "mouse position %s", mousePosition);
             InstanceEntityActuator instanceEntityActuator = (InstanceEntityActuator) actuators.get("ActuatorInstanceDart");
             Body ownerBody = instanceEntityActuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
 
-
-            float angle = MathUtils.atan2(mousePosition.y - ownerBody.getPosition().y, mousePosition.x - ownerBody.getPosition().x) ;
-            instanceEntityActuator.initialVelocity = new Vector2(Settings.Width * MathUtils.cos(angle), Settings.Width  * MathUtils.sin(angle));
+            float angle = MathUtils.atan2(mousePosition.y - ownerBody.getPosition().y, mousePosition.x - ownerBody.getPosition().x);
+            instanceEntityActuator.initialVelocity = new Vector2(Settings.Width/2 * MathUtils.cos(angle), Settings.Width * MathUtils.sin(angle));
             instanceEntityActuator.angle = angle;
 
-            Log.debug("MousePositionScript::Trigger","Initial Velocity %s Angle %f",instanceEntityActuator.initialVelocity.toString(),angle);
+            Log.debug("MousePositionScript::Trigger", "Initial Velocity %s Angle %f", instanceEntityActuator.initialVelocity.toString(), angle);
 
         }
 

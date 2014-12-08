@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -12,14 +11,11 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.CameraActuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Rubentxu.
@@ -44,7 +40,7 @@ public class CameraActuatorSystemTest {
         this.entity = new Entity();
         engine = new PooledEngine();
         engine.addSystem(new CameraActuatorSystem());
-        engine.addSystem(new StateSystem(new com.indignado.logicbricks.core.World(null,null,null,null)));
+        engine.addSystem(new StateSystem(new com.indignado.logicbricks.core.World(null, null, null, null)));
 
         BodyBuilder bodyBuilder = new BodyBuilder(physic);
         body = bodyBuilder

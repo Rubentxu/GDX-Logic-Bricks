@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
@@ -44,7 +43,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if(Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         Set<A> actuators = (Set<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
@@ -66,8 +65,8 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
             throw new LogicBricksException("ActuatorSystem", "This sensor does not have any associated sensor");
         while (controllers.hasNext()) {
             Controller controller = controllers.next();
-            boolean signal= controller.pulseSignal;
-            if ( signal == false) return false;
+            boolean signal = controller.pulseSignal;
+            if (signal == false) return false;
         }
         return true;
 

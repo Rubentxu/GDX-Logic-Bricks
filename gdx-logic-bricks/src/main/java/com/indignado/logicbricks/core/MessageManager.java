@@ -13,14 +13,13 @@ public class MessageManager {
     private static int count = 0;
 
 
-
     public static int getMessageKey(String type) {
         if (messageType.containsValue(type, false)) {
             return messageType.getKey(type, false);
         } else {
             int index = count++;
             messageType.put(index, type);
-            Log.debug(tag, "Store MessageType %s number %d",type, index);
+            Log.debug(tag, "Store MessageType %s number %d", type, index);
             return index;
         }
 

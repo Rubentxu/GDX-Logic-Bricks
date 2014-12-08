@@ -1,8 +1,6 @@
 package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.utils.ObjectMap;
 
 
 /**

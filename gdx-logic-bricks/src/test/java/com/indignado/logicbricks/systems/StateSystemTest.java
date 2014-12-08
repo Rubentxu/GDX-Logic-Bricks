@@ -25,7 +25,7 @@ public class StateSystemTest extends BaseTest {
     @Before
     public void setup() {
         engine = new PooledEngine();
-        engine.addSystem(new StateSystem(new World(null,null,null,null)));
+        engine.addSystem(new StateSystem(new World(null, null, null, null)));
 
         stateComponent = new StateComponent();
         stateComponent.changeCurrentState(PlayerState.WALKING.ordinal());

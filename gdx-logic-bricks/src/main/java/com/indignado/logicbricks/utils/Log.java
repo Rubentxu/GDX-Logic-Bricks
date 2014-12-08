@@ -61,7 +61,7 @@ public class Log {
 
 
     public static String tagEntity(String tag, Entity entity) {
-        return String.format("%s::%s::%d:",tag,entity.getComponent(IdentityComponent.class).tag,
+        return String.format("%s::%s::%d:", tag, entity.getComponent(IdentityComponent.class).tag,
                 entity.getComponent(IdentityComponent.class).uuid);
 
     }

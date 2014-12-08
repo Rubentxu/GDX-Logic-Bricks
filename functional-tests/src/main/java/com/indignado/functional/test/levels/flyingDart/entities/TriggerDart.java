@@ -6,14 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.functional.test.levels.flyingDart.CalculateVelocityScript;
 import com.indignado.functional.test.levels.flyingDart.MousePositionScript;
-import com.indignado.logicbricks.components.*;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
-import com.indignado.logicbricks.core.actuators.MessageActuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
@@ -21,8 +18,6 @@ import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
-import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
-import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 
@@ -40,7 +35,7 @@ public class TriggerDart extends EntityFactory {
 
     @Override
     public void loadAssets() {
-        if(! world.getAssetManager().isLoaded(dartTexture)) world.getAssetManager().load(dartTexture, Texture.class);
+        if (!world.getAssetManager().isLoaded(dartTexture)) world.getAssetManager().load(dartTexture, Texture.class);
 
     }
 
@@ -102,7 +97,7 @@ public class TriggerDart extends EntityFactory {
                 .connectToActuator(instanceEntityActuator)
                 .getEntity();
 
-        Gdx.app.log("TriggerDart","instance" + entity);
+        Gdx.app.log("TriggerDart", "instance" + entity);
         return entity;
     }
 

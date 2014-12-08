@@ -43,7 +43,8 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             }
 
         }
-        if(controller.pulseSignal) Log.debug(tag, "Controller %s AND pulseSignal %b", controller.name, controller.pulseSignal);
+        if (controller.pulseSignal)
+            Log.debug(tag, "Controller %s AND pulseSignal %b", controller.name, controller.pulseSignal);
 
     }
 
@@ -59,7 +60,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = true;
             }
         }
-        if(controller.pulseSignal) Log.debug(tag, "OR pulseSignal %b", controller.pulseSignal);
+        if (controller.pulseSignal) Log.debug(tag, "OR pulseSignal %b", controller.pulseSignal);
 
     }
 
@@ -75,7 +76,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 controller.pulseSignal = true;
             }
         }
-        if(controller.pulseSignal) Log.debug(tag, "NAND pulseSignal %b", controller.pulseSignal);
+        if (controller.pulseSignal) Log.debug(tag, "NAND pulseSignal %b", controller.pulseSignal);
 
     }
 
@@ -93,7 +94,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             }
 
         }
-        if(controller.pulseSignal) Log.debug(tag, "NOR pulseSignal %b", controller.pulseSignal);
+        if (controller.pulseSignal) Log.debug(tag, "NOR pulseSignal %b", controller.pulseSignal);
 
     }
 

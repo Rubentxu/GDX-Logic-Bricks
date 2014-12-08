@@ -33,7 +33,7 @@ public class SimplePlatformLevel extends LevelFactory {
         Entity player = world.getEntityFactories().get(PlayerPlatform.class).createEntity();
         engine.addEntity(player);
 
-        Entity ground =  world.getEntityFactories().get(Ground.class).createEntity();
+        Entity ground = world.getEntityFactories().get(Ground.class).createEntity();
         engine.addEntity(ground);
 
         Entity box = world.getEntityFactories().get(Crate.class).createEntity();
