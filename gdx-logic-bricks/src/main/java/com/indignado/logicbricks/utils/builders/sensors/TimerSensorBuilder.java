@@ -1,8 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.TimerSensor;
-import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.
@@ -29,7 +27,7 @@ public class TimerSensorBuilder extends SensorBuilder<TimerSensor> {
     }
 
 
-    public TimerSensorBuilder setDuration(short duration) {
+    public TimerSensorBuilder setDuration(float duration) {
         brick.duration = duration;
         return this;
 

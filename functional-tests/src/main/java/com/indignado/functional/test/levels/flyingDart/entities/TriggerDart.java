@@ -77,7 +77,7 @@ public class TriggerDart extends EntityFactory {
 
         KeyboardSensor trigger = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
-                .setFrequency((short) 1)
+                .setFrequency(1)
                 .setName("SensorKey")
                 .getBrick();
 
@@ -85,7 +85,7 @@ public class TriggerDart extends EntityFactory {
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(3, 0))
-                .setDuration((short) 2)
+                .setDuration(4.5f)
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 

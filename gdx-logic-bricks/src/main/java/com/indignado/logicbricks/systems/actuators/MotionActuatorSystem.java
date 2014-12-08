@@ -22,13 +22,14 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
 
     @Override
     public void processActuator(MotionActuator actuator, float deltaTime) {
+        if (actuator.targetRigidBody == null) {
+            actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
+        }
+        Body body = actuator.targetRigidBody;
 
         if (evaluateController(actuator)) {
             Log.debug(tag, "Actuator: %s", actuator.name);
-            if (actuator.targetRigidBody == null) {
-                actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-            }
-            Body body = actuator.targetRigidBody;
+
             if (actuator.velocity != null) {
                 Log.debug(tag, "apply velocity: %s", actuator.velocity);
                 body.setLinearVelocity(actuator.velocity);
@@ -52,11 +53,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 else if (actuator.torque != 0) body.applyTorque(actuator.torque, true);
                 else if (actuator.angularImpulse != 0)
                     body.applyAngularImpulse(actuator.angularImpulse, true);
-                else {
-                    float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
-                    Log.debug(tag, "apply angle: %f", angle);
-                    body.setTransform(body.getPosition().x,body.getPosition().y,angle);
-                }
+
             } else {
                 if (!actuator.targetRigidBody.isFixedRotation()) body.setFixedRotation(true);
             }
@@ -76,6 +73,11 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 velocity.y = actuator.limitVelocityY;
                 body.setLinearVelocity(velocity);
             }
+        }
+        if(!actuator.fixedRotation && actuator.angularVelocity == 0 && actuator.torque == 0 && actuator.angularImpulse == 0) {
+            float angle =  MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
+            Log.debug(tag, "apply angle: %f", angle);
+            body.setTransform(body.getPosition().x,body.getPosition().y,angle);
         }
 
     }

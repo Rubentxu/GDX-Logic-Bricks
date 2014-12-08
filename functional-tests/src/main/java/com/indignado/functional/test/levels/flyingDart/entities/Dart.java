@@ -102,7 +102,7 @@ public class Dart extends EntityFactory {
 
         MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
                 .setTargetRigidBody(bodyArrow)
-                .setImpulse(new Vector2(30 * MathUtils.cos(38), 30 * MathUtils.sin(38)).nor().sub(0.1f, 0.1f))
+                .setImpulse(new Vector2(20,11))
                         .setName("ActuatorFreeFlight")
                         .getBrick();
 

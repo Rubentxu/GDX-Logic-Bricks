@@ -83,10 +83,11 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                             if (sensor.pulseSignal) sensor.time = 0;
                         }
                     } else {
-                        Log.debug(tag, "Sensor proccess Time %f", sensor.time);
                         processSensor(sensor, deltaTime);
+
                     }
                 }
+                Log.debug(tag, "Sensor proccess Time %f, name %s pulseSignal %b", sensor.time, sensor.name, sensor.pulseSignal );
                 if (!sensor.initialized) sensor.initialized = true;
             }
         }

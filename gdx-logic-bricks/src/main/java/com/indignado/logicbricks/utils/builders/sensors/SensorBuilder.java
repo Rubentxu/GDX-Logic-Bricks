@@ -8,7 +8,7 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
  */
 public abstract class SensorBuilder<T extends Sensor> extends BrickBuilder<T> {
 
-    public SensorBuilder<T> setFrequency(short frequency) {
+    public SensorBuilder<T> setFrequency(float frequency) {
         brick.frequency = frequency;
         return this;
 
