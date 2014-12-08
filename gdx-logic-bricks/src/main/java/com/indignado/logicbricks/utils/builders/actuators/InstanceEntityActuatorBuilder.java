@@ -35,6 +35,20 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
     }
 
 
+    public InstanceEntityActuatorBuilder setInitialVelocity(Vector2 initialVelocity) {
+        brick.initialVelocity = initialVelocity;
+        return this;
+
+    }
+
+
+    public InstanceEntityActuatorBuilder setInitialAngularVelocity(float initialAngularVelocity) {
+        brick.initialAngularVelocity = initialAngularVelocity;
+        return this;
+
+    }
+
+
     public InstanceEntityActuatorBuilder setDuration(float duration) {
         brick.duration = duration;
         return this;

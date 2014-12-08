@@ -12,8 +12,15 @@ public class MessageActuatorBuilder extends ActuatorBuilder<MessageActuator> {
 
     }
 
-    public MessageActuatorBuilder setMessage(int message) {
+    public MessageActuatorBuilder setMessage(String message) {
         brick.message = message;
+        return this;
+
+    }
+
+
+    public MessageActuatorBuilder setDelay(float delay) {
+        brick.delay = delay;
         return this;
 
     }

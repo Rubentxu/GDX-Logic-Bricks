@@ -43,6 +43,14 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 if(actuator.localPosition != null) position.add(actuator.localPosition);
 
                 world.positioningEntity(entity,position.x,position.y,actuator.angle);
+                Log.debug(tag,"Create with position %s", position);
+
+                if(actuator.initialVelocity != null) {
+                    Body bodyEntity = entity.getComponent(RigidBodiesComponents.class).rigidBodies.first();
+                    bodyEntity.setLinearVelocity(actuator.initialVelocity);
+                    Log.debug(tag,"Initial Velocity %s Angle %f",actuator.initialVelocity.toString(),actuator.angle);
+                }
+
                 world.getEngine().addEntity(entity);
                 if(actuator.duration != 0) addDurationComponents(world,entity,actuator);
             }
@@ -72,8 +80,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 .connectToActuator(stateActuator)
                 .getEntity();
 
-        Log.debug(tag, "controllers2 size %d controller name %s", entity.getComponent(ConditionalControllerComponent.class).controllers.size
-                , entity.getComponent(ConditionalControllerComponent.class).controllers.get(0).iterator().next().name);
+
     }
 
 }

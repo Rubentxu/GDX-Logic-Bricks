@@ -11,6 +11,8 @@ public class InstanceEntityActuator<T extends Entity> extends Actuator {
     public EntityFactory entityFactory;
     public Vector2 localPosition;
     public float angle = 0;
+    public Vector2 initialVelocity;
+    public float initialAngularVelocity = 0;
     public float duration = 0; // 0 = lives forever
     public Type type;
 

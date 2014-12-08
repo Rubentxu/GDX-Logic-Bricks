@@ -2,30 +2,29 @@ package com.indignado.functional.test.levels.flyingDart.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.functional.test.levels.flyingDart.CalculateVelocityScript;
+import com.indignado.functional.test.levels.flyingDart.MousePositionScript;
 import com.indignado.logicbricks.components.*;
-import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
+import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.KeyboardSensor;
-import com.indignado.logicbricks.core.sensors.PropertySensor;
+import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 
 /**
  * @author Rubentxu.
@@ -75,27 +74,30 @@ public class TriggerDart extends EntityFactory {
 
         entityBuilder.addView(arrowView);*/
 
-        KeyboardSensor trigger = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
-                .setKeyCode(Input.Keys.A)
+        MouseSensor trigger = BricksUtils.getBuilder(MouseSensorBuilder.class)
+                .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON)
                 .setFrequency(1)
-                .setName("SensorKey")
+                .setName("SensorMouse")
                 .getBrick();
+
+
+        ScriptController mousePositionScript = BricksUtils.getBuilder(ScriptControllerBuilder.class)
+                .setScript(new MousePositionScript())
+                .setName("MousePosition")
+                .getBrick();
+
 
         InstanceEntityActuator instanceEntityActuator = BricksUtils.getBuilder(InstanceEntityActuatorBuilder.class)
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
-                .setLocalPosition(new Vector2(3, 0))
+                .setLocalPosition(new Vector2(2, 1))
                 .setDuration(4.5f)
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 
-        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                                        .setType(ConditionalController.Type.AND)
-                                        .setName("TriggerDart")
-                                        .getBrick();
 
         Entity entity = entityBuilder
-                .addController(controller, "Default")
+                .addController(mousePositionScript, "Default")
                 .connectToSensor(trigger)
                 .connectToActuator(instanceEntityActuator)
                 .getEntity();

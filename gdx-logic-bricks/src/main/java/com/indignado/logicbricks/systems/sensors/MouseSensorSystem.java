@@ -5,11 +5,13 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 
 import java.util.HashSet;
@@ -20,10 +22,12 @@ import java.util.Set;
  */
 public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
     private Set<MouseSensor> mouseSensors;
+    private World world;
 
-    public MouseSensorSystem() {
+    public MouseSensorSystem(World world) {
         super(MouseSensorComponent.class);
         mouseSensors = new HashSet<MouseSensor>();
+        this.world = world;
 
     }
 
@@ -114,6 +118,11 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                     }
                     break;
             }
+            Vector3 worldCoordinates = new Vector3(screenX,screenY,0);
+            world.getCamera().unproject(worldCoordinates);
+
+            sensor.positionXsignal = (int) worldCoordinates.x;
+            sensor.positionYsignal = (int) worldCoordinates.y;
 
         }
         return false;

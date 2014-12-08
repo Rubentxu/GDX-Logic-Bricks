@@ -10,7 +10,10 @@ import com.badlogic.gdx.ai.msg.Telegraph;
  */
 public class MessageSensor extends Sensor implements Telegraph {
     // Config Values
-    public int messageListen;
+    public String messageListen;
+    public boolean autoRegister = true;
+
+    // Signal
     public Telegram message;
 
 

@@ -30,7 +30,7 @@ public class MouseSensorSystemTest {
     @Before
     public void setup() {
         engine = new PooledEngine();
-        inputSensorSystem = new MouseSensorSystem();
+        inputSensorSystem = new MouseSensorSystem(null);
         engine.addSystem(inputSensorSystem);
         this.statePruebas = "StatePruebas";
 

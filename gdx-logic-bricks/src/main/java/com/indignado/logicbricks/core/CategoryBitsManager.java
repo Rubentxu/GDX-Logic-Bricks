@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.utils;
+package com.indignado.logicbricks.core;
 
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.ObjectMap;

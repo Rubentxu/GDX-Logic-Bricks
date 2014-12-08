@@ -2,35 +2,30 @@ package com.indignado.functional.test.levels.flyingDart.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.functional.test.levels.flyingDart.FlyingDartScript;
+import com.indignado.functional.test.levels.flyingDart.CalculateVelocityScript;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.core.EntityFactory;
+import com.indignado.logicbricks.core.MessageManager;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
-import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
-import com.indignado.logicbricks.utils.CategoryBitsManager;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
-import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.MessageSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
 
 /**
@@ -100,13 +95,8 @@ public class Dart extends EntityFactory {
         viewsComponent.views.add(arrowView);
 
 
-        MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                .setTargetRigidBody(bodyArrow)
-                .setImpulse(new Vector2(20,11))
-                        .setName("ActuatorFreeFlight")
-                        .getBrick();
 
-        PropertySensor freeFlight = BricksUtils.getBuilder(PropertySensorBuilder.class)
+       /* PropertySensor freeFlight = BricksUtils.getBuilder(PropertySensorBuilder.class)
                                     .setEvaluationType(PropertySensor.EvaluationType.EQUAL)
                                     .setProperty("freeFlight")
                                     .setValue(false)
@@ -114,20 +104,33 @@ public class Dart extends EntityFactory {
                                     .setName("DartSensor")
                                     .getBrick();
 
-        ScriptController dartScript = BricksUtils.getBuilder(ScriptControllerBuilder.class)
-                                    .setScript(new FlyingDartScript())
-                                    .getBrick();
+        MessageSensor messageSensor = BricksUtils.getBuilder(MessageSensorBuilder.class)
+                .setMessageListen("PositionMessage")
+                .setAutoRegister(false)
+                .setOnce(true)
+                .setName("PositionMessage")
+                .getBrick();
 
-        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
-                .setName("Dart")
+        MessageDispatcher.getInstance().addListener(messageSensor, MessageManager.getMessageKey(messageSensor.messageListen));
+
+
+        ScriptController calculateVelocityScript = BricksUtils.getBuilder(ScriptControllerBuilder.class)
+                .setScript(new CalculateVelocityScript())
+                .setName("CalculateVelocityScript")
                 .getBrick();
 
 
+        MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                .setTargetRigidBody(bodyArrow)
+                .setImpulse(new Vector2(20,11))
+                .setName("ActuatorFreeFlight")
+                .getBrick();*/
+
+
         Entity entity = entityBuilder
-                .addController(controller, "Default")
-                .connectToSensor(freeFlight)
-                .connectToActuator(motionActuator)
+               /* .addController(calculateVelocityScript, "Default")
+                .connectToSensors(freeFlight, messageSensor)
+                .connectToActuator(motionActuator)*/
                 .getEntity();
 
         Gdx.app.log("Dart","size components " + entity.getComponents().size());

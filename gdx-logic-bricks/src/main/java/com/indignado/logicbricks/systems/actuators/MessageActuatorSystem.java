@@ -1,8 +1,14 @@
 package com.indignado.logicbricks.systems.actuators;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.components.actuators.MessageActuatorComponent;
+import com.indignado.logicbricks.core.MessageManager;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
+import com.indignado.logicbricks.utils.Log;
+
+import java.util.Set;
 
 /**
  * @author Rubentxu
@@ -18,9 +24,17 @@ public class MessageActuatorSystem extends ActuatorSystem<MessageActuator, Messa
 
 
     @Override
+    public void processEntity(Entity entity, float deltaTime) {
+       super.processEntity(entity,deltaTime);
+       MessageDispatcher.getInstance().update(deltaTime);
+
+    }
+
+
+    @Override
     public void processActuator(MessageActuator actuator, float deltaTime) {
         if (evaluateController(actuator))
-            MessageDispatcher.getInstance().dispatchMessage(actuator, actuator.message, actuator.extraInfo);
+            MessageDispatcher.getInstance().dispatchMessage(actuator.delay, actuator, MessageManager.getMessageKey(actuator.message), actuator.extraInfo);
 
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.MessageManager;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
@@ -64,7 +65,7 @@ public class MessageActuatorSystemTest {
 
         messageActuator = new MessageActuator();
         messageActuator.controllers.add(conditionalController);
-        messageActuator.message = MENSAJE_PRUEBAS;
+        messageActuator.message = MessageManager.getMessageType(MENSAJE_PRUEBAS);
 
         entityBuilder.addController(conditionalController, statePrueba)
                 .connectToActuator(messageActuator);

@@ -14,15 +14,15 @@ public class MessageSensorBuilder extends SensorBuilder<MessageSensor> {
 
     }
 
-    public MessageSensorBuilder setMessageListen(int messageListen) {
+    public MessageSensorBuilder setMessageListen(String messageListen) {
         brick.messageListen = messageListen;
         return this;
 
     }
 
 
-    public MessageSensorBuilder setMessage(Telegram message) {
-        brick.message = message;
+    public MessageSensorBuilder setAutoRegister(boolean autoRegister) {
+        brick.autoRegister = autoRegister;
         return this;
 
     }
