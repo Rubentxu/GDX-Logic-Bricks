@@ -1,4 +1,7 @@
 apply plugin: 'java'
+apply plugin:'application'
+
+mainClassName = "com.indignado.functional.test.FlyingDartTest"
 
 sourceCompatibility = 1.7
 

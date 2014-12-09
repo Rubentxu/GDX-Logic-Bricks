@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
+import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
+import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -19,6 +21,16 @@ public class FlyingDartCollisionRule implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
         Vector2 contactPoint;
         WeldJointDef weldJointDef;
         if (contact.isTouching()) {
@@ -33,6 +45,10 @@ public class FlyingDartCollisionRule implements ContactListener {
 
             BlackBoardComponent contextA = ((Entity) bodyA.getUserData()).getComponent(BlackBoardComponent.class);
             BlackBoardComponent contextB = ((Entity) bodyB.getUserData()).getComponent(BlackBoardComponent.class);
+
+
+            MotionActuatorComponent motionA = ((Entity) bodyA.getUserData()).getComponent(MotionActuatorComponent.class);
+            MotionActuatorComponent motionB = ((Entity) bodyB.getUserData()).getComponent(MotionActuatorComponent.class);
 
             if (identityA.tag == "Dart" && identityB.tag == "Dart") {
                 for (JointEdge j : bodyA.getJointList()) {
@@ -52,6 +68,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     jointDefs.add(weldJointDef);
                     Log.debug(tag, "Create WeldJoint");
 
+
                 }
             }
 
@@ -61,6 +78,7 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
                     Log.debug(tag, "Create WeldJoint");
+
                 }
             }
 
@@ -87,23 +105,16 @@ public class FlyingDartCollisionRule implements ContactListener {
 
             if (identityA.tag == "Dart") {
                 contextA.setValueProperty("freeFlight", true);
+                motionA.actuators.get(0).iterator().next().fixedRotation = true;
             }
 
             if (identityB.tag == "Dart") {
                 contextB.setValueProperty("freeFlight", true);
+                motionB.actuators.get(0).iterator().next().fixedRotation = true;
+
             }
 
         }
-    }
-
-    @Override
-    public void endContact(Contact contact) {
-
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
 
     }
 

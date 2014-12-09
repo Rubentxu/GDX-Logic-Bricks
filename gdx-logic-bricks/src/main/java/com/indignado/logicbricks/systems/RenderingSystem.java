@@ -45,7 +45,7 @@ public class RenderingSystem extends IteratingSystem {
     // Debug
     private ShapeRenderer debugShapeRenderer;
     private Box2DDebugRenderer debugRenderer;
-    private BitmapFont debugFont;
+    //private BitmapFont debugFont;
 
 
     public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, World physics) {
@@ -69,7 +69,7 @@ public class RenderingSystem extends IteratingSystem {
             this.debugShapeRenderer = new ShapeRenderer();
             this.debugRenderer = new Box2DDebugRenderer(Settings.drawBodies, Settings.drawJoints, Settings.drawABBs,
                     Settings.drawInactiveBodies, Settings.drawVelocities, Settings.drawContacts);
-            this.debugFont = new BitmapFont();
+            //this.debugFont = new BitmapFont();
             uiCamera = new OrthographicCamera();
 
         }
@@ -171,7 +171,7 @@ public class RenderingSystem extends IteratingSystem {
 
     protected void debugDrawUI() {
         if (Settings.debug) {
-            if (Settings.drawFPS) {
+            /*if (Settings.drawFPS) {
                 String fpsText = String.format("%d FPS", Gdx.graphics.getFramesPerSecond());
                 BitmapFont.TextBounds bounds = debugFont.getBounds(fpsText);
                 batch.setProjectionMatrix(uiCamera.combined);
@@ -179,7 +179,7 @@ public class RenderingSystem extends IteratingSystem {
                 debugFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
                 debugFont.draw(batch, fpsText, bounds.width - 20.0f, 20.0f);
                 batch.end();
-            }
+            }*/
 
 
         }
