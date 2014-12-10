@@ -37,9 +37,9 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawStage = true;
         //Settings.debugEntity = "Trigger";
         Settings.debugTags.add("StateComponent");
-        Settings.debugTags.add("FlyingDartCollisionRule");
-        Settings.debugTags.add("FlyingDartTest");
-        //Settings.debugTags.add("SensorSystem");
+        Settings.debugTags.add("BlackBoardComponent");
+        //Settings.debugTags.add("PropertyActuatorSystem");
+        //Settings.debugTags.add("CollisionSensorSystem");
         Settings.debugTags.add("EntityBuilder");
 
         batch = new SpriteBatch();

@@ -69,24 +69,23 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         if (sensors != null) {
             for (S sensor : sensors) {
                 sensor.pulseSignal = false;
-                Log.debug(tag, "Sensor init %b once %b", sensor.initialized, sensor.once);
                 if (!sensor.initialized && sensor.once) {
-                    processSensor(sensor, deltaTime);
+                    if(!processSensor(sensor, deltaTime)) sensor.initialized = false;
                     Log.debug(tag, "Sensor once Time %f", sensor.time);
                 } else if (!sensor.once) {
                     if (sensor.frequency != 0 && !(sensor instanceof TimerSensor)) {
                         if (sensor.time < sensor.frequency) sensor.time += deltaTime;
                         if (sensor.time >= sensor.frequency) {
                             Log.debug(tag, "Sensor Frequency %f Time %f", sensor.frequency, sensor.time);
-                            processSensor(sensor, deltaTime);
+                            if(!processSensor(sensor, deltaTime)) sensor.initialized = false;
                             if (sensor.pulseSignal) sensor.time = 0;
                         }
                     } else {
-                        processSensor(sensor, deltaTime);
+                        if(!processSensor(sensor, deltaTime)) sensor.initialized = false;
 
                     }
                 }
-                Log.debug(tag, "Sensor proccess Time %f, name %s pulseSignal %b", sensor.time, sensor.name, sensor.pulseSignal);
+
                 if (!sensor.initialized) sensor.initialized = true;
             }
         }
@@ -94,7 +93,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
 
-    public abstract void processSensor(S sensor, float deltaTime);
+    public abstract boolean processSensor(S sensor, float deltaTime);
 
 
     public ImmutableArray<Entity> getEntities() {

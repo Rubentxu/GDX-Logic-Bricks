@@ -59,11 +59,13 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
 
     @Override
-    public void processSensor(PropertySensor sensor, float deltaTime) {
+    public boolean processSensor(PropertySensor sensor, float deltaTime) {
+        return sensor.pulseSignal;
+
     }
 
 
-    public void processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {
+    public boolean processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {
         boolean isActive = false;
 
         Property property = blackBoardComponent.getProperty(sensor.property);
@@ -103,6 +105,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
         sensor.pulseSignal = isActive;
         if (sensor.pulseSignal) Log.debug(tag, "Sensor name %s property %s value %s pulseSignal %b", sensor.name,
                 sensor.property, sensor.value, sensor.pulseSignal);
+        return sensor.pulseSignal;
 
     }
 

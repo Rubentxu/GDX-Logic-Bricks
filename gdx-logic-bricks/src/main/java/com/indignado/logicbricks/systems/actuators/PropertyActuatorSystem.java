@@ -42,9 +42,11 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
 
     public void processActuator(PropertyActuator actuator, BlackBoardComponent blackBoardComponent) {
         if (evaluateController(actuator)) {
+
             Property property = blackBoardComponent.getProperty(actuator.property);
             switch (actuator.mode) {
                 case Assign:
+                    Log.debug(tag, "property %s value %s", actuator.property, actuator.value);
                     if (property.value != actuator.value) {
                         property.value = actuator.value;
                         Log.debug(tag, "tag %s value %s", property.name, property.value);

@@ -33,7 +33,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
 
     @Override
-    public void processSensor(MouseSensor sensor, float deltaTime) {
+    public boolean processSensor(MouseSensor sensor, float deltaTime) {
         boolean isActive = false;
 
         if (sensor.mouseEventSignal) {
@@ -52,6 +52,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             }
         }
         sensor.pulseSignal = isActive;
+        return sensor.pulseSignal;
 
     }
 

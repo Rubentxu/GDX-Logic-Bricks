@@ -222,11 +222,8 @@ public class EntityBuilder {
 
     public EntityBuilder connectToSensor(Sensor sensor) {
         addSensor(sensor, controllerStates);
-        if (sensor.name == null) sensor.name = sensor.getClass().getSimpleName() + "_" + controller.name + "_" + MathUtils.random(10000);
+        if (sensor.name == null) sensor.name = sensor.getClass().getSimpleName() + "_" + MathUtils.random(10000);
         controller.sensors.put(sensor.name, sensor);
-        if(controller instanceof ConditionalController && ((ConditionalController)controller).type.equals(ConditionalController.Type.NOR)) {
-            Log.debug(tag,"Add sensor name %s to ConditionalController Nor", sensor.name);
-        }
         return this;
 
     }

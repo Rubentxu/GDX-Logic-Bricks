@@ -6,11 +6,13 @@ import com.badlogic.gdx.utils.Bits;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.PropertyType;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
  */
 public class BlackBoardComponent extends Component implements Poolable {
+    private String tag = this.getClass().getSimpleName();
     private Bag<Property> properties;
     private Bits propertyBits;
 
@@ -33,6 +35,7 @@ public class BlackBoardComponent extends Component implements Poolable {
 
 
     public BlackBoardComponent removeProperty(Property property) {
+        Log.debug(tag,"Remove Property %s value %s", property.name);
         PropertyType propertyType = PropertyType.getFor(property.name);
         int propertyTypeIndex = propertyType.getIndex();
         Property removeProperty = properties.get(propertyTypeIndex);
@@ -60,6 +63,7 @@ public class BlackBoardComponent extends Component implements Poolable {
 
 
     public <V> void setValueProperty(String name, V value) {
+        Log.debug(tag,"Change Property %s value %s", name, value.toString());
         PropertyType propertyType = PropertyType.getFor(name);
         int propertyTypeIndex = propertyType.getIndex();
         if (propertyTypeIndex < properties.getCapacity()) {

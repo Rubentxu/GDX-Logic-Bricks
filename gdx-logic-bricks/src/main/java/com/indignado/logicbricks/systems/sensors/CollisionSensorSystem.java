@@ -41,7 +41,14 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
 
     @Override
-    public void processSensor(CollisionSensor sensor, float deltaTime) {
+    public boolean processSensor(CollisionSensor sensor, float deltaTime) {
+        if(sensor.contact!= null) {
+            Log.debug(tag,"sensor pulse %b, sensor contact %b",sensor.pulseSignal,sensor.contact.isTouching());
+            sensor.pulseSignal = sensor.contact.isTouching();
+
+        }
+        return sensor.pulseSignal;
+
     }
 
 
@@ -52,7 +59,6 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
                 rule.beginContact(contact);
             }
         }
-
         processContact(contact);
 
 
@@ -66,7 +72,6 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
                 rule.endContact(contact);
             }
         }
-
         processContact(contact);
 
     }
@@ -101,7 +106,8 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
             if (targetEntities.contains(entityA, false) || targetEntities.contains(entityB, false)) {
                 collisionSensor.contact = contact;
-                collisionSensor.pulseSignal = contact.isTouching();
+                Log.debug(tag, "Process Contac %b entityA %s entityB %s sensor register size %d",contact.isTouching()
+                        ,entityA.getId(), entityB.getId(), collisionSensors.size());
             }
         }
 

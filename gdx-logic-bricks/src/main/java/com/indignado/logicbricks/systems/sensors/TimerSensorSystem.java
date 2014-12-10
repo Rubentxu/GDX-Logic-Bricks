@@ -16,15 +16,14 @@ public class TimerSensorSystem extends SensorSystem<TimerSensor, TimerSensorComp
 
 
     @Override
-    public void processSensor(TimerSensor sensor, float deltaTime) {
-        if (sensor.time == -1) return;
+    public boolean processSensor(TimerSensor sensor, float deltaTime) {
+        if (sensor.time == -1) return sensor.pulseSignal;
         if (sensor.duration == TimerSensor.ALWAYS) {
             sensor.pulseSignal = true;
-            return;
+            return sensor.pulseSignal;
         }
 
         sensor.time += deltaTime;
-
         if (sensor.delay != 0 && sensor.time >= sensor.delay) {
             sensor.delay = 0;
             sensor.time = 0;
@@ -36,6 +35,7 @@ public class TimerSensorSystem extends SensorSystem<TimerSensor, TimerSensorComp
             if (sensor.repeat) sensor.time = 0;
             else sensor.time = -1;
         }
+        return sensor.pulseSignal;
 
     }
 
