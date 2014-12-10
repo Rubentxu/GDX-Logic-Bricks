@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
@@ -48,9 +49,10 @@ public class StateComponent extends Component implements Poolable {
     }
 
 
-    public void changeCurrentState(int newState) {
-        if (currentState != newState) {
-            currentState = newState;
+    public void changeCurrentState(int state) {
+        if (currentState != state) {
+            Log.debug("StateComponent","Change state %s", getState(state));
+            currentState = state;
             time = 0.0f;
         }
 

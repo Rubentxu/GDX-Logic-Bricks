@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
@@ -21,6 +22,7 @@ import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
@@ -220,8 +222,11 @@ public class EntityBuilder {
 
     public EntityBuilder connectToSensor(Sensor sensor) {
         addSensor(sensor, controllerStates);
-        if (sensor.name == null) sensor.name = sensor.getClass().getSimpleName() + "_" + controller.sensors.size;
+        if (sensor.name == null) sensor.name = sensor.getClass().getSimpleName() + "_" + controller.name + "_" + MathUtils.random(10000);
         controller.sensors.put(sensor.name, sensor);
+        if(controller instanceof ConditionalController && ((ConditionalController)controller).type.equals(ConditionalController.Type.NOR)) {
+            Log.debug(tag,"Add sensor name %s to ConditionalController Nor", sensor.name);
+        }
         return this;
 
     }
@@ -239,7 +244,7 @@ public class EntityBuilder {
     public EntityBuilder connectToActuator(Actuator actuator) {
         addActuators(actuator, controllerStates);
         if (actuator.name == null)
-            actuator.name = actuator.getClass().getSimpleName() + "_" + controller.actuators.size;
+            actuator.name = actuator.getClass().getSimpleName() + "_" + MathUtils.random(10000);;
         actuator.controllers.add(controller);
         controller.actuators.put(actuator.name, actuator);
         return this;

@@ -74,7 +74,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 body.setLinearVelocity(velocity);
             }
         }
-        if (!actuator.fixedRotation && actuator.angularVelocity == 0 && actuator.torque == 0 && actuator.angularImpulse == 0) {
+        if (!body.isFixedRotation() && !actuator.fixedRotation && actuator.angularVelocity == 0 && actuator.torque == 0 && actuator.angularImpulse == 0) {
             float angle = MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
             Log.debug(tag, "apply angle: %f", angle);
             body.setTransform(body.getPosition().x, body.getPosition().y, angle);

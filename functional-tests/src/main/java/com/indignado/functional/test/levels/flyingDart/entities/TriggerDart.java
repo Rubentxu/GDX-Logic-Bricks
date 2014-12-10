@@ -59,15 +59,6 @@ public class TriggerDart extends EntityFactory {
 
         entityBuilder.addRigidBody(bodyArrow);
 
-      /*  TextureView arrowView = new TextureView();
-        arrowView.setName("Arrow");
-        arrowView.setTextureRegion(new TextureRegion(world.getAssetManager().get(dartTexture, Texture.class)));
-        arrowView.setHeight(1f);
-        arrowView.setWidth(2.3f);
-        arrowView.setAttachedTransform(bodyArrow.getTransform());
-        arrowView.setLayer(0);
-
-        entityBuilder.addView(arrowView);*/
 
         MouseSensor trigger = BricksUtils.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON)
