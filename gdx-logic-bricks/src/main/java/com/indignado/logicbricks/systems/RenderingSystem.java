@@ -4,10 +4,8 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -206,8 +204,8 @@ public class RenderingSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
-        for (View view : entity.getComponent(ViewsComponent.class).views) {
-            renderQueue.add(view);
+        for (Object view : entity.getComponent(ViewsComponent.class).views) {
+            renderQueue.add((View) view);
         }
 
 
