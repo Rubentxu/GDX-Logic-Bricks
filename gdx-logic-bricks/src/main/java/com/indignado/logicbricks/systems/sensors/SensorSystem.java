@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.Settings;
@@ -65,7 +66,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
-        Set<S> sensors = (Set<S>) sensorMapper.get(entity).sensors.get(state);
+        ObjectSet<S> sensors = (ObjectSet<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (S sensor : sensors) {
                 sensor.pulseSignal = false;

@@ -9,9 +9,11 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
+import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
 
 import java.util.HashSet;
@@ -21,14 +23,14 @@ import java.util.Set;
  * @author Rubentxu
  */
 public class CollisionSensorSystem extends SensorSystem<CollisionSensor, CollisionSensorComponent> implements ContactListener, EntityListener {
-    private final Set<CollisionSensor> collisionSensors;
+    private final ObjectSet<CollisionSensor> collisionSensors;
     private LogicBricksEngine engine;
     private Array<ContactListener> collisionsRules;
 
 
     public CollisionSensorSystem() {
         super(CollisionSensorComponent.class);
-        collisionSensors = new HashSet<CollisionSensor>();
+        collisionSensors = new ObjectSet<CollisionSensor>();
 
     }
 
@@ -107,7 +109,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
             if (targetEntities.contains(entityA, false) || targetEntities.contains(entityB, false)) {
                 collisionSensor.contact = contact;
                 Log.debug(tag, "Process Contac %b entityA %s entityB %s sensor register size %d",contact.isTouching()
-                        ,entityA.getId(), entityB.getId(), collisionSensors.size());
+                        ,entityA.getId(), entityB.getId(), collisionSensors.size);
             }
         }
 
@@ -127,9 +129,12 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         Log.debug(tag, "EntityAdded");
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
-            IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;
+            IntMap<ObjectSet<CollisionSensor>> map = collisionSensorComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
-                collisionSensors.addAll(map.get(i));
+                ObjectSet.ObjectSetIterator<CollisionSensor> it = map.get(i).iterator();
+                while (it.hasNext()){
+                    collisionSensors.addAll(it.next());
+                }
             }
         }
 
@@ -140,9 +145,12 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     public void entityRemoved(Entity entity) {
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
-            IntMap<Set<CollisionSensor>> map = collisionSensorComponent.sensors;
+            IntMap<ObjectSet<CollisionSensor>> map = collisionSensorComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
-                collisionSensors.removeAll(map.get(i));
+                ObjectSet.ObjectSetIterator<CollisionSensor> it = map.get(i).iterator();
+                while (it.hasNext()){
+                    collisionSensors.remove(it.next());
+                }
             }
         }
     }

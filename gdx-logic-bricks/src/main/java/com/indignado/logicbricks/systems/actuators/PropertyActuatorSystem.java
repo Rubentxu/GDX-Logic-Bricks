@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
 import com.indignado.logicbricks.components.data.Property;
@@ -29,7 +30,7 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
-        Set<PropertyActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
+        ObjectSet<PropertyActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (PropertyActuator actuator : actuators) {
                 processActuator(actuator, blackBoardMapper.get(entity));

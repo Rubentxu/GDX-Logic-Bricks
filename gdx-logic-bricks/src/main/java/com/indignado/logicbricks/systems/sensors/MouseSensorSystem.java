@@ -7,11 +7,13 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 
 import java.util.HashSet;
@@ -201,9 +203,12 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     public void entityAdded(Entity entity) {
         MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
         if (mouseComponent != null) {
-            IntMap<Set<MouseSensor>> map = mouseComponent.sensors;
+            IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
-                mouseSensors.addAll(map.get(i));
+                ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
+                while (it.hasNext()){
+                    mouseSensors.add(it.next());
+                }
             }
         }
 
@@ -213,9 +218,12 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     public void entityRemoved(Entity entity) {
         MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
         if (mouseComponent != null) {
-            IntMap<Set<MouseSensor>> map = mouseComponent.sensors;
+            IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
-                mouseSensors.removeAll(map.get(i));
+                ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
+                while (it.hasNext()){
+                    mouseSensors.remove(it.next());
+                }
             }
         }
     }

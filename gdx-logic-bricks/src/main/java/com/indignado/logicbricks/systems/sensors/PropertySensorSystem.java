@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
@@ -28,7 +29,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
-        Set<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
+        ObjectSet<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
 
         if (sensors != null) {
             for (PropertySensor sensor : sensors) {
