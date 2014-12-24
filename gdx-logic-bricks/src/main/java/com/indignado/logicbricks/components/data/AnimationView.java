@@ -9,4 +9,11 @@ import com.badlogic.gdx.utils.IntMap;
 public class AnimationView extends TextureView {
     public IntMap<Animation> animations;
 
+
+    @Override
+    public void reset() {
+        animations.clear();
+
+    }
+
 }

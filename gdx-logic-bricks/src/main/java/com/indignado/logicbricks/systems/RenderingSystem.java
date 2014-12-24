@@ -206,10 +206,9 @@ public class RenderingSystem extends IteratingSystem {
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
-        for (View view : entity.getComponent(ViewsComponent.class).views) {
-            renderQueue.add(view);
+        for (Object view : entity.getComponent(ViewsComponent.class).views) {
+            renderQueue.add((View) view);
         }
-
 
     }
 

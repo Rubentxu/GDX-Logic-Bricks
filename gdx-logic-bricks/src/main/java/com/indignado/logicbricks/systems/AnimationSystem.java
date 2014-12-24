@@ -34,7 +34,7 @@ public class AnimationSystem extends IteratingSystem {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         ViewsComponent viewsComponent = tm.get(entity);
         StateComponent state = sm.get(entity);
-        for (View view : viewsComponent.views) {
+        for (Object view : viewsComponent.views) {
             if (view instanceof AnimationView) {
                 AnimationView animationView = ((AnimationView) view);
                 Animation animation = animationView.animations.get(state.getCurrentState());

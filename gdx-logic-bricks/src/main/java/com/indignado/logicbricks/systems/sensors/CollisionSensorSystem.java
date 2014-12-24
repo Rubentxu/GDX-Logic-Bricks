@@ -131,10 +131,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         if (collisionSensorComponent != null) {
             IntMap<ObjectSet<CollisionSensor>> map = collisionSensorComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
-                ObjectSet.ObjectSetIterator<CollisionSensor> it = map.get(i).iterator();
-                while (it.hasNext()){
-                    collisionSensors.addAll(it.next());
-                }
+                collisionSensors.addAll(map.get(i));
             }
         }
 
@@ -146,10 +143,9 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
             IntMap<ObjectSet<CollisionSensor>> map = collisionSensorComponent.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                ObjectSet.ObjectSetIterator<CollisionSensor> it = map.get(i).iterator();
-                while (it.hasNext()){
-                    collisionSensors.remove(it.next());
+            while (map.values().hasNext()) {
+                for (CollisionSensor sensor : map.values().next()) {
+                    collisionSensors.remove(sensor);
                 }
             }
         }

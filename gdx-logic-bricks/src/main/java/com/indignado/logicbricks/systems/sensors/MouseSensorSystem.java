@@ -64,7 +64,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         if (viewsComponent == null) return false;
 
         Rectangle rectangle = new Rectangle();
-        for (View view : viewsComponent.views) {
+        for (Object view : viewsComponent.views) {
             if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
                 rectangle.set(textureView.attachedTransform.getPosition().x - textureView.width / 2,

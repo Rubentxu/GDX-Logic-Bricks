@@ -3,11 +3,12 @@ package com.indignado.logicbricks.components.data;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
+import com.indignado.logicbricks.core.Data;
 
 /**
  * @author Rubentxu.
  */
-public class View {
+public abstract class View implements Data {
     public String name;
     public Transform attachedTransform;
     public Vector2 position = new Vector2();
@@ -77,6 +78,20 @@ public class View {
     public View setTint(Color tint) {
         this.tint = tint;
         return this;
+
+    }
+
+
+    @Override
+    public void reset() {
+        name = null;
+        attachedTransform = null;
+        position.set(0, 0);
+        localPosition = null;
+        rotation = 0;
+        opacity = 1;
+        layer = 0;
+        tint = null;
 
     }
 

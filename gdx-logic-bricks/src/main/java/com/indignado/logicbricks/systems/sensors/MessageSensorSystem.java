@@ -47,6 +47,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
 
     }
 
+
     @Override
     public void entityRemoved(Entity entity) {
         MessageSensorComponent messageSensors = entity.getComponent(MessageSensorComponent.class);

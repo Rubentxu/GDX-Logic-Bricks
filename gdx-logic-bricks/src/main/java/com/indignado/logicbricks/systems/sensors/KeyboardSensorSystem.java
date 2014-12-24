@@ -130,10 +130,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
             IntMap<ObjectSet<KeyboardSensor>> map = keyboardSensorComponent.sensors;
             Log.debug(tag, "KeyboardSensor added %d", map.size);
             for (int i = 0; i < map.size; ++i) {
-                ObjectSet.ObjectSetIterator<KeyboardSensor> it = map.get(i).iterator();
-                while (it.hasNext()){
-                    keyboardSensors.addAll(it.next());
-                }
+                keyboardSensors.addAll(map.get(i));
             }
         }
 
@@ -146,12 +143,10 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
         if (keyboardSensorComponent != null) {
             IntMap<ObjectSet<KeyboardSensor>> map = keyboardSensorComponent.sensors;
             Log.debug(tag, "KeyboardSensor remove %d", map.size);
-            for (int i = 0; i < map.size; ++i) {
-                ObjectSet.ObjectSetIterator<KeyboardSensor> it = map.get(i).iterator();
-                while (it.hasNext()){
-                    keyboardSensors.remove(it.next());
+            while (map.values().hasNext())
+                for (KeyboardSensor sensor : map.values().next()) {
+                    keyboardSensors.remove(sensor);
                 }
-            }
         }
 
     }
