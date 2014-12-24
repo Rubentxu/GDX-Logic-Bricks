@@ -70,18 +70,18 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
             for (S sensor : sensors) {
                 sensor.pulseSignal = false;
                 if (!sensor.initialized && sensor.once) {
-                    if (!processSensor(sensor, deltaTime)) sensor.initialized = false;
+                    if(!processSensor(sensor, deltaTime)) sensor.initialized = false;
                     Log.debug(tag, "Sensor once Time %f", sensor.time);
                 } else if (!sensor.once) {
                     if (sensor.frequency != 0 && !(sensor instanceof TimerSensor)) {
                         if (sensor.time < sensor.frequency) sensor.time += deltaTime;
                         if (sensor.time >= sensor.frequency) {
                             Log.debug(tag, "Sensor Frequency %f Time %f", sensor.frequency, sensor.time);
-                            if (!processSensor(sensor, deltaTime)) sensor.initialized = false;
+                            if(!processSensor(sensor, deltaTime)) sensor.initialized = false;
                             if (sensor.pulseSignal) sensor.time = 0;
                         }
                     } else {
-                        if (!processSensor(sensor, deltaTime)) sensor.initialized = false;
+                        if(!processSensor(sensor, deltaTime)) sensor.initialized = false;
 
                     }
                 }
@@ -104,6 +104,4 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     public Family getFamily() {
         return family;
     }
-
-
 }

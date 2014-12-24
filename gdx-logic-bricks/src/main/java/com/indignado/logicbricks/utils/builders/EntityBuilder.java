@@ -22,6 +22,7 @@ import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
@@ -240,8 +241,7 @@ public class EntityBuilder {
     public EntityBuilder connectToActuator(Actuator actuator) {
         addActuators(actuator, controllerStates);
         if (actuator.name == null)
-            actuator.name = actuator.getClass().getSimpleName() + "_" + MathUtils.random(10000);
-        ;
+            actuator.name = actuator.getClass().getSimpleName() + "_" + MathUtils.random(10000);;
         actuator.controllers.add(controller);
         controller.actuators.put(actuator.name, actuator);
         return this;

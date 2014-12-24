@@ -7,23 +7,26 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
-import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
+import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Rubentxu
  */
 public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
-    private ObjectSet<MouseSensor> mouseSensors;
+    private Set<MouseSensor> mouseSensors;
     private World world;
 
     public MouseSensorSystem(World world) {
         super(MouseSensorComponent.class);
-        mouseSensors = new ObjectSet<MouseSensor>();
+        mouseSensors = new HashSet<MouseSensor>();
         this.world = world;
 
     }
@@ -59,7 +62,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         if (viewsComponent == null) return false;
 
         Rectangle rectangle = new Rectangle();
-        for (Object view : viewsComponent.views) {
+        for (View view : viewsComponent.views) {
             if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
                 rectangle.set(textureView.attachedTransform.getPosition().x - textureView.width / 2,
@@ -198,7 +201,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     public void entityAdded(Entity entity) {
         MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
         if (mouseComponent != null) {
-            IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
+            IntMap<Set<MouseSensor>> map = mouseComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
                 mouseSensors.addAll(map.get(i));
             }
@@ -206,20 +209,14 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
     }
 
-
     @Override
     public void entityRemoved(Entity entity) {
         MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
         if (mouseComponent != null) {
-            IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
-            while (map.values().hasNext()) {
-                for (MouseSensor sensor : map.values().next()) {
-                    mouseSensors.remove(sensor);
-                }
+            IntMap<Set<MouseSensor>> map = mouseComponent.sensors;
+            for (int i = 0; i < map.size; ++i) {
+                mouseSensors.removeAll(map.get(i));
             }
         }
-
     }
-
-
 }

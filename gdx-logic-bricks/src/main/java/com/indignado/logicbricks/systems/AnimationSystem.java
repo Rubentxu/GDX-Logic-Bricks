@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.AnimationView;
+import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.utils.Log;
 
@@ -33,7 +34,7 @@ public class AnimationSystem extends IteratingSystem {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         ViewsComponent viewsComponent = tm.get(entity);
         StateComponent state = sm.get(entity);
-        for (Object view : viewsComponent.views) {
+        for (View view : viewsComponent.views) {
             if (view instanceof AnimationView) {
                 AnimationView animationView = ((AnimationView) view);
                 Animation animation = animationView.animations.get(state.getCurrentState());

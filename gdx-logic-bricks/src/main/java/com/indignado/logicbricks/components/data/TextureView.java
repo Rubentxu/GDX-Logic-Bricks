@@ -47,16 +47,4 @@ public class TextureView extends View {
 
     }
 
-
-    @Override
-    public void reset() {
-        super.reset();
-        textureRegion = null;
-        height = 0;
-        width = 0;
-        flipX = false;
-        flipY = false;
-
-    }
-
 }

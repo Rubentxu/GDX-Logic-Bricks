@@ -51,7 +51,7 @@ public class StateComponent extends Component implements Poolable {
 
     public void changeCurrentState(int state) {
         if (currentState != state) {
-            Log.debug("StateComponent", "Change state %s", getState(state));
+            Log.debug("StateComponent","Change state %s", getState(state));
             currentState = state;
             time = 0.0f;
         }

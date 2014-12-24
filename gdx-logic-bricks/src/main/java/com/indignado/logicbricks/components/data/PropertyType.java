@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * @author Rubentxu.
  */
 public final class PropertyType {
-    private static ObjectMap<String, PropertyType> propertyTypes = new ObjectMap<String, PropertyType>();
+    private static ObjectMap<String, PropertyType> componentTypes = new ObjectMap<String, PropertyType>();
     private static int typeIndex = 0;
 
     private final int index;
@@ -20,12 +20,13 @@ public final class PropertyType {
 
 
     public static PropertyType getFor(String nameProperty) {
-        PropertyType type = propertyTypes.get(nameProperty);
+        PropertyType type = componentTypes.get(nameProperty);
         if (type == null) {
             type = new PropertyType();
-            propertyTypes.put(nameProperty, type);
+            componentTypes.put(nameProperty, type);
 
         }
+
         return type;
 
     }

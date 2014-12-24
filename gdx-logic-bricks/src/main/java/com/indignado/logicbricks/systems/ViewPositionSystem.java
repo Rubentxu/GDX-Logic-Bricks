@@ -30,8 +30,7 @@ public class ViewPositionSystem extends IteratingSystem {
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         ViewsComponent viewsComponent = tm.get(entity);
-        for (Object object : viewsComponent.views) {
-            View view = (View) object;
+        for (View view : viewsComponent.views) {
             if (view.attachedTransform != null) {
                 view.setPosition(view.attachedTransform.getPosition());
                 view.setRotation(MathUtils.radiansToDegrees * view.attachedTransform.getRotation());
