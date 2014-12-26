@@ -39,8 +39,8 @@ public class StateSystem extends IteratingSystem {
             RigidBodiesComponents rigidBodies = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodies != null) {
                 for (Body body : rigidBodies.rigidBodies) {
+                    rigidBodies.rigidBodies.removeValue(body, true);
                     world.getPhysics().destroyBody(body);
-
                 }
             }
         }

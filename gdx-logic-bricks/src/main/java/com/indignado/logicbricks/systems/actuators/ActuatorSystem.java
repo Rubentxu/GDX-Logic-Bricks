@@ -5,8 +5,10 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
+import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
@@ -14,7 +16,6 @@ import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.utils.Log;
 
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * @author Rubentxu.
@@ -45,10 +46,11 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
-        Set<A> actuators = (Set<A>) actuatorMapper.get(entity).actuators.get(state);
+        ObjectSet<A> actuators = (ObjectSet<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (A actuator : actuators) {
-                processActuator(actuator, deltaTime);
+                if(actuator.pulseState == LogicBrick.BrickMode.BM_ON)
+                    processActuator(actuator, deltaTime);
 
             }
         }
@@ -59,17 +61,5 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
     public abstract void processActuator(A actuator, float deltaTime);
 
 
-    protected boolean evaluateController(Actuator actuator) {
-        Iterator<Controller> controllers = actuator.controllers.iterator();
-        if (!controllers.hasNext())
-            throw new LogicBricksException("ActuatorSystem", "This sensor does not have any associated sensor");
-        while (controllers.hasNext()) {
-            Controller controller = controllers.next();
-            boolean signal = controller.pulseSignal;
-            if (signal == false) return false;
-        }
-        return true;
-
-    }
 
 }

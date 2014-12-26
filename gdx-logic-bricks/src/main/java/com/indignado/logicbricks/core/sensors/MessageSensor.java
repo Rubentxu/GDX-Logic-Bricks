@@ -13,6 +13,7 @@ public class MessageSensor extends Sensor implements Telegraph {
     public String messageListen;
     public boolean autoRegister = true;
 
+
     // Signal
     public Telegram message;
 
@@ -20,7 +21,7 @@ public class MessageSensor extends Sensor implements Telegraph {
     @Override
     public boolean handleMessage(Telegram msg) {
         this.message = msg;
-        return pulseSignal = true;
+        return true;
 
     }
 

@@ -5,12 +5,10 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created on 15/10/14.
@@ -18,18 +16,18 @@ import java.util.Set;
  * @author Rubentxu
  */
 public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardSensorComponent> implements InputProcessor, EntityListener {
-    private Set<KeyboardSensor> keyboardSensors;
+    private ObjectSet<KeyboardSensor> keyboardSensors;
 
 
     public KeyboardSensorSystem() {
         super(KeyboardSensorComponent.class);
-        keyboardSensors = new HashSet<KeyboardSensor>();
+        keyboardSensors = new ObjectSet<KeyboardSensor>();
 
     }
 
 
     @Override
-    public boolean processSensor(KeyboardSensor sensor, float deltaTime) {
+    public boolean query(KeyboardSensor sensor, float deltaTime) {
         boolean isActive = false;
         sensor.keysSignal.clear();
 
@@ -47,15 +45,14 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
                 }
             }
         }
-        sensor.pulseSignal = isActive;
-        return sensor.pulseSignal;
+        return isActive;
 
     }
 
 
     @Override
     public boolean keyDown(int keycode) {
-        Log.debug(tag, "key size: %d", keyboardSensors.size());
+        Log.debug(tag, "key size: %d", keyboardSensors.size);
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.add(new Integer(keycode));
 
@@ -126,12 +123,13 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
         Log.debug(tag, "KeyboardSensor add");
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
-            IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
+            IntMap<ObjectSet<KeyboardSensor>> map = keyboardSensorComponent.sensors;
             Log.debug(tag, "KeyboardSensor added %d", map.size);
             for (int i = 0; i < map.size; ++i) {
                 keyboardSensors.addAll(map.get(i));
             }
         }
+
     }
 
 
@@ -139,12 +137,14 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     public void entityRemoved(Entity entity) {
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
-            IntMap<Set<KeyboardSensor>> map = keyboardSensorComponent.sensors;
+            IntMap<ObjectSet<KeyboardSensor>> map = keyboardSensorComponent.sensors;
             Log.debug(tag, "KeyboardSensor remove %d", map.size);
-            for (int i = 0; i < map.size; ++i) {
-                keyboardSensors.removeAll(map.get(i));
-            }
+            while (map.values().hasNext())
+                for (KeyboardSensor sensor : map.values().next()) {
+                    keyboardSensors.remove(sensor);
+                }
         }
+
     }
 
 }

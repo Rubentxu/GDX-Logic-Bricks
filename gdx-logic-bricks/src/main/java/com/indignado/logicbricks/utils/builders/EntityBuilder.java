@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -22,16 +23,12 @@ import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.actuators.Actuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
 import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Rubentxu.
@@ -99,7 +96,7 @@ public class EntityBuilder {
     private <S extends Sensor, SC extends SensorComponent> EntityBuilder addSensor(S sensor, String nameState) {
         int state = getKeyState(nameState);
         sensor.state = state;
-        Set<S> sensorsList = null;
+        ObjectSet<S> sensorsList = null;
         BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(sensor.getClass());
         if (classes != null) {
             getSystem(classes.system);
@@ -150,10 +147,10 @@ public class EntityBuilder {
     }
 
 
-    private <S extends Sensor> Set<S> getSensorList(SensorComponent sensorComponent, int state) {
-        Set<S> sensorsList = (Set<S>) sensorComponent.sensors.get(state);
+    private <S extends Sensor> ObjectSet<S> getSensorList(SensorComponent sensorComponent, int state) {
+        ObjectSet<S> sensorsList = (ObjectSet<S>) sensorComponent.sensors.get(state);
         if (sensorsList == null) {
-            sensorsList = new HashSet<S>();
+            sensorsList = new ObjectSet<S>();
             sensorComponent.sensors.put(state, sensorsList);
         }
         return sensorsList;
@@ -186,7 +183,7 @@ public class EntityBuilder {
         controllerStates.add(nameState);
         int state = getKeyState(nameState);
         controller.state = state;
-        Set<C> controllerList = null;
+        ObjectSet<C> controllerList = null;
 
         BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(controller.getClass());
         if (classes != null) {
@@ -200,10 +197,10 @@ public class EntityBuilder {
     }
 
 
-    private <C extends Controller> Set<C> getControllerList(ControllerComponent controllerComponent, int state) {
-        Set<C> controllersList = (Set<C>) controllerComponent.controllers.get(state);
+    private <C extends Controller> ObjectSet<C> getControllerList(ControllerComponent controllerComponent, int state) {
+        ObjectSet<C> controllersList = (ObjectSet<C>) controllerComponent.controllers.get(state);
         if (controllersList == null) {
-            controllersList = new HashSet<C>();
+            controllersList = new ObjectSet<C>();
             controllerComponent.controllers.put(state, controllersList);
         }
         return controllersList;
@@ -241,7 +238,8 @@ public class EntityBuilder {
     public EntityBuilder connectToActuator(Actuator actuator) {
         addActuators(actuator, controllerStates);
         if (actuator.name == null)
-            actuator.name = actuator.getClass().getSimpleName() + "_" + MathUtils.random(10000);;
+            actuator.name = actuator.getClass().getSimpleName() + "_" + MathUtils.random(10000);
+        ;
         actuator.controllers.add(controller);
         controller.actuators.put(actuator.name, actuator);
         return this;
@@ -261,7 +259,7 @@ public class EntityBuilder {
     private <A extends Actuator, AC extends ActuatorComponent> EntityBuilder addActuator(A actuator, String nameState) {
         int state = getKeyState(nameState);
         actuator.state = state;
-        Set<A> actuatorList = null;
+        ObjectSet<A> actuatorList = null;
 
         BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(actuator.getClass());
         if (classes != null) {
@@ -270,16 +268,16 @@ public class EntityBuilder {
             actuatorList = getActuatorList(actuatorComponent, actuator.state);
         }
 
-        if (actuatorList != null && !actuatorList.contains(controller)) actuatorList.add(actuator);
+        if (actuatorList != null && !actuatorList.contains(actuator)) actuatorList.add(actuator);
         return this;
 
     }
 
 
-    private <A extends Actuator> Set<A> getActuatorList(ActuatorComponent actuatorComponent, int state) {
-        Set<A> actuatorList = (Set<A>) actuatorComponent.actuators.get(state);
+    private <A extends Actuator> ObjectSet<A> getActuatorList(ActuatorComponent actuatorComponent, int state) {
+        ObjectSet<A> actuatorList = (ObjectSet<A>) actuatorComponent.actuators.get(state);
         if (actuatorList == null) {
-            actuatorList = new HashSet<A>();
+            actuatorList = new ObjectSet<A>();
             actuatorComponent.actuators.put(state, actuatorList);
         }
         return actuatorList;
@@ -308,9 +306,9 @@ public class EntityBuilder {
     }
 
 
-    private void config(IntMap<LogicBrick> bricks, Entity entity) {
+    private void config(IntMap<ObjectSet<LogicBrick>> bricks, Entity entity) {
         for (int i = 0; i < bricks.size; i++) {
-            for (LogicBrick brick : (Set<LogicBrick>) bricks.get(i)) {
+            for (LogicBrick brick : (ObjectSet<LogicBrick>) bricks.get(i)) {
                 brick.owner = entity;
             }
         }

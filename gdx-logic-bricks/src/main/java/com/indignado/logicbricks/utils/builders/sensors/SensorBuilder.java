@@ -8,15 +8,29 @@ import com.indignado.logicbricks.utils.builders.BrickBuilder;
  */
 public abstract class SensorBuilder<T extends Sensor> extends BrickBuilder<T> {
 
-    public SensorBuilder<T> setFrequency(float frequency) {
+    public SensorBuilder<T> setFrequency(int frequency) {
         brick.frequency = frequency;
         return this;
 
     }
 
 
-    public SensorBuilder<T> setOnce(boolean once) {
-        brick.once = once;
+    public SensorBuilder<T> setInvert(boolean invert) {
+        brick.invert = invert;
+        return this;
+
+    }
+
+
+    public SensorBuilder<T> setTap(boolean tap) {
+        brick.tap = tap;
+        return this;
+
+    }
+
+
+    public SensorBuilder<T> setPulse(Sensor.Pulse pulse) {
+        brick.pulse = pulse;
         return this;
 
     }

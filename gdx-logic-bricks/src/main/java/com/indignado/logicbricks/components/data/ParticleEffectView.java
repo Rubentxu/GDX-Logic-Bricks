@@ -8,4 +8,11 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 public class ParticleEffectView extends View {
     public ParticleEffect effect;
 
+
+    @Override
+    public void reset() {
+        effect = null;
+
+    }
+
 }

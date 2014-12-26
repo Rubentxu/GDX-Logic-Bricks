@@ -35,7 +35,7 @@ public class BlackBoardComponent extends Component implements Poolable {
 
 
     public BlackBoardComponent removeProperty(Property property) {
-        Log.debug(tag,"Remove Property %s value %s", property.name);
+        Log.debug(tag, "Remove Property %s value %s", property.name);
         PropertyType propertyType = PropertyType.getFor(property.name);
         int propertyTypeIndex = propertyType.getIndex();
         Property removeProperty = properties.get(propertyTypeIndex);
@@ -63,7 +63,7 @@ public class BlackBoardComponent extends Component implements Poolable {
 
 
     public <V> void setValueProperty(String name, V value) {
-        Log.debug(tag,"Change Property %s value %s", name, value.toString());
+        Log.debug(tag, "Change Property %s value %s", name, value.toString());
         PropertyType propertyType = PropertyType.getFor(name);
         int propertyTypeIndex = propertyType.getIndex();
         if (propertyTypeIndex < properties.getCapacity()) {

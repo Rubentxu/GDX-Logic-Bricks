@@ -8,12 +8,15 @@ import com.indignado.logicbricks.components.data.View;
 /**
  * @author Rubentxu.
  */
-public class ViewsComponent extends Component implements Poolable {
-    public Array<View> views = new Array<View>();
+public class ViewsComponent<V extends View> extends Component implements Poolable {
+    public Array<V> views = new Array<V>();
 
 
     @Override
     public void reset() {
+        for (V view : views) {
+            view.reset();
+        }
         views.clear();
 
     }

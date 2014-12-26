@@ -2,14 +2,15 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
+import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.Set;
 
 /**
  * @author Rubentxu
@@ -24,48 +25,102 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
     }
 
 
-    @Override
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
-        Set<PropertySensor> sensors = sensorMapper.get(entity).sensors.get(state);
-
+        ObjectSet<PropertySensor> sensors = (ObjectSet<PropertySensor>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (PropertySensor sensor : sensors) {
-                sensor.pulseSignal = false;
-                Log.debug(tag, "Sensor init %b once %b", sensor.initialized, sensor.once);
-                if (!sensor.initialized && sensor.once) {
-                    processSensor(sensor, blackBoardMapper.get(entity));
-                    Log.debug(tag, "Sensor once Time %f", sensor.time);
-                } else if (!sensor.once) {
-                    if (sensor.frequency != 0) {
-                        if (sensor.time < sensor.frequency) sensor.time += deltaTime;
-                        if (sensor.time >= sensor.frequency) {
-                            Log.debug(tag, "Sensor Frequency %f Time %f", sensor.frequency, sensor.time);
-                            processSensor(sensor, blackBoardMapper.get(entity));
-                            if (sensor.pulseSignal) sensor.time = 0;
-                        }
-                    } else {
-                        processSensor(sensor, blackBoardMapper.get(entity));
+                boolean doDispatch = false, detDispatch = false;
+                if (sensor.oldState != sensor.state) {
+                    sensor.firstExec = true;
+                    sensor.positive = false;
+                    sensor.firstTap = Sensor.TapMode.TAP_IN;
+                    sensor.oldState = sensor.state;
 
-                    }
                 }
-                Log.debug(tag, "Sensor proccess Time %f, name %s pulseSignal %b", sensor.time, sensor.name, sensor.pulseSignal);
-                if (!sensor.initialized) sensor.initialized = true;
+
+                boolean doQuery = false;
+                if (sensor.firstExec || (++sensor.tick > sensor.frequency) || sensor.pulse == Sensor.Pulse.PM_IDLE) {
+                    doQuery = true;
+                    sensor.tick = 0;
+
+                }
+
+                if (doQuery) {
+                    // Sensor detection.
+                    boolean lp = sensor.positive;
+                    sensor.positive = query(sensor, deltaTime, blackBoardMapper.get(entity));
+
+                    // Sensor Pulse.
+                    if (sensor.pulse == Sensor.Pulse.PM_IDLE)
+                        doDispatch = lp != sensor.positive;
+                    else {
+                        if (sensor.pulse == Sensor.Pulse.PM_TRUE) {
+                            if (!sensor.invert)
+                                doDispatch = (lp != sensor.positive) || sensor.positive;
+                            else
+                                doDispatch = (lp != sensor.positive) || !sensor.positive;
+                        }
+                        if (sensor.pulse == Sensor.Pulse.PM_FALSE) {
+                            if (!sensor.invert)
+                                doDispatch = (lp != sensor.positive) || !sensor.positive;
+                            else
+                                doDispatch = (lp != sensor.positive) || sensor.positive;
+                        }
+                    }
+
+                    // Tap mode (Switch On->Switch Off)
+                    if (sensor.tap && sensor.pulse != Sensor.Pulse.PM_TRUE) {
+                        doQuery = sensor.positive;
+                        if (sensor.invert)
+                            doQuery = !doQuery;
+
+                        doDispatch = false;
+                        sensor.pulseState = LogicBrick.BrickMode.BM_OFF;
+
+                        if (sensor.firstTap == Sensor.TapMode.TAP_IN && doQuery) {
+                            doDispatch = true;
+                            sensor.positive = true;
+                            sensor.pulseState = LogicBrick.BrickMode.BM_ON;
+                            sensor.firstTap = Sensor.TapMode.TAP_OUT;
+                            sensor.lastTap = Sensor.TapMode.TAP_IN;
+                        } else if (sensor.lastTap == Sensor.TapMode.TAP_IN) {
+                            sensor.positive = false;
+                            doDispatch = true;
+                            sensor.lastTap = Sensor.TapMode.TAP_OUT;
+                        } else {
+                            sensor.positive = false;
+                            if (!doQuery)
+                                sensor.firstTap = Sensor.TapMode.TAP_IN;
+                        }
+                    } else
+                        sensor.pulseState = isPositive(sensor) ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
+
+                    if (sensor.firstExec) {
+                        sensor.firstExec = false;
+                        if (sensor.invert && !doDispatch)
+                            doDispatch = true;
+                    }
+                    if (!doDispatch)
+                        doDispatch = detDispatch;
+
+                    // Dispatch results
+                    if (doDispatch)
+                        sensor.pulseState = isPositive(sensor) ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
+                }
             }
+
         }
-
     }
-
 
     @Override
-    public boolean processSensor(PropertySensor sensor, float deltaTime) {
-        return sensor.pulseSignal;
-
+    protected boolean query(PropertySensor sensor, float deltaTime) {
+        return false;
     }
 
 
-    public boolean processSensor(PropertySensor sensor, BlackBoardComponent blackBoardComponent) {
+    public boolean query(PropertySensor sensor, float deltaTime, BlackBoardComponent blackBoardComponent) {
         boolean isActive = false;
 
         Property property = blackBoardComponent.getProperty(sensor.property);
@@ -102,10 +157,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                 isActive = lessThanEvaluation((Number) sensor.value, (Number) property.value);
                 break;
         }
-        sensor.pulseSignal = isActive;
-        if (sensor.pulseSignal) Log.debug(tag, "Sensor name %s property %s value %s pulseSignal %b", sensor.name,
-                sensor.property, sensor.value, sensor.pulseSignal);
-        return sensor.pulseSignal;
+        return isActive;
 
     }
 

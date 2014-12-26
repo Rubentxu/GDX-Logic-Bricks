@@ -94,7 +94,7 @@ public class ConditionalControllerSystemTest {
     @Test(expected = LogicBricksException.class)
     public void andControllerExceptionTest() {
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.type = (ConditionalController.Type.AND);
+        //conditionalController.type = (ConditionalController.Type.AND);
 
         entityBuilder.addController(conditionalController, statePrueba);
         engine.update(1);

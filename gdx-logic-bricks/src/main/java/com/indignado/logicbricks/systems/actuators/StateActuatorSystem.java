@@ -1,13 +1,13 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.StateActuatorComponent;
+import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.Set;
 
 /**
  * @author Rubentxu
@@ -26,17 +26,17 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         StateComponent stateComponent = stateMapper.get(entity);
         Integer state = stateComponent.getCurrentState();
-        Set<StateActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
+        ObjectSet<StateActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (StateActuator actuator : actuators) {
-                boolean evalue = evaluateController(actuator);
-                if (evalue) {
+                if(actuator.pulseState == LogicBrick.BrickMode.BM_ON)
                     stateComponent.changeCurrentState(actuator.state);
                 }
-            }
         }
 
     }
+
+
 
 
     @Override

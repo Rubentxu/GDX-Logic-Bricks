@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,6 @@ public class KeyboardSensorSystemTest {
         KeyboardSensor sensor = new KeyboardSensor();
         sensor.keyCode = Input.Keys.A;
 
-
         StateComponent stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.getState(statePruebas));
 
@@ -50,10 +50,9 @@ public class KeyboardSensorSystemTest {
         inputSensorSystem.keyTyped('a');
         engine.update(1);
 
-        assertTrue(sensor.pulseSignal);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
         engine.update(1);
-
-        assertFalse(sensor.pulseSignal);
+        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
 
     }
 
@@ -76,12 +75,12 @@ public class KeyboardSensorSystemTest {
         inputSensorSystem.keyTyped('a');
         engine.update(1);
 
-        assertTrue(sensor.pulseSignal);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
         engine.update(1);
         inputSensorSystem.keyTyped('z');
         engine.update(1);
 
-        assertTrue(sensor.pulseSignal);
+        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
 
     }
 
@@ -105,12 +104,12 @@ public class KeyboardSensorSystemTest {
         inputSensorSystem.keyTyped('a');
         engine.update(1);
 
-        assertTrue(sensor.pulseSignal);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
         engine.update(1);
         inputSensorSystem.keyTyped('z');
         engine.update(1);
 
-        assertTrue(sensor.pulseSignal);
+        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
         assertEquals("az", sensor.target);
 
     }
