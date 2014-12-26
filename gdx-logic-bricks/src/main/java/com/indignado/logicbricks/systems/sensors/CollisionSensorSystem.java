@@ -43,15 +43,16 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
 
     @Override
-    public boolean processSensor(CollisionSensor sensor, float deltaTime) {
+    public boolean query(CollisionSensor sensor, float deltaTime) {
         if(sensor.contact!= null) {
-            Log.debug(tag,"sensor pulse %b, sensor contact %b",sensor.pulseSignal,sensor.contact.isTouching());
-            sensor.pulseSignal = sensor.contact.isTouching();
-
+            Log.debug(tag,"sensor contact %b",sensor.contact.isTouching());
+            return sensor.contact.isTouching();
         }
-        return sensor.pulseSignal;
+        return false;
 
     }
+
+
 
 
     @Override

@@ -30,7 +30,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
 
     @Override
-    public boolean processSensor(KeyboardSensor sensor, float deltaTime) {
+    public boolean query(KeyboardSensor sensor, float deltaTime) {
         boolean isActive = false;
         sensor.keysSignal.clear();
 
@@ -48,8 +48,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
                 }
             }
         }
-        sensor.pulseSignal = isActive;
-        return sensor.pulseSignal;
+        return isActive;
 
     }
 

@@ -23,10 +23,10 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
 
 
     @Override
-    public boolean processSensor(MessageSensor sensor, float deltaTime) {
+    public boolean query(MessageSensor sensor, float deltaTime) {
         boolean isActive = false;
-        sensor.pulseSignal = isActive;
-        return sensor.pulseSignal;
+        if(sensor.message != null) isActive = true;
+        return isActive;
 
     }
 
