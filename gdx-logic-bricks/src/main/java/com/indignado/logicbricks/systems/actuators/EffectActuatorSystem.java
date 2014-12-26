@@ -19,20 +19,18 @@ public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectA
 
     @Override
     public void processActuator(EffectActuator actuator, float deltaTime) {
-        if (evaluateController(actuator)) {
-            ParticleEffectView view = actuator.effectView;
-            ParticleEffect effect = view.effect;
-            if (actuator.active) effect.reset();
-            else effect.allowCompletion();
+        ParticleEffectView view = actuator.effectView;
+        ParticleEffect effect = view.effect;
+        if (actuator.active) effect.reset();
+        else effect.allowCompletion();
 
-            if (actuator.opacity != -1) view.setOpacity(actuator.opacity);
-            if (actuator.tint != null) view.setTint(actuator.tint);
-            if (actuator.position != null) {
-                if (view.attachedTransform != null) view.setLocalPosition(actuator.position);
-                else view.setPosition(actuator.position);
-            }
-
+        if (actuator.opacity != -1) view.setOpacity(actuator.opacity);
+        if (actuator.tint != null) view.setTint(actuator.tint);
+        if (actuator.position != null) {
+            if (view.attachedTransform != null) view.setLocalPosition(actuator.position);
+            else view.setPosition(actuator.position);
         }
+
 
     }
 

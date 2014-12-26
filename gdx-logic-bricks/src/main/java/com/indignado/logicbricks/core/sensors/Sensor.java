@@ -7,7 +7,6 @@ import com.indignado.logicbricks.core.LogicBrick;
  */
 public abstract class Sensor extends LogicBrick {
 
-
     public enum Pulse {
         PM_IDLE,
         PM_TRUE,
@@ -17,16 +16,19 @@ public abstract class Sensor extends LogicBrick {
 
     public enum TapMode {
         TAP_OUT,
-        TAP_IN,
+        TAP_IN
     }
 
+    // config Values
     public int frequency = 0;
-    public int tick = 0;
-    public Pulse pulse = Pulse.PM_IDLE;
     public boolean invert = false;
+    public boolean tap = false;
+    public Pulse pulse = Pulse.PM_IDLE;
+
+    // values
+    public int tick = 0;
     public boolean positive = false;
     public boolean suspend = false;
-    public boolean tap = false;
     public boolean firstExec = true;
     public float time = 0;
     public boolean initialized = false;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
 import com.indignado.logicbricks.components.data.Property;
+import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
 import com.indignado.logicbricks.utils.Log;
@@ -31,7 +32,8 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
         ObjectSet<PropertyActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (PropertyActuator actuator : actuators) {
-                processActuator(actuator, blackBoardMapper.get(entity));
+                if (actuator.pulseState == LogicBrick.BrickMode.BM_ON)
+                    processActuator(actuator, blackBoardMapper.get(entity));
 
             }
         }
@@ -40,24 +42,21 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
 
 
     public void processActuator(PropertyActuator actuator, BlackBoardComponent blackBoardComponent) {
-        if (evaluateController(actuator)) {
-
-            Property property = blackBoardComponent.getProperty(actuator.property);
-            switch (actuator.mode) {
-                case Assign:
-                    Log.debug(tag, "property %s value %s", actuator.property, actuator.value);
-                    if (property.value != actuator.value) {
-                        property.value = actuator.value;
-                        Log.debug(tag, "tag %s value %s", property.name, property.value);
-                    }
-                    break;
-                case Add:
-                    break;
-                case Toggle:
-                    break;
-                case Copy:
-                    break;
-            }
+        Property property = blackBoardComponent.getProperty(actuator.property);
+        switch (actuator.mode) {
+            case Assign:
+                Log.debug(tag, "property %s value %s", actuator.property, actuator.value);
+                if (property.value != actuator.value) {
+                    property.value = actuator.value;
+                    Log.debug(tag, "tag %s value %s", property.name, property.value);
+                }
+                break;
+            case Add:
+                break;
+            case Toggle:
+                break;
+            case Copy:
+                break;
         }
 
     }

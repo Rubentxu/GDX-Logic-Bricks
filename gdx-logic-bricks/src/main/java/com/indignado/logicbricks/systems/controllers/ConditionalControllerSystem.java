@@ -1,12 +1,11 @@
 package com.indignado.logicbricks.systems.controllers;
 
-import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
-import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.LogicBrick.BrickMode;
+import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.controllers.ConditionalController.Op;
 import com.indignado.logicbricks.core.sensors.Sensor;
-
-import java.util.Iterator;
 
 /**
  * @author Rubentxu
@@ -31,16 +30,12 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
         switch (controller.op) {
             case OP_NOR:
+                controller.isInverter = true;
             case OP_OR: {
-                Iterator<ObjectMap.Entry<String, Sensor>> it = controller.sensors.iterator();
-                while (it.hasNext()) {
-                    Sensor sens = it.next().value;
-
+                for(Sensor sens:controller.sensors.values()) {
                     pos = sens.positive;
                     if (pos)
                         doUpdate = true;
-                    if (controller.op == ConditionalController.Op.OP_NOR)
-                        controller.isInverter = true;
 
                     if (doUpdate)
                         break;
@@ -52,10 +47,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             break;
             case OP_XNOR:
             case OP_XOR: {
-                Iterator<ObjectMap.Entry<String, Sensor>> it = controller.sensors.iterator();
-                while (it.hasNext()) {
-
-                    Sensor sens = it.next().value;
+                for(Sensor sens:controller.sensors.values()) {
                     seed = sens.positive;
 
                     if (seed && last) {
@@ -66,7 +58,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                     if (!last && seed)
                         last = true;
 
-                    if (controller.op == ConditionalController.Op.OP_XNOR && seed)
+                    if (controller.op == Op.OP_XNOR && seed)
                         controller.isInverter = true;
                 }
                 if (controller.isInverter)
@@ -74,12 +66,9 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             }
             break;
             case OP_NAND:
+                controller.isInverter = true;
             case OP_AND: {
-                Iterator<ObjectMap.Entry<String, Sensor>> it = controller.sensors.iterator();
-                while (it.hasNext()) {
-
-                    Sensor sens = it.next().value;
-
+                for(Sensor sens:controller.sensors.values()) {
                     pos = sens.positive;
                     if (seed) {
                         seed = false;
@@ -87,16 +76,16 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                     } else
                         doUpdate = doUpdate && pos;
 
-                    if (controller.op == ConditionalController.Op.OP_NAND)
-                        controller.isInverter = true;
-
                 }
                 if (controller.isInverter)
                     doUpdate = !doUpdate;
             }
             break;
         }
-        controller.pulseState = doUpdate ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
+        for(Actuator actuator: controller.actuators.values()){
+            actuator.pulseState = doUpdate ? BrickMode.BM_ON : BrickMode.BM_OFF;
+        }
+
 
     }
 
