@@ -28,6 +28,8 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
         boolean doUpdate = false;
         boolean seed = true, last = false, pos = false;
 
+
+
         switch (controller.op) {
             case OP_NOR:
                 controller.isInverter = true;
@@ -82,9 +84,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             }
             break;
         }
-        for(Actuator actuator: controller.actuators.values()){
-            actuator.pulseState = doUpdate ? BrickMode.BM_ON : BrickMode.BM_OFF;
-        }
+
 
 
     }

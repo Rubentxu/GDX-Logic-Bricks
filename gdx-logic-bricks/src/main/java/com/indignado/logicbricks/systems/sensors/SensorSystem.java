@@ -143,7 +143,8 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                         doDispatch = detDispatch;
 
                     // Dispatch results
-                    if (doDispatch) sensor.pulseState = isPositive(sensor) ? BrickMode.BM_ON : BrickMode.BM_OFF;
+                    if (doDispatch) sensor.pulseState =  BrickMode.BM_ON;
+                    else sensor.pulseState = BrickMode.BM_OFF;
                 }
             }
 
@@ -164,7 +165,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
 
-    boolean isPositive(Sensor sensor) {
+    protected boolean isPositive(Sensor sensor) {
         boolean result = sensor.positive;
         if (sensor.invert) {
             if (!(sensor.tap && !(sensor.pulse != Sensor.Pulse.PM_TRUE)))
@@ -173,5 +174,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         return result;
 
     }
+
 
 }
