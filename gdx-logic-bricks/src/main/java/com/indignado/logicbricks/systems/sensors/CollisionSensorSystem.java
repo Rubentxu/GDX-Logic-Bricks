@@ -13,11 +13,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
-import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Rubentxu
@@ -44,15 +40,13 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
     @Override
     public boolean query(CollisionSensor sensor, float deltaTime) {
-        if(sensor.contact!= null) {
-            Log.debug(tag,"sensor contact %b",sensor.contact.isTouching());
+        if (sensor.contact != null) {
+            Log.debug(tag, "sensor contact %b", sensor.contact.isTouching());
             return sensor.contact.isTouching();
         }
         return false;
 
     }
-
-
 
 
     @Override
@@ -109,8 +103,8 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
             if (targetEntities.contains(entityA, false) || targetEntities.contains(entityB, false)) {
                 collisionSensor.contact = contact;
-                Log.debug(tag, "Process Contac %b entityA %s entityB %s sensor register size %d",contact.isTouching()
-                        ,entityA.getId(), entityB.getId(), collisionSensors.size);
+                Log.debug(tag, "Process Contac %b entityA %s entityB %s sensor register size %d", contact.isTouching()
+                        , entityA.getId(), entityB.getId(), collisionSensors.size);
             }
         }
 

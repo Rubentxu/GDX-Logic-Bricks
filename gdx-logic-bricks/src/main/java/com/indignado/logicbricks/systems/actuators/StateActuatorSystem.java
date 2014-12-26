@@ -8,8 +8,6 @@ import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.utils.Log;
 
-import java.util.Set;
-
 /**
  * @author Rubentxu
  */

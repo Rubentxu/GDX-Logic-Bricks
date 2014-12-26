@@ -10,10 +10,8 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.core.World;
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 
 import java.util.HashSet;
@@ -205,7 +203,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
                 ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
-                while (it.hasNext()){
+                while (it.hasNext()) {
                     mouseSensors.add(it.next());
                 }
             }
@@ -220,7 +218,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
             for (int i = 0; i < map.size; ++i) {
                 ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
-                while (it.hasNext()){
+                while (it.hasNext()) {
                     mouseSensors.remove(it.next());
                 }
             }

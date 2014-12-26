@@ -88,7 +88,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 if (doQuery) {
                     // Sensor detection.
                     boolean lp = sensor.positive;
-                    sensor.positive = query(sensor,deltaTime);
+                    sensor.positive = query(sensor, deltaTime);
 
                     // Sensor Pulse.
                     if (sensor.pulse == Pulse.PM_IDLE)

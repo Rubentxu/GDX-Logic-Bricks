@@ -8,7 +8,6 @@ import com.indignado.logicbricks.core.LogicBrick;
 public abstract class Sensor extends LogicBrick {
 
 
-
     public enum Pulse {
         PM_IDLE,
         PM_TRUE,

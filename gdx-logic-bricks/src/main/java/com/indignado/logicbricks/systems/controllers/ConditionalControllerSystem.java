@@ -1,10 +1,10 @@
 package com.indignado.logicbricks.systems.controllers;
 
+import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
-import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.Log;
 
 import java.util.Iterator;
 
@@ -21,81 +21,84 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     @Override
     public void processController(ConditionalController controller) {
-        if (controller.type.equals(ConditionalController.Type.AND)) evaluateANDConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.OR)) evaluateORConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.NAND)) evaluateNANDConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.NOR)) evaluateNORConditional(controller);
 
-    }
-
-
-    public void evaluateANDConditional(ConditionalController controller) {
-        controller.pulseSignal = true;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            Log.debug(tag, "Sensor name %s pulseSignal %b", s.name, s.pulseSignal);
-            if (s.pulseSignal == false) {
-                controller.pulseSignal = false;
-
-            }
-
+        if (controller.actuators.size == 0 || controller.sensors.size == 0) {
+            return;
         }
-        if (controller.pulseSignal)
-            Log.debug(tag, "Controller %s AND pulseSignal %b", controller.name, controller.pulseSignal);
 
-    }
+        boolean doUpdate = false;
+        boolean seed = true, last = false, pos = false;
 
+        switch (controller.op) {
+            case OP_NOR:
+            case OP_OR: {
+                Iterator<ObjectMap.Entry<String, Sensor>> it = controller.sensors.iterator();
+                while (it.hasNext()) {
+                    Sensor sens = it.next().value;
 
-    public void evaluateORConditional(ConditionalController controller) {
-        controller.pulseSignal = false;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            if (s.pulseSignal == true) {
-                controller.pulseSignal = true;
+                    pos = sens.positive;
+                    if (pos)
+                        doUpdate = true;
+                    if (controller.op == ConditionalController.Op.OP_NOR)
+                        controller.isInverter = true;
+
+                    if (doUpdate)
+                        break;
+                }
+
+                if (controller.isInverter)
+                    doUpdate = !doUpdate;
             }
-        }
-        if (controller.pulseSignal) Log.debug(tag, "OR pulseSignal %b", controller.pulseSignal);
+            break;
+            case OP_XNOR:
+            case OP_XOR: {
+                Iterator<ObjectMap.Entry<String, Sensor>> it = controller.sensors.iterator();
+                while (it.hasNext()) {
 
-    }
+                    Sensor sens = it.next().value;
+                    seed = sens.positive;
 
+                    if (seed && last) {
+                        doUpdate = false;
+                        break;
+                    } else if (seed) doUpdate = true;
 
-    public void evaluateNANDConditional(ConditionalController controller) {
-        controller.pulseSignal = false;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            if (s.pulseSignal == false) {
-                controller.pulseSignal = true;
+                    if (!last && seed)
+                        last = true;
+
+                    if (controller.op == ConditionalController.Op.OP_XNOR && seed)
+                        controller.isInverter = true;
+                }
+                if (controller.isInverter)
+                    doUpdate = !doUpdate;
             }
-        }
-        if (controller.pulseSignal) Log.debug(tag, "NAND pulseSignal %b", controller.pulseSignal);
+            break;
+            case OP_NAND:
+            case OP_AND: {
+                Iterator<ObjectMap.Entry<String, Sensor>> it = controller.sensors.iterator();
+                while (it.hasNext()) {
 
-    }
+                    Sensor sens = it.next().value;
 
+                    pos = sens.positive;
+                    if (seed) {
+                        seed = false;
+                        doUpdate = pos;
+                    } else
+                        doUpdate = doUpdate && pos;
 
-    public void evaluateNORConditional(ConditionalController controller) {
-        controller.pulseSignal = true;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            if (s.pulseSignal == true) {
-                controller.pulseSignal = false;
+                    if (controller.op == ConditionalController.Op.OP_NAND)
+                        controller.isInverter = true;
 
+                }
+                if (controller.isInverter)
+                    doUpdate = !doUpdate;
             }
-
+            break;
         }
-        if (controller.pulseSignal) Log.debug(tag, "NOR pulseSignal %b", controller.pulseSignal);
+        controller.pulseState = doUpdate ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
 
     }
+
 
 }

@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -12,8 +11,6 @@ import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.Set;
 
 /**
  * @author Rubentxu
@@ -53,7 +50,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                 if (doQuery) {
                     // Sensor detection.
                     boolean lp = sensor.positive;
-                    sensor.positive = query(sensor,deltaTime,blackBoardMapper.get(entity));
+                    sensor.positive = query(sensor, deltaTime, blackBoardMapper.get(entity));
 
                     // Sensor Pulse.
                     if (sensor.pulse == Sensor.Pulse.PM_IDLE)
@@ -97,7 +94,8 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                             if (!doQuery)
                                 sensor.firstTap = Sensor.TapMode.TAP_IN;
                         }
-                    } else sensor.pulseState = isPositive(sensor) ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
+                    } else
+                        sensor.pulseState = isPositive(sensor) ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
 
                     if (sensor.firstExec) {
                         sensor.firstExec = false;
@@ -108,7 +106,8 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                         doDispatch = detDispatch;
 
                     // Dispatch results
-                    if (doDispatch) sensor.pulseState = isPositive(sensor) ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
+                    if (doDispatch)
+                        sensor.pulseState = isPositive(sensor) ? LogicBrick.BrickMode.BM_ON : LogicBrick.BrickMode.BM_OFF;
                 }
             }
 

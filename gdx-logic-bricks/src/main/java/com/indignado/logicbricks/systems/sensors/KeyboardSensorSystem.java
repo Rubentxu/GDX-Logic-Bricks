@@ -10,9 +10,6 @@ import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created on 15/10/14.
  *

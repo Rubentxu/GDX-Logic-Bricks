@@ -15,7 +15,6 @@ import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.utils.Log;
 
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * @author Rubentxu.

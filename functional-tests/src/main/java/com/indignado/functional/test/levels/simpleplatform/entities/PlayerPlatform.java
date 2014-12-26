@@ -119,7 +119,6 @@ public class PlayerPlatform extends EntityFactory {
         viewsComponent.views.add(particleEffectView);
 
 
-
         // Create Bricks Walking Right ----------------------------------------------------------------
         KeyboardSensor keyboardSensorWalkingRight = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.D)
@@ -142,7 +141,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerWalkingRight, "Idle", "Walking")
                 .connectToSensor(keyboardSensorWalkingRight)
-                .connectToActuators(motionActuatorWalkingRight,textureActuatorWalkingRight);
+                .connectToActuators(motionActuatorWalkingRight, textureActuatorWalkingRight);
 
 
         // Create Bricks Walking Left ----------------------------------------------------------------
@@ -221,7 +220,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerWalking, "Idle")
                 .connectToSensors(keyboardSensorWalkingRight, keyboardSensorWalkingLeft)
-                .connectToActuators(editRigidBodyActuatorWalking,stateActuatorWalking);
+                .connectToActuators(editRigidBodyActuatorWalking, stateActuatorWalking);
 
         // Create Bricks Ground ----------------------------------------------------------------
         CollisionSensor collisionSensorGround = BricksUtils.getBuilder(CollisionSensorBuilder.class)
@@ -249,7 +248,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerGround, "Jump")
                 .connectToSensor(collisionSensorGround)
-                .connectToActuators(propertyActuatorInGround, editRigidBodyActuatorGround,stateActuatorIdleGround);
+                .connectToActuators(propertyActuatorInGround, editRigidBodyActuatorGround, stateActuatorIdleGround);
 
         // Create Bricks not Ground ----------------------------------------------------------------
         ConditionalController controllerNotGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)

@@ -32,7 +32,7 @@ public class MousePositionScript implements Script {
             Body ownerBody = instanceEntityActuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
 
             float angle = MathUtils.atan2(mousePosition.y - ownerBody.getPosition().y, mousePosition.x - ownerBody.getPosition().x);
-            instanceEntityActuator.initialVelocity = new Vector2(Settings.Width/2 * MathUtils.cos(angle), Settings.Width * MathUtils.sin(angle));
+            instanceEntityActuator.initialVelocity = new Vector2(Settings.Width / 2 * MathUtils.cos(angle), Settings.Width * MathUtils.sin(angle));
             instanceEntityActuator.angle = angle;
 
             Log.debug("MousePositionScript::Trigger", "Initial Velocity %s Angle %f", instanceEntityActuator.initialVelocity.toString(), angle);

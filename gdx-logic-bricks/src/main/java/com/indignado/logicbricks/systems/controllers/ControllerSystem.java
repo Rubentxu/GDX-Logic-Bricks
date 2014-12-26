@@ -11,8 +11,6 @@ import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.utils.Log;
 
-import java.util.Set;
-
 /**
  * @author Rubentxu.
  */
@@ -35,7 +33,6 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         ObjectSet<C> controllers = (ObjectSet<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {
             for (C controller : controllers) {
-                controller.pulseSignal = false;
                 processController(controller);
 
             }

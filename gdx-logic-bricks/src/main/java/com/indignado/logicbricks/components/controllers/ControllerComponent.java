@@ -6,8 +6,6 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.indignado.logicbricks.core.controllers.Controller;
 
-import java.util.Set;
-
 /**
  * @author Rubentxu.
  */

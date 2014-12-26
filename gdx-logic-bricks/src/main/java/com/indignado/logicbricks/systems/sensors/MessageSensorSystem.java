@@ -9,8 +9,6 @@ import com.indignado.logicbricks.components.sensors.MessageSensorComponent;
 import com.indignado.logicbricks.core.MessageManager;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
 
-import java.util.Set;
-
 /**
  * @author Rubentxu
  */
@@ -25,7 +23,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
     @Override
     public boolean query(MessageSensor sensor, float deltaTime) {
         boolean isActive = false;
-        if(sensor.message != null) isActive = true;
+        if (sensor.message != null) isActive = true;
         return isActive;
 
     }
