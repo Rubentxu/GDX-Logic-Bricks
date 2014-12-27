@@ -12,12 +12,13 @@ import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
  */
-public abstract class ControllerSystem<C extends Controller, CC extends ControllerComponent> extends IteratingSystem {
+public abstract class ControllerSystem<C extends Controller, CC extends ControllerComponent> extends LogicBrickSystem {
     protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<CC> controllerMapper;
     protected ComponentMapper<StateComponent> stateMapper;

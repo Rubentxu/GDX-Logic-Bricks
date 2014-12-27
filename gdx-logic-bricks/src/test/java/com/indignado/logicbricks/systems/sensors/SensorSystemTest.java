@@ -91,9 +91,17 @@ public class SensorSystemTest {
 
         engine.addEntity(player);
         engine.update(1);
-
         assertEquals(sensor.pulseState, BrickMode.BM_ON);
         assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
         isActive = false;
         engine.update(1);
         assertEquals(sensor.pulseState, BrickMode.BM_ON);
@@ -101,6 +109,33 @@ public class SensorSystemTest {
 
     }
 
+
+    @Test
+    public void PulseModeTrueTest() {
+        isActive = true;
+        sensor.pulse = Sensor.Pulse.PM_TRUE;
+
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        isActive = false;
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+
+    }
 
 
 }

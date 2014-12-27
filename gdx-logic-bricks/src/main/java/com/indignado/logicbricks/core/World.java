@@ -2,6 +2,7 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,19 +14,18 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.systems.AnimationSystem;
-import com.indignado.logicbricks.systems.RenderingSystem;
-import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.ViewPositionSystem;
+import com.indignado.logicbricks.systems.*;
+import com.indignado.logicbricks.systems.actuators.ActuatorSystem;
 import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MessageSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
+import com.indignado.logicbricks.systems.controllers.ControllerSystem;
+import com.indignado.logicbricks.systems.sensors.*;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+
+import java.util.Iterator;
 
 
 /**
@@ -43,6 +43,13 @@ public class World implements Disposable {
     private LogicBricksEngine engine;
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
     private CategoryBitsManager categoryBitsManager;
+    private double currentTime;
+    private double accumulatorPhysics;
+    private double accumulatorLogicBricks;
+    private boolean updateLogicsSystem;
+
+    // Systems
+    private final ViewPositionSystem viewPositionSystem;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -52,7 +59,8 @@ public class World implements Disposable {
         this.camera = camera;
         this.engine = new LogicBricksEngine();
         engine.addSystem(new RenderingSystem(batch, camera, physics));
-        engine.addSystem(new ViewPositionSystem());
+        viewPositionSystem = new ViewPositionSystem();
+        engine.addSystem(viewPositionSystem);
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem(this));
         engine.addSystem(new KeyboardSensorSystem());
@@ -78,6 +86,10 @@ public class World implements Disposable {
         this.categoryBitsManager = new CategoryBitsManager();
         engine.update(0);
         Gdx.app.setLogLevel(Settings.debugLevel);
+        currentTime = TimeUtils.millis() / 1000.0;
+        accumulatorPhysics = 0.0;
+        accumulatorLogicBricks = 0.0;
+        updateLogicsSystem = false;
 
     }
 
@@ -144,9 +156,38 @@ public class World implements Disposable {
     }
 
 
-    public void update(float deltaTime) {
+    public void update () {
+        double newTime = TimeUtils.millis() / 1000.0;
+        double frameTime = Math.min(newTime - currentTime, 0.25);
+        float deltaTime = (float)frameTime;
+
+        currentTime = newTime;
+        accumulatorPhysics += frameTime;
+        accumulatorLogicBricks += frameTime;
+
+        while (accumulatorPhysics >= Settings.physicsDeltaTime) {
+            physics.step(Settings.physicsDeltaTime, Settings.velocityIterations, Settings.positionIterations);
+            accumulatorPhysics -= Settings.physicsDeltaTime;
+            //viewPositionSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
+
+        }
+        if (accumulatorLogicBricks >= Settings.logicDeltaTime) {
+            accumulatorLogicBricks -= Settings.logicDeltaTime;
+            activeLogicBrickSystemProcessing(true);
+        } else {
+            activeLogicBrickSystemProcessing(false);
+        }
         engine.update(deltaTime);
-        physics.step(deltaTime, 10, 8);
+
+    }
+
+
+    private void activeLogicBrickSystemProcessing(boolean active) {
+        Iterator<EntitySystem> it = engine.getSystems().iterator();
+        while (it.hasNext()) {
+            EntitySystem system = it.next();
+            if(system instanceof LogicBrickSystem) system.setProcessing(active);
+        }
 
     }
 

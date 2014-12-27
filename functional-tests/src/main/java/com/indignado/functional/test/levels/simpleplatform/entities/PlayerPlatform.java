@@ -125,7 +125,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         ConditionalController controllerWalkingRight = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
 
@@ -150,7 +150,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         ConditionalController controllerWalkingLeft = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
         MotionActuator motionActuatorWalkingLeft = BricksUtils.getBuilder(MotionActuatorBuilder.class)
@@ -174,7 +174,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         ConditionalController controllerCamera = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
         CameraActuator cameraActuator = BricksUtils.getBuilder(CameraActuatorBuilder.class)
@@ -189,7 +189,7 @@ public class PlayerPlatform extends EntityFactory {
 
         // Create Bricks Idle ----------------------------------------------------------------
         ConditionalController controllerIdle = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.NOR)
+                .setOp(ConditionalController.Op.OP_NOR)
                 .getBrick();
 
         EditRigidBodyActuator editRigidBodyActuatorIdle = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
@@ -207,7 +207,7 @@ public class PlayerPlatform extends EntityFactory {
 
         // Create Bricks Walking ----------------------------------------------------------------
         ConditionalController controllerWalking = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.OR)
+                .setOp(ConditionalController.Op.OP_OR)
                 .getBrick();
 
         EditRigidBodyActuator editRigidBodyActuatorWalking = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
@@ -225,11 +225,10 @@ public class PlayerPlatform extends EntityFactory {
         // Create Bricks Ground ----------------------------------------------------------------
         CollisionSensor collisionSensorGround = BricksUtils.getBuilder(CollisionSensorBuilder.class)
                 .setTargetName("Ground")
-                .setOnce(true)
                 .getBrick();
 
         ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
         PropertyActuator<Boolean> propertyActuatorInGround = BricksUtils.getBuilder(PropertyActuatorBuilder.class)
@@ -252,7 +251,7 @@ public class PlayerPlatform extends EntityFactory {
 
         // Create Bricks not Ground ----------------------------------------------------------------
         ConditionalController controllerNotGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.NOR)
+                .setOp(ConditionalController.Op.OP_NOR)
                 .getBrick();
 
         PropertyActuator<Boolean> propertyActuatorNotInGround = BricksUtils.getBuilder(PropertyActuatorBuilder.class)
@@ -278,7 +277,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         ConditionalController controllerJump = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
 
@@ -301,7 +300,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         ConditionalController controllerEffectOn = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
 
@@ -320,7 +319,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         ConditionalController controllerEffectOff = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
         EffectActuator effectActuatorOff = BricksUtils.getBuilder(EffectActuatorBuilder.class)

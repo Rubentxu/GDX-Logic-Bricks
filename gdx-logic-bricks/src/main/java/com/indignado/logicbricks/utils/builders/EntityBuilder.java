@@ -122,11 +122,11 @@ public class EntityBuilder {
             engine.addSystem(entitySystem);
 
             if (entitySystem instanceof MouseSensorSystem)
-                engine.addEntityListener(((MouseSensorSystem) entitySystem).getFamily(), (MouseSensorSystem) entitySystem);
+                engine.addEntityListener((MouseSensorSystem) entitySystem);
             if (entitySystem instanceof KeyboardSensorSystem)
-                engine.addEntityListener(((KeyboardSensorSystem) entitySystem).getFamily(), (KeyboardSensorSystem) entitySystem);
+                engine.addEntityListener((KeyboardSensorSystem) entitySystem);
             if (entitySystem instanceof CollisionSensorSystem)
-                engine.addEntityListener(((CollisionSensorSystem) entitySystem).getFamily(), (CollisionSensorSystem) entitySystem);
+                engine.addEntityListener((CollisionSensorSystem) entitySystem);
 
         }
         return entitySystem;

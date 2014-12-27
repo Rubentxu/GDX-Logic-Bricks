@@ -10,22 +10,20 @@ import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
 import com.indignado.logicbricks.core.sensors.Sensor.TapMode;
+import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
  */
-public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends EntitySystem {
+public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends LogicBrickSystem {
     protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<SC> sensorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
-    private Family family;
-    private ImmutableArray<Entity> entities;
 
 
     public SensorSystem(Class<SC> clazz) {
-        super(1);
-        this.family = Family.all(clazz, StateComponent.class).get();
+        super(Family.all(clazz, StateComponent.class).get(),1);
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
         Log.debug(tag, "Create system family %s", clazz.getSimpleName());
@@ -33,33 +31,12 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     public SensorSystem(Class<SC> clazz, Class<? extends Component> clazz2) {
-        super(1);
-        this.family = Family.all(clazz, clazz2, StateComponent.class).get();
+        super( Family.all(clazz, clazz2, StateComponent.class).get(),1);
+
         this.sensorMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
         Log.debug("Create system family %s and %s", clazz.getSimpleName(), clazz2.getSimpleName());
 
-    }
-
-
-    @Override
-    public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(family);
-        Log.debug(tag, "Entities size %d", entities.size());
-    }
-
-
-    @Override
-    public void removedFromEngine(Engine engine) {
-        entities = null;
-    }
-
-
-    @Override
-    public void update(float deltaTime) {
-        for (int i = 0; i < entities.size(); ++i) {
-            processEntity(entities.get(i), deltaTime);
-        }
     }
 
 
@@ -79,7 +56,8 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 }
 
                 boolean doQuery = false;
-                if (sensor.firstExec || (++sensor.tick > sensor.frequency) || sensor.pulse == Pulse.PM_IDLE) {
+                ++sensor.tick;
+                if (sensor.firstExec || (sensor.tick > sensor.frequency) || sensor.pulse == Pulse.PM_IDLE) {
                     doQuery = true;
                     sensor.tick = 0;
 
@@ -153,16 +131,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
 
     protected abstract boolean query(S sensor, float deltaTime);
-
-
-    public ImmutableArray<Entity> getEntities() {
-        return entities;
-    }
-
-
-    public Family getFamily() {
-        return family;
-    }
 
 
     protected boolean isPositive(Sensor sensor) {

@@ -71,7 +71,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;
-        world.update(deltaTime);
+        world.update();
 
 
     }
