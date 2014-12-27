@@ -2,6 +2,7 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
@@ -33,7 +34,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
         if (sensor.keyCode != Input.Keys.UNKNOWN) {
             if (sensor.keysCodeSignal.contains(sensor.keyCode)) {
-                //Gdx.app.log("KeyboardSensorSystem", "sensor keyCodeSignal contains: " + sensor.keyCode);
+                Gdx.app.log("KeyboardSensorSystem", "sensor keyCodeSignal contains: " + sensor.keyCode);
                 isActive = true;
             }
         } else if (sensor.allKeys) {

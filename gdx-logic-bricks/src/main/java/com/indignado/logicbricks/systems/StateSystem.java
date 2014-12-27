@@ -23,7 +23,7 @@ public class StateSystem extends IteratingSystem {
 
 
     public StateSystem(World world) {
-        super(Family.all(StateComponent.class).get(), 1);
+        super(Family.all(StateComponent.class).get(), 0);
         this.world = world;
         sm = ComponentMapper.getFor(StateComponent.class);
         toRemove = new Array<Entity>();

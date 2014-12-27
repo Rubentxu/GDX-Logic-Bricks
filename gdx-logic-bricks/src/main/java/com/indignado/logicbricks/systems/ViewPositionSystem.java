@@ -22,7 +22,7 @@ public class ViewPositionSystem extends IteratingSystem {
 
 
     public ViewPositionSystem() {
-        super(Family.all(ViewsComponent.class, StateComponent.class).get(), 0);
+        super(Family.all(ViewsComponent.class, StateComponent.class).get(), 4);
         tm = ComponentMapper.getFor(ViewsComponent.class);
 
     }
