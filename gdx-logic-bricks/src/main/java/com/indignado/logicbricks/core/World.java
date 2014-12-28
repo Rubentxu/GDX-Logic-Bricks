@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
@@ -17,10 +16,11 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.*;
-import com.indignado.logicbricks.systems.actuators.ActuatorSystem;
 import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
-import com.indignado.logicbricks.systems.controllers.ControllerSystem;
-import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
+import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MessageSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -39,6 +39,8 @@ public class World implements Disposable {
     private final OrthographicCamera camera;
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
+    // Systems
+    private final ViewPositionSystem viewPositionSystem;
     private String tag = this.getClass().getSimpleName();
     private LogicBricksEngine engine;
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
@@ -47,9 +49,6 @@ public class World implements Disposable {
     private double accumulatorPhysics;
     private double accumulatorLogicBricks;
     private boolean updateLogicsSystem;
-
-    // Systems
-    private final ViewPositionSystem viewPositionSystem;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -156,10 +155,10 @@ public class World implements Disposable {
     }
 
 
-    public void update () {
+    public void update() {
         double newTime = TimeUtils.millis() / 1000.0;
         double frameTime = Math.min(newTime - currentTime, 0.25);
-        float deltaTime = (float)frameTime;
+        float deltaTime = (float) frameTime;
 
         currentTime = newTime;
         accumulatorPhysics += frameTime;
@@ -186,7 +185,7 @@ public class World implements Disposable {
         Iterator<EntitySystem> it = engine.getSystems().iterator();
         while (it.hasNext()) {
             EntitySystem system = it.next();
-            if(system instanceof LogicBrickSystem) system.setProcessing(active);
+            if (system instanceof LogicBrickSystem) system.setProcessing(active);
         }
 
     }

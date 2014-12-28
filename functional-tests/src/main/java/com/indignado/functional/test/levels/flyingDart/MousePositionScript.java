@@ -35,6 +35,7 @@ public class MousePositionScript implements Script {
             float angle = MathUtils.atan2(mousePosition.y - ownerBody.getPosition().y, mousePosition.x - ownerBody.getPosition().x);
             instanceEntityActuator.initialVelocity = new Vector2(Settings.Width / 2 * MathUtils.cos(angle), Settings.Width * MathUtils.sin(angle));
             instanceEntityActuator.angle = angle;
+            instanceEntityActuator.pulseState = LogicBrick.BrickMode.BM_ON;
 
             Log.debug("MousePositionScript::Trigger", "Initial Velocity %s Angle %f", instanceEntityActuator.initialVelocity.toString(), angle);
 

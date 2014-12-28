@@ -30,9 +30,17 @@ public abstract class SensorBuilder<T extends Sensor> extends BrickBuilder<T> {
 
 
     public SensorBuilder<T> setPulse(Sensor.Pulse pulse) {
+        return setPulse(pulse.getValue());
+
+
+    }
+
+
+    public SensorBuilder<T> setPulse(int pulse) {
         brick.pulse = pulse;
         return this;
 
     }
+
 
 }

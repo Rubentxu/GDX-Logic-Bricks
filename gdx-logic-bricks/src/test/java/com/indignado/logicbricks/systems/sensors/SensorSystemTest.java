@@ -9,13 +9,12 @@ import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
 import com.indignado.logicbricks.systems.StateSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -28,22 +27,6 @@ public class SensorSystemTest {
     private SensorSystem sensorSystem;
     private Entity player;
     private TestSensor sensor;
-
-    private class TestSensor extends Sensor {}
-    private class TestSensorComponent extends SensorComponent<TestSensor> {}
-    private class TestSensorSystem extends SensorSystem<TestSensor,TestSensorComponent> {
-
-        public TestSensorSystem() {
-            super(TestSensorComponent.class);
-        }
-
-
-        @Override
-        protected boolean query(TestSensor sensor, float deltaTime) {
-            return isActive;
-        }
-
-    }
 
     @Before
     public void setup() {
@@ -60,38 +43,43 @@ public class SensorSystemTest {
         player.add(rigidBodiesComponents);
         sensor = new TestSensor();
         sensor.state = stateComponent.getCurrentState();
+        sensor.frequency = 1;
         TestSensorComponent testSensorComponent = new TestSensorComponent();
         ObjectSet<TestSensor> sensorsStateTest = new ObjectSet<TestSensor>();
         sensorsStateTest.add(sensor);
-        testSensorComponent.sensors.put(stateComponent.getCurrentState(),sensorsStateTest);
+        testSensorComponent.sensors.put(stateComponent.getCurrentState(), sensorsStateTest);
         player.add(testSensorComponent);
 
     }
 
-
     @Test
     public void defaulTest() {
-        isActive = true;
-
+        isActive = false;
         engine.addEntity(player);
-        engine.update(1);
 
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        isActive = true;
+        engine.update(1);
         assertEquals(sensor.pulseState, BrickMode.BM_ON);
         assertTrue(sensor.positive);
+
         engine.update(1);
         assertEquals(sensor.pulseState, BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
-    }
-
-
-    @Test
-    public void defaulTest2() {
-        isActive = true;
-
-        engine.addEntity(player);
         engine.update(1);
-        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         engine.update(1);
@@ -104,25 +92,58 @@ public class SensorSystemTest {
 
         isActive = false;
         engine.update(1);
-        assertEquals(sensor.pulseState, BrickMode.BM_ON);
         assertFalse(sensor.positive);
+        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
 
     }
 
-
     @Test
-    public void PulseModeTrueTest() {
-        isActive = true;
-        sensor.pulse = Sensor.Pulse.PM_TRUE;
-
+    public void pulseModeTrueTest() {
+        isActive = false;
+        sensor.pulse = Pulse.PM_TRUE.getValue();
         engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        isActive = true;
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
 
         engine.update(1);
         assertEquals(sensor.pulseState, BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(sensor.pulseState, BrickMode.BM_ON);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         engine.update(1);
@@ -134,6 +155,38 @@ public class SensorSystemTest {
         assertEquals(sensor.pulseState, BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(sensor.pulseState, BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+
+    }
+
+    private class TestSensor extends Sensor {
+    }
+
+    private class TestSensorComponent extends SensorComponent<TestSensor> {
+    }
+
+    private class TestSensorSystem extends SensorSystem<TestSensor, TestSensorComponent> {
+
+        public TestSensorSystem() {
+            super(TestSensorComponent.class);
+        }
+
+
+        @Override
+        protected boolean query(TestSensor sensor, float deltaTime) {
+            return isActive;
+        }
 
     }
 

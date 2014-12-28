@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
@@ -36,7 +35,7 @@ public class ViewPositionSystem extends IteratingSystem {
             View view = (View) object;
             if (view.attachedTransform != null) {
                 Vector2 bodyPosition = view.attachedTransform.getPosition();
-                float bodyAngle =  view.attachedTransform.getRotation();
+                float bodyAngle = view.attachedTransform.getRotation();
 
                 view.position.x = bodyPosition.x * alpha + view.position.x * (1.0f - alpha);
                 view.position.y = bodyPosition.y * alpha + view.position.x * (1.0f - alpha);
@@ -54,7 +53,7 @@ public class ViewPositionSystem extends IteratingSystem {
 
 
     @Override
-    public void update (float deltaTime) {
+    public void update(float deltaTime) {
         super.update(deltaTime);
         alpha = 1.0f;
 

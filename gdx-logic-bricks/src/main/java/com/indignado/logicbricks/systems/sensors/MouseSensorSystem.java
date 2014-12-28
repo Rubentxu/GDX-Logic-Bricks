@@ -50,7 +50,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                 default:
                     sensor.mouseEventSignal = false;
                     isActive = true;
-                    Log.debug(tag,"Sensor is active %b",isActive);
+                    Log.debug(tag, "Sensor is active %b", isActive);
             }
         }
 
@@ -106,7 +106,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                     if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
                         sensor.mouseEventSignal = true;
                         sensor.buttonUP = false;
-                        Log.debug(tag,"TouchUp Left %b",sensor.buttonUP);
+                        Log.debug(tag, "TouchDown Left %b", !sensor.buttonUP);
                     }
                     break;
                 case Input.Buttons.MIDDLE:
@@ -141,7 +141,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                     if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
                         sensor.mouseEventSignal = false;
                         sensor.buttonUP = true;
-                        Log.debug(tag,"TouchUp Left %b",sensor.buttonUP);
+                        Log.debug(tag, "TouchUp Left %b", sensor.buttonUP);
                     }
                     break;
                 case Input.Buttons.MIDDLE:

@@ -29,7 +29,7 @@ public class MessageActuatorSystem extends ActuatorSystem<MessageActuator, Messa
 
     @Override
     public void processActuator(MessageActuator actuator, float deltaTime) {
-         MessageDispatcher.getInstance().dispatchMessage(actuator.delay, actuator, MessageManager.getMessageKey(actuator.message), actuator.extraInfo);
+        MessageDispatcher.getInstance().dispatchMessage(actuator.delay, actuator, MessageManager.getMessageKey(actuator.message), actuator.extraInfo);
 
     }
 

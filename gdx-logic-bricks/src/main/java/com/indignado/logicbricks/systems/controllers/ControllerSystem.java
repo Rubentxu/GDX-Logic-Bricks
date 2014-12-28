@@ -3,7 +3,6 @@ package com.indignado.logicbricks.systems.controllers;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
@@ -38,19 +37,21 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         if (controllers != null) {
             for (C controller : controllers) {
                 controller.pulseState = BrickMode.BM_IDLE;
-                for(Sensor sens : controller.sensors.values()) {
-                    if(sens.pulseState.equals(BrickMode.BM_OFF)) {
+                for (Sensor sensor : controller.sensors.values()) {
+                    Log.debug(tag, "Controller %s Sensor %s pulseState %s isActive %b", controller.name, sensor.name, sensor.pulseState, sensor.positive);
+                    if (sensor.pulseState.equals(BrickMode.BM_OFF)) {
                         controller.pulseState = BrickMode.BM_OFF;
                         break;
                     }
                 }
-                if(controller.pulseState.equals(BrickMode.BM_IDLE)) {
+                if (controller.pulseState.equals(BrickMode.BM_IDLE)) {
                     processController(controller);
                 }
 
-                for(Actuator actuator: controller.actuators.values()){
-                    if(controller.pulseState.equals(BrickMode.BM_IDLE)) actuator.pulseState = BrickMode.BM_OFF;
+                for (Actuator actuator : controller.actuators.values()) {
+                    if (controller.pulseState.equals(BrickMode.BM_IDLE)) actuator.pulseState = BrickMode.BM_OFF;
                     else actuator.pulseState = controller.pulseState;
+                    Log.debug(tag, "Controller %s actuator %s pulseState %s", controller.name, actuator.name, actuator.pulseState);
                 }
             }
         }
