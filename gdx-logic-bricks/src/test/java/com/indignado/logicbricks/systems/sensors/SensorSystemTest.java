@@ -619,7 +619,7 @@ public class SensorSystemTest {
     @Test
     public void pulseModeTrueTapTest() {
         isActive = false;
-        sensor.pulse = Pulse.PM_TRUE.getValue();
+        sensor.pulse = (Pulse.PM_TRUE.getValue() | Pulse.PM_FALSE.getValue());
         sensor.tap = true;
         engine.addEntity(player);
 

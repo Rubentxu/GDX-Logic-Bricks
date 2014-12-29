@@ -77,9 +77,12 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                     } else {
                         if (Pulse.isPositivePulseMode(sensor)) {
                             doDispatch = (lastPulse != sensor.positive) || sensor.positive;
+
+
                         }
                         if (Pulse.isNegativePulseMode(sensor)) {
                             doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
+
                         }
 
                     }
