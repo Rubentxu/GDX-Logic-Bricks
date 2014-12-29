@@ -38,6 +38,7 @@ public abstract class Sensor extends LogicBrick {
         lastTap = TapMode.TAP_OUT;
 
     }
+
     public enum Pulse {
         PM_IDLE,
         PM_TRUE,

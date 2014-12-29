@@ -102,7 +102,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                     } else if (sensor.lastTap == TapMode.TAP_IN) {
                         sensor.positive = false;
                         doDispatch = true;
-                        if(Pulse.isPositivePulseMode(sensor)) sensor.firstTap = TapMode.TAP_IN;
+                        if (Pulse.isPositivePulseMode(sensor)) sensor.firstTap = TapMode.TAP_IN;
                         sensor.lastTap = TapMode.TAP_OUT;
                     } else {
                         sensor.positive = false;

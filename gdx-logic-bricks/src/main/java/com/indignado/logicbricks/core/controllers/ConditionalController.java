@@ -6,6 +6,7 @@ package com.indignado.logicbricks.core.controllers;
 public class ConditionalController extends Controller {
     public Op op;
     public boolean isInverter = false;
+
     public enum Op {
         OP_NILL,
         OP_AND,

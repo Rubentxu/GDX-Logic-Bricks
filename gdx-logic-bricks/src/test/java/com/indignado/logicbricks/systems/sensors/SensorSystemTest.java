@@ -78,59 +78,58 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = false;
         engine.update(1);
         assertFalse(sensor.positive);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
 
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeTrueTest() {
@@ -139,58 +138,57 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
         assertFalse(sensor.positive);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeFalseTest() {
@@ -199,58 +197,57 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeBothTest() {
@@ -259,58 +256,57 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
 
     }
-
 
     @Test
     public void inverseTest() {
@@ -319,58 +315,57 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeTrueInverTest() {
@@ -380,58 +375,57 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeFalseInverTest() {
@@ -441,11 +435,11 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
@@ -454,45 +448,44 @@ public class SensorSystemTest {
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeBothInverTest() {
@@ -502,58 +495,57 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertTrue(sensor.positive);
 
 
     }
-
 
     @Test
     public void tapTest() {
@@ -562,59 +554,58 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         isActive = false;
         engine.update(1);
         assertFalse(sensor.positive);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
 
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
 
     }
-
 
     @Test
     public void pulseModeTrueTapTest() {
@@ -624,53 +615,53 @@ public class SensorSystemTest {
         engine.addEntity(player);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
         assertFalse(sensor.positive);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
 
         isActive = true;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         isActive = false;
         engine.update(1);
-        assertEquals(BrickMode.BM_ON,sensor.pulseState);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
         engine.update(1);
-        assertEquals(BrickMode.BM_OFF,sensor.pulseState);
+        assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
 
     }
