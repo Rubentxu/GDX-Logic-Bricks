@@ -60,11 +60,12 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 boolean processPulseState = false;
                 boolean lastPulse = sensor.positive;
                 sensor.positive = query(sensor, deltaTime);
+                if (sensor.invert) sensor.positive = !sensor.positive;
 
                 if (sensor.firstExec || (++sensor.tick > sensor.frequency) || sensor.pulse == Pulse.PM_IDLE.getValue()
                         || (lastPulse != sensor.positive)) {
                     processPulseState = true;
-                    if(sensor.tick > sensor.frequency) freqDispatch = true;
+                    if (sensor.tick > sensor.frequency) freqDispatch = true;
                     sensor.tick = 0;
 
                 }
@@ -75,19 +76,10 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
                     } else {
                         if (Pulse.isPositivePulseMode(sensor)) {
-                            if (!sensor.invert) {
-                                doDispatch = (lastPulse != sensor.positive) || sensor.positive;
-                            } else {
-                                doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
-                            }
-
+                            doDispatch = (lastPulse != sensor.positive) || sensor.positive;
                         }
                         if (Pulse.isNegativePulseMode(sensor)) {
-                            if (!sensor.invert) {
-                                doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
-                            } else {
-                                doDispatch = (lastPulse != sensor.positive) || sensor.positive;
-                            }
+                            doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
                         }
 
                     }
@@ -132,10 +124,9 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 }
 
 
-
                 if (!doDispatch && Pulse.isPositivePulseMode(sensor) && sensor.positive && freqDispatch) {
                     sensor.pulseState = BrickMode.BM_ON;
-                } else  if (!doDispatch) {
+                } else if (!doDispatch) {
                     sensor.pulseState = BrickMode.BM_OFF;
                 }
 
