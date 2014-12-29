@@ -48,7 +48,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         ObjectSet<S> sensors = (ObjectSet<S>) sensorMapper.get(entity).sensors.get(state);
         if (sensors != null) {
             for (S sensor : sensors) {
-                boolean doDispatch = false, detDispatch = false;
+                boolean doDispatch = false, freqDispatch = false;
                 if (sensor.oldState != sensor.state) {
                     sensor.firstExec = true;
                     sensor.positive = false;
@@ -58,39 +58,36 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 }
 
                 boolean processPulseState = false;
-                boolean lastPositive = sensor.positive;
+                boolean lastPulse = sensor.positive;
                 sensor.positive = query(sensor, deltaTime);
 
-
                 if (sensor.firstExec || (++sensor.tick > sensor.frequency) || sensor.pulse == Pulse.PM_IDLE.getValue()
-                        || (lastPositive != sensor.positive)) {
+                        || (lastPulse != sensor.positive)) {
                     processPulseState = true;
+                    if(sensor.tick > sensor.frequency) freqDispatch = true;
                     sensor.tick = 0;
 
                 }
 
                 if (processPulseState) {
-
-                    // Sensor Pulse.
                     if (sensor.pulse == Pulse.PM_IDLE.getValue()) {
-                        doDispatch = lastPositive != sensor.positive;
+                        doDispatch = lastPulse != sensor.positive;
 
                     } else {
                         if (Pulse.isPositivePulseMode(sensor)) {
                             if (!sensor.invert) {
-                                doDispatch = (lastPositive != sensor.positive) || sensor.positive;
+                                doDispatch = (lastPulse != sensor.positive) || sensor.positive;
                             } else {
-                                doDispatch = (lastPositive != sensor.positive) || !sensor.positive;
+                                doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
                             }
 
                         }
                         if (Pulse.isNegativePulseMode(sensor)) {
                             if (!sensor.invert) {
-                                doDispatch = (lastPositive != sensor.positive) || !sensor.positive;
+                                doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
                             } else {
-                                doDispatch = (lastPositive != sensor.positive) || sensor.positive;
+                                doDispatch = (lastPulse != sensor.positive) || sensor.positive;
                             }
-
                         }
 
                     }
@@ -126,15 +123,19 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                         if (sensor.invert && !doDispatch)
                             doDispatch = true;
                     }
-                    if (!doDispatch)
-                        doDispatch = detDispatch;
+
 
                     // Dispatch results
                     if (doDispatch) {
                         sensor.pulseState = BrickMode.BM_ON;
                     }
                 }
-                if (!doDispatch) {
+
+
+
+                if (!doDispatch && Pulse.isPositivePulseMode(sensor) && sensor.positive && freqDispatch) {
+                    sensor.pulseState = BrickMode.BM_ON;
+                } else  if (!doDispatch) {
                     sensor.pulseState = BrickMode.BM_OFF;
                 }
 
