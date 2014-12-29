@@ -87,8 +87,8 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
                 if (sensor.tap) {
                     processPulseState = sensor.positive;
-                    /*if (sensor.invert)
-                        processPulseState = !processPulseState;*/
+                    if (sensor.invert)
+                        processPulseState = !processPulseState;
 
                     doDispatch = false;
                     sensor.pulseState = BrickMode.BM_OFF;
@@ -116,7 +116,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                     if (sensor.invert && !doDispatch)
                         doDispatch = true;
                 }
-
 
                 // Dispatch results
                 if (doDispatch) {

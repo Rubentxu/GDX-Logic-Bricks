@@ -19,8 +19,8 @@ public abstract class Sensor extends LogicBrick {
     public float time = 0;
     public boolean initialized = false;
     public int oldState = 0;
-    public TapMode firstTap;
-    public TapMode lastTap;
+    public TapMode firstTap = TapMode.TAP_IN;
+    public TapMode lastTap = TapMode.TAP_OUT;
 
     @Override
     public void reset() {
@@ -34,7 +34,7 @@ public abstract class Sensor extends LogicBrick {
         time = 0;
         initialized = false;
         oldState = 0;
-        firstTap = TapMode.TAP_OUT;
+        firstTap = TapMode.TAP_IN;
         lastTap = TapMode.TAP_OUT;
 
     }
