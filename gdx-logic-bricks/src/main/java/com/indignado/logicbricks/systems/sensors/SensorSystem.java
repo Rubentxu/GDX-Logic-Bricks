@@ -77,55 +77,51 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                     } else {
                         if (Pulse.isPositivePulseMode(sensor)) {
                             doDispatch = (lastPulse != sensor.positive) || sensor.positive;
-
-
                         }
                         if (Pulse.isNegativePulseMode(sensor)) {
                             doDispatch = (lastPulse != sensor.positive) || !sensor.positive;
-
                         }
-
-                    }
-
-                    // Tap mode (Switch On->Switch Off)
-                    if (sensor.tap && !(Pulse.isPositivePulseMode(sensor))) {
-                        processPulseState = sensor.positive;
-                        if (sensor.invert)
-                            processPulseState = !processPulseState;
-
-                        doDispatch = false;
-                        sensor.pulseState = BrickMode.BM_OFF;
-
-                        if (sensor.firstTap == TapMode.TAP_IN && processPulseState) {
-                            doDispatch = true;
-                            sensor.positive = true;
-                            sensor.pulseState = BrickMode.BM_ON;
-                            sensor.firstTap = TapMode.TAP_OUT;
-                            sensor.lastTap = TapMode.TAP_IN;
-                        } else if (sensor.lastTap == TapMode.TAP_IN) {
-                            sensor.positive = false;
-                            doDispatch = true;
-                            sensor.lastTap = TapMode.TAP_OUT;
-                        } else {
-                            sensor.positive = false;
-                            if (!processPulseState)
-                                sensor.firstTap = TapMode.TAP_IN;
-                        }
-                    } else sensor.pulseState = isPositive(sensor) ? BrickMode.BM_ON : BrickMode.BM_OFF;
-
-                    if (sensor.firstExec) {
-                        sensor.firstExec = false;
-                        if (sensor.invert && !doDispatch)
-                            doDispatch = true;
-                    }
-
-
-                    // Dispatch results
-                    if (doDispatch) {
-                        sensor.pulseState = BrickMode.BM_ON;
                     }
                 }
 
+
+                if (sensor.tap) {
+                    processPulseState = sensor.positive;
+                    /*if (sensor.invert)
+                        processPulseState = !processPulseState;*/
+
+                    doDispatch = false;
+                    sensor.pulseState = BrickMode.BM_OFF;
+
+                    if (sensor.firstTap == TapMode.TAP_IN && processPulseState) {
+                        doDispatch = true;
+                        sensor.positive = true;
+                        sensor.pulseState = BrickMode.BM_ON;
+                        sensor.firstTap = TapMode.TAP_OUT;
+                        sensor.lastTap = TapMode.TAP_IN;
+                    } else if (sensor.lastTap == TapMode.TAP_IN) {
+                        sensor.positive = false;
+                        doDispatch = true;
+                        if(Pulse.isPositivePulseMode(sensor)) sensor.firstTap = TapMode.TAP_IN;
+                        sensor.lastTap = TapMode.TAP_OUT;
+                    } else {
+                        sensor.positive = false;
+                        if (!processPulseState)
+                            sensor.firstTap = TapMode.TAP_IN;
+                    }
+                } else sensor.pulseState = isPositive(sensor) ? BrickMode.BM_ON : BrickMode.BM_OFF;
+
+                if (sensor.firstExec) {
+                    sensor.firstExec = false;
+                    if (sensor.invert && !doDispatch)
+                        doDispatch = true;
+                }
+
+
+                // Dispatch results
+                if (doDispatch) {
+                    sensor.pulseState = BrickMode.BM_ON;
+                }
 
                 if (!doDispatch && Pulse.isPositivePulseMode(sensor) && sensor.positive && freqDispatch) {
                     sensor.pulseState = BrickMode.BM_ON;
