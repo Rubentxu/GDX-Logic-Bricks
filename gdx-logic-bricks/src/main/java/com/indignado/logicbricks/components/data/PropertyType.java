@@ -26,7 +26,6 @@ public final class PropertyType {
             componentTypes.put(nameProperty, type);
 
         }
-
         return type;
 
     }

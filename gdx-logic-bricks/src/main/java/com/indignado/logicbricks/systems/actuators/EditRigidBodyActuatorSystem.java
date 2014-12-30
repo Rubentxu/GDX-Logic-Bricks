@@ -19,17 +19,16 @@ public class EditRigidBodyActuatorSystem extends ActuatorSystem<EditRigidBodyAct
 
     @Override
     public void processActuator(EditRigidBodyActuator actuator, float deltaTime) {
-        if (evaluateController(actuator)) {
-            if (actuator.targetRigidBody == null) {
-                actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-            }
-            actuator.targetRigidBody.setActive(actuator.active);
-            actuator.targetRigidBody.setAwake(actuator.awake);
-            for (Fixture fixture : actuator.targetRigidBody.getFixtureList()) {
-                if (actuator.friction != 0.2f) fixture.setFriction(actuator.friction);
-                if (actuator.restitution != 0) fixture.setRestitution(actuator.restitution);
-            }
+        if (actuator.targetRigidBody == null) {
+            actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
         }
+        actuator.targetRigidBody.setActive(actuator.active);
+        actuator.targetRigidBody.setAwake(actuator.awake);
+        for (Fixture fixture : actuator.targetRigidBody.getFixtureList()) {
+            if (actuator.friction != 0.2f) fixture.setFriction(actuator.friction);
+            if (actuator.restitution != 0) fixture.setRestitution(actuator.restitution);
+        }
+
 
     }
 

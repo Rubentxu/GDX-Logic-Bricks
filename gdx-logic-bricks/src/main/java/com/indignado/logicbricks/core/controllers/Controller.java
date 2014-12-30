@@ -11,6 +11,6 @@ import com.indignado.logicbricks.core.sensors.Sensor;
 public class Controller extends LogicBrick {
     public ObjectMap<String, Sensor> sensors = new ObjectMap<String, Sensor>();
     public ObjectMap<String, Actuator> actuators = new ObjectMap<String, Actuator>();
-    public boolean pulseSignal = false;
+
 
 }

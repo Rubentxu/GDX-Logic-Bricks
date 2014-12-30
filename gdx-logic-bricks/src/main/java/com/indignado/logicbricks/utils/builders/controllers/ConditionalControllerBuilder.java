@@ -14,8 +14,8 @@ public class ConditionalControllerBuilder extends BrickBuilder<ConditionalContro
 
     }
 
-    public ConditionalControllerBuilder setType(ConditionalController.Type type) {
-        brick.type = type;
+    public ConditionalControllerBuilder setOp(ConditionalController.Op op) {
+        brick.op = op;
         return this;
 
     }

@@ -1,8 +1,12 @@
 package com.indignado.logicbricks.systems.controllers;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
@@ -12,6 +16,21 @@ public class ScriptControllerSystem extends ControllerSystem<ScriptController, S
 
     public ScriptControllerSystem() {
         super(ScriptControllerComponent.class);
+
+    }
+
+
+    @Override
+    public void processEntity(Entity entity, float deltaTime) {
+        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        Integer state = stateMapper.get(entity).getCurrentState();
+        ObjectSet<ScriptController> controllers = (ObjectSet<ScriptController>) controllerMapper.get(entity).controllers.get(state);
+        if (controllers != null) {
+            for (ScriptController controller : controllers) {
+                processController(controller);
+
+            }
+        }
 
     }
 

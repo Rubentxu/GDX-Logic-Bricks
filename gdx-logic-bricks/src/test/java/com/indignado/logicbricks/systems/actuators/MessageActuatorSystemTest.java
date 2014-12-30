@@ -54,7 +54,7 @@ public class MessageActuatorSystemTest {
     @Test
     public void messageActuatorTest() {
         ConditionalController conditionalController = new ConditionalController();
-        conditionalController.pulseSignal = true;
+        //conditionalController.pulseSignal = true;
         MessageDispatcher.getInstance().addListener(new Telegraph() {
             @Override
             public boolean handleMessage(Telegram msg) {

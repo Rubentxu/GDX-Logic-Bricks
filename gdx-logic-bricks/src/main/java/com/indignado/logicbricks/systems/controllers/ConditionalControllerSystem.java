@@ -1,12 +1,12 @@
 package com.indignado.logicbricks.systems.controllers;
 
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
-import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.controllers.ConditionalController.Op;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.Iterator;
 
 /**
  * @author Rubentxu
@@ -21,81 +21,83 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
 
     @Override
     public void processController(ConditionalController controller) {
-        if (controller.type.equals(ConditionalController.Type.AND)) evaluateANDConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.OR)) evaluateORConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.NAND)) evaluateNANDConditional(controller);
-        if (controller.type.equals(ConditionalController.Type.NOR)) evaluateNORConditional(controller);
 
-    }
+        if (controller.actuators.size == 0 || controller.sensors.size == 0) {
+            return;
+        }
+
+        boolean doUpdate = false;
+        boolean seed = true, last = false, pos = false;
 
 
-    public void evaluateANDConditional(ConditionalController controller) {
-        controller.pulseSignal = true;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            Log.debug(tag, "Sensor name %s pulseSignal %b", s.name, s.pulseSignal);
-            if (s.pulseSignal == false) {
-                controller.pulseSignal = false;
+        switch (controller.op) {
+            case OP_NOR:
+                controller.isInverter = true;
+            case OP_OR: {
+                for (Sensor sens : controller.sensors.values()) {
+                    pos = sens.positive;
+                    if (pos)
+                        doUpdate = true;
+
+                    if (doUpdate)
+                        break;
+                }
+
+                if (controller.isInverter)
+                    doUpdate = !doUpdate;
+            }
+            break;
+            case OP_XNOR:
+            case OP_XOR: {
+                for (Sensor sens : controller.sensors.values()) {
+                    seed = sens.positive;
+
+                    if (seed && last) {
+                        doUpdate = false;
+                        break;
+                    } else if (seed) doUpdate = true;
+
+                    if (!last && seed)
+                        last = true;
+
+                    if (controller.op == Op.OP_XNOR && seed)
+                        controller.isInverter = true;
+                }
+                if (controller.isInverter)
+                    doUpdate = !doUpdate;
+            }
+            break;
+            case OP_NAND:
+                controller.isInverter = true;
+            case OP_AND: {
+                for (Sensor sens : controller.sensors.values()) {
+                    pos = sens.positive;
+                    if (seed) {
+                        seed = false;
+                        doUpdate = pos;
+                    } else
+                        doUpdate = doUpdate && pos;
+
+                }
+                if (controller.isInverter) {
+                    doUpdate = !doUpdate;
+                    Log.debug(tag, "Conditional OP_NAND doUpdate %b", doUpdate);
+                } else {
+                    Log.debug(tag, "Conditional OP_AND doUpdate %b", doUpdate);
+                }
+
 
             }
-
+            break;
         }
-        if (controller.pulseSignal)
-            Log.debug(tag, "Controller %s AND pulseSignal %b", controller.name, controller.pulseSignal);
-
-    }
-
-
-    public void evaluateORConditional(ConditionalController controller) {
-        controller.pulseSignal = false;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            if (s.pulseSignal == true) {
-                controller.pulseSignal = true;
+        if (doUpdate) {
+            for (Actuator actuator : controller.actuators.values()) {
+                actuator.pulseState = LogicBrick.BrickMode.BM_ON;
+                Log.debug(tag, "Actuators %s pulseState %s", actuator.name, actuator.pulseState);
             }
         }
-        if (controller.pulseSignal) Log.debug(tag, "OR pulseSignal %b", controller.pulseSignal);
 
     }
 
-
-    public void evaluateNANDConditional(ConditionalController controller) {
-        controller.pulseSignal = false;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            if (s.pulseSignal == false) {
-                controller.pulseSignal = true;
-            }
-        }
-        if (controller.pulseSignal) Log.debug(tag, "NAND pulseSignal %b", controller.pulseSignal);
-
-    }
-
-
-    public void evaluateNORConditional(ConditionalController controller) {
-        controller.pulseSignal = true;
-        Iterator<Sensor> it = controller.sensors.values();
-        if (!it.hasNext())
-            throw new LogicBricksException("ControllerSystem", "This sensor does not have any associated sensor");
-        while (it.hasNext()) {
-            Sensor s = it.next();
-            if (s.pulseSignal == true) {
-                controller.pulseSignal = false;
-
-            }
-
-        }
-        if (controller.pulseSignal) Log.debug(tag, "NOR pulseSignal %b", controller.pulseSignal);
-
-    }
 
 }

@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
-import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.utils.Log;
 
 /**

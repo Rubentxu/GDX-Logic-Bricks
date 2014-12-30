@@ -34,25 +34,23 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
     @Override
     public void processActuator(InstanceEntityActuator actuator, float deltaTime) {
-        if (evaluateController(actuator)) {
-            if (actuator.type == InstanceEntityActuator.Type.AddEntity) {
-                Entity entity = actuator.entityFactory.createEntity();
-                Body body = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-                Vector2 position = body.getPosition().cpy();
-                if (actuator.localPosition != null) position.add(actuator.localPosition);
+        if (actuator.type == InstanceEntityActuator.Type.AddEntity) {
+            Entity entity = actuator.entityFactory.createEntity();
+            Body body = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
+            Vector2 position = body.getPosition().cpy();
+            if (actuator.localPosition != null) position.add(actuator.localPosition);
 
-                world.positioningEntity(entity, position.x, position.y, actuator.angle);
-                Log.debug(tag, "Create with position %s", position);
+            world.positioningEntity(entity, position.x, position.y, actuator.angle);
+            Log.debug(tag, "Create with position %s", position);
 
-                if (actuator.initialVelocity != null) {
-                    addMotionComponents(world, entity, actuator);
-                }
-
-                world.getEngine().addEntity(entity);
-                if (actuator.duration != 0) addDurationComponents(world, entity, actuator);
+            if (actuator.initialVelocity != null) {
+                addMotionComponents(world, entity, actuator);
             }
 
+            world.getEngine().addEntity(entity);
+            if (actuator.duration != 0) addDurationComponents(world, entity, actuator);
         }
+
 
     }
 
@@ -60,13 +58,15 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
     private void addDurationComponents(World world, Entity entity, InstanceEntityActuator actuator) {
         TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setDuration(actuator.duration)
+                .setName("SensorDestroyEntity")
                 .getBrick();
 
         StateActuator stateActuator = new StateActuator();
+        stateActuator.name = "ChangeStateRemove";
         stateActuator.state = StateComponent.eraseID;
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
                 .setName("DurationController")
                 .getBrick();
 
@@ -83,11 +83,12 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
     private void addMotionComponents(World world, Entity entity, InstanceEntityActuator actuator) {
         TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
-                .setOnce(true)
+                .setName("SensorMotionActuator")
                 .getBrick();
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setType(ConditionalController.Type.AND)
+                .setOp(ConditionalController.Op.OP_AND)
+                .setName("ControllerMotionActuator")
                 .getBrick();
 
         MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
