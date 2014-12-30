@@ -4,23 +4,19 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
-import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.Iterator;
 
 /**
  * @author Rubentxu.
  */
-public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComponent> extends IteratingSystem {
+public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComponent> extends LogicBrickSystem {
     protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<AC> actuatorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
@@ -49,17 +45,19 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
         ObjectSet<A> actuators = (ObjectSet<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (A actuator : actuators) {
-                if(actuator.pulseState == LogicBrick.BrickMode.BM_ON)
+                Log.debug(tag, "Actuator %s PulseState %s", actuator.name, actuator.pulseState);
+                if (actuator.pulseState == LogicBrick.BrickMode.BM_ON) {
                     processActuator(actuator, deltaTime);
-
+                }
+                actuator.pulseState = LogicBrick.BrickMode.BM_OFF;
             }
+
         }
 
     }
 
 
     public abstract void processActuator(A actuator, float deltaTime);
-
 
 
 }

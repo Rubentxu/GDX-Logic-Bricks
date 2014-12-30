@@ -1,21 +1,21 @@
 package com.indignado.logicbricks.core;
 
-import com.badlogic.gdx.utils.Logger;
+
 import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * copy Sioncore class
  */
 public class CategoryBitsManager {
-    private Logger logger;
+    protected String tag = this.getClass().getSimpleName();
     private ObjectMap<String, Short> categoryBits;
     private ObjectMap<Short, String> categoryNames;
     private int nextCategory;
 
 
     public CategoryBitsManager() {
-        logger = new Logger("CategoryBitsManager", Settings.debugLevel);
-        logger.info("initialising");
+        Log.debug(tag, "Initialising");
         categoryBits = new ObjectMap<String, Short>();
         categoryNames = new ObjectMap<Short, String>();
         nextCategory = 0;
@@ -31,13 +31,13 @@ public class CategoryBitsManager {
 
         if (category == null) {
             if (nextCategory >= 16) {
-                logger.error("maximum number of collision categories reached");
+                Log.error(tag,"maximum number of collision categories reached");
                 return 0;
             } else {
                 short newCategory = (short) (1 << (nextCategory++));
                 categoryBits.put(name, newCategory);
                 categoryNames.put(newCategory, name);
-                logger.info("registering category " + name + " => " + newCategory);
+                Log.info(tag,"registering category %s => %d", name ,newCategory);
                 return newCategory;
             }
         }
@@ -53,7 +53,7 @@ public class CategoryBitsManager {
         String name = categoryNames.get(category);
 
         if (name == null) {
-            logger.error("category for bits " + category + " does not exist");
+            Log.error(tag,"category for bits %d does not exist",category);
             return "";
         }
         return name;

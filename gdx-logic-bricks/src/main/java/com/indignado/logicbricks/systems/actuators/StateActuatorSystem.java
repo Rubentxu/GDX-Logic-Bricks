@@ -29,14 +29,12 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
         ObjectSet<StateActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (StateActuator actuator : actuators) {
-                if(actuator.pulseState == LogicBrick.BrickMode.BM_ON)
+                if (actuator.pulseState == LogicBrick.BrickMode.BM_ON)
                     stateComponent.changeCurrentState(actuator.state);
-                }
+            }
         }
 
     }
-
-
 
 
     @Override

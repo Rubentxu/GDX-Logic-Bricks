@@ -1,58 +1,86 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.GdxNativesLoader;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.CategoryBitsManager;
+import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
+import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
+import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import org.junit.Before;
+import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
- * Created on 13/10/14.
- *
  * @author Rubentxu
  */
-public class CollisionSensorSystemTest {
+public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSensor, CollisionSensorSystem> {
     private World physic;
-    private PooledEngine engine;
-    private CollisionSensorSystem collisionSensorSystem;
+    private Entity ground;
+    private Body bodyPlayer;
+    private Body bodyGround;
+    private RigidBodiesComponents rigidByPlayer;
+    private RigidBodiesComponents rigidByGround;
+    private CategoryBitsManager categoryBitsManager;
+    CollisionSensor sensor;
+    IdentityComponent identityPlayer;
+    IdentityComponent identityGround;
     private BodyBuilder bodyBuilder;
-    private Entity player;
-    private Body body;
-    private Body body2;
-    private Entity enemy;
-    private RigidBodiesComponents rigidBodiesComponents;
-    private RigidBodiesComponents rigidBodiesComponents2;
-    private String statePrueba;
 
 
-    @Before
-    public void setup() {
+    public CollisionSensorSystemTest() {
+        super();
+        sensorSystem = new CollisionSensorSystem();
+        engine.addSystem(sensorSystem);
+        engine.addEntityListener(sensorSystem);
         GdxNativesLoader.load();
         physic = new World(new Vector2(0, -9.81f), true);
-
-        engine = new PooledEngine();
-        collisionSensorSystem = new CollisionSensorSystem();
-        physic.setContactListener(collisionSensorSystem);
+        physic.setContactListener(sensorSystem);
         bodyBuilder = new BodyBuilder(physic);
-        this.statePrueba = "StatePruebas";
+
+    }
+
+    @Override
+    public void setup() {
+        this.categoryBitsManager = new CategoryBitsManager();
 
     }
 
 
-    private void createContext() {
-        player = engine.createEntity();
-        body = bodyBuilder
+    @Override
+    public void tearDown() {
+        player = null;
+        ground = null;
+        bodyPlayer = null;
+        bodyGround = null;
+        rigidByPlayer = null;
+        rigidByGround = null;
+        sensor = null;
+        identityPlayer = null;
+
+    }
+
+    @Override
+    protected void createContext() {
+        // Create Player Entity
+        entityBuilder.initialize();
+        identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
+        identityPlayer.tag = "Player";
+        identityPlayer.category = categoryBitsManager.getCategoryBits(identityPlayer.tag);
+
+
+        bodyPlayer = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .circleShape(1)
                         .restitution(0f))
@@ -61,209 +89,108 @@ public class CollisionSensorSystemTest {
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
-        rigidBodiesComponents = new RigidBodiesComponents();
-        //rigidBodiesComponents.rigidBodies.add(body);
+        rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
+        rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        StateComponent stateComponent = new StateComponent();
-        stateComponent.changeCurrentState(1);
+        sensor = BricksUtils.getBuilder(CollisionSensorBuilder.class)
+                .setTargetName("Ground")
+                .setName("sensorPlayer")
+                .getBrick();
 
-        player.add(rigidBodiesComponents);
-        player.add(stateComponent);
+        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setOp(ConditionalController.Op.OP_AND)
+                .getBrick();
 
-        engine.addEntity(player);
+        ActuatorTest actuatorTest = new ActuatorTest();
 
-        enemy = engine.createEntity();
-        body2 = bodyBuilder
+
+        player = entityBuilder
+                .addController(controllerGround, "Default")
+                .connectToSensor(sensor)
+                .connectToActuator(actuatorTest)
+                .getEntity();
+
+        // Create Ground Entity
+        entityBuilder.initialize();
+        identityGround = entityBuilder.getComponent(IdentityComponent.class);
+        identityGround.tag = "Ground";
+        identityGround.category = categoryBitsManager.getCategoryBits(identityGround.tag);
+
+
+        bodyGround = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
-                        .circleShape(1 * 0.1f)
+                        .boxShape(5, 1)
                         .restitution(0f))
                 .position(40, 20)
                 .mass(1f)
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
+        rigidByGround = entityBuilder.getComponent(RigidBodiesComponents.class);
+        rigidByGround.rigidBodies.add(bodyGround);
 
-        rigidBodiesComponents2 = new RigidBodiesComponents();
-        //rigidBodiesComponents2.rigidBodies.add(body2);
-
-        enemy.add(rigidBodiesComponents2);
-
-        engine.addEntity(enemy);
+        ground = entityBuilder.getEntity();
+        engine.addEntity(ground);
 
     }
 
 
     @Test
     public void bodyCollidesBodyTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
+        identityPlayer.collisionMask = (short) identityGround.category;
+        engine.addEntity(player);
 
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
         engine.update(1);
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
+        engine.update(1);
 
-        //assertTrue(collisionSensor.pulseSignal);
+        assertTrue(sensor.contact.isTouching());
+        assertTrue(sensor.positive);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
     }
 
 
     @Test
-    public void bodyCollidesFixtureTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
+    public void filterTest() {
+        identityPlayer.collisionMask = (short) ~identityGround.category;
+        engine.addEntity(player);
 
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
         engine.update(1);
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
         physic.step(1, 8, 3);
-
-        //assertTrue(collisionSensor.pulseSignal);
-
-    }
-
-
-    @Test
-    public void fixtureCollidesBodyTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
-
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
         engine.update(1);
 
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
-        physic.step(1, 8, 3);
-
-        //assertTrue(collisionSensor.pulseSignal);
-
-    }
-
-
-    @Test
-    public void fixtureCollidesFixtureTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
-
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
-        engine.update(1);
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
-        physic.step(1, 8, 3);
-
-        engine.update(1);
-
-        //assertTrue(collisionSensor.pulseSignal);
-
-    }
-
-
-    @Test
-    public void bodyCollisionFalseTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
-
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
-        engine.update(1);
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
-        physic.step(0.1f, 8, 3);
-
-        //assertFalse(collisionSensor.pulseSignal);
-
-    }
-
-
-    @Test
-    public void fixtureCollisionFalseTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
-
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
-        engine.update(1);
-
-        System.out.println("Bodies size: " + physic.getBodyCount());
-        physic.step(0.1f, 8, 3);
-
-        //assertFalse(collisionSensor.pulseSignal);
-
-    }
-
-
-    @Test
-    public void endFixtureCollisionTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
-
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
-        engine.update(1);
-
-        System.out.println("Body position: " + body.getPosition());
-        physic.step(1f, 8, 3);
-        System.out.println("Body position2: " + body.getPosition());
-
-        //assertTrue(collisionSensor.pulseSignal);
-
-        body.applyForce(0, 60, body.getWorldCenter().x, body.getWorldCenter().y, true);
-
-        physic.step(1f, 8, 3);
-        System.out.println("Body position3: " + body.getPosition());
-
-        physic.step(1f, 8, 3);
-        System.out.println("Body position4: " + body.getPosition());
-        //assertFalse(collisionSensor.pulseSignal);
+        assertNull(sensor.contact);
+        assertFalse(sensor.positive);
+        assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
     }
 
 
     @Test
     public void endBodyCollisionTest() {
-        createContext();
-        CollisionSensor collisionSensor = new CollisionSensor();
+        engine.addEntity(player);
 
-
-        //new LogicBricksBuilder(player).addSensor(collisionSensor, statePrueba);
-
-        engine.addSystem(collisionSensorSystem);
+        engine.update(1);
+        physic.step(1, 8, 3);
         engine.update(1);
 
-        System.out.println("Body position: " + body.getPosition());
-        physic.step(1f, 8, 3);
-        System.out.println("Body position2: " + body.getPosition());
+        assertTrue(sensor.contact.isTouching());
+        assertTrue(sensor.positive);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
-        //assertTrue(collisionSensor.pulseSignal);
-
-        body.applyForce(0, 60, body.getWorldCenter().x, body.getWorldCenter().y, true);
+        bodyPlayer.applyForce(0, 60, bodyPlayer.getWorldCenter().x, bodyPlayer.getWorldCenter().y, true);
 
         physic.step(1f, 8, 3);
-        System.out.println("Body position3: " + body.getPosition());
-
+        engine.update(1);
         physic.step(1f, 8, 3);
-        System.out.println("Body position4: " + body.getPosition());
-        //assertFalse(collisionSensor.pulseSignal);
+        engine.update(1);
+        System.out.println("Body position3: " + bodyPlayer.getPosition());
+
+        System.out.println("Body position4: " + bodyPlayer.getPosition());
+        assertFalse(sensor.contact.isTouching());
+        assertFalse(sensor.positive);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
     }
 

@@ -93,10 +93,7 @@ public class LogicBricksEngine extends PooledEngine {
                     fixture.setFilterData(filter);
                 }
             }
-        } else {
-            throw new LogicBricksException("LogicBricksEngine", "At least one rigid body is necessary for each entity");
         }
-
     }
 
 
@@ -119,7 +116,8 @@ public class LogicBricksEngine extends PooledEngine {
 
 
     public Array<Entity> getEntities(String tag) {
-        return tagEntities.get(tag);
+        if(tagEntities.containsKey(tag)) return tagEntities.get(tag);
+        return null;
 
     }
 

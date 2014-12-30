@@ -35,12 +35,12 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawContacts = true;
         Settings.drawVelocities = true;
         Settings.drawStage = true;
-        //Settings.debugEntity = "Trigger";
-        Settings.debugTags.add("StateComponent");
-        Settings.debugTags.add("BlackBoardComponent");
-        //Settings.debugTags.add("PropertyActuatorSystem");
+        Settings.debugEntity = "Dart";
+        Settings.debugTags.add("ActuatorSystem");
+        Settings.debugTags.add("ControllerSystem");
+        //Settings.debugTags.add("MouseSensorSystem");
         //Settings.debugTags.add("CollisionSensorSystem");
-        Settings.debugTags.add("EntityBuilder");
+        //Settings.debugTags.add("EntityBuilder");
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
@@ -71,7 +71,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;
-        world.update(deltaTime);
+        world.update();
 
 
     }

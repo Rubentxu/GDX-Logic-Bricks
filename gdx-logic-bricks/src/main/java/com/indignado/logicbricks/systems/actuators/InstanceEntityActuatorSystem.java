@@ -58,9 +58,11 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
     private void addDurationComponents(World world, Entity entity, InstanceEntityActuator actuator) {
         TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setDuration(actuator.duration)
+                .setName("SensorDestroyEntity")
                 .getBrick();
 
         StateActuator stateActuator = new StateActuator();
+        stateActuator.name = "ChangeStateRemove";
         stateActuator.state = StateComponent.eraseID;
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
@@ -81,10 +83,12 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
     private void addMotionComponents(World world, Entity entity, InstanceEntityActuator actuator) {
         TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
+                .setName("SensorMotionActuator")
                 .getBrick();
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
+                .setName("ControllerMotionActuator")
                 .getBrick();
 
         MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)

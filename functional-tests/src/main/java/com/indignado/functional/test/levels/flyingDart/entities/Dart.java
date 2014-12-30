@@ -48,7 +48,8 @@ public class Dart extends EntityFactory {
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Dart";
         identity.category = world.getCategoryBitsManager().getCategoryBits("Dart");
-        identity.collisionMask = (short) (world.getCategoryBitsManager().getCategoryBits("Wall") | world.getCategoryBitsManager().getCategoryBits("Ground"));
+        identity.collisionMask = (short) (world.getCategoryBitsManager().getCategoryBits("Wall") |
+                world.getCategoryBitsManager().getCategoryBits("Ground"));
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

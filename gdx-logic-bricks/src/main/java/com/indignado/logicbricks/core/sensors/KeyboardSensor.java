@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created on 13/10/14.
- *
  * @author Rubentxu
  */
 public class KeyboardSensor extends Sensor {

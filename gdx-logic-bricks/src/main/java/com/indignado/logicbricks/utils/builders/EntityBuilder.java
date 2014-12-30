@@ -22,6 +22,7 @@ import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -35,7 +36,7 @@ import com.indignado.logicbricks.utils.Log;
  */
 public class EntityBuilder {
     private static String tag = "EntityBuilder";
-    private PooledEngine engine;
+    PooledEngine engine;
     private Entity entity;
     private Controller controller;
     private Array<String> controllerStates;
@@ -121,12 +122,6 @@ public class EntityBuilder {
             }
             engine.addSystem(entitySystem);
 
-            if (entitySystem instanceof MouseSensorSystem)
-                engine.addEntityListener(((MouseSensorSystem) entitySystem).getFamily(), (MouseSensorSystem) entitySystem);
-            if (entitySystem instanceof KeyboardSensorSystem)
-                engine.addEntityListener(((KeyboardSensorSystem) entitySystem).getFamily(), (KeyboardSensorSystem) entitySystem);
-            if (entitySystem instanceof CollisionSensorSystem)
-                engine.addEntityListener(((CollisionSensorSystem) entitySystem).getFamily(), (CollisionSensorSystem) entitySystem);
 
         }
         return entitySystem;

@@ -13,6 +13,7 @@ import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
+import com.indignado.logicbricks.utils.Log;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -49,8 +50,10 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                 default:
                     sensor.mouseEventSignal = false;
                     isActive = true;
+                    Log.debug(tag, "Sensor is active %b", isActive);
             }
         }
+
         return isActive;
 
     }
@@ -103,6 +106,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                     if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
                         sensor.mouseEventSignal = true;
                         sensor.buttonUP = false;
+                        Log.debug(tag, "TouchDown Left %b", !sensor.buttonUP);
                     }
                     break;
                 case Input.Buttons.MIDDLE:
@@ -137,6 +141,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                     if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
                         sensor.mouseEventSignal = false;
                         sensor.buttonUP = true;
+                        Log.debug(tag, "TouchUp Left %b", sensor.buttonUP);
                     }
                     break;
                 case Input.Buttons.MIDDLE:
