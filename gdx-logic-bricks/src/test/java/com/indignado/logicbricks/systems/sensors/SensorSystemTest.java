@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * @author Rubentxu
  */
 public class SensorSystemTest {
-    PooledEngine engine;
+    LogicBricksEngine engine;
     private String stateTest;
     private boolean isActive = false;
     private SensorSystem sensorSystem;
