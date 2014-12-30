@@ -48,7 +48,6 @@ public class World implements Disposable {
     private double currentTime;
     private double accumulatorPhysics;
     private double accumulatorLogicBricks;
-    private boolean updateLogicsSystem;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -88,7 +87,6 @@ public class World implements Disposable {
         currentTime = TimeUtils.millis() / 1000.0;
         accumulatorPhysics = 0.0;
         accumulatorLogicBricks = 0.0;
-        updateLogicsSystem = false;
 
     }
 
