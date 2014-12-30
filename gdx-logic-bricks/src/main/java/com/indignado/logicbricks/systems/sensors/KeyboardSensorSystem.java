@@ -12,8 +12,6 @@ import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
 
 /**
- * Created on 15/10/14.
- *
  * @author Rubentxu
  */
 public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardSensorComponent> implements InputProcessor, EntityListener {
@@ -30,22 +28,23 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     @Override
     public boolean query(KeyboardSensor sensor, float deltaTime) {
         boolean isActive = false;
-        sensor.keysSignal.clear();
-
+        Log.debug(tag, "sensor keyCodeSignal contains: %s", sensor.keyCode);
         if (sensor.keyCode != Input.Keys.UNKNOWN) {
             if (sensor.keysCodeSignal.contains(sensor.keyCode)) {
-                Gdx.app.log("KeyboardSensorSystem", "sensor keyCodeSignal contains: " + sensor.keyCode);
+                Log.debug(tag, "sensor keyCodeSignal2 contains: %s", sensor.keyCode);
                 isActive = true;
             }
-        } else if (sensor.allKeys) {
+        } else if (sensor.allKeys && !sensor.keysSignal.isEmpty()) {
             isActive = true;
-            //Gdx.app.log("KeyboardSensorSystem", "sensor allKeys: ");
+            Log.debug(tag, "sensor allKeys: signal : %s", sensor.keysCodeSignal);
             if (sensor.logToggle) {
                 for (Character key : sensor.keysSignal) {
                     sensor.target = sensor.target + key;
                 }
             }
         }
+        sensor.keysSignal.clear();
+        sensor.keysCodeSignal.clear();
         return isActive;
 
     }

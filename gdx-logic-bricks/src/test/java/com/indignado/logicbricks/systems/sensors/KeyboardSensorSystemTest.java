@@ -13,6 +13,8 @@ import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
+import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
@@ -22,42 +24,45 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
 /**
  * @author Rubentxu
  */
-public class KeyboardSensorSystemTest {
-    private LogicBricksEngine engine;
-    private KeyboardSensorSystem inputSensorSystem;
-    private EntityBuilder entityBuilder;
-    private IdentityComponent identityPlayer;
-    private KeyboardSensor keyboardSensorPlayer;
+public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSensor, KeyboardSensorSystem> {
 
-
-    @Before
-    public void setup() {
-        Settings.debugLevel = Logger.DEBUG;
-        engine = new LogicBricksEngine();
-        entityBuilder = new EntityBuilder(engine);
-        inputSensorSystem = new KeyboardSensorSystem();
-        engine.addSystem(inputSensorSystem);
-        engine.addEntityListener(inputSensorSystem);
-        //createContext();
+    public KeyboardSensorSystemTest() {
+        super();
+        sensorSystem = new KeyboardSensorSystem();
+        engine.addSystem(sensorSystem);
+        engine.addEntityListener(sensorSystem);
 
     }
 
-/*
-    private void createContext() {
+
+    @Override
+    protected void setup() {
+    }
+
+
+    @Override
+    protected void tearDown() {
+
+    }
+
+
+    @Override
+    protected void createContext() {
         // Create Player Entity
         entityBuilder.initialize();
-        identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
+        IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        keyboardSensorPlayer = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        sensor = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
-                .setName("keyboardSensorPlayer")
+                .setName("sensorPlayer")
                 .getBrick();
 
         ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
@@ -69,106 +74,72 @@ public class KeyboardSensorSystemTest {
 
         player = entityBuilder
                 .addController(controllerGround, "Default")
-                .connectToSensor(collisionSensorPlayer)
+                .connectToSensor(sensor)
                 .connectToActuator(actuatorTest)
                 .getEntity();
 
-        // Create Ground Entity
-        entityBuilder.initialize();
-        identityGround = entityBuilder.getComponent(IdentityComponent.class);
-        identityGround.tag = "Ground";
-        identityGround.category = categoryBitsManager.getCategoryBits(identityGround.tag);
-
-
-        bodyGround = bodyBuilder
-                .fixture(bodyBuilder.fixtureDefBuilder()
-                        .boxShape(5, 1)
-                        .restitution(0f))
-                .position(40, 20)
-                .mass(1f)
-                .type(BodyDef.BodyType.StaticBody)
-                .build();
-
-        rigidByGround = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByGround.rigidBodies.add(bodyGround);
-
-        ground = entityBuilder.getEntity();
-
-
-        engine.addEntity(ground);
     }
 
 
     @Test
     public void keyBoardSensorKeyTypedEventTest() {
-        Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor();
-        sensor.keyCode = Input.Keys.A;
-
-
         engine.addEntity(player);
-        engine.update(1);
-        inputSensorSystem.keyTyped('a');
-        engine.update(1);
+        sensorSystem.keyTyped('a');
+        sensorSystem.keyDown(Input.Keys.A);
 
-        assertTrue(sensor.pulseState == BrickMode.BM_ON);
         engine.update(1);
-        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
 
     }
 
 
     @Test
     public void keyBoardSystemAllKeysConfigTest() {
-        Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor();
-        sensor.allKeys = true;
-
-        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
-
-
-
         engine.addEntity(player);
-        engine.update(1);
-        inputSensorSystem.keyTyped('a');
-        engine.update(1);
+        sensor.keyCode = Input.Keys.UNKNOWN;
+        sensor.allKeys = true;
+        sensorSystem.keyTyped('a');
+        sensorSystem.keyDown(Input.Keys.A);
 
+        engine.update(1);
         assertTrue(sensor.pulseState == BrickMode.BM_ON);
-        engine.update(1);
-        inputSensorSystem.keyTyped('z');
-        engine.update(1);
+        assertTrue(sensor.positive);
 
-        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
 
     }
 
 
     @Test
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
-        Entity player = engine.createEntity();
-        KeyboardSensor sensor = new KeyboardSensor();
+        engine.addEntity(player);
+        sensor.keyCode = Input.Keys.UNKNOWN;
         sensor.allKeys = true;
         sensor.logToggle = true;
+        sensorSystem.keyTyped('a');
 
-        //new LogicBricksBuilder(player).addSensor(sensor, statePruebas);
-
-
-
-
-        engine.addEntity(player);
         engine.update(1);
-        inputSensorSystem.keyTyped('a');
-        engine.update(1);
-
         assertTrue(sensor.pulseState == BrickMode.BM_ON);
-        engine.update(1);
-        inputSensorSystem.keyTyped('z');
-        engine.update(1);
+        assertTrue(sensor.positive);
 
-        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        sensorSystem.keyTyped('z');
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertTrue(sensor.positive);
         assertEquals("az", sensor.target);
 
-    }*/
+    }
 
 
 }

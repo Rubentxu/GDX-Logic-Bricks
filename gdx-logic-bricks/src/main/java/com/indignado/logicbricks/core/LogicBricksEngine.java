@@ -93,10 +93,7 @@ public class LogicBricksEngine extends PooledEngine {
                     fixture.setFilterData(filter);
                 }
             }
-        } else {
-            throw new LogicBricksException("LogicBricksEngine", "At least one rigid body is necessary for each entity");
         }
-
     }
 
 
