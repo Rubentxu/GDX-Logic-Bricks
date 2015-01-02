@@ -47,7 +47,6 @@ public class World implements Disposable {
     private CategoryBitsManager categoryBitsManager;
     private double currentTime;
     private double accumulatorPhysics;
-    private double accumulatorLogicBricks;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -86,7 +85,6 @@ public class World implements Disposable {
         Gdx.app.setLogLevel(Settings.debugLevel);
         currentTime = TimeUtils.millis() / 1000.0;
         accumulatorPhysics = 0.0;
-        accumulatorLogicBricks = 0.0;
 
     }
 
@@ -160,19 +158,12 @@ public class World implements Disposable {
 
         currentTime = newTime;
         accumulatorPhysics += frameTime;
-        accumulatorLogicBricks += frameTime;
 
         while (accumulatorPhysics >= Settings.physicsDeltaTime) {
             physics.step(Settings.physicsDeltaTime, Settings.velocityIterations, Settings.positionIterations);
             accumulatorPhysics -= Settings.physicsDeltaTime;
-            //viewPositionSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
+            viewPositionSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
 
-        }
-        if (accumulatorLogicBricks >= Settings.logicDeltaTime) {
-            accumulatorLogicBricks -= Settings.logicDeltaTime;
-            activeLogicBrickSystemProcessing(true);
-        } else {
-            activeLogicBrickSystemProcessing(false);
         }
         engine.update(deltaTime);
 

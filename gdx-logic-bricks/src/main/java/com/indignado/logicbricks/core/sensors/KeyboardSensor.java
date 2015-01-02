@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.core.sensors;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.ObjectSet;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,11 +14,11 @@ public class KeyboardSensor extends Sensor {
     public int keyCode = Input.Keys.UNKNOWN;
     public boolean allKeys = false;
     public boolean logToggle = false;
-    public String target = "";
 
     // Signal Values
-    public Set<Character> keysSignal = new HashSet<Character>();
-    public Set<Integer> keysCodeSignal = new HashSet<Integer>();
+    public ObjectSet<Character> keysSignal = new ObjectSet<Character>();
+    public ObjectSet<Integer> keysCodeSignal = new ObjectSet<Integer>();
 
+    public String target = "";
 
 }
