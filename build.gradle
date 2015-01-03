@@ -21,7 +21,7 @@ allprojects {
 
 ext {
     projectGroup = "GDX-Logic-Bricks"
-    gdxVersion = '1.5.0'
+    gdxVersion = '1.5.2'
     gdxAIVersion = '1.4.1-SNAPSHOT'
     ashleyVersion = '1.3.2'
 

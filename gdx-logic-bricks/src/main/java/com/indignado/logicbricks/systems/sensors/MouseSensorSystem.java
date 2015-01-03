@@ -35,12 +35,17 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     @Override
     public boolean query(MouseSensor sensor, float deltaTime) {
         boolean isActive = false;
+
         if (sensor.mouseEventSignal != null && sensor.mouseEvent.equals(sensor.mouseEventSignal)) {
             isActive = true;
-            if (sensor.mouseEvent.equals(MouseEvent.MOUSE_OVER)) {
-                isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
-            }
+
         }
+
+        if (sensor.mouseEvent.equals(MouseEvent.MOUSE_OVER)) {
+            isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
+
+        }
+
         if (!sensor.mouseEvent.equals(MouseEvent.RIGHT_BUTTON_DOWN) && !sensor.mouseEvent.equals(MouseEvent.MIDDLE_BUTTON_DOWN)
                 && !sensor.mouseEvent.equals(MouseEvent.LEFT_BUTTON_DOWN)) {
             sensor.mouseEventSignal = null;
@@ -174,6 +179,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         if (world != null) world.getCamera().unproject(worldCoordinates);
         else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d", screenX, screenY);
         changeSensors(MouseEvent.MOVEMENT, worldCoordinates);
+        changeSensors(MouseEvent.MOUSE_OVER, worldCoordinates);
         return false;
 
     }

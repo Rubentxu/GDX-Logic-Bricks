@@ -9,6 +9,7 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
+import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
@@ -31,12 +32,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, MouseSensorSystem> {
 
+    private Transform transform;
 
     public MouseSensorSystemTest() {
         super();
         sensorSystem = new MouseSensorSystem(null);
         engine.addSystem(sensorSystem);
         engine.addEntityListener(sensorSystem);
+
     }
 
 
@@ -58,6 +61,12 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         entityBuilder.initialize();
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
+        TextureView view = new TextureView();
+        transform = new Transform(new Vector2(),0);
+        view.attachedTransform = transform;
+        view.width = 4;
+        view.height = 3;
+        entityBuilder.getComponent(ViewsComponent.class).views.add(view);
 
         sensor = BricksUtils.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.MOVEMENT)
@@ -101,18 +110,23 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         sensor.target = (player);
         engine.addEntity(player);
 
+        transform.setPosition(new Vector2(24,24));
         sensorSystem.mouseMoved(25, 25);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        sensorSystem.mouseMoved(26, 26);
         engine.update(1);
-        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
+        sensorSystem.mouseMoved(28, 28);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
     }
@@ -120,10 +134,10 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
     @Test
     public void mouseSensorWheelDownEventTest() {
-        sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_UP;
+        sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_DOWN;
         engine.addEntity(player);
 
-        sensorSystem.scrolled(5);
+        sensorSystem.scrolled(-1);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
@@ -141,99 +155,168 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
     @Test
     public void mouseSensorWheelUpEventTest() {
+        sensor.mouseEvent = MouseSensor.MouseEvent.WHEEL_UP;
         engine.addEntity(player);
-        sensor.mouseEvent = (MouseSensor.MouseEvent.WHEEL_UP);
 
-        sensorSystem.scrolled(-5);
-        engine.update(1);
-        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
-
-
-        sensorSystem.scrolled(5);
+        sensorSystem.scrolled(1);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
 
     }
 
 
     @Test
-    public void mouseSensorTouchDownEventTest() {
-        engine.addEntity(player);
+    public void leftButtonDownEventTest() {
         sensor.mouseEvent = (MouseSensor.MouseEvent.LEFT_BUTTON_DOWN);
+        engine.addEntity(player);
 
-        sensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
-        engine.update(1);
-        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
 
         sensorSystem.touchDown(5, 5, 1, Input.Buttons.LEFT);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        sensorSystem.touchUp(5, 5, 1, Input.Buttons.LEFT);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void middleButtonDownEventTest() {
+        sensor.mouseEvent = (MouseSensor.MouseEvent.MIDDLE_BUTTON_DOWN);
+        engine.addEntity(player);
+
+
+        sensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        sensorSystem.touchUp(5, 5, 1, Input.Buttons.MIDDLE);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void rightButtonDownEventTest() {
         sensor.mouseEvent = (MouseSensor.MouseEvent.RIGHT_BUTTON_DOWN);
+        engine.addEntity(player);
+
 
         sensorSystem.touchDown(5, 5, 1, Input.Buttons.RIGHT);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        sensor.mouseEvent = (MouseSensor.MouseEvent.MIDDLE_BUTTON_DOWN);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
 
-        sensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
+        sensorSystem.touchUp(5, 5, 1, Input.Buttons.RIGHT);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
 
     }
 
 
     @Test
-    public void mouseSensorTouchUpEventTest() {
-        engine.addEntity(player);
+    public void leftButtonUpEventTest() {
         sensor.mouseEvent = (MouseSensor.MouseEvent.LEFT_BUTTON_UP);
-        sensor.target = (player);
-
-        sensorSystem.touchDown(5, 5, 1, Input.Buttons.LEFT);
-        engine.update(1);
-        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
+        engine.addEntity(player);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.LEFT);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        sensor.mouseEvent = (MouseSensor.MouseEvent.MIDDLE_BUTTON_UP);
-
-        sensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void middleButtonUpEventTest() {
+        sensor.mouseEvent = (MouseSensor.MouseEvent.MIDDLE_BUTTON_UP);
+        engine.addEntity(player);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.MIDDLE);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        sensor.mouseEvent = (MouseSensor.MouseEvent.RIGHT_BUTTON_UP);
-
-        sensorSystem.touchDown(5, 5, 1, Input.Buttons.RIGHT);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
-        assertTrue(sensor.positive);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void rightButtonUpEventTest() {
+        sensor.mouseEvent = (MouseSensor.MouseEvent.RIGHT_BUTTON_UP);
+        engine.addEntity(player);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.RIGHT);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
     }
+
+
 
 }
