@@ -80,6 +80,10 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         sensor.evaluationType = EvaluationType.CHANGED;
         engine.addEntity(player);
 
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
         property.setValue(1);
         engine.update(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
@@ -95,5 +99,146 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
 
     }
 
+
+    @Test
+    public void propertyIntervalTest() {
+        sensor.evaluationType = EvaluationType.INTERVAL;
+        sensor.min = 1;
+        sensor.max = 3;
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+        property.setValue(1);
+        engine.update(1);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        property.setValue(2);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        property.setValue(4);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void propertyNotEqualTest() {
+        sensor.evaluationType = EvaluationType.NOT_EQUAL;
+        sensor.value = 2;
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        property.setValue(2);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+
+    }
+
+
+    @Test
+    public void propertyEqualTest() {
+        sensor.evaluationType = EvaluationType.EQUAL;
+        sensor.value = 0;
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        property.setValue(2);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+
+    }
+
+
+    @Test
+    public void propertyGreaterThanTest() {
+        sensor.evaluationType = EvaluationType.GREATER_THAN;
+        sensor.value = 1;
+        property.setValue(2);
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        property.setValue(0);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+
+    }
+
+
+    @Test
+    public void propertyLessThanTest() {
+        sensor.evaluationType = EvaluationType.LESS_THAN;
+        sensor.value = 1;
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        property.setValue(1);
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+
+
+    }
 
 }

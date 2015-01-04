@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.Entity;
 
 
 /**
- * Created on 13/10/14.
- *
  * @author Rubentxu
  */
 public class MouseSensor extends Sensor {

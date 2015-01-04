@@ -166,7 +166,6 @@ public class World implements Disposable {
 
         }
         engine.update(deltaTime);
-        MessageDispatcher.getInstance().update(deltaTime);
 
     }
 

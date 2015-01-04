@@ -62,7 +62,7 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 sensor.positive = query(sensor, deltaTime);
                 if (sensor.invert) sensor.positive = !sensor.positive;
 
-                if (sensor.firstExec || (++sensor.tick > sensor.frequency) || sensor.pulse == Pulse.PM_IDLE.getValue()
+                if (sensor.firstExec || ((sensor.tick += deltaTime) > sensor.frequency) || sensor.pulse == Pulse.PM_IDLE.getValue()
                         || (lastPulse != sensor.positive)) {
                     processPulseState = true;
                     if (sensor.tick > sensor.frequency) freqDispatch = true;

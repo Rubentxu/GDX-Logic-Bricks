@@ -1,7 +1,6 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
