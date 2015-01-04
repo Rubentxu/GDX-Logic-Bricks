@@ -32,11 +32,12 @@ public class BricksUtils {
 
 
     private BricksUtils() {
-        bricksClasses.put(TimerSensor.class, new BricksClasses(TimerSensorComponent.class, TimerSensorSystem.class));
+        bricksClasses.put(AlwaysSensor.class, new BricksClasses(AlwaysSensorComponent.class, AlwaysSensorSystem.class));
         bricksClasses.put(CollisionSensor.class, new BricksClasses(CollisionSensorComponent.class, CollisionSensorSystem.class));
         bricksClasses.put(KeyboardSensor.class, new BricksClasses(KeyboardSensorComponent.class, KeyboardSensorSystem.class));
         bricksClasses.put(MouseSensor.class, new BricksClasses(MouseSensorComponent.class, MouseSensorSystem.class));
         bricksClasses.put(PropertySensor.class, new BricksClasses(PropertySensorComponent.class, PropertySensorSystem.class));
+        bricksClasses.put(MessageSensor.class, new BricksClasses(MessageSensorComponent.class, MessageSensorSystem.class));
 
         bricksClasses.put(ConditionalController.class, new BricksClasses(ConditionalControllerComponent.class, ConditionalControllerSystem.class));
         bricksClasses.put(ScriptController.class, new BricksClasses(ScriptControllerComponent.class, ScriptControllerSystem.class));

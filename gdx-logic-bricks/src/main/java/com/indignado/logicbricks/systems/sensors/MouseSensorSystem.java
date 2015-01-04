@@ -7,27 +7,26 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
+import com.indignado.logicbricks.core.sensors.MouseSensor.MouseEvent;
 import com.indignado.logicbricks.utils.Log;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Rubentxu
  */
 public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
-    private Set<MouseSensor> mouseSensors;
+    private ObjectMap<MouseEvent, ObjectSet<MouseSensor>> mouseSensors;
     private World world;
 
     public MouseSensorSystem(World world) {
         super(MouseSensorComponent.class);
-        mouseSensors = new HashSet<MouseSensor>();
+        mouseSensors = new ObjectMap<MouseEvent, ObjectSet<MouseSensor>>();
         this.world = world;
 
     }
@@ -37,29 +36,28 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     public boolean query(MouseSensor sensor, float deltaTime) {
         boolean isActive = false;
 
-        if (sensor.mouseEventSignal) {
-            switch (sensor.mouseEvent) {
-                case MOUSE_OVER:
-                    sensor.mouseEventSignal = false;
-                    if (sensor.target == null) isActive = false;
-                    isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
-                    break;
-                case MOVEMENT:
-                case WHEEL_DOWN:
-                case WHEEL_UP:
-                default:
-                    sensor.mouseEventSignal = false;
-                    isActive = true;
-                    Log.debug(tag, "Sensor is active %b", isActive);
-            }
+        if (sensor.mouseEventSignal != null && sensor.mouseEvent.equals(sensor.mouseEventSignal)) {
+            isActive = true;
+
         }
 
+        if (sensor.mouseEvent.equals(MouseEvent.MOUSE_OVER)) {
+            isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
+
+        }
+
+        if (!sensor.mouseEvent.equals(MouseEvent.RIGHT_BUTTON_DOWN) && !sensor.mouseEvent.equals(MouseEvent.MIDDLE_BUTTON_DOWN)
+                && !sensor.mouseEvent.equals(MouseEvent.LEFT_BUTTON_DOWN)) {
+            sensor.mouseEventSignal = null;
+
+        }
         return isActive;
 
     }
 
 
     public boolean isMouseOver(Entity target, int posX, int posY) {
+        if (target == null) return false;
         ViewsComponent viewsComponent = target.getComponent(ViewsComponent.class);
         if (viewsComponent == null) return false;
 
@@ -100,66 +98,72 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        for (MouseSensor sensor : mouseSensors) {
-            switch (button) {
-                case Input.Buttons.LEFT:
-                    if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
-                        sensor.mouseEventSignal = true;
-                        sensor.buttonUP = false;
-                        Log.debug(tag, "TouchDown Left %b", !sensor.buttonUP);
-                    }
-                    break;
-                case Input.Buttons.MIDDLE:
-                    if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.MIDDLE_BUTTON)) {
-                        sensor.mouseEventSignal = true;
-                        sensor.buttonUP = false;
-                    }
-                    break;
-                case Input.Buttons.RIGHT:
-                    if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.RIGHT_BUTTON)) {
-                        sensor.mouseEventSignal = true;
-                        sensor.buttonUP = false;
-                    }
-                    break;
-            }
-            Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-            world.getCamera().unproject(worldCoordinates);
+        Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
+        if (world != null) world.getCamera().unproject(worldCoordinates);
+        else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d, pointer %d, button %d", screenX, screenY,
+                pointer, button);
 
-            sensor.positionXsignal = (int) worldCoordinates.x;
-            sensor.positionYsignal = (int) worldCoordinates.y;
+        switch (button) {
+            case Input.Buttons.LEFT:
+                changeSensors(MouseEvent.LEFT_BUTTON_DOWN, worldCoordinates);
+                break;
+            case Input.Buttons.MIDDLE:
+                changeSensors(MouseEvent.MIDDLE_BUTTON_DOWN, worldCoordinates);
+                break;
+            case Input.Buttons.RIGHT:
+                changeSensors(MouseEvent.RIGHT_BUTTON_DOWN, worldCoordinates);
+                break;
 
         }
         return false;
+
     }
 
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        for (MouseSensor sensor : mouseSensors) {
-            switch (button) {
-                case Input.Buttons.LEFT:
-                    if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.LEFT_BUTTON)) {
-                        sensor.mouseEventSignal = false;
-                        sensor.buttonUP = true;
-                        Log.debug(tag, "TouchUp Left %b", sensor.buttonUP);
-                    }
-                    break;
-                case Input.Buttons.MIDDLE:
-                    if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.MIDDLE_BUTTON)) {
-                        sensor.mouseEventSignal = false;
-                        sensor.buttonUP = true;
-                    }
-                    break;
-                case Input.Buttons.RIGHT:
-                    if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.RIGHT_BUTTON)) {
-                        sensor.mouseEventSignal = false;
-                        sensor.buttonUP = true;
-                    }
-                    break;
-            }
+        Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
+        if (world != null) world.getCamera().unproject(worldCoordinates);
+        else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d, pointer %d, button %d", screenX, screenY,
+                pointer, button);
+
+        switch (button) {
+            case Input.Buttons.LEFT:
+                changeSensors(MouseEvent.LEFT_BUTTON_UP, worldCoordinates);
+                changeSensors(MouseEvent.LEFT_BUTTON_DOWN, worldCoordinates, false);
+                break;
+            case Input.Buttons.MIDDLE:
+                changeSensors(MouseEvent.MIDDLE_BUTTON_UP, worldCoordinates);
+                changeSensors(MouseEvent.MIDDLE_BUTTON_DOWN, worldCoordinates, false);
+                break;
+            case Input.Buttons.RIGHT:
+                changeSensors(MouseEvent.RIGHT_BUTTON_UP, worldCoordinates);
+                changeSensors(MouseEvent.RIGHT_BUTTON_DOWN, worldCoordinates, false);
+                break;
 
         }
         return false;
+
+    }
+
+
+    private void changeSensors(MouseEvent event, Vector3 coordinates) {
+        changeSensors(event, coordinates, true);
+
+    }
+
+
+    private void changeSensors(MouseEvent event, Vector3 coordinates, boolean active) {
+        if (mouseSensors.containsKey(event)) {
+            for (MouseSensor sensor : mouseSensors.get(event)) {
+                if (active) sensor.mouseEventSignal = event;
+                else sensor.mouseEventSignal = null;
+                sensor.positionXsignal = (int) coordinates.x;
+                sensor.positionYsignal = (int) coordinates.y;
+
+            }
+        }
+
     }
 
 
@@ -171,14 +175,11 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        for (MouseSensor sensor : mouseSensors) {
-            if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.MOVEMENT) ||
-                    sensor.mouseEvent.equals(MouseSensor.MouseEvent.MOUSE_OVER)) {
-                sensor.positionXsignal = screenX;
-                sensor.positionYsignal = screenY;
-                sensor.mouseEventSignal = true;
-            }
-        }
+        Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
+        if (world != null) world.getCamera().unproject(worldCoordinates);
+        else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d", screenX, screenY);
+        changeSensors(MouseEvent.MOVEMENT, worldCoordinates);
+        changeSensors(MouseEvent.MOUSE_OVER, worldCoordinates);
         return false;
 
     }
@@ -186,15 +187,21 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
 
     @Override
     public boolean scrolled(int amount) {
-        for (MouseSensor sensor : mouseSensors) {
-            sensor.mouseEventSignal = false;
-            if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.WHEEL_DOWN) && amount < 0) {
-                sensor.mouseEventSignal = true;
+        if (amount < 0) {
+            if (mouseSensors.containsKey(MouseEvent.WHEEL_DOWN)) {
+                for (MouseSensor sensor : mouseSensors.get(MouseEvent.WHEEL_DOWN)) {
+                    sensor.mouseEventSignal = MouseEvent.WHEEL_DOWN;
+                    sensor.amountScrollSignal = amount;
+                }
             }
-            if (sensor.mouseEvent.equals(MouseSensor.MouseEvent.WHEEL_UP) && amount > 0) {
-                sensor.mouseEventSignal = true;
+        }
+        if (amount > 0) {
+            if (mouseSensors.containsKey(MouseEvent.WHEEL_UP)) {
+                for (MouseSensor sensor : mouseSensors.get(MouseEvent.WHEEL_UP)) {
+                    sensor.mouseEventSignal = MouseEvent.WHEEL_UP;
+                    sensor.amountScrollSignal = amount;
+                }
             }
-            sensor.amountScrollSignal = amount;
         }
         return false;
 
@@ -209,12 +216,23 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             for (int i = 0; i < map.size; ++i) {
                 ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
                 while (it.hasNext()) {
-                    mouseSensors.add(it.next());
+                    MouseSensor sensor = it.next();
+                    ObjectSet eventSensors;
+                    if (mouseSensors.containsKey(sensor.mouseEvent)) {
+                        eventSensors = mouseSensors.get(sensor.mouseEvent);
+
+                    } else {
+                        eventSensors = new ObjectSet<MouseSensor>();
+                        mouseSensors.put(sensor.mouseEvent, eventSensors);
+                    }
+                    eventSensors.add(sensor);
+
                 }
             }
         }
 
     }
+
 
     @Override
     public void entityRemoved(Entity entity) {
@@ -224,9 +242,14 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             for (int i = 0; i < map.size; ++i) {
                 ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
                 while (it.hasNext()) {
-                    mouseSensors.remove(it.next());
+                    MouseSensor sensor = it.next();
+                    if (mouseSensors.containsKey(sensor.mouseEvent)) {
+                        mouseSensors.get(sensor.mouseEvent).remove(sensor);
+
+                    }
                 }
             }
         }
     }
+
 }

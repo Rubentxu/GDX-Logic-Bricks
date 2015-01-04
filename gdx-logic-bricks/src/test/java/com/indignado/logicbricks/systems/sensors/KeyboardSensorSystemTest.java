@@ -1,31 +1,18 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.utils.Logger;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.LogicBrick.BrickMode;
-import com.indignado.logicbricks.core.LogicBricksEngine;
-import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -39,11 +26,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         engine.addSystem(sensorSystem);
         engine.addEntityListener(sensorSystem);
 
-    }
-
-
-    @Override
-    protected void setup() {
     }
 
 

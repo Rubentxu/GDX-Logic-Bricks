@@ -26,6 +26,9 @@ import static org.junit.Assert.*;
  * @author Rubentxu
  */
 public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSensor, CollisionSensorSystem> {
+    CollisionSensor sensor;
+    IdentityComponent identityPlayer;
+    IdentityComponent identityGround;
     private World physic;
     private Entity ground;
     private Body bodyPlayer;
@@ -33,9 +36,6 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
     private RigidBodiesComponents rigidByPlayer;
     private RigidBodiesComponents rigidByGround;
     private CategoryBitsManager categoryBitsManager;
-    CollisionSensor sensor;
-    IdentityComponent identityPlayer;
-    IdentityComponent identityGround;
     private BodyBuilder bodyBuilder;
 
 
@@ -49,11 +49,6 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         physic.setContactListener(sensorSystem);
         bodyBuilder = new BodyBuilder(physic);
 
-    }
-
-    @Override
-    public void setup() {
-        this.categoryBitsManager = new CategoryBitsManager();
 
     }
 
@@ -74,6 +69,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
     @Override
     protected void createContext() {
         // Create Player Entity
+        this.categoryBitsManager = new CategoryBitsManager();
         entityBuilder.initialize();
         identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";

@@ -12,8 +12,8 @@ public class MessageSensorBuilder extends SensorBuilder<MessageSensor> {
 
     }
 
-    public MessageSensorBuilder setMessageListen(String messageListen) {
-        brick.messageListen = messageListen;
+    public MessageSensorBuilder setSubject(String subject) {
+        brick.subject = subject;
         return this;
 
     }

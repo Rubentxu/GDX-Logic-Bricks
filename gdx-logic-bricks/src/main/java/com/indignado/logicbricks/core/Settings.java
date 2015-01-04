@@ -29,8 +29,6 @@ public class Settings {
     public static int positionIterations = 10;
     public static float physicsDeltaTime = 0.01f;
 
-    // LogicBricksSystem
-    public static float logicDeltaTime = 0.3f;
 
     // Particles
     public static int particlePoolInitialCapacity;

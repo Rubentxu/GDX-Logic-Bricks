@@ -11,12 +11,10 @@ import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.TimerSensor;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.TimerSensorBuilder;
 
 /**
  * @author Rubentxu
@@ -56,10 +54,10 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     private void addDurationComponents(World world, Entity entity, InstanceEntityActuator actuator) {
-        TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
+        /*TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setDuration(actuator.duration)
                 .setName("SensorDestroyEntity")
-                .getBrick();
+                .getBrick();*/
 
         StateActuator stateActuator = new StateActuator();
         stateActuator.name = "ChangeStateRemove";
@@ -73,7 +71,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
         world.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
-                .connectToSensor(timeSensor)
+                        //.connectToSensor(timeSensor)
                 .connectToActuator(stateActuator)
                 .getEntity();
 
@@ -82,9 +80,9 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     private void addMotionComponents(World world, Entity entity, InstanceEntityActuator actuator) {
-        TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
+        /*TimerSensor timeSensor = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setName("SensorMotionActuator")
-                .getBrick();
+                .getBrick();*/
 
         ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
@@ -100,7 +98,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
         world.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
-                .connectToSensor(timeSensor)
+                        // .connectToSensor(timeSensor)
                 .connectToActuator(motionActuator)
                 .getEntity();
 

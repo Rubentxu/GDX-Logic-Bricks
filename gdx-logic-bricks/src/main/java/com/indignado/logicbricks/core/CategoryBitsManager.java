@@ -31,13 +31,13 @@ public class CategoryBitsManager {
 
         if (category == null) {
             if (nextCategory >= 16) {
-                Log.error(tag,"maximum number of collision categories reached");
+                Log.error(tag, "maximum number of collision categories reached");
                 return 0;
             } else {
                 short newCategory = (short) (1 << (nextCategory++));
                 categoryBits.put(name, newCategory);
                 categoryNames.put(newCategory, name);
-                Log.info(tag,"registering category %s => %d", name ,newCategory);
+                Log.info(tag, "registering category %s => %d", name, newCategory);
                 return newCategory;
             }
         }
@@ -53,7 +53,7 @@ public class CategoryBitsManager {
         String name = categoryNames.get(category);
 
         if (name == null) {
-            Log.error(tag,"category for bits %d does not exist",category);
+            Log.error(tag, "category for bits %d does not exist", category);
             return "";
         }
         return name;

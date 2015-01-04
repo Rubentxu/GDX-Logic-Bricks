@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
@@ -34,7 +33,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
                 Log.debug(tag, "sensor keyCodeSignal2 contains: %s", sensor.keyCode);
                 isActive = true;
             }
-        } else if (sensor.allKeys && !sensor.keysSignal.isEmpty()) {
+        } else if (sensor.allKeys && !(sensor.keysSignal.size == 0)) {
             isActive = true;
             Log.debug(tag, "sensor allKeys: signal : %s", sensor.keysCodeSignal);
             if (sensor.logToggle) {
@@ -64,10 +63,8 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyUp(int keycode) {
-        //Gdx.app.log("KeyboardSensorSystem", "sensor keyUp event: " + keycode);
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.remove(new Integer(keycode));
-            //Gdx.app.log("KeyboardSensorSystem", "key size: " + ks.keysCodeSignal.size());
 
         }
         return false;
@@ -77,7 +74,6 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyTyped(char character) {
-
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysSignal.add(character);
         }
