@@ -8,12 +8,13 @@ import com.indignado.logicbricks.core.LogicBrick;
 public abstract class Sensor extends LogicBrick {
 
     // config Values
-    public int frequency = 0;
+    public float frequency = 0;
     public boolean invert = false;
     public boolean tap = false;
     public int pulse = Pulse.PM_IDLE.value;
+
     // values
-    public int tick = 0;
+    public float tick = 0;
     public boolean positive = false;
     public boolean firstExec = true;
     public float time = 0;

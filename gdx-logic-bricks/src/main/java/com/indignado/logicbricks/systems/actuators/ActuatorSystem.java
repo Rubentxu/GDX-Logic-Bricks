@@ -10,6 +10,7 @@ import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
@@ -45,13 +46,20 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
         ObjectSet<A> actuators = (ObjectSet<A>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {
             for (A actuator : actuators) {
-                Log.debug(tag, "Actuator %s PulseState %s", actuator.name, actuator.pulseState);
-                if (actuator.pulseState == LogicBrick.BrickMode.BM_ON) {
+                for (Controller controller : actuator.controllers) {
+                    Log.debug(tag, "Controller %s Sensor %s pulseState %s", controller.name, controller.name,
+                            controller.pulseState);
+                    if(controller.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
+                        actuator.pulseState = LogicBrick.BrickMode.BM_ON;
+                    } else {
+                        actuator.pulseState = LogicBrick.BrickMode.BM_OFF;
+                        break;
+                    }
+                }
+                if (actuator.pulseState.equals(LogicBrick.BrickMode.BM_ON) ) {
                     processActuator(actuator, deltaTime);
                 }
-                actuator.pulseState = LogicBrick.BrickMode.BM_OFF;
             }
-
         }
 
     }

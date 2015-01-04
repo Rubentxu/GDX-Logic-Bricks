@@ -23,7 +23,6 @@ import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
-import com.indignado.logicbricks.core.sensors.TimerSensor;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.*;
@@ -31,7 +30,6 @@ import com.indignado.logicbricks.utils.builders.controllers.ConditionalControlle
 import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.TimerSensorBuilder;
 
 /**
  * @author Rubentxu.
@@ -169,9 +167,9 @@ public class PlayerPlatform extends EntityFactory {
 
 
         // Create Bricks Camera ----------------------------------------------------------------
-        TimerSensor timerSensorCamera = BricksUtils.getBuilder(TimerSensorBuilder.class)
+       /* TimerSensor timerSensorCamera = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setRepeat(true)
-                .getBrick();
+                .getBrick();*/
 
         ConditionalController controllerCamera = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
@@ -182,9 +180,9 @@ public class PlayerPlatform extends EntityFactory {
                 .setCamera(camera)
                 .getBrick();
 
-        entityBuilder.addController(controllerCamera, "Idle", "Walking", "Jump", "Fall")
+       /* entityBuilder.addController(controllerCamera, "Idle", "Walking", "Jump", "Fall")
                 .connectToSensor(timerSensorCamera)
-                .connectToActuator(cameraActuator);
+                .connectToActuator(cameraActuator);*/
 
 
         // Create Bricks Idle ----------------------------------------------------------------
@@ -295,9 +293,9 @@ public class PlayerPlatform extends EntityFactory {
 
 
         // Effect On
-        TimerSensor timerEffectOn = BricksUtils.getBuilder(TimerSensorBuilder.class)
+        /*TimerSensor timerEffectOn = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setRepeat(true)
-                .getBrick();
+                .getBrick();*/
 
         ConditionalController controllerEffectOn = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
@@ -309,15 +307,15 @@ public class PlayerPlatform extends EntityFactory {
                 .setEffectView(particleEffectView)
                 .getBrick();
 
-        entityBuilder.addController(controllerEffectOn, "Walking")
+       /* entityBuilder.addController(controllerEffectOn, "Walking")
                 .connectToSensor(timerEffectOn)
-                .connectToActuator(effectActuatorOn);
+                .connectToActuator(effectActuatorOn);*/
 
         // Effect Off
-        TimerSensor timerEffectOff = BricksUtils.getBuilder(TimerSensorBuilder.class)
+        /*TimerSensor timerEffectOff = BricksUtils.getBuilder(TimerSensorBuilder.class)
                 .setRepeat(true)
                 .getBrick();
-
+*/
         ConditionalController controllerEffectOff = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
@@ -327,9 +325,9 @@ public class PlayerPlatform extends EntityFactory {
                 .setEffectView(particleEffectView)
                 .getBrick();
 
-        entityBuilder.addController(controllerEffectOff, "Idle")
+        /*entityBuilder.addController(controllerEffectOff, "Idle")
                 .connectToSensor(timerEffectOff)
-                .connectToActuator(effectActuatorOff);
+                .connectToActuator(effectActuatorOff);*/
 
 
         return entityBuilder.getEntity();

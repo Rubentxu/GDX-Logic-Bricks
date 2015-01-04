@@ -22,13 +22,9 @@ import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -48,6 +44,7 @@ public class EntityBuilder {
 
     }
 
+
     private static Constructor findConstructor(Class type) {
         try {
             return ClassReflection.getConstructor(type, (Class[]) null);
@@ -63,17 +60,20 @@ public class EntityBuilder {
         }
     }
 
+
     public EntityBuilder initialize() {
         entity = engine.createEntity();
         return this;
 
     }
 
+
     public EntityBuilder initialize(Entity entity) {
         this.entity = entity;
         return this;
 
     }
+
 
     private int getKeyState(String state) {
         StateComponent stateComponent = getComponent(StateComponent.class);
@@ -85,6 +85,7 @@ public class EntityBuilder {
         return keyState;
 
     }
+
 
     private <S extends Sensor> EntityBuilder addSensor(Sensor sensor, Array<String> nameStates) {
         for (String s : nameStates) {
@@ -109,6 +110,7 @@ public class EntityBuilder {
         return this;
 
     }
+
 
     private <ES extends EntitySystem> ES getSystem(Class<ES> clazz) {
         ES entitySystem = engine.getSystem(clazz);

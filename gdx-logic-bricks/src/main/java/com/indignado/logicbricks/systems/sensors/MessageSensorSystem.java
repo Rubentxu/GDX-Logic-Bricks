@@ -23,7 +23,10 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
     @Override
     public boolean query(MessageSensor sensor, float deltaTime) {
         boolean isActive = false;
-        if (sensor.message != null) isActive = true;
+        if (sensor.message != null) {
+            if (sensor.managedMessage) sensor.message = null;
+            else isActive = true;
+        }
         return isActive;
 
     }
@@ -37,7 +40,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
             for (int i = 0; i < map.size; ++i) {
                 for (MessageSensor sensor : map.get(i)) {
                     if (sensor.autoRegister)
-                        MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.messageListen));
+                        MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.subject));
                 }
 
             }
@@ -53,7 +56,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
             IntMap<ObjectSet<MessageSensor>> map = messageSensors.sensors;
             for (int i = 0; i < map.size; ++i) {
                 for (MessageSensor sensor : map.get(i)) {
-                    MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.messageListen));
+                    MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.subject));
                 }
 
             }

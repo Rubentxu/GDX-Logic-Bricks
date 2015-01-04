@@ -1,8 +1,7 @@
 package com.indignado.logicbricks.systems.controllers;
 
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
-import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ConditionalController.Op;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -26,36 +25,37 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
             return;
         }
 
-        boolean doUpdate = false;
+        boolean doDispatch = false;
         boolean seed = true, last = false, pos = false;
 
 
         switch (controller.op) {
             case OP_NOR:
                 controller.isInverter = true;
-            case OP_OR: {
+            case OP_OR:
                 for (Sensor sens : controller.sensors.values()) {
                     pos = sens.positive;
                     if (pos)
-                        doUpdate = true;
+                        doDispatch = true;
 
-                    if (doUpdate)
+                    if (doDispatch)
                         break;
                 }
 
                 if (controller.isInverter)
-                    doUpdate = !doUpdate;
-            }
-            break;
+                    doDispatch = !doDispatch;
+
+                break;
             case OP_XNOR:
-            case OP_XOR: {
+                controller.isInverter = true;
+            case OP_XOR:
                 for (Sensor sens : controller.sensors.values()) {
                     seed = sens.positive;
 
                     if (seed && last) {
-                        doUpdate = false;
+                        doDispatch = false;
                         break;
-                    } else if (seed) doUpdate = true;
+                    } else if (seed) doDispatch = true;
 
                     if (!last && seed)
                         last = true;
@@ -64,37 +64,35 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                         controller.isInverter = true;
                 }
                 if (controller.isInverter)
-                    doUpdate = !doUpdate;
-            }
-            break;
+                    doDispatch = !doDispatch;
+
+                break;
             case OP_NAND:
                 controller.isInverter = true;
-            case OP_AND: {
+            case OP_AND:
                 for (Sensor sens : controller.sensors.values()) {
                     pos = sens.positive;
                     if (seed) {
                         seed = false;
-                        doUpdate = pos;
+                        doDispatch = pos;
                     } else
-                        doUpdate = doUpdate && pos;
+                        doDispatch = doDispatch && pos;
 
                 }
                 if (controller.isInverter) {
-                    doUpdate = !doUpdate;
-                    Log.debug(tag, "Conditional OP_NAND doUpdate %b", doUpdate);
+                    doDispatch = !doDispatch;
+                    Log.debug(tag, "Conditional OP_NAND doDispatch %b", doDispatch);
                 } else {
-                    Log.debug(tag, "Conditional OP_AND doUpdate %b", doUpdate);
+                    Log.debug(tag, "Conditional OP_AND doDispatch %b", doDispatch);
                 }
 
 
-            }
-            break;
+                break;
         }
-        if (doUpdate) {
-            for (Actuator actuator : controller.actuators.values()) {
-                actuator.pulseState = LogicBrick.BrickMode.BM_ON;
-                Log.debug(tag, "Actuators %s pulseState %s", actuator.name, actuator.pulseState);
-            }
+        if (doDispatch) {
+            controller.pulseState = BrickMode.BM_ON;
+        } else {
+            controller.pulseState = BrickMode.BM_OFF;
         }
 
     }

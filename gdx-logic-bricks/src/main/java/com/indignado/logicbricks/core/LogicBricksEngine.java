@@ -3,6 +3,7 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -62,6 +63,13 @@ public class LogicBricksEngine extends PooledEngine {
     }
 
 
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        MessageDispatcher.getInstance().update(deltaTime);
+
+    }
+
+
     @Override
     public void clearPools() {
         super.clearPools();
@@ -116,7 +124,7 @@ public class LogicBricksEngine extends PooledEngine {
 
 
     public Array<Entity> getEntities(String tag) {
-        if(tagEntities.containsKey(tag)) return tagEntities.get(tag);
+        if (tagEntities.containsKey(tag)) return tagEntities.get(tag);
         return null;
 
     }

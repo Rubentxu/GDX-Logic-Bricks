@@ -17,10 +17,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.*;
 import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MessageSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
+import com.indignado.logicbricks.systems.sensors.*;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -47,7 +44,6 @@ public class World implements Disposable {
     private CategoryBitsManager categoryBitsManager;
     private double currentTime;
     private double accumulatorPhysics;
-    private double accumulatorLogicBricks;
 
 
     public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
@@ -70,6 +66,8 @@ public class World implements Disposable {
         engine.addSystem(new MessageSensorSystem());
         engine.addEntityListener(engine.getSystem(MessageSensorSystem.class));
         engine.addSystem(new InstanceEntityActuatorSystem(this));
+        engine.addSystem(new PropertySensorSystem());
+        engine.addEntityListener(engine.getSystem(PropertySensorSystem.class));
 
         InputMultiplexer input = new InputMultiplexer();
         input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
@@ -86,7 +84,6 @@ public class World implements Disposable {
         Gdx.app.setLogLevel(Settings.debugLevel);
         currentTime = TimeUtils.millis() / 1000.0;
         accumulatorPhysics = 0.0;
-        accumulatorLogicBricks = 0.0;
 
     }
 
@@ -160,19 +157,12 @@ public class World implements Disposable {
 
         currentTime = newTime;
         accumulatorPhysics += frameTime;
-        accumulatorLogicBricks += frameTime;
 
         while (accumulatorPhysics >= Settings.physicsDeltaTime) {
             physics.step(Settings.physicsDeltaTime, Settings.velocityIterations, Settings.positionIterations);
             accumulatorPhysics -= Settings.physicsDeltaTime;
-            //viewPositionSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
+            viewPositionSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
 
-        }
-        if (accumulatorLogicBricks >= Settings.logicDeltaTime) {
-            accumulatorLogicBricks -= Settings.logicDeltaTime;
-            activeLogicBrickSystemProcessing(true);
-        } else {
-            activeLogicBrickSystemProcessing(false);
         }
         engine.update(deltaTime);
 

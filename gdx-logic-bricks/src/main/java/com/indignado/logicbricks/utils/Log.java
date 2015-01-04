@@ -27,42 +27,42 @@ public class Log {
 
 
     public static void debug(String tag, String message, Object... args) {
-        if (isActive(tag) && !testing ) Gdx.app.debug(tag, String.format(message, args));
+        if (isActive(tag) && !testing) Gdx.app.debug(tag, String.format(message, args));
         else if (testing) System.out.println(tag + "::" + String.format(message, args));
 
     }
 
 
     public static void debug(String tag, String message, Exception exception, Object... args) {
-        if (isActive(tag) && !testing ) Gdx.app.debug(tag, String.format(message, args), exception);
+        if (isActive(tag) && !testing) Gdx.app.debug(tag, String.format(message, args), exception);
         else if (testing) System.out.println(tag + "::" + String.format(message, args));
 
     }
 
 
     public static void info(String tag, String message, Object... args) {
-        if (isActive(tag) && !testing ) Gdx.app.log(tag, String.format(message, args));
+        if (isActive(tag) && !testing) Gdx.app.log(tag, String.format(message, args));
         else if (testing) System.out.println(tag + "::" + String.format(message, args));
 
     }
 
 
     public static void info(String tag, String message, Exception exception, Object... args) {
-        if (isActive(tag) && !testing ) Gdx.app.log(tag, String.format(message, args), exception);
+        if (isActive(tag) && !testing) Gdx.app.log(tag, String.format(message, args), exception);
         else if (testing) System.out.println(tag + "::" + String.format(message, args));
 
     }
 
 
     public static void error(String tag, String message, Object... args) {
-        if (isActive(tag) && !testing ) Gdx.app.error(tag, String.format(message, args));
+        if (isActive(tag) && !testing) Gdx.app.error(tag, String.format(message, args));
         else if (testing) System.out.println(tag + "::" + String.format(message, args));
 
     }
 
 
     public static void error(String tag, String message, Throwable exception, Object... args) {
-        if (isActive(tag) && !testing ) Gdx.app.error(tag, String.format(message, args), exception);
+        if (isActive(tag) && !testing) Gdx.app.error(tag, String.format(message, args), exception);
         else if (testing) System.out.println(tag + "::" + String.format(message, args));
 
     }

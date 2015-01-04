@@ -1,9 +1,8 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,20 +11,18 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
- * Created on 18/10/14.
- *
  * @author Rubentxu
  */
 public class StateSystemTest extends BaseTest {
 
-    PooledEngine engine;
+    LogicBricksEngine engine;
     private StateComponent stateComponent;
 
 
     @Before
     public void setup() {
-        engine = new PooledEngine();
-        engine.addSystem(new StateSystem(new World(null, null, null, null)));
+        engine = new LogicBricksEngine();
+        engine.addSystem(new StateSystem(null));
 
         stateComponent = new StateComponent();
         stateComponent.changeCurrentState(PlayerState.WALKING.ordinal());
