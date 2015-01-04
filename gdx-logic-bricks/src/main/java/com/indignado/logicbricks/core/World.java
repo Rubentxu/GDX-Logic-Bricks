@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,10 +18,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.*;
 import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.systems.sensors.KeyboardSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MessageSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
+import com.indignado.logicbricks.systems.sensors.*;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -69,6 +67,8 @@ public class World implements Disposable {
         engine.addSystem(new MessageSensorSystem());
         engine.addEntityListener(engine.getSystem(MessageSensorSystem.class));
         engine.addSystem(new InstanceEntityActuatorSystem(this));
+        engine.addSystem(new PropertySensorSystem());
+        engine.addEntityListener(engine.getSystem(PropertySensorSystem.class));
 
         InputMultiplexer input = new InputMultiplexer();
         input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
@@ -166,6 +166,7 @@ public class World implements Disposable {
 
         }
         engine.update(deltaTime);
+        MessageDispatcher.getInstance().update(deltaTime);
 
     }
 

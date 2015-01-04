@@ -49,11 +49,6 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         physic.setContactListener(sensorSystem);
         bodyBuilder = new BodyBuilder(physic);
 
-    }
-
-    @Override
-    public void setup() {
-        this.categoryBitsManager = new CategoryBitsManager();
 
     }
 
@@ -74,6 +69,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
     @Override
     protected void createContext() {
         // Create Player Entity
+        this.categoryBitsManager = new CategoryBitsManager();
         entityBuilder.initialize();
         identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";

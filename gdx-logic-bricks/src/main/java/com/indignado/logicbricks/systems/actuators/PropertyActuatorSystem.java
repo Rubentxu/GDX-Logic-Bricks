@@ -46,9 +46,9 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
         switch (actuator.mode) {
             case Assign:
                 Log.debug(tag, "property %s value %s", actuator.property, actuator.value);
-                if (property.value != actuator.value) {
-                    property.value = actuator.value;
-                    Log.debug(tag, "tag %s value %s", property.name, property.value);
+                if (property.getValue() != actuator.value) {
+                    property.setValue(actuator.value);
+                    Log.debug(tag, "tag %s value %s", property.getName(), property.getValue());
                 }
                 break;
             case Add:

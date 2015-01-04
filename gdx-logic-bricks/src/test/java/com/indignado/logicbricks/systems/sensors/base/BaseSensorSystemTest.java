@@ -64,7 +64,6 @@ public abstract class BaseSensorSystemTest<S extends Sensor, SS extends SensorSy
 
     @Before
     public void baseSetup() {
-        setup();
         createContext();
 
     }
@@ -79,7 +78,6 @@ public abstract class BaseSensorSystemTest<S extends Sensor, SS extends SensorSy
 
     }
 
-    protected abstract void setup();
 
     protected abstract void tearDown();
 

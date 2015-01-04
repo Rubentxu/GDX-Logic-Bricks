@@ -8,13 +8,16 @@ import com.badlogic.ashley.systems.IteratingSystem;
  */
 public abstract class LogicBrickSystem extends IteratingSystem {
 
+
     public LogicBrickSystem(Family family, int priority) {
         super(family, priority);
+
     }
+
 
     public LogicBrickSystem(Family family) {
         super(family);
-    }
 
+    }
 
 }

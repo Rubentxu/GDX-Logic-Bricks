@@ -44,12 +44,6 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
 
     @Override
-    public void setup() {
-
-    }
-
-
-    @Override
     protected void tearDown() {
 
     }

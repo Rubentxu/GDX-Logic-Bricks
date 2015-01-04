@@ -43,11 +43,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
 
 
     @Override
-    protected void setup() {
-    }
-
-
-    @Override
     protected void tearDown() {
 
     }
