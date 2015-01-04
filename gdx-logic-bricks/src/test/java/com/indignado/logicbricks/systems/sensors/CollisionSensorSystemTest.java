@@ -26,6 +26,9 @@ import static org.junit.Assert.*;
  * @author Rubentxu
  */
 public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSensor, CollisionSensorSystem> {
+    CollisionSensor sensor;
+    IdentityComponent identityPlayer;
+    IdentityComponent identityGround;
     private World physic;
     private Entity ground;
     private Body bodyPlayer;
@@ -33,9 +36,6 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
     private RigidBodiesComponents rigidByPlayer;
     private RigidBodiesComponents rigidByGround;
     private CategoryBitsManager categoryBitsManager;
-    CollisionSensor sensor;
-    IdentityComponent identityPlayer;
-    IdentityComponent identityGround;
     private BodyBuilder bodyBuilder;
 
 

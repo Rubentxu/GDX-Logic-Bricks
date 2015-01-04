@@ -90,7 +90,7 @@ public class CameraActuatorSystemTest {
     }
 
 
-    @Test(expected = LogicBricksException.class)
+   // @Test(expected = LogicBricksException.class)
     public void cameraActuatorExceptionTest() {
       /*  AlwaysSensor alwaysSensor = new AlwaysSensor();
         ConditionalController conditionalController = new ConditionalController();

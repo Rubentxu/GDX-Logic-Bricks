@@ -1,34 +1,18 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Transform;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.core.CategoryBitsManager;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.MessageManager;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
-import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MessageSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

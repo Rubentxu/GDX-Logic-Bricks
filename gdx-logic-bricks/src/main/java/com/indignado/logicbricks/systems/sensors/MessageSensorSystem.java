@@ -24,7 +24,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
     public boolean query(MessageSensor sensor, float deltaTime) {
         boolean isActive = false;
         if (sensor.message != null) {
-            if(sensor.managedMessage) sensor.message = null;
+            if (sensor.managedMessage) sensor.message = null;
             else isActive = true;
         }
         return isActive;

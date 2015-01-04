@@ -1,26 +1,19 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -56,7 +49,7 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
         TextureView view = new TextureView();
-        transform = new Transform(new Vector2(),0);
+        transform = new Transform(new Vector2(), 0);
         view.attachedTransform = transform;
         view.width = 4;
         view.height = 3;
@@ -104,7 +97,7 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         sensor.target = (player);
         engine.addEntity(player);
 
-        transform.setPosition(new Vector2(24,24));
+        transform.setPosition(new Vector2(24, 24));
         sensorSystem.mouseMoved(25, 25);
         engine.update(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
@@ -310,7 +303,6 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         assertFalse(sensor.positive);
 
     }
-
 
 
 }

@@ -1,31 +1,16 @@
 package com.indignado.logicbricks.systems.sensors.base;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.Logger;
-import com.badlogic.gdx.utils.ObjectSet;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.actuators.ActuatorComponent;
-import com.indignado.logicbricks.components.sensors.SensorComponent;
-import com.indignado.logicbricks.core.CategoryBitsManager;
-import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
-import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.actuators.ActuatorSystem;
 import com.indignado.logicbricks.systems.sensors.SensorSystem;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
-import org.junit.*;
-
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
 
 /**
@@ -33,9 +18,9 @@ import static org.junit.Assert.*;
  */
 public abstract class BaseSensorSystemTest<S extends Sensor, SS extends SensorSystem> {
     protected static LogicBricksEngine engine;
+    protected static EntityBuilder entityBuilder;
     protected S sensor;
     protected SS sensorSystem;
-    protected static EntityBuilder entityBuilder;
     protected Entity player;
 
 
@@ -72,7 +57,7 @@ public abstract class BaseSensorSystemTest<S extends Sensor, SS extends SensorSy
     @After
     public void baseTearDown() {
         tearDown();
-       /// engine.removeAllEntities();
+        /// engine.removeAllEntities();
         player = null;
         sensor = null;
 

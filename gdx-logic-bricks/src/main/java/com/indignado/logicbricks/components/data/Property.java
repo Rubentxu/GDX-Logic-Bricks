@@ -32,7 +32,8 @@ public class Property<V> {
 
     public void setValue(V value) {
         this.value = value;
-        if(isObservable) MessageDispatcher.getInstance().dispatchMessage(null, MessageManager.getMessageKey(name + "_Changed"));
+        if (isObservable)
+            MessageDispatcher.getInstance().dispatchMessage(null, MessageManager.getMessageKey(name + "_Changed"));
 
     }
 

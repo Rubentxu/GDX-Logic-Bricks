@@ -71,7 +71,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
         world.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
-                //.connectToSensor(timeSensor)
+                        //.connectToSensor(timeSensor)
                 .connectToActuator(stateActuator)
                 .getEntity();
 
@@ -98,7 +98,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
         world.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
-               // .connectToSensor(timeSensor)
+                        // .connectToSensor(timeSensor)
                 .connectToActuator(motionActuator)
                 .getEntity();
 

@@ -27,25 +27,6 @@ public class SensorSystemTest {
     private Entity player;
     private TestSensor sensor;
 
-    private class TestSensor extends Sensor {
-    }
-
-    private class TestSensorComponent extends SensorComponent<TestSensor> {
-    }
-
-    private class TestSensorSystem extends SensorSystem<TestSensor, TestSensorComponent> {
-
-        public TestSensorSystem() {
-            super(TestSensorComponent.class);
-        }
-
-
-        @Override
-        protected boolean query(TestSensor sensor, float deltaTime) {
-            return isActive;
-        }
-
-    }
 
     @Before
     public void setup() {
@@ -70,6 +51,7 @@ public class SensorSystemTest {
         player.add(testSensorComponent);
 
     }
+
 
     @Test
     public void defaulTest() {
@@ -130,6 +112,7 @@ public class SensorSystemTest {
 
     }
 
+
     @Test
     public void pulseModeTrueTest() {
         isActive = false;
@@ -188,6 +171,7 @@ public class SensorSystemTest {
 
 
     }
+
 
     @Test
     public void pulseModeFalseTest() {
@@ -248,6 +232,7 @@ public class SensorSystemTest {
 
     }
 
+
     @Test
     public void pulseModeBothTest() {
         isActive = false;
@@ -307,6 +292,7 @@ public class SensorSystemTest {
 
     }
 
+
     @Test
     public void inverseTest() {
         isActive = false;
@@ -365,6 +351,7 @@ public class SensorSystemTest {
 
 
     }
+
 
     @Test
     public void pulseModeTrueInverTest() {
@@ -426,6 +413,7 @@ public class SensorSystemTest {
 
     }
 
+
     @Test
     public void pulseModeFalseInverTest() {
         isActive = false;
@@ -485,6 +473,7 @@ public class SensorSystemTest {
 
 
     }
+
 
     @Test
     public void pulseModeBothInverTest() {
@@ -546,6 +535,7 @@ public class SensorSystemTest {
 
     }
 
+
     @Test
     public void tapTest() {
         isActive = false;
@@ -605,6 +595,7 @@ public class SensorSystemTest {
 
 
     }
+
 
     @Test
     public void pulseModeTrueTapTest() {
@@ -666,7 +657,25 @@ public class SensorSystemTest {
     }
 
 
+    private class TestSensor extends Sensor {
+    }
 
+    private class TestSensorComponent extends SensorComponent<TestSensor> {
+    }
+
+    private class TestSensorSystem extends SensorSystem<TestSensor, TestSensorComponent> {
+
+        public TestSensorSystem() {
+            super(TestSensorComponent.class);
+        }
+
+
+        @Override
+        protected boolean query(TestSensor sensor, float deltaTime) {
+            return isActive;
+        }
+
+    }
 
 
 }

@@ -3,9 +3,6 @@ package com.indignado.logicbricks.core.sensors;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.ObjectSet;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * @author Rubentxu
  */

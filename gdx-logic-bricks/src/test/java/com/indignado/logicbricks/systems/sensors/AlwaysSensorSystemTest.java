@@ -1,24 +1,19 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.MessageManager;
-import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
-import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.MessageSensorBuilder;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Rubentxu
