@@ -15,6 +15,7 @@ public class DelaySensor extends Sensor {
 
     @Override
     public void reset() {
+        super.reset();
         delay = 0;
         duration = 0;
         repeat = false;

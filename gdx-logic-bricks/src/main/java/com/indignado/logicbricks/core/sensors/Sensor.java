@@ -26,11 +26,12 @@ public abstract class Sensor extends LogicBrick {
     @Override
     public void reset() {
         super.reset();
-        tick = 0;
-        pulse = Pulse.PM_IDLE.value;
+        frequency = 0;
         invert = false;
-        positive = false;
         tap = false;
+        pulse = Pulse.PM_IDLE.value;
+        tick = 0;
+        positive = false;
         firstExec = true;
         time = 0;
         initialized = false;

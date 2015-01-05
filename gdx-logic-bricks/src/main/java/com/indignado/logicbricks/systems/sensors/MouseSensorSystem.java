@@ -42,7 +42,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         }
 
         if (sensor.mouseEvent.equals(MouseEvent.MOUSE_OVER)) {
-            isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
+            isActive = isMouseOver(sensor.target, (int) sensor.positionSignal.x, (int) sensor.positionSignal.y);
 
         }
 
@@ -158,8 +158,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             for (MouseSensor sensor : mouseSensors.get(event)) {
                 if (active) sensor.mouseEventSignal = event;
                 else sensor.mouseEventSignal = null;
-                sensor.positionXsignal = (int) coordinates.x;
-                sensor.positionYsignal = (int) coordinates.y;
+                sensor.positionSignal.set(coordinates.x, coordinates.y);
 
             }
         }

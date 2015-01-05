@@ -18,4 +18,16 @@ public class KeyboardSensor extends Sensor {
 
     public String target = "";
 
+    @Override
+    public void reset() {
+        super.reset();
+        keyCode = Input.Keys.UNKNOWN;
+        allKeys = false;
+        logToggle = false;
+        keysSignal.clear();
+        keysCodeSignal.clear();
+        target = "";
+
+    }
+
 }

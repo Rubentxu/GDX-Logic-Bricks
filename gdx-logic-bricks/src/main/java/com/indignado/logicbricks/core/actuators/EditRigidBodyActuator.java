@@ -15,4 +15,16 @@ public class EditRigidBodyActuator extends Actuator {
     public Entity target;
 
 
+    @Override
+    public void reset() {
+        super.reset();
+        targetRigidBody = null;
+        active = true;
+        awake = true;
+        friction = 0.2f;
+        restitution = 0;
+        target = null;
+
+    }
+
 }

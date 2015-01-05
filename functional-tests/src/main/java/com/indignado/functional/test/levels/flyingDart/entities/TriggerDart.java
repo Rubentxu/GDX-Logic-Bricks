@@ -69,8 +69,8 @@ public class TriggerDart extends EntityFactory {
                 .getBrick();
 
 
-        ConditionalController controllerTrigger = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
-                .setOp(ConditionalController.Op.OP_AND)
+        ScriptController controllerTrigger = BricksUtils.getBuilder(ScriptControllerBuilder.class)
+                .setScript(new MousePositionScript())
                 .setName("MousePosition")
                 .getBrick();
 

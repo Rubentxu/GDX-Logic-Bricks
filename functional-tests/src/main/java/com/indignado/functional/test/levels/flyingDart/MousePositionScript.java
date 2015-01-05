@@ -27,7 +27,7 @@ public class MousePositionScript implements Script {
 
         if (mouseSensor.pulseState.equals(LogicBrick.BrickMode.BM_ON) && mouseSensor.positive) {
             controller.pulseState = mouseSensor.pulseState;
-            Vector2 mousePosition = new Vector2(mouseSensor.positionXsignal, mouseSensor.positionYsignal);
+            Vector2 mousePosition = mouseSensor.positionSignal;
             Log.debug("MousePositionScript::Trigger", "mouse position %s", mousePosition);
             InstanceEntityActuator instanceEntityActuator = (InstanceEntityActuator) actuators.get("ActuatorInstanceDart");
             Body ownerBody = instanceEntityActuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
@@ -35,11 +35,15 @@ public class MousePositionScript implements Script {
             float angle = MathUtils.atan2(mousePosition.y - ownerBody.getPosition().y, mousePosition.x - ownerBody.getPosition().x);
             instanceEntityActuator.initialVelocity = new Vector2(Settings.Width / 2 * MathUtils.cos(angle), Settings.Width * MathUtils.sin(angle));
             instanceEntityActuator.angle = angle;
-            instanceEntityActuator.pulseState = LogicBrick.BrickMode.BM_ON;
+            controller.pulseState = LogicBrick.BrickMode.BM_ON;
 
             Log.debug("MousePositionScript::Trigger", "Initial Velocity %s Angle %f", instanceEntityActuator.initialVelocity.toString(), angle);
 
+        } else {
+            controller.pulseState = LogicBrick.BrickMode.BM_OFF;
+
         }
+
 
     }
 

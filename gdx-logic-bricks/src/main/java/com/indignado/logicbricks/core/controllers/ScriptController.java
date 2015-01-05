@@ -8,5 +8,11 @@ import com.indignado.logicbricks.core.Script;
 public class ScriptController extends Controller {
     public Script script;
 
+    @Override
+    public void reset() {
+        super.reset();
+        script = null;
+
+    }
 
 }

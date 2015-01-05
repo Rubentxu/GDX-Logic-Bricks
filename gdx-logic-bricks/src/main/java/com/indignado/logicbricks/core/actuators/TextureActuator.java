@@ -15,4 +15,18 @@ public class TextureActuator extends Actuator {
     public Boolean flipY;
     public Color tint;
 
+
+    @Override
+    public void reset() {
+        super.reset();
+        textureView = null;
+        height = 0;
+        width = 0;
+        opacity = -1;
+        flipX = null;
+        flipY = null;
+        tint = null;
+
+    }
+
 }

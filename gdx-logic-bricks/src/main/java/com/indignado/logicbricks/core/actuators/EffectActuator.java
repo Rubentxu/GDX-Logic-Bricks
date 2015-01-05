@@ -16,4 +16,16 @@ public class EffectActuator extends Actuator {
     public boolean active = false;
 
 
+    @Override
+    public void reset() {
+        super.reset();
+        effectView = null;
+        position = null;
+        rotation = 0;
+        opacity = -1;
+        tint = null;
+        active = false;
+
+    }
+
 }

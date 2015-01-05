@@ -21,4 +21,20 @@ public class MotionActuator extends Actuator {
     public float limitVelocityY = 0;
 
 
+    @Override
+    public void reset() {
+        super.reset();
+        targetRigidBody = null;
+        velocity = null;
+        force = null;
+        impulse = null;
+        angularVelocity = 0;
+        torque = 0;
+        angularImpulse = 0;
+        fixedRotation = false;
+        limitVelocityX = 0;
+        limitVelocityY = 0;
+
+    }
+
 }
