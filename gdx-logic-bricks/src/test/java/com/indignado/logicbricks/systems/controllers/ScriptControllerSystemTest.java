@@ -2,66 +2,89 @@ package com.indignado.logicbricks.systems.controllers;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.StateSystem;
+import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
+import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author Rubentxu.
  */
 public class ScriptControllerSystemTest {
     private PooledEngine engine;
-    private String statePrueba;
-    private String name;
-    private Entity entity;
-    private ScriptControllerSystem scriptControllerSystem;
     private boolean checkScript;
     private EntityBuilder entityBuilder;
+    private Entity player;
+
+
+    public ScriptControllerSystemTest() {
+        engine = new LogicBricksEngine();
+        entityBuilder = new EntityBuilder(engine);
+        ConditionalControllerSystem controllerSystem = new ConditionalControllerSystem();
+        engine.addSystem(controllerSystem);
+
+    }
 
 
     @Before
     public void setup() {
-        this.name = "BricksPruebas";
-        this.statePrueba = "StatePruebas";
-        this.entity = new Entity();
-        engine = new PooledEngine();
-        scriptControllerSystem = new ScriptControllerSystem();
-        engine.addSystem(scriptControllerSystem);
-        engine.addSystem(new StateSystem(new World(null, null, null, null)));
+        checkScript = false;
+        entityBuilder.initialize();
+        IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
+        identityPlayer.tag = "Player";
 
-        StateComponent stateComponent = new StateComponent();
-        stateComponent.changeCurrentState(stateComponent.getState(statePrueba));
+        AlwaysSensor sensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+                .setName("SensorScript")
+                .getBrick();
 
-        entity.add(stateComponent);
-        engine.addEntity(entity);
-        entityBuilder = new EntityBuilder(engine);
+        Script script = new Script() {
+            @Override
+            public void execute(ScriptController controller, ObjectMap<String, Sensor> sensors, ObjectMap<String, Actuator> actuators) {
+                checkScript = true;
+            }
+        };
+
+        ScriptController controller = BricksUtils.getBuilder(ScriptControllerBuilder.class)
+                .setScript(script)
+                .setName("playerController")
+                .getBrick();
+
+        ActuatorTest actuatorTest = new ActuatorTest();
+
+        player = entityBuilder
+                .addController(controller, "Default")
+                .connectToSensor(sensor)
+                .connectToActuator(actuatorTest)
+                .getEntity();
 
     }
 
 
     @Test
     public void ScriptControllerTest() {
-       /* AlwaysSensor alwaysSensor = new AlwaysSensor();
-        checkScript = false;
-
-        ScriptController scriptController = new ScriptController();
-        scriptController.script = new Script() {
-
-            @Override
-            public void execute(ObjectMap<String, Sensor> sensors, ObjectMap<String, Actuator> actuators) {
-
-            }
-        };
-
-        entityBuilder.addController(scriptController, statePrueba)
-                .connectToSensor(alwaysSensor);
-
+        engine.addEntity(player);
         engine.update(1);
         assertTrue(checkScript);
-*/
     }
 
 }
