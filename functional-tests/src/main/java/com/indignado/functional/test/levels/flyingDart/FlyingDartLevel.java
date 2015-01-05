@@ -7,6 +7,7 @@ import com.indignado.functional.test.levels.base.entities.Wall;
 import com.indignado.functional.test.levels.flyingDart.entities.Dart;
 import com.indignado.functional.test.levels.flyingDart.entities.TriggerDart;
 import com.indignado.logicbricks.core.LevelFactory;
+import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.World;
 
@@ -28,17 +29,13 @@ public class FlyingDartLevel extends LevelFactory {
 
     @Override
     public void createLevel() {
-        PooledEngine engine = world.getEngine();
+        LogicBricksEngine engine = world.getEngine();
         world.getCamera().position.set(0, 9, 0);
         world.getCamera().viewportWidth = Settings.Width;
         world.getCamera().viewportHeight = Settings.Height;
         Entity trigger = world.getEntityFactories().get(TriggerDart.class).createEntity();
         world.positioningEntity(trigger, -14, 2f, 0);
         engine.addEntity(trigger);
-
-       /* Entity dart2 = entityFactories.get(Dart.class).createEntity(world);
-        positioningEntity(dart2,-6, 3, 0);
-        engine.addEntity(dart2);*/
 
         Entity ground = world.getEntityFactories().get(Ground.class).createEntity();
         engine.addEntity(ground);

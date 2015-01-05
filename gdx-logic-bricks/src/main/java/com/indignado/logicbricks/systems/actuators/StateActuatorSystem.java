@@ -22,23 +22,9 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
 
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
-        StateComponent stateComponent = stateMapper.get(entity);
-        Integer state = stateComponent.getCurrentState();
-        ObjectSet<StateActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
-        if (actuators != null) {
-            for (StateActuator actuator : actuators) {
-                if (actuator.pulseState == LogicBrick.BrickMode.BM_ON)
-                    stateComponent.changeCurrentState(actuator.state);
-            }
-        }
-
-    }
-
-
-    @Override
     public void processActuator(StateActuator actuator, float deltaTime) {
+        StateComponent stateComponent = stateMapper.get(actuator.owner);
+        stateComponent.changeCurrentState(actuator.state);
 
     }
 

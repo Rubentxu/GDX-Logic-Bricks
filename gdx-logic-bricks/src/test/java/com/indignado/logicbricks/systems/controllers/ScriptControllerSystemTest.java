@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
  * @author Rubentxu.
  */
 public class ScriptControllerSystemTest {
-    private PooledEngine engine;
+    private LogicBricksEngine engine;
     private boolean checkScript;
     private EntityBuilder entityBuilder;
     private Entity player;

@@ -25,7 +25,7 @@ public class MousePositionScript implements Script {
     public void execute(ScriptController controller, ObjectMap<String, Sensor> sensors, ObjectMap<String, Actuator> actuators) {
         MouseSensor mouseSensor = (MouseSensor) sensors.get("SensorMouse");
 
-        if (mouseSensor.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
+        if (mouseSensor.pulseState.equals(LogicBrick.BrickMode.BM_ON) && mouseSensor.positive) {
             controller.pulseState = mouseSensor.pulseState;
             Vector2 mousePosition = new Vector2(mouseSensor.positionXsignal, mouseSensor.positionYsignal);
             Log.debug("MousePositionScript::Trigger", "mouse position %s", mousePosition);

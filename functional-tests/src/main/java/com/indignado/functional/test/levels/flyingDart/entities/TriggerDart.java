@@ -11,6 +11,7 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
@@ -18,6 +19,7 @@ import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 
@@ -52,23 +54,23 @@ public class TriggerDart extends EntityFactory {
         identity.collisionMask = (short) ~identity.category;
 
 
-        Body bodyArrow = bodyBuilder.fixture(new FixtureDefBuilder()
+        Body bodyTrigger = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(1, 2))
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
-        entityBuilder.addRigidBody(bodyArrow);
+        entityBuilder.addRigidBody(bodyTrigger);
 
 
         MouseSensor trigger = BricksUtils.getBuilder(MouseSensorBuilder.class)
-                .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON)
-                .setFrequency(1)
+                .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON_DOWN)
+                .setFrequency(0.7f)
                 .setName("SensorMouse")
                 .getBrick();
 
 
-        ScriptController mousePositionScript = BricksUtils.getBuilder(ScriptControllerBuilder.class)
-                .setScript(new MousePositionScript())
+        ConditionalController controllerTrigger = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setOp(ConditionalController.Op.OP_AND)
                 .setName("MousePosition")
                 .getBrick();
 
@@ -77,13 +79,13 @@ public class TriggerDart extends EntityFactory {
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(2, 1))
-                .setDuration(4.5f)
+                .setDuration(1.5f)
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 
 
         Entity entity = entityBuilder
-                .addController(mousePositionScript, "Default")
+                .addController(controllerTrigger, "Default")
                 .connectToSensor(trigger)
                 .connectToActuator(instanceEntityActuator)
                 .getEntity();

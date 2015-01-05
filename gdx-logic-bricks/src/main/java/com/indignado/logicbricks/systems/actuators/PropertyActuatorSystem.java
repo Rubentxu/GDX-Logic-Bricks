@@ -26,22 +26,8 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
 
 
     @Override
-    public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
-        Integer state = stateMapper.get(entity).getCurrentState();
-        ObjectSet<PropertyActuator> actuators = actuatorMapper.get(entity).actuators.get(state);
-        if (actuators != null) {
-            for (PropertyActuator actuator : actuators) {
-                if (actuator.pulseState == LogicBrick.BrickMode.BM_ON)
-                    processActuator(actuator, blackBoardMapper.get(entity));
-
-            }
-        }
-
-    }
-
-
-    public void processActuator(PropertyActuator actuator, BlackBoardComponent blackBoardComponent) {
+    public void processActuator(PropertyActuator actuator, float deltatime) {
+        BlackBoardComponent blackBoardComponent = blackBoardMapper.get(actuator.owner);
         Property property = blackBoardComponent.getProperty(actuator.property);
         switch (actuator.mode) {
             case Assign:
@@ -61,8 +47,5 @@ public class PropertyActuatorSystem extends ActuatorSystem<PropertyActuator, Pro
 
     }
 
-
-    public void processActuator(PropertyActuator actuator, float deltaTime) {
-    }
 
 }

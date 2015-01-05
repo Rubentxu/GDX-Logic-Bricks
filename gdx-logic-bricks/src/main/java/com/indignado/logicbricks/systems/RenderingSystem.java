@@ -45,6 +45,10 @@ public class RenderingSystem extends IteratingSystem {
     private Box2DDebugRenderer debugRenderer;
     //private BitmapFont debugFont;
 
+    public RenderingSystem(com.indignado.logicbricks.core.World world) {
+        this(world.getBatch(),world.getCamera(),world.getPhysics());
+
+    }
 
     public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, World physics) {
         super(Family.all(ViewsComponent.class).get(), 5);

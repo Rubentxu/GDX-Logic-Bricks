@@ -6,5 +6,4 @@ package com.indignado.logicbricks.core.actuators;
 public class StateActuator extends Actuator {
     public int state = 0;
 
-
 }

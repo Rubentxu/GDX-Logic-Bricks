@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.core;
 
-import com.badlogic.gdx.Gdx;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
@@ -9,23 +9,14 @@ public class LogicBricksException extends RuntimeException {
 
     public LogicBricksException(String tag, String message) {
         super(message);
-        if (Gdx.app != null) {
-            Gdx.app.log(tag, message);
-        } else {
-            System.out.println(tag + " : " + message);
-        }
+        Log.error(tag, message);
 
     }
 
 
     public LogicBricksException(Throwable cause) {
         super(cause);
-
-        if (Gdx.app != null) {
-            Gdx.app.log("LogicBricksException", cause.getMessage());
-        } else {
-            System.out.println("LogicBricksException : " + cause.getMessage());
-        }
+        Log.error("LogicBricksException", cause.getMessage(),cause);
 
     }
 

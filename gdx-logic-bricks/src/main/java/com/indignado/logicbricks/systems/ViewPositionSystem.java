@@ -61,7 +61,7 @@ public class ViewPositionSystem extends IteratingSystem {
 
 
     public void setAlpha(float alpha) {
-        this.alpha = alpha;
+        //this.alpha = alpha;
 
     }
 

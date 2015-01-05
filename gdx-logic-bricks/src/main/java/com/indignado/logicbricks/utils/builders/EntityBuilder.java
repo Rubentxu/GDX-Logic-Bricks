@@ -22,6 +22,8 @@ import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -32,13 +34,13 @@ import com.indignado.logicbricks.utils.Log;
  */
 public class EntityBuilder {
     private static String tag = "EntityBuilder";
-    PooledEngine engine;
+    LogicBricksEngine engine;
     private Entity entity;
     private Controller controller;
     private Array<String> controllerStates;
 
 
-    public EntityBuilder(PooledEngine engine) {
+    public EntityBuilder(LogicBricksEngine engine) {
         this.controllerStates = new Array();
         this.engine = engine;
 
@@ -122,7 +124,11 @@ public class EntityBuilder {
                 Log.debug(tag, "Error instance entitySystem %s", clazz.getSimpleName());
 
             }
-            engine.addSystem(entitySystem);
+            if(entitySystem != null) {
+                engine.addSystem(entitySystem);
+            } else {
+                Log.debug(tag, "Error instance entitySystem %s", clazz.getSimpleName());
+            }
 
 
         }
@@ -236,7 +242,7 @@ public class EntityBuilder {
         addActuators(actuator, controllerStates);
         if (actuator.name == null)
             actuator.name = actuator.getClass().getSimpleName() + "_" + MathUtils.random(10000);
-        ;
+
         actuator.controllers.add(controller);
         controller.actuators.put(actuator.name, actuator);
         return this;
@@ -304,6 +310,7 @@ public class EntityBuilder {
 
 
     private void config(IntMap<ObjectSet<LogicBrick>> bricks, Entity entity) {
+        if(entity == null) throw new LogicBricksException(tag,"Error: Not owner entity exist");
         for (int i = 0; i < bricks.size; i++) {
             for (LogicBrick brick : (ObjectSet<LogicBrick>) bricks.get(i)) {
                 brick.owner = entity;
