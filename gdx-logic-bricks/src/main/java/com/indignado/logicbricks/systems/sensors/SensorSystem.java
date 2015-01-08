@@ -49,11 +49,11 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         if (sensors != null) {
             for (S sensor : sensors) {
                 boolean doDispatch = false, freqDispatch = false;
-                if (sensor.oldState != sensor.state) {
+                if (stateMapper.get(entity).isChanged()) {
                     sensor.firstExec = true;
                     sensor.positive = false;
                     sensor.firstTap = Sensor.TapMode.TAP_IN;
-                    sensor.oldState = sensor.state;
+                    stateMapper.get(entity).setChanged(false);
 
                 }
 
@@ -87,8 +87,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
                 if (sensor.tap) {
                     processPulseState = sensor.positive;
-                    if (sensor.invert)
-                        processPulseState = !processPulseState;
 
                     doDispatch = false;
                     sensor.pulseState = BrickMode.BM_OFF;
@@ -113,8 +111,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
                 if (sensor.firstExec) {
                     sensor.firstExec = false;
-                    if (sensor.invert && !doDispatch)
-                        doDispatch = true;
                 }
 
                 // Dispatch results

@@ -43,13 +43,16 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
+        Log.debug(tag, "A) current state %d name %s time "+ stateMapper.get(entity).time + " ",state,stateMapper.get(entity).getCurrentStateName());
         ObjectSet<A> actuators = (ObjectSet<A>) actuatorMapper.get(entity).actuators.get(state);
+
         if (actuators != null) {
             for (A actuator : actuators) {
+                Log.debug(tag, "B) Actuator %s size controller %d",actuator.name,actuator.controllers.size);
+                actuator.pulseState = LogicBrick.BrickMode.BM_IDLE;
                 for (Controller controller : actuator.controllers) {
-                    Log.debug(tag, "Controller %s Sensor %s pulseState %s", controller.name, controller.name,
-                            controller.pulseState);
                     if(controller.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
+                        Log.debug(tag, "C) Controller %s pulseState %s", controller.name, controller.pulseState);
                         actuator.pulseState = LogicBrick.BrickMode.BM_ON;
                     } else {
                         actuator.pulseState = LogicBrick.BrickMode.BM_OFF;
@@ -57,7 +60,9 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
                     }
                 }
                 if (actuator.pulseState.equals(LogicBrick.BrickMode.BM_ON) ) {
+                    Log.debug(tag, "D) Actuator %s pulseState %s", actuator.name, actuator.pulseState);
                     processActuator(actuator, deltaTime);
+
                 }
             }
         }

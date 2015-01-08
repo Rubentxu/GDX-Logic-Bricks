@@ -164,7 +164,7 @@ public class EntityBuilder {
     public <C extends Controller> EntityBuilder addController(C controller, String... nameStates) {
         controllerStates.clear();
         for (String s : nameStates) {
-            addController(controller, s);
+            addToController(controller, s);
         }
         return this;
 
@@ -174,14 +174,14 @@ public class EntityBuilder {
     public <C extends Controller> EntityBuilder addController(C controller, Array<String> nameStates) {
         controllerStates.clear();
         for (String s : nameStates) {
-            addController(controller, s);
+            addToController(controller, s);
         }
         return this;
 
     }
 
 
-    public <C extends Controller, CC extends ControllerComponent> EntityBuilder addController(C controller, String nameState) {
+    private <C extends Controller, CC extends ControllerComponent> EntityBuilder addToController(C controller, String nameState) {
         this.controller = controller;
         controllerStates.add(nameState);
         int state = getKeyState(nameState);
@@ -311,8 +311,8 @@ public class EntityBuilder {
 
     private void config(IntMap<ObjectSet<LogicBrick>> bricks, Entity entity) {
         if(entity == null) throw new LogicBricksException(tag,"Error: Not owner entity exist");
-        for (int i = 0; i < bricks.size; i++) {
-            for (LogicBrick brick : (ObjectSet<LogicBrick>) bricks.get(i)) {
+        for (ObjectSet<LogicBrick> bricksSet : bricks.values() ) {
+            for (LogicBrick brick :  bricksSet) {
                 brick.owner = entity;
             }
         }

@@ -35,11 +35,11 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawContacts = true;
         Settings.drawVelocities = true;
         Settings.drawStage = true;
-        Settings.debugEntity = "Dart";
-        Settings.debugTags.add("ActuatorSystem");
-        Settings.debugTags.add("ControllerSystem");
-        Settings.debugTags.add("SensorSystem");
+        //Settings.debugEntity = "Player";
         Settings.debugTags.add("StateComponent");
+        Settings.debugTags.add("StateActuatorSystem");
+        //Settings.debugTags.add("SensorSystem");
+       // Settings.debugTags.add("MotionActuatorSystem");
         //Settings.debugTags.add("EntityBuilder");
 
         batch = new SpriteBatch();

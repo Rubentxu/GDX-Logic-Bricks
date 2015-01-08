@@ -64,7 +64,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 .getBrick();
 
         StateActuator stateActuator = BricksUtils.getBuilder(StateActuatorBuilder.class)
-                .setState(StateComponent.eraseID)
+                .setChangeState(StateComponent.eraseID)
                 .setName("ChangeStateRemove")
                 .getBrick();
 

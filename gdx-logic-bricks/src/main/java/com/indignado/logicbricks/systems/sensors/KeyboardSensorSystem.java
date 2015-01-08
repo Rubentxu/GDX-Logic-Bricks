@@ -27,10 +27,9 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     @Override
     public boolean query(KeyboardSensor sensor, float deltaTime) {
         boolean isActive = false;
-        Log.debug(tag, "sensor keyCodeSignal contains: %s", sensor.keyCode);
         if (sensor.keyCode != Input.Keys.UNKNOWN) {
             if (sensor.keysCodeSignal.contains(sensor.keyCode)) {
-                Log.debug(tag, "sensor keyCodeSignal2 contains: %s", sensor.keyCode);
+                Log.debug(tag, "sensor %s keyCodeSignal contains: %s size signal %d", sensor.name, sensor.keyCode, sensor.keysCodeSignal.size);
                 isActive = true;
             }
         } else if (sensor.allKeys && !(sensor.keysSignal.size == 0)) {
@@ -43,7 +42,6 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
             }
         }
         sensor.keysSignal.clear();
-        sensor.keysCodeSignal.clear();
         return isActive;
 
     }
@@ -51,11 +49,12 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
 
     @Override
     public boolean keyDown(int keycode) {
-        Log.debug(tag, "key size: %d", keyboardSensors.size);
+        Log.debug(tag, "keyDown size: %d", keyboardSensors.size);
         for (KeyboardSensor ks : keyboardSensors) {
             ks.keysCodeSignal.add(new Integer(keycode));
 
         }
+        Log.debug(tag, "keyDown %d",keycode);
         return false;
 
     }
@@ -67,6 +66,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
             ks.keysCodeSignal.remove(new Integer(keycode));
 
         }
+        Log.debug(tag, "keyUp %d size %d",keycode,keyboardSensors.first().keysCodeSignal.size);
         return false;
 
     }

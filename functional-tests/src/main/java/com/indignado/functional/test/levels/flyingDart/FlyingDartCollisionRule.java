@@ -104,12 +104,12 @@ public class FlyingDartCollisionRule implements ContactListener {
 
             if (identityA.tag == "Dart") {
                 contextA.setValueProperty("freeFlight", true);
-               // motionA.actuators.get(0).iterator().next().fixedRotation = true;
+                motionA.actuators.get(0).iterator().next().fixedRotation = true;
             }
 
             if (identityB.tag == "Dart") {
                 contextB.setValueProperty("freeFlight", true);
-                //motionB.actuators.get(0).iterator().next().fixedRotation = true;
+                motionB.actuators.get(0).iterator().next().fixedRotation = true;
 
             }
 

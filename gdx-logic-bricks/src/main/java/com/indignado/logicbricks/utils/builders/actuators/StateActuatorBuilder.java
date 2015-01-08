@@ -13,8 +13,8 @@ public class StateActuatorBuilder extends ActuatorBuilder<StateActuator> {
     }
 
 
-    public StateActuatorBuilder setState(int state) {
-        brick.state = state;
+    public StateActuatorBuilder setChangeState(int state) {
+        brick.changeState = state;
         return this;
 
     }

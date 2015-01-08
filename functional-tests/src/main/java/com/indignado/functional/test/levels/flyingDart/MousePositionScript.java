@@ -11,6 +11,8 @@ import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;
@@ -24,8 +26,10 @@ public class MousePositionScript implements Script {
     @Override
     public void execute(ScriptController controller, ObjectMap<String, Sensor> sensors, ObjectMap<String, Actuator> actuators) {
         MouseSensor mouseSensor = (MouseSensor) sensors.get("SensorMouse");
+        AlwaysSensor delaySensor = (AlwaysSensor) sensors.get("DelayTrigger");
 
-        if (mouseSensor.pulseState.equals(LogicBrick.BrickMode.BM_ON) && mouseSensor.positive) {
+        if (mouseSensor.pulseState.equals(LogicBrick.BrickMode.BM_ON) && mouseSensor.positive
+                && delaySensor.pulseState.equals(LogicBrick.BrickMode.BM_ON) && delaySensor.positive) {
             controller.pulseState = mouseSensor.pulseState;
             Vector2 mousePosition = mouseSensor.positionSignal;
             Log.debug("MousePositionScript::Trigger", "mouse position %s", mousePosition);

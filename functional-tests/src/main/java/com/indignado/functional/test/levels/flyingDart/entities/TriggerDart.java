@@ -13,7 +13,10 @@ import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -21,6 +24,8 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 
 /**
@@ -65,7 +70,13 @@ public class TriggerDart extends EntityFactory {
         MouseSensor trigger = BricksUtils.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON_DOWN)
                 .setFrequency(0.7f)
+                .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("SensorMouse")
+                .getBrick();
+
+        AlwaysSensor alwaysSensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+                .setPulse(Sensor.Pulse.PM_TRUE)
+                .setName("DelayTrigger")
                 .getBrick();
 
 
@@ -79,14 +90,14 @@ public class TriggerDart extends EntityFactory {
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(2, 1))
-                .setDuration(1.5f)
+                .setDuration(5f)
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 
 
         Entity entity = entityBuilder
                 .addController(controllerTrigger, "Default")
-                .connectToSensor(trigger)
+                .connectToSensors(trigger, alwaysSensor)
                 .connectToActuator(instanceEntityActuator)
                 .getEntity();
 
