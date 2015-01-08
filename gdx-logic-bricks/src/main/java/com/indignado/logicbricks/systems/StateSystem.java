@@ -60,6 +60,14 @@ public class StateSystem extends IteratingSystem {
             Log.debug(tag,"To remove entity id %d",entity.getId());
             toRemove.add(entity);
         }
+        if (sm.get(entity).oldState != state.getCurrentState()) {
+            sm.get(entity).oldState = state.getCurrentState();
+            sm.get(entity).isChanged = true;
+
+        } else {
+            sm.get(entity).isChanged = false;
+        }
+
     }
 
 }

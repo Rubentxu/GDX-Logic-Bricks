@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
+import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
 
@@ -119,10 +120,9 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
         Log.debug(tag, "KeyboardSensor add");
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
-            IntMap<ObjectSet<KeyboardSensor>> map = keyboardSensorComponent.sensors;
-            Log.debug(tag, "KeyboardSensor added %d", map.size);
-            for (int i = 0; i < map.size; ++i) {
-                keyboardSensors.addAll(map.get(i));
+            IntMap.Values<ObjectSet<KeyboardSensor>> values = keyboardSensorComponent.sensors.values();
+            while (values.hasNext()) {
+                keyboardSensors.addAll(values.next());
             }
         }
 
@@ -133,10 +133,9 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
     public void entityRemoved(Entity entity) {
         KeyboardSensorComponent keyboardSensorComponent = entity.getComponent(KeyboardSensorComponent.class);
         if (keyboardSensorComponent != null) {
-            IntMap<ObjectSet<KeyboardSensor>> map = keyboardSensorComponent.sensors;
-            Log.debug(tag, "KeyboardSensor remove %d", map.size);
-            while (map.values().hasNext())
-                for (KeyboardSensor sensor : map.values().next()) {
+            IntMap.Values<ObjectSet<KeyboardSensor>> values = keyboardSensorComponent.sensors.values();
+            while (values.hasNext())
+                for (KeyboardSensor sensor : values.next()) {
                     keyboardSensors.remove(sensor);
                 }
         }

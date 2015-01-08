@@ -10,6 +10,7 @@ import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
@@ -62,6 +63,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
                 if (actuator.pulseState.equals(LogicBrick.BrickMode.BM_ON) ) {
                     Log.debug(tag, "D) Actuator %s pulseState %s", actuator.name, actuator.pulseState);
                     processActuator(actuator, deltaTime);
+                    if(actuator instanceof StateActuator) break;
 
                 }
             }

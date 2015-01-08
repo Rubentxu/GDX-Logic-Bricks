@@ -9,6 +9,7 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
 import com.indignado.logicbricks.core.sensors.Sensor.TapMode;
@@ -41,6 +42,12 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
 
     }
 
+    @Override
+    public void update (float deltaTime) {
+       super.update(deltaTime);
+
+    }
+
 
     public void processEntity(Entity entity, float deltaTime) {
         if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
@@ -49,11 +56,15 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
         if (sensors != null) {
             for (S sensor : sensors) {
                 boolean doDispatch = false, freqDispatch = false;
-                if (stateMapper.get(entity).isChanged()) {
+                if (stateMapper.get(entity).isChanged) {
+                    Log.debug(tag,"reset firstExec state %d", state);
                     sensor.firstExec = true;
                     sensor.positive = false;
                     sensor.firstTap = Sensor.TapMode.TAP_IN;
-                    stateMapper.get(entity).setChanged(false);
+                    if(sensor instanceof DelaySensor){
+                        ((DelaySensor)sensor).time = 0;
+                        Log.debug(tag,"reset delaysensor time %f",((DelaySensor) sensor).time);
+                    }
 
                 }
 
@@ -125,7 +136,6 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
                 }
 
             }
-
         }
 
     }

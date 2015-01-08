@@ -4,6 +4,7 @@ import com.indignado.logicbricks.components.sensors.AlwaysSensorComponent;
 import com.indignado.logicbricks.components.sensors.DelaySensorComponent;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
@@ -30,6 +31,7 @@ public class DelaySensorSystem extends SensorSystem<DelaySensor, DelaySensorComp
                     sensor.time = -1;
                 }
             } else {
+                Log.debug(tag,"query is true time %f", sensor.time);
                 isActive = true;
             }
 

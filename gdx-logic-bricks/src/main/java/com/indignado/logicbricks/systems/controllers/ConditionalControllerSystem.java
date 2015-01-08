@@ -86,8 +86,6 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 break;
         }
         if (doDispatch) {
-            if(controller.name.equals("controllerChangeStateIdle")) Log.debug(tag, "controllerChangeStateIdle OP_NOR doDispatch %b", doDispatch);
-            if(controller.name.equals("controllerChangeStateWalking")) Log.debug(tag, "controllerChangeStateWalking OP_OR doDispatch %b", doDispatch);
             controller.pulseState = BrickMode.BM_ON;
         } else {
             controller.pulseState = BrickMode.BM_OFF;

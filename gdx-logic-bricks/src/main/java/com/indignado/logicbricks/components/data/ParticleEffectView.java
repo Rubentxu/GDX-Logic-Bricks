@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
  */
 public class ParticleEffectView extends View {
     public ParticleEffect effect;
+    public boolean autoStart = false;
 
 
     @Override
     public void reset() {
         effect = null;
+        autoStart = false;
 
     }
 

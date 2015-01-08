@@ -36,16 +36,14 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
     public void entityAdded(Entity entity) {
         MessageSensorComponent messageSensors = entity.getComponent(MessageSensorComponent.class);
         if (messageSensors != null) {
-            IntMap<ObjectSet<MessageSensor>> map = messageSensors.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                for (MessageSensor sensor : map.get(i)) {
+            IntMap.Values<ObjectSet<MessageSensor>> values = messageSensors.sensors.values();
+            while (values.hasNext()) {
+                for (MessageSensor sensor : values.next()) {
                     if (sensor.autoRegister)
                         MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.subject));
                 }
-
             }
         }
-
     }
 
 
@@ -53,9 +51,9 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
     public void entityRemoved(Entity entity) {
         MessageSensorComponent messageSensors = entity.getComponent(MessageSensorComponent.class);
         if (messageSensors != null) {
-            IntMap<ObjectSet<MessageSensor>> map = messageSensors.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                for (MessageSensor sensor : map.get(i)) {
+            IntMap.Values<ObjectSet<MessageSensor>> values = messageSensors.sensors.values();
+            while (values.hasNext()) {
+                for (MessageSensor sensor : values.next()) {
                     MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.subject));
                 }
 

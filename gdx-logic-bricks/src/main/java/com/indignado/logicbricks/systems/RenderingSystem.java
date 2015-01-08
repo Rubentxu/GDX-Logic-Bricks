@@ -100,7 +100,10 @@ public class RenderingSystem extends IteratingSystem {
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
                 effect.setPosition(view.position.x, view.position.y);
                 effect.update(deltaTime);
-                effect.start();
+                if(((ParticleEffectView) view).autoStart) {
+                    effect.start();
+                    ((ParticleEffectView) view).autoStart = false;
+                }
                 effect.draw(batch);
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
