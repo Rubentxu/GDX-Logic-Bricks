@@ -1,6 +1,7 @@
 package com.indignado.logicbricks.core.sensors;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector2;
 
 
 /**
@@ -13,13 +14,17 @@ public class MouseSensor extends Sensor {
 
     // Signal Values
     public MouseEvent mouseEventSignal;
-    public int positionXsignal = 0;
-    public int positionYsignal = 0;
+    public Vector2 positionSignal = new Vector2();
     public int amountScrollSignal = 0;
 
     @Override
     public void reset() {
         super.reset();
+        mouseEvent = null;
+        target = null;
+        positionSignal.set(0,0);
+        amountScrollSignal = 0;
+        mouseEventSignal = null;
 
     }
 

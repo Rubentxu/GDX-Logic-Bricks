@@ -29,6 +29,7 @@ public class SimplePlatformTest extends LogicBricksTest {
         config.height = 600;
 
         new LwjglApplication(new SimplePlatformTest(), config);
+
     }
 
 

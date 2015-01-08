@@ -81,11 +81,7 @@ public class ConditionalControllerSystem extends ControllerSystem<ConditionalCon
                 }
                 if (controller.isInverter) {
                     doDispatch = !doDispatch;
-                    Log.debug(tag, "Conditional OP_NAND doDispatch %b", doDispatch);
-                } else {
-                    Log.debug(tag, "Conditional OP_AND doDispatch %b", doDispatch);
                 }
-
 
                 break;
         }

@@ -41,6 +41,7 @@ public class StateSystem extends IteratingSystem {
                 for (Body body : rigidBodies.rigidBodies) {
                     rigidBodies.rigidBodies.removeValue(body, true);
                     world.getPhysics().destroyBody(body);
+                    Log.debug(tag,"Remove entity id %d",entity.getId());
                 }
             }
         }
@@ -56,8 +57,17 @@ public class StateSystem extends IteratingSystem {
         state.time += deltaTime;
 
         if (state.getCurrentState() == StateComponent.eraseID) {
+            Log.debug(tag,"To remove entity id %d",entity.getId());
             toRemove.add(entity);
         }
+        if (sm.get(entity).oldState != state.getCurrentState()) {
+            sm.get(entity).oldState = state.getCurrentState();
+            sm.get(entity).isChanged = true;
+
+        } else {
+            sm.get(entity).isChanged = false;
+        }
+
     }
 
 }

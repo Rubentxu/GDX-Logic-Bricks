@@ -7,6 +7,16 @@ public class ConditionalController extends Controller {
     public Op op;
     public boolean isInverter = false;
 
+
+    @Override
+    public void reset() {
+        super.reset();
+        op = null;
+        isInverter = false;
+
+    }
+
+
     public enum Op {
         OP_NILL,
         OP_AND,

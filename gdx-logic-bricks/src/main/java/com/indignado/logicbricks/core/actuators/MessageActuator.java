@@ -8,8 +8,18 @@ import com.badlogic.gdx.ai.msg.Telegraph;
  */
 public class MessageActuator extends Actuator implements Telegraph {
     public String message;
-    public float delay;
+    public float delay = 0;
     public Object extraInfo;
+
+
+    @Override
+    public void reset() {
+        super.reset();
+        message = null;
+        delay = 0;
+        extraInfo = null;
+
+    }
 
 
     @Override

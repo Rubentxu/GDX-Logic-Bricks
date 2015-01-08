@@ -5,6 +5,7 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
@@ -64,7 +65,30 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
 
 
     @Test
-    public void keyBoardSensorKeyTypedEventTest() {
+    public void keyDownTest() {
+        engine.addEntity(player);
+        sensorSystem.keyTyped('a');
+        sensorSystem.keyDown(Input.Keys.A);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
+        assertTrue(sensor.positive);
+
+        sensorSystem.keyUp(Input.Keys.A);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void keyDownPulseModeTrueTest() {
+        sensor.pulse = Sensor.Pulse.PM_TRUE.getValue();
         engine.addEntity(player);
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
@@ -75,13 +99,57 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
 
         engine.update(1);
         assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        sensorSystem.keyUp(Input.Keys.A);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        sensorSystem.keyUp(Input.Keys.A);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_OFF);
+        assertFalse(sensor.positive);
+    }
+
+
+
+    @Test
+    public void keyDownPulseModeTrueAndFalseTest() {
+        sensor.pulse = Sensor.Pulse.PM_TRUE.getValue() | Sensor.Pulse.PM_FALSE.getValue();
+        engine.addEntity(player);
+        sensorSystem.keyTyped('a');
+        sensorSystem.keyDown(Input.Keys.A);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertTrue(sensor.positive);
+
+        sensorSystem.keyUp(Input.Keys.A);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        sensorSystem.keyUp(Input.Keys.A);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
+        assertFalse(sensor.positive);
+
+        sensorSystem.keyUp(Input.Keys.A);
+        engine.update(1);
+        assertTrue(sensor.pulseState == BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
     }
 
 
+
     @Test
-    public void keyBoardSystemAllKeysConfigTest() {
+    public void keyDownAllKeysConfigTest() {
         engine.addEntity(player);
         sensor.keyCode = Input.Keys.UNKNOWN;
         sensor.allKeys = true;
@@ -92,6 +160,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         assertTrue(sensor.pulseState == BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
+        sensorSystem.keyUp(Input.Keys.A);
         engine.update(1);
         assertTrue(sensor.pulseState == BrickMode.BM_ON);
         assertFalse(sensor.positive);

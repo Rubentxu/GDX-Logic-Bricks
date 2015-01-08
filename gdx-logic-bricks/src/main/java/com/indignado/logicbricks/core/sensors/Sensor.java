@@ -17,24 +17,21 @@ public abstract class Sensor extends LogicBrick {
     public float tick = 0;
     public boolean positive = false;
     public boolean firstExec = true;
-    public float time = 0;
     public boolean initialized = false;
-    public int oldState = 0;
     public TapMode firstTap = TapMode.TAP_IN;
     public TapMode lastTap = TapMode.TAP_OUT;
 
     @Override
     public void reset() {
         super.reset();
-        tick = 0;
-        pulse = Pulse.PM_IDLE.value;
+        frequency = 0;
         invert = false;
-        positive = false;
         tap = false;
+        pulse = Pulse.PM_IDLE.value;
+        tick = 0;
+        positive = false;
         firstExec = true;
-        time = 0;
         initialized = false;
-        oldState = 0;
         firstTap = TapMode.TAP_IN;
         lastTap = TapMode.TAP_OUT;
 

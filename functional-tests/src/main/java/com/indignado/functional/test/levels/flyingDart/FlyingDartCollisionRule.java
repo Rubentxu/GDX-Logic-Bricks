@@ -61,7 +61,7 @@ public class FlyingDartCollisionRule implements ContactListener {
             }
 
             if (identityA.tag == "Wall" && identityB.tag == "Dart") {
-                if (!(Boolean) contextB.getProperty("freeFlight").value) {
+                if (!(Boolean) contextB.getProperty("freeFlight").getValue()) {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
@@ -72,7 +72,7 @@ public class FlyingDartCollisionRule implements ContactListener {
             }
 
             if (identityB.tag == "Wall" && identityA.tag == "Dart") {
-                if (!(Boolean) contextA.getProperty("freeFlight").value) {
+                if (!(Boolean) contextA.getProperty("freeFlight").getValue()) {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
@@ -83,7 +83,7 @@ public class FlyingDartCollisionRule implements ContactListener {
 
             if (identityA.tag == "Crate" && identityB.tag == "Dart") {
                 contactPoint = contact.getWorldManifold().getPoints()[0];
-                if (!(Boolean) contextB.getProperty("freeFlight").value && Math.round(contactPoint.x * 10) == 6) {
+                if (!(Boolean) contextB.getProperty("freeFlight").getValue() && Math.round(contactPoint.x * 10) == 6) {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
@@ -93,7 +93,7 @@ public class FlyingDartCollisionRule implements ContactListener {
 
             if (identityB.tag == "Crate" && identityA.tag == "Dart") {
                 contactPoint = contact.getWorldManifold().getPoints()[0];
-                if (!(Boolean) contextA.getProperty("freeFlight").value && Math.round(contactPoint.x * 10) == 6) {
+                if (!(Boolean) contextA.getProperty("freeFlight").getValue() && Math.round(contactPoint.x * 10) == 6) {
                     weldJointDef = new WeldJointDef();
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);

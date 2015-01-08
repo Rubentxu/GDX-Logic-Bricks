@@ -42,7 +42,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         }
 
         if (sensor.mouseEvent.equals(MouseEvent.MOUSE_OVER)) {
-            isActive = isMouseOver(sensor.target, sensor.positionXsignal, sensor.positionYsignal);
+            isActive = isMouseOver(sensor.target, (int) sensor.positionSignal.x, (int) sensor.positionSignal.y);
 
         }
 
@@ -158,8 +158,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
             for (MouseSensor sensor : mouseSensors.get(event)) {
                 if (active) sensor.mouseEventSignal = event;
                 else sensor.mouseEventSignal = null;
-                sensor.positionXsignal = (int) coordinates.x;
-                sensor.positionYsignal = (int) coordinates.y;
+                sensor.positionSignal.set(coordinates.x, coordinates.y);
 
             }
         }
@@ -212,11 +211,9 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     public void entityAdded(Entity entity) {
         MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
         if (mouseComponent != null) {
-            IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
-                while (it.hasNext()) {
-                    MouseSensor sensor = it.next();
+            IntMap.Values<ObjectSet<MouseSensor>> values = mouseComponent.sensors.values();
+            while (values.hasNext()) {
+                for (MouseSensor sensor : values.next()) {
                     ObjectSet eventSensors;
                     if (mouseSensors.containsKey(sensor.mouseEvent)) {
                         eventSensors = mouseSensors.get(sensor.mouseEvent);
@@ -238,11 +235,9 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     public void entityRemoved(Entity entity) {
         MouseSensorComponent mouseComponent = entity.getComponent(MouseSensorComponent.class);
         if (mouseComponent != null) {
-            IntMap<ObjectSet<MouseSensor>> map = mouseComponent.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                ObjectSet.ObjectSetIterator<MouseSensor> it = map.get(i).iterator();
-                while (it.hasNext()) {
-                    MouseSensor sensor = it.next();
+            IntMap.Values<ObjectSet<MouseSensor>> values = mouseComponent.sensors.values();
+            while (values.hasNext()) {
+                for (MouseSensor sensor : values.next()) {
                     if (mouseSensors.containsKey(sensor.mouseEvent)) {
                         mouseSensors.get(sensor.mouseEvent).remove(sensor);
 

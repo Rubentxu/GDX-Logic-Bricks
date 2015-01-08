@@ -124,9 +124,9 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         Log.debug(tag, "EntityAdded");
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
-            IntMap<ObjectSet<CollisionSensor>> map = collisionSensorComponent.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                collisionSensors.addAll(map.get(i));
+            IntMap.Values<ObjectSet<CollisionSensor>> values = collisionSensorComponent.sensors.values();
+            while (values.hasNext()) {
+                collisionSensors.addAll(values.next());
             }
         }
 
@@ -137,9 +137,9 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     public void entityRemoved(Entity entity) {
         CollisionSensorComponent collisionSensorComponent = entity.getComponent(CollisionSensorComponent.class);
         if (collisionSensorComponent != null) {
-            IntMap<ObjectSet<CollisionSensor>> map = collisionSensorComponent.sensors;
-            while (map.values().hasNext()) {
-                for (CollisionSensor sensor : map.values().next()) {
+            IntMap.Values<ObjectSet<CollisionSensor>> values = collisionSensorComponent.sensors.values();
+            while (values.hasNext()) {
+                for (CollisionSensor sensor : values.next()) {
                     collisionSensors.remove(sensor);
                 }
             }

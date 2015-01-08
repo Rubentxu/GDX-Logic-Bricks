@@ -14,4 +14,12 @@ public class CollisionSensor extends Sensor {
     public Contact contact;
 
 
+    @Override
+    public void reset() {
+        super.reset();
+        targetTag = null;
+        contact = null;
+
+    }
+
 }

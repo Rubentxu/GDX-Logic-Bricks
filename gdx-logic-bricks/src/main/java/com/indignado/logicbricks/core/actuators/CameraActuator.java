@@ -9,5 +9,12 @@ public class CameraActuator extends Actuator {
     public OrthographicCamera camera;
     public short height = 0;
 
+    @Override
+    public void reset() {
+        super.reset();
+        camera = null;
+        height = 0;
+
+    }
 
 }
