@@ -112,9 +112,9 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
     public void entityAdded(Entity entity) {
         PropertySensorComponent propertySensors = entity.getComponent(PropertySensorComponent.class);
         if (propertySensors != null) {
-            IntMap<ObjectSet<PropertySensor>> map = propertySensors.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                for (PropertySensor sensor : map.get(i)) {
+            IntMap.Values<ObjectSet<PropertySensor>> values = propertySensors.sensors.values();
+            while (values.hasNext()) {
+                for (PropertySensor sensor : values.next()) {
                     if (sensor.evaluationType.equals(PropertySensor.EvaluationType.CHANGED)) {
                         BlackBoardComponent blackBoard = entity.getComponent(BlackBoardComponent.class);
                         if (blackBoard != null) {
@@ -137,13 +137,12 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
     public void entityRemoved(Entity entity) {
         PropertySensorComponent propertySensors = entity.getComponent(PropertySensorComponent.class);
         if (propertySensors != null) {
-            IntMap<ObjectSet<PropertySensor>> map = propertySensors.sensors;
-            for (int i = 0; i < map.size; ++i) {
-                for (PropertySensor sensor : map.get(i)) {
+            IntMap.Values<ObjectSet<PropertySensor>> values = propertySensors.sensors.values();
+            while (values.hasNext()) {
+                for (PropertySensor sensor : values.next()) {
                     if (sensor.evaluationType.equals(PropertySensor.EvaluationType.CHANGED))
                         MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.property + "_Changed"));
                 }
-
             }
         }
     }

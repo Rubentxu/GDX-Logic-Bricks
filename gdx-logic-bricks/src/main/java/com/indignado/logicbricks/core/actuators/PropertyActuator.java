@@ -12,6 +12,18 @@ public class PropertyActuator<T> extends Actuator {
 
     public Mode mode;
 
+
+    @Override
+    public void reset() {
+        super.reset();
+        target = null;
+        property = null;
+        value = null;
+        mode = null;
+
+    }
+
+
     public enum Mode {Assign, Add, Toggle, Copy}
 
 }

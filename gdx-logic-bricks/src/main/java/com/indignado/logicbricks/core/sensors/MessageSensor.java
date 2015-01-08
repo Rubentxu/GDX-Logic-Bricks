@@ -23,4 +23,13 @@ public class MessageSensor extends Sensor implements Telegraph {
 
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        subject = null;
+        autoRegister = true;
+        message = null;
+        managedMessage = false;
+
+    }
 }

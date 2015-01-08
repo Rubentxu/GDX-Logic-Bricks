@@ -45,6 +45,10 @@ public class RenderingSystem extends IteratingSystem {
     private Box2DDebugRenderer debugRenderer;
     //private BitmapFont debugFont;
 
+    public RenderingSystem(com.indignado.logicbricks.core.World world) {
+        this(world.getBatch(),world.getCamera(),world.getPhysics());
+
+    }
 
     public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, World physics) {
         super(Family.all(ViewsComponent.class).get(), 5);
@@ -96,7 +100,10 @@ public class RenderingSystem extends IteratingSystem {
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
                 effect.setPosition(view.position.x, view.position.y);
                 effect.update(deltaTime);
-                effect.start();
+                if(((ParticleEffectView) view).autoStart) {
+                    effect.start();
+                    ((ParticleEffectView) view).autoStart = false;
+                }
                 effect.draw(batch);
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {

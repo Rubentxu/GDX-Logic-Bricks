@@ -38,10 +38,10 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         ObjectSet<C> controllers = (ObjectSet<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {
             for (C controller : controllers) {
+                controller.pulseState = LogicBrick.BrickMode.BM_OFF;
                 for (Sensor sensor : controller.sensors.values()) {
-                    Log.debug(tag, "Controller %s Sensor %s pulseState %s isActive %b", controller.name, sensor.name,
-                            sensor.pulseState, sensor.positive);
                     if(sensor.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
+                        //Log.debug(tag, "Sensor %s pulseState %s isPositive %b",sensor.name, sensor.pulseState, sensor.positive);
                         controller.pulseState = BrickMode.BM_IDLE;
                     } else {
                         controller.pulseState = LogicBrick.BrickMode.BM_OFF;
@@ -50,6 +50,8 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
                 }
                 if (controller.pulseState.equals(BrickMode.BM_IDLE)) {
                     processController(controller);
+                    if(controller.pulseState.equals(BrickMode.BM_ON))
+                        Log.debug(tag, "Controller %s pulseState %s", controller.name, controller.pulseState);
                 }
             }
         }

@@ -10,4 +10,11 @@ import com.indignado.logicbricks.core.controllers.Controller;
 public class Actuator extends LogicBrick {
     public Array<Controller> controllers = new Array<Controller>();
 
+    @Override
+    public void reset() {
+        super.reset();
+        controllers.clear();
+
+    }
+
 }

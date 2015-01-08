@@ -22,22 +22,25 @@ import static org.junit.Assert.*;
 public class SensorSystemTest {
     LogicBricksEngine engine;
     private String stateTest;
+    private String stateTest2;
     private boolean isActive = false;
     private SensorSystem sensorSystem;
     private Entity player;
     private TestSensor sensor;
-
+    private StateComponent stateComponent;
 
     @Before
     public void setup() {
         engine = new LogicBricksEngine();
         this.stateTest = "StatePruebas";
+        this.stateTest2 = "StatePruebas2";
         sensorSystem = new TestSensorSystem();
         engine.addSystem(sensorSystem);
         engine.addSystem(new StateSystem(null));
         player = engine.createEntity();
-        StateComponent stateComponent = new StateComponent();
+        stateComponent = new StateComponent();
         stateComponent.changeCurrentState(stateComponent.createState(stateTest));
+        stateComponent.createState(stateTest2);
         player.add(stateComponent);
         RigidBodiesComponents rigidBodiesComponents = new RigidBodiesComponents();
         player.add(rigidBodiesComponents);
@@ -47,7 +50,8 @@ public class SensorSystemTest {
         TestSensorComponent testSensorComponent = new TestSensorComponent();
         ObjectSet<TestSensor> sensorsStateTest = new ObjectSet<TestSensor>();
         sensorsStateTest.add(sensor);
-        testSensorComponent.sensors.put(stateComponent.getCurrentState(), sensorsStateTest);
+        testSensorComponent.sensors.put(stateComponent.getState(stateTest), sensorsStateTest);
+        testSensorComponent.sensors.put(stateComponent.getState(stateTest2), sensorsStateTest);
         player.add(testSensorComponent);
 
     }
@@ -653,6 +657,68 @@ public class SensorSystemTest {
         engine.update(1);
         assertEquals(BrickMode.BM_OFF, sensor.pulseState);
         assertFalse(sensor.positive);
+
+    }
+
+
+    @Test
+    public void pulseChangeStateTest() {
+        isActive = false;
+        sensor.frequency = 0;
+        sensor.pulse = (Pulse.PM_TRUE.getValue() | Pulse.PM_FALSE.getValue());
+        engine.addEntity(player);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
+        isActive = true;
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        stateComponent.changeCurrentState(stateComponent.getState(stateTest2));
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertTrue(sensor.positive);
+
+        isActive = false;
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
+        engine.update(1);
+        assertEquals(BrickMode.BM_ON, sensor.pulseState);
+        assertFalse(sensor.positive);
+
 
     }
 

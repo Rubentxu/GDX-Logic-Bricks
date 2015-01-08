@@ -38,6 +38,7 @@ public class World implements Disposable {
     private final BodyBuilder bodyBuilder;
     // Systems
     private final ViewPositionSystem viewPositionSystem;
+    private final SpriteBatch batch;
     private String tag = this.getClass().getSimpleName();
     private LogicBricksEngine engine;
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
@@ -52,6 +53,7 @@ public class World implements Disposable {
         this.assetManager = assetManager;
         this.camera = camera;
         this.engine = new LogicBricksEngine();
+        this.batch = batch;
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         viewPositionSystem = new ViewPositionSystem();
         engine.addSystem(viewPositionSystem);
@@ -242,4 +244,7 @@ public class World implements Disposable {
 
     }
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 }

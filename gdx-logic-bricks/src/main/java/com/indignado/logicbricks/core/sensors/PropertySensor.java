@@ -23,6 +23,19 @@ public class PropertySensor<T> extends Sensor implements Telegraph {
         return true;
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        property = null;
+        value = null;
+        evaluationType = null;
+        min = null;
+        max = null;
+        isChanged = false;
+
+    }
+
+
     public enum EvaluationType {CHANGED, INTERVAL, NOT_EQUAL, EQUAL, GREATER_THAN, LESS_THAN}
 
 }

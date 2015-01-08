@@ -16,6 +16,20 @@ public class InstanceEntityActuator<T extends Entity> extends Actuator {
     public float duration = 0; // 0 = lives forever
     public Type type;
 
+
+    @Override
+    public void reset() {
+        super.reset();
+        entityFactory = null;
+        localPosition = null;
+        angle = 0;
+        initialVelocity = null;
+        initialAngularVelocity = 0;
+        duration = 0;
+        type = null;
+
+    }
+
     public enum Type {AddEntity, RemoveEntity}
 
 }
