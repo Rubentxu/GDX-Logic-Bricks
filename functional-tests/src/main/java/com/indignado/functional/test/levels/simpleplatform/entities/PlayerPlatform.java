@@ -241,7 +241,7 @@ public class PlayerPlatform extends EntityFactory {
         /* State Jump/Fall to Change State Idle ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
         DelaySensor delaySensorContactGround = BricksUtils.getBuilder(DelaySensorBuilder.class)
-                .setDelay(1f)
+                .setDelay(0.4f)
                 .setDuration(3f)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .getBrick();
@@ -275,7 +275,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         EditRigidBodyActuator editRigidBodyActuatorIdle = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
-                .setFriction(10)
+                .setFriction(100)
                 .setTargetRigidBody(bodyPlayer)
                 .setName("editRigidBodyActuatorIdle")
                 .getBrick();
@@ -285,9 +285,15 @@ public class PlayerPlatform extends EntityFactory {
                 .setActive(false)
                 .getBrick();
 
+        MotionActuator motionActuatorIdle = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                .setVelocity(new Vector2(0, 0))
+                .setLimitVelocityX(7)
+                .setName("motionActuatorWalkingRight")
+                .getBrick();
+
         entityBuilder.addController(controllerIdle, "Idle")
                 .connectToSensor(alwaysSensorIdle)
-                .connectToActuators(editRigidBodyActuatorIdle,pauseIdleEffectActuator);
+                .connectToActuators(editRigidBodyActuatorIdle,pauseIdleEffectActuator,motionActuatorIdle);
 
 
          /* State Walking ----------------------------------------------------------------
@@ -388,8 +394,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         MotionActuator motionActuatorJump = BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                .setImpulse(new Vector2(0, 7))
-                .setLimitVelocityX(7)
+                .setImpulse(new Vector2(0,8))
                 .setName("motionActuatorJump")
                 .getBrick();
 
