@@ -7,7 +7,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.sensors.KeyboardSensorComponent;
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.utils.Log;
 
@@ -55,7 +54,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
             ks.keysCodeSignal.add(new Integer(keycode));
 
         }
-        Log.debug(tag, "keyDown %d",keycode);
+        Log.debug(tag, "keyDown %d", keycode);
         return false;
 
     }
@@ -67,7 +66,7 @@ public class KeyboardSensorSystem extends SensorSystem<KeyboardSensor, KeyboardS
             ks.keysCodeSignal.remove(new Integer(keycode));
 
         }
-        Log.debug(tag, "keyUp %d size %d",keycode,keyboardSensors.first().keysCodeSignal.size);
+        Log.debug(tag, "keyUp %d size %d", keycode, keyboardSensors.first().keysCodeSignal.size);
         return false;
 
     }

@@ -16,7 +16,7 @@ public class LogicBricksException extends RuntimeException {
 
     public LogicBricksException(Throwable cause) {
         super(cause);
-        Log.error("LogicBricksException", cause.getMessage(),cause);
+        Log.error("LogicBricksException", cause.getMessage(), cause);
 
     }
 

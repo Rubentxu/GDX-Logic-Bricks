@@ -28,7 +28,7 @@ public class DelaySensorBuilder extends SensorBuilder<DelaySensor> {
 
 
     public DelaySensorBuilder setRepeat(boolean repeat) {
-        brick.repeat =  repeat;
+        brick.repeat = repeat;
         return this;
 
     }

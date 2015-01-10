@@ -1,22 +1,22 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
-import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.RadarSensor;
 
 /**
  * @author Rubentxu.
  */
-public class RadarSensorBuilder extends SensorBuilder<AlwaysSensor> {
+public class RadarSensorBuilder extends SensorBuilder<RadarSensor> {
 
     public RadarSensorBuilder() {
-        brick = new AlwaysSensor();
+        brick = new RadarSensor();
 
     }
 
 
     @Override
-    public AlwaysSensor getBrick() {
-        AlwaysSensor brickTemp = brick;
-        brick = new AlwaysSensor();
+    public RadarSensor getBrick() {
+        RadarSensor brickTemp = brick;
+        brick = new RadarSensor();
         return brickTemp;
 
     }

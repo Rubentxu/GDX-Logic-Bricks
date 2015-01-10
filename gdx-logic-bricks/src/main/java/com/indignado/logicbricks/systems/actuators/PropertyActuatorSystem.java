@@ -1,13 +1,9 @@
 package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
 import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
 import com.indignado.logicbricks.utils.Log;
 

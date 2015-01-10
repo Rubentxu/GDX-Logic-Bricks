@@ -11,14 +11,13 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.CategoryBitsManager;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.core.sensors.RadarSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.RadarSensorBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -90,7 +89,7 @@ public class RadarSensorSystemTest extends BaseSensorSystemTest<RadarSensor, Rad
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
         sensor = BricksUtils.getBuilder(RadarSensorBuilder.class)
-                .setTargetName("Ground")
+                //.setTargetName("Ground")
                 .setName("sensorPlayer")
                 .getBrick();
 
@@ -185,7 +184,7 @@ public class RadarSensorSystemTest extends BaseSensorSystemTest<RadarSensor, Rad
         System.out.println("Body position3: " + bodyPlayer.getPosition());
 
         System.out.println("Body position4: " + bodyPlayer.getPosition());
-        assertEquals(0,sensor.contactList.size);
+        assertEquals(0, sensor.contactList.size);
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 

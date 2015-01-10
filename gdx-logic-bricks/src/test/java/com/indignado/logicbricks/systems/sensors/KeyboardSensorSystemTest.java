@@ -113,7 +113,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     }
 
 
-
     @Test
     public void keyDownPulseModeTrueAndFalseTest() {
         sensor.pulse = Sensor.Pulse.PM_TRUE.getValue() | Sensor.Pulse.PM_FALSE.getValue();
@@ -145,7 +144,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         assertFalse(sensor.positive);
 
     }
-
 
 
     @Test

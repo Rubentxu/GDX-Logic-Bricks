@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -12,10 +11,7 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
-import com.indignado.logicbricks.components.sensors.RadarSensorComponent;
-import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
-import com.indignado.logicbricks.core.sensors.RadarSensor;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -44,7 +40,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     public boolean query(CollisionSensor sensor, float deltaTime) {
         for (Contact contact : sensor.contactList) {
             Log.debug(tag, "sensor contact %b", contact.isTouching());
-            if(contact.isTouching()) return true;
+            if (contact.isTouching()) return true;
         }
         return false;
 
@@ -61,7 +57,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
         Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-        if(collisionSensors.size > 0) {
+        if (collisionSensors.size > 0) {
             processContactCollisionSensors(entityA, contact, true);
             processContactCollisionSensors(entityB, contact, true);
 
@@ -81,7 +77,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
         Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-        if(collisionSensors.size > 0) {
+        if (collisionSensors.size > 0) {
             processContactCollisionSensors(entityA, contact, false);
             processContactCollisionSensors(entityB, contact, false);
 
@@ -113,7 +109,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
         IdentityComponent identityA = entity.getComponent(IdentityComponent.class);
         for (CollisionSensor sensor : collisionSensors) {
             if (identityA.tag.equals(sensor.targetTag)) {
-                if(addMode) sensor.contactList.add(contact);
+                if (addMode) sensor.contactList.add(contact);
                 else sensor.contactList.remove(contact);
             }
         }
@@ -124,7 +120,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     @Override
     public void entityAdded(Entity entity) {
         Log.debug(tag, "EntityAdded add collisionSensors");
-        sensorsHandler(entity,true);
+        sensorsHandler(entity, true);
 
     }
 
@@ -132,7 +128,7 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
     @Override
     public void entityRemoved(Entity entity) {
         Log.debug(tag, "EntityAdded remove collisionSensors");
-        sensorsHandler(entity,false);
+        sensorsHandler(entity, false);
 
     }
 

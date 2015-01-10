@@ -12,7 +12,6 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.sensors.RadarSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
-import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.sensors.RadarSensor;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;

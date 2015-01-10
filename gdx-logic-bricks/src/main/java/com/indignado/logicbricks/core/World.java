@@ -253,7 +253,7 @@ public class World implements Disposable, ContactListener {
     @Override
     public void beginContact(Contact contact) {
         CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if(css != null) {
+        if (css != null) {
             css.beginContact(contact);
         }
 
@@ -263,7 +263,7 @@ public class World implements Disposable, ContactListener {
     @Override
     public void endContact(Contact contact) {
         CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if(css != null) {
+        if (css != null) {
             css.endContact(contact);
         }
 
@@ -273,8 +273,8 @@ public class World implements Disposable, ContactListener {
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
         CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if(css != null) {
-            css.preSolve(contact,oldManifold);
+        if (css != null) {
+            css.preSolve(contact, oldManifold);
         }
 
     }
@@ -283,8 +283,8 @@ public class World implements Disposable, ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
         CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if(css != null) {
-            css.postSolve(contact,impulse);
+        if (css != null) {
+            css.postSolve(contact, impulse);
         }
 
     }

@@ -1,6 +1,5 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.components.actuators.MessageActuatorComponent;
 import com.indignado.logicbricks.core.MessageManager;

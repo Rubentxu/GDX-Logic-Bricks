@@ -46,7 +46,7 @@ public class RenderingSystem extends IteratingSystem {
     //private BitmapFont debugFont;
 
     public RenderingSystem(com.indignado.logicbricks.core.World world) {
-        this(world.getBatch(),world.getCamera(),world.getPhysics());
+        this(world.getBatch(), world.getCamera(), world.getPhysics());
 
     }
 
@@ -100,7 +100,7 @@ public class RenderingSystem extends IteratingSystem {
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
                 effect.setPosition(view.position.x, view.position.y);
                 effect.update(deltaTime);
-                if(((ParticleEffectView) view).autoStart) {
+                if (((ParticleEffectView) view).autoStart) {
                     effect.start();
                     ((ParticleEffectView) view).autoStart = false;
                 }

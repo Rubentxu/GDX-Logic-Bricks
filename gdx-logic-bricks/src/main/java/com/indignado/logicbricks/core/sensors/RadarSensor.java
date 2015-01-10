@@ -9,18 +9,14 @@ import com.badlogic.gdx.utils.ObjectSet;
  */
 public class RadarSensor extends Sensor {
 
-    public enum Axis { Xpositive, Xnegative, Ypositive, Ynegative }
-
     // Config Values
     public String targetTag;
     public String propertyName;
     public Axis axis;
     public float angle = 0;
     public float distance = 0;
-
     // Signal Values
     public ObjectSet<Contact> contactList = new ObjectSet<Contact>();
-
 
     @Override
     public void reset() {
@@ -33,5 +29,8 @@ public class RadarSensor extends Sensor {
         contactList.clear();
 
     }
+
+
+    public enum Axis {Xpositive, Xnegative, Ypositive, Ynegative}
 
 }

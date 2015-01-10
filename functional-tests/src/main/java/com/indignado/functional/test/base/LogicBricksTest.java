@@ -39,7 +39,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.debugTags.add("StateComponent");
         Settings.debugTags.add("EffectActuatorSystem");
         //Settings.debugTags.add("DelaySensorSystem");
-       // Settings.debugTags.add("MotionActuatorSystem");
+        // Settings.debugTags.add("MotionActuatorSystem");
         //Settings.debugTags.add("EntityBuilder");
 
         batch = new SpriteBatch();

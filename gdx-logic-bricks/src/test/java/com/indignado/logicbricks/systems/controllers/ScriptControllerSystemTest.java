@@ -1,30 +1,22 @@
 package com.indignado.logicbricks.systems.controllers;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Script;
-import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.Actuator;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.systems.StateSystem;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
-import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**

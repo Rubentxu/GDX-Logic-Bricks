@@ -22,11 +22,11 @@ public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectA
     public void processActuator(EffectActuator actuator, float deltaTime) {
         ParticleEffectView view = actuator.effectView;
         ParticleEffect effect = view.effect;
-        if (actuator.active){
-            Log.debug(tag,"Effect reset");
+        if (actuator.active) {
+            Log.debug(tag, "Effect reset");
             effect.reset();
         } else {
-            Log.debug(tag,"Effect allowCompletion");
+            Log.debug(tag, "Effect allowCompletion");
             effect.allowCompletion();
         }
 

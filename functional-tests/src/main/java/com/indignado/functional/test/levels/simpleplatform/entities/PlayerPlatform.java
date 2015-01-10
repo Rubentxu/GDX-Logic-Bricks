@@ -2,7 +2,6 @@ package com.indignado.functional.test.levels.simpleplatform.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -206,7 +205,7 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("controllerChangeStateWalking")
                 .getBrick();
 
-        StateActuator stateActuatorWalking =  BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorWalking = BricksUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Walking"))
                 .setName("stateActuatorWalking")
                 .getBrick();
@@ -251,14 +250,14 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("controllerGround2")
                 .getBrick();
 
-        StateActuator stateActuatorIdle2 =  BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorIdle2 = BricksUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Idle"))
                 .setName("stateActuatorIdle2")
                 .getBrick();
 
 
-        entityBuilder.addController(controllerGround2, "Jump","Fall")
-                .connectToSensors(collisionSensorGround,delaySensorContactGround)
+        entityBuilder.addController(controllerGround2, "Jump", "Fall")
+                .connectToSensors(collisionSensorGround, delaySensorContactGround)
                 .connectToActuator(stateActuatorIdle2);
 
         /* State Idle ----------------------------------------------------------------
@@ -293,7 +292,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerIdle, "Idle")
                 .connectToSensor(alwaysSensorIdle)
-                .connectToActuators(editRigidBodyActuatorIdle,pauseIdleEffectActuator,motionActuatorIdle);
+                .connectToActuators(editRigidBodyActuatorIdle, pauseIdleEffectActuator, motionActuatorIdle);
 
 
          /* State Walking ----------------------------------------------------------------
@@ -322,7 +321,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerWalking, "Walking")
                 .connectToSensor(alwaysSensorWalking)
-                .connectToActuators(editRigidBodyActuatorWalking,activeEffectActuator);
+                .connectToActuators(editRigidBodyActuatorWalking, activeEffectActuator);
 
         //  ** Walking Right **
         KeyboardSensor keyboardSensorImpulseRight = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
@@ -394,7 +393,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         MotionActuator motionActuatorJump = BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                .setImpulse(new Vector2(0,8))
+                .setImpulse(new Vector2(0, 8))
                 .setName("motionActuatorJump")
                 .getBrick();
 
@@ -405,7 +404,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerImpulseJump, "Jump")
                 .connectToSensor(alwaysSensorImpulseJump)
-                .connectToActuators(motionActuatorJump,pauseJumpEffectActuator);
+                .connectToActuators(motionActuatorJump, pauseJumpEffectActuator);
 
         return entityBuilder.getEntity();
 
