@@ -1,44 +1,40 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
+import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.sensors.RadarSensorComponent;
-import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.sensors.RadarSensor;
 import com.indignado.logicbricks.utils.Log;
+import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 /**
  * @author Rubentxu
  */
 public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComponent> implements ContactListener, EntityListener {
-    private final ObjectSet<RadarSensor> radarSensorsTargetProperty;
-    private final ObjectSet<RadarSensor> radarSensorsTargetTag;
-
+    private final ObjectSet<RadarSensor> radarSensors;
 
     public RadarSensorSystem() {
         super(RadarSensorComponent.class);
-        radarSensorsTargetProperty = new ObjectSet<RadarSensor>();
-        radarSensorsTargetTag = new ObjectSet<RadarSensor>();
+        radarSensors = new ObjectSet<RadarSensor>();
 
     }
-
 
 
     @Override
     public boolean query(RadarSensor sensor, float deltaTime) {
         for (Contact contact : sensor.contactList) {
             Log.debug(tag, "sensor contact %b", contact.isTouching());
-            if(contact.isTouching()) return true;
+            if (contact.isTouching()) return true;
         }
         return false;
 
@@ -50,17 +46,8 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
         Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
         Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-        if(radarSensorsTargetProperty.size > 0) {
-           processRadarSensorsTargetProperty(entityA,contact,true);
-           processRadarSensorsTargetProperty(entityB,contact,true);
-
-        }
-
-        if(radarSensorsTargetTag.size > 0) {
-            processRadarSensorsTargetTag(entityA,contact,true);
-            processRadarSensorsTargetTag(entityB,contact,true);
-
-        }
+        processRadarSensors(entityA, contact, true);
+        processRadarSensors(entityB, contact, true);
 
     }
 
@@ -70,17 +57,8 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
         Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
         Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
 
-        if(radarSensorsTargetProperty.size > 0) {
-            processRadarSensorsTargetProperty(entityA,contact,false);
-            processRadarSensorsTargetProperty(entityB,contact,false);
-
-        }
-
-        if(radarSensorsTargetTag.size > 0) {
-            processRadarSensorsTargetTag(entityA,contact,false);
-            processRadarSensorsTargetTag(entityB,contact,false);
-
-        }
+        processRadarSensors(entityA, contact, false);
+        processRadarSensors(entityB, contact, false);
 
     }
 
@@ -97,30 +75,22 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     }
 
 
-    private void processRadarSensorsTargetProperty(Entity entity,Contact contact, boolean addMode) {
+    private void processRadarSensors(Entity entity, Contact contact, boolean addMode) {
         BlackBoardComponent blackBoard = entity.getComponent(BlackBoardComponent.class);
-        if(blackBoard != null) {
-            for (RadarSensor radarSensor : radarSensorsTargetProperty) {
-                if(blackBoard.hasProperty(radarSensor.propertyName)) {
-                    if(addMode) radarSensor.contactList.add(contact);
-                    else radarSensor.contactList.remove(contact);
+        IdentityComponent identityA = entity.getComponent(IdentityComponent.class);
 
-                }
+        for (RadarSensor radarSensor : radarSensors) {
+            if (blackBoard != null && radarSensor.propertyName != null && blackBoard.hasProperty(radarSensor.propertyName)) {
+                if (addMode) radarSensor.contactList.add(contact);
+                else radarSensor.contactList.remove(contact);
 
             }
-        }
-
-    }
-
-
-    private void processRadarSensorsTargetTag(Entity entity, Contact contact, boolean addMode) {
-        IdentityComponent identityA = entity.getComponent(IdentityComponent.class);
-        for (RadarSensor radarSensor : radarSensorsTargetTag) {
-            if (identityA.tag.equals(radarSensor.targetTag)) {
-                if(addMode) radarSensor.contactList.add(contact);
+            if (radarSensor.targetTag != null && identityA.tag.equals(radarSensor.targetTag)) {
+                if (addMode) radarSensor.contactList.add(contact);
                 else radarSensor.contactList.remove(contact);
             }
         }
+
 
     }
 
@@ -128,7 +98,8 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     @Override
     public void entityAdded(Entity entity) {
         Log.debug(tag, "EntityAdded add radarSensors");
-        sensorsHandler(entity,true);
+        sensorsHandler(entity, true);
+        createRadar(entity);
 
     }
 
@@ -136,24 +107,43 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     @Override
     public void entityRemoved(Entity entity) {
         Log.debug(tag, "EntityRemove remove radarSensors");
-        sensorsHandler(entity,false);
+        sensorsHandler(entity, false);
 
     }
 
 
-    public void sensorsHandler(Entity entity, boolean addMode) {
+    private void createRadar(Entity entity) {
+        RigidBodiesComponents rigidBodiesComponent = entity.getComponent(RigidBodiesComponents.class);
+        if (rigidBodiesComponent == null)
+            throw new LogicBricksException(tag, "Failed to create radar sensor, there is no rigidBody");
+        Body body = rigidBodiesComponent.rigidBodies.first();
+        FixtureDefBuilder fixtureBuilder = new FixtureDefBuilder();
+        for (RadarSensor sensor : radarSensors) {
+            Vector2[] vertices = new Vector2[8];
+            for (int i = 0; i < 7; i++) {
+                float angle = (float) (i / 6.0 * sensor.angle * MathUtils.degreesToRadians);
+                vertices[i + 1].set(sensor.distance * MathUtils.cos(angle), sensor.distance * MathUtils.sin(angle));
+            }
+            FixtureDef radarFixture = fixtureBuilder
+                    .polygonShape(vertices)
+                    .sensor()
+                    .build();
+            body.createFixture(radarFixture);
+
+        }
+
+    }
+
+
+    private void sensorsHandler(Entity entity, boolean addMode) {
         RadarSensorComponent radarSensorComponent = entity.getComponent(RadarSensorComponent.class);
         if (radarSensorComponent != null) {
             IntMap.Values<ObjectSet<RadarSensor>> values = radarSensorComponent.sensors.values();
             while (values.hasNext()) {
                 for (RadarSensor sensor : values.next()) {
-                    if(sensor.targetTag != null) {
-                        if(addMode) radarSensorsTargetTag.add(sensor);
-                        else radarSensorsTargetTag.remove(sensor);
-                    }
-                    if(sensor.propertyName != null) {
-                        if(addMode) radarSensorsTargetProperty.add(sensor);
-                        else radarSensorsTargetProperty.remove(sensor);
+                    if (sensor.targetTag != null || sensor.propertyName != null) {
+                        if (addMode) radarSensors.add(sensor);
+                        else radarSensors.remove(sensor);
                     }
                 }
             }
