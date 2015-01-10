@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -28,7 +28,7 @@ import java.util.Iterator;
 /**
  * @author Rubentxu.
  */
-public class World implements Disposable {
+public class World implements Disposable, ContactListener {
     private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
@@ -75,7 +75,7 @@ public class World implements Disposable {
         input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
         input.addProcessor(engine.getSystem(MouseSensorSystem.class));
         Gdx.input.setInputProcessor(input);
-        physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
+        physics.setContactListener(this);
 
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
@@ -244,7 +244,49 @@ public class World implements Disposable {
 
     }
 
+
     public SpriteBatch getBatch() {
         return batch;
     }
+
+
+    @Override
+    public void beginContact(Contact contact) {
+        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
+        if(css != null) {
+            css.beginContact(contact);
+        }
+
+    }
+
+
+    @Override
+    public void endContact(Contact contact) {
+        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
+        if(css != null) {
+            css.endContact(contact);
+        }
+
+    }
+
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
+        if(css != null) {
+            css.preSolve(contact,oldManifold);
+        }
+
+    }
+
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
+        if(css != null) {
+            css.postSolve(contact,impulse);
+        }
+
+    }
+
 }

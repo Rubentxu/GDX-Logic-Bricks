@@ -140,7 +140,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         physic.step(1, 8, 3);
         engine.update(1);
 
-        assertTrue(sensor.contact.isTouching());
+        assertTrue(sensor.contactList.first().isTouching());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
@@ -156,7 +156,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         physic.step(1, 8, 3);
         engine.update(1);
 
-        assertNull(sensor.contact);
+        assertEquals(0, sensor.contactList.size);
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -171,7 +171,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         physic.step(1, 8, 3);
         engine.update(1);
 
-        assertTrue(sensor.contact.isTouching());
+        assertTrue(sensor.contactList.first().isTouching());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
@@ -184,7 +184,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         System.out.println("Body position3: " + bodyPlayer.getPosition());
 
         System.out.println("Body position4: " + bodyPlayer.getPosition());
-        assertFalse(sensor.contact.isTouching());
+        assertEquals(0,sensor.contactList.size);
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
