@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
@@ -92,8 +91,10 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
 
-        }
-        if (radarSensor.targetTag != null && identity.tag.equals(radarSensor.targetTag)) {
+        } else if (radarSensor.targetTag != null && identity.tag.equals(radarSensor.targetTag)) {
+            if (addMode) radarSensor.contactList.add(contact);
+            else radarSensor.contactList.remove(contact);
+        } else if (radarSensor.targetTag == null && radarSensor.propertyName == null){
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
         }
@@ -132,11 +133,12 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
         vertices[0] = new Vector2();
 
         for (RadarSensor sensor : radarSensors) {
-            if(sensor.angle > 180) throw new LogicBricksException(tag,"The angle of the radar can not be greater than 180");
+            if (sensor.angle > 180)
+                throw new LogicBricksException(tag, "The angle of the radar can not be greater than 180");
             for (int i = 0; i < 7; i++) {
-                float angle = (float) (i / 6.0 * sensor.angle) - (sensor.angle/2) + (sensor.axis.ordinal() * 90);
+                float angle = (float) (i / 6.0 * sensor.angle) - (sensor.angle / 2) + (sensor.axis.ordinal() * 90);
 
-                vertices[i+1] = new Vector2(sensor.distance * MathUtils.cosDeg(angle), sensor.distance * MathUtils.sinDeg(angle));
+                vertices[i + 1] = new Vector2(sensor.distance * MathUtils.cosDeg(angle), sensor.distance * MathUtils.sinDeg(angle));
             }
             FixtureDef radarFixture = fixtureBuilder
                     .polygonShape(vertices)
@@ -156,10 +158,8 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
             IntMap.Values<ObjectSet<RadarSensor>> values = radarSensorComponent.sensors.values();
             while (values.hasNext()) {
                 for (RadarSensor sensor : values.next()) {
-                    if (sensor.targetTag != null || sensor.propertyName != null) {
-                        radarSensors.add(sensor);
+                    radarSensors.add(sensor);
 
-                    }
                 }
             }
         }
