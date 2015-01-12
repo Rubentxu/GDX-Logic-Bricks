@@ -105,12 +105,13 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     @Override
     public void entityAdded(Entity entity) {
         Log.debug(tag, "EntityAdded add radarSensors");
-        Array<RadarSensor> radarSensors = filterRadarSensors(entity);
+        ObjectSet<RadarSensor> radarSensors = filterRadarSensors(entity);
         if (radarSensors.size > 0) {
             RigidBodiesComponents rigidBodiesComponent = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodiesComponent == null)
                 throw new LogicBricksException(tag, "Failed to create radar sensor, there is no rigidBody");
             Body body = rigidBodiesComponent.rigidBodies.first();
+            Log.debug(tag, "Create Radar");
             createRadar(body, radarSensors);
 
         }
@@ -124,27 +125,32 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     }
 
 
-    private void createRadar(Body body, Array<RadarSensor> radarSensors) {
+    private void createRadar(Body body, ObjectSet<RadarSensor> radarSensors) {
         FixtureDefBuilder fixtureBuilder = new FixtureDefBuilder();
 
         Vector2[] vertices = new Vector2[8];
+        vertices[0] = new Vector2();
+
         for (RadarSensor sensor : radarSensors) {
+            if(sensor.angle > 180) throw new LogicBricksException(tag,"The angle of the radar can not be greater than 180");
             for (int i = 0; i < 7; i++) {
-                float angle = (float) (i / 6.0 * sensor.angle * MathUtils.degreesToRadians);
-                vertices[i + 1].set(sensor.distance * MathUtils.cos(angle), sensor.distance * MathUtils.sin(angle));
+                float angle = (float) (i / 6.0 * sensor.angle) - (sensor.angle/2) + (sensor.axis.ordinal() * 90);
+
+                vertices[i+1] = new Vector2(sensor.distance * MathUtils.cosDeg(angle), sensor.distance * MathUtils.sinDeg(angle));
             }
             FixtureDef radarFixture = fixtureBuilder
                     .polygonShape(vertices)
                     .sensor()
                     .build();
             body.createFixture(radarFixture).setUserData(sensor);
+            Log.debug(tag, "Create Fixture sensorRadar");
         }
 
     }
 
 
-    private Array<RadarSensor> filterRadarSensors(Entity entity) {
-        Array<RadarSensor> radarSensors = new Array<RadarSensor>();
+    private ObjectSet<RadarSensor> filterRadarSensors(Entity entity) {
+        ObjectSet<RadarSensor> radarSensors = new ObjectSet<RadarSensor>();
         RadarSensorComponent radarSensorComponent = entity.getComponent(RadarSensorComponent.class);
         if (radarSensorComponent != null) {
             IntMap.Values<ObjectSet<RadarSensor>> values = radarSensorComponent.sensors.values();

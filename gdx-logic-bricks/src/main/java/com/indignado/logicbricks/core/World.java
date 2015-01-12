@@ -65,6 +65,8 @@ public class World implements Disposable, ContactListener {
         engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
         engine.addSystem(new CollisionSensorSystem());
         engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
+        engine.addSystem(new RadarSensorSystem());
+        engine.addEntityListener(engine.getSystem(RadarSensorSystem.class));
         engine.addSystem(new MessageSensorSystem());
         engine.addEntityListener(engine.getSystem(MessageSensorSystem.class));
         engine.addSystem(new InstanceEntityActuatorSystem(this));

@@ -24,10 +24,7 @@ import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.*;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.*;
 
 /**
  * @author Rubentxu.
@@ -138,6 +135,22 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToSensor(alwaysSensorCamera)
                 .connectToActuator(cameraActuator);
 
+        RadarSensor radarSensor = BricksUtils.getBuilder(RadarSensorBuilder.class)
+                .setTargetTag("test")
+                .setAngle(33)
+                .setAxis(RadarSensor.Axis.Xpositive)
+                .setDistance(4)
+                .setName("sensorPlayer")
+                .getBrick();
+
+        ConditionalController controllerRadar = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setOp(ConditionalController.Op.OP_AND)
+                .setName("controllerCamera")
+                .getBrick();
+
+        entityBuilder.addController(controllerRadar, "Idle", "Walking", "Jump", "Fall")
+                .connectToSensor(radarSensor)
+                .connectToActuator(cameraActuator);
 
         // Collision Sensor ----------------------------------------------------------------
         CollisionSensor collisionSensorGround = BricksUtils.getBuilder(CollisionSensorBuilder.class)

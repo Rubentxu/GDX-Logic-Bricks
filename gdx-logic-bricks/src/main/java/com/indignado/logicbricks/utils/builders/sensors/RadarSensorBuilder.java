@@ -13,6 +13,41 @@ public class RadarSensorBuilder extends SensorBuilder<RadarSensor> {
     }
 
 
+    public RadarSensorBuilder setTargetTag(String tag) {
+        brick.targetTag = tag;
+        return this;
+
+    }
+
+
+    public RadarSensorBuilder setPropertyName(String name) {
+        brick.propertyName = name;
+        return this;
+
+    }
+
+
+    public RadarSensorBuilder setAxis(RadarSensor.Axis axis) {
+        brick.axis = axis;
+        return this;
+
+    }
+
+
+    public RadarSensorBuilder setAngle(float angle) {
+        brick.angle = angle;
+        return this;
+
+    }
+
+
+    public RadarSensorBuilder setDistance(float distance) {
+        brick.distance = distance;
+        return this;
+
+    }
+
+
     @Override
     public RadarSensor getBrick() {
         RadarSensor brickTemp = brick;

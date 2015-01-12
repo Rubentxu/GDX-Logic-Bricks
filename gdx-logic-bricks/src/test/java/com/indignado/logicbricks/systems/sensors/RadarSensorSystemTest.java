@@ -89,7 +89,9 @@ public class RadarSensorSystemTest extends BaseSensorSystemTest<RadarSensor, Rad
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
         sensor = BricksUtils.getBuilder(RadarSensorBuilder.class)
-                //.setTargetName("Ground")
+                .setAngle(45)
+                .setAxis(RadarSensor.Axis.Ypositive)
+                .setDistance(5)
                 .setName("sensorPlayer")
                 .getBrick();
 

@@ -15,6 +15,7 @@ public class RadarSensor extends Sensor {
     public Axis axis;
     public float angle = 0;
     public float distance = 0;
+
     // Signal Values
     public ObjectSet<Contact> contactList = new ObjectSet<Contact>();
 
@@ -31,6 +32,6 @@ public class RadarSensor extends Sensor {
     }
 
 
-    public enum Axis {Xpositive, Xnegative, Ypositive, Ynegative}
+    public enum Axis {Xpositive, Ypositive, Xnegative, Ynegative}
 
 }
