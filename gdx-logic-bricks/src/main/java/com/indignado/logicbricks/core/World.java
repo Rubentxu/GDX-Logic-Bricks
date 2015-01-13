@@ -60,23 +60,16 @@ public class World implements Disposable, ContactListener {
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem(this));
         engine.addSystem(new KeyboardSensorSystem());
-        engine.addEntityListener(engine.getSystem(KeyboardSensorSystem.class));
         engine.addSystem(new MouseSensorSystem(this));
-        engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
         engine.addSystem(new CollisionSensorSystem());
-        engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
         engine.addSystem(new RadarSensorSystem());
-        engine.addEntityListener(engine.getSystem(RadarSensorSystem.class));
+        engine.addSystem(new NearSensorSystem());
         engine.addSystem(new MessageSensorSystem());
-        engine.addEntityListener(engine.getSystem(MessageSensorSystem.class));
         engine.addSystem(new InstanceEntityActuatorSystem(this));
         engine.addSystem(new PropertySensorSystem());
-        engine.addEntityListener(engine.getSystem(PropertySensorSystem.class));
 
-        InputMultiplexer input = new InputMultiplexer();
-        input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
-        input.addProcessor(engine.getSystem(MouseSensorSystem.class));
-        Gdx.input.setInputProcessor(input);
+
+        Gdx.input.setInputProcessor(engine.getInputs());
         physics.setContactListener(this);
 
         entityBuilder = new EntityBuilder(engine);
@@ -254,9 +247,9 @@ public class World implements Disposable, ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if (css != null) {
-            css.beginContact(contact);
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.beginContact(contact);
+
         }
 
     }
@@ -264,9 +257,9 @@ public class World implements Disposable, ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if (css != null) {
-            css.endContact(contact);
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.endContact(contact);
+
         }
 
     }
@@ -274,9 +267,9 @@ public class World implements Disposable, ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if (css != null) {
-            css.preSolve(contact, oldManifold);
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.preSolve(contact, oldManifold);
+
         }
 
     }
@@ -284,9 +277,9 @@ public class World implements Disposable, ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        CollisionSensorSystem css = engine.getSystem(CollisionSensorSystem.class);
-        if (css != null) {
-            css.postSolve(contact, impulse);
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.postSolve(contact, impulse);
+
         }
 
     }

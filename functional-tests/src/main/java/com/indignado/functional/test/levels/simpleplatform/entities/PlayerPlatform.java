@@ -135,10 +135,8 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToSensor(alwaysSensorCamera)
                 .connectToActuator(cameraActuator);
 
-        RadarSensor radarSensor = BricksUtils.getBuilder(RadarSensorBuilder.class)
+        NearSensor nearSensor = BricksUtils.getBuilder(NearSensorBuilder.class)
                 .setTargetTag("test")
-                .setAngle(33)
-                .setAxis(RadarSensor.Axis.Xpositive)
                 .setDistance(4)
                 .setName("sensorPlayer")
                 .getBrick();
@@ -149,7 +147,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         entityBuilder.addController(controllerRadar, "Idle", "Walking", "Jump", "Fall")
-                .connectToSensor(radarSensor)
+                .connectToSensor(nearSensor)
                 .connectToActuator(cameraActuator);
 
         // Collision Sensor ----------------------------------------------------------------

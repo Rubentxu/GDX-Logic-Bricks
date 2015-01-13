@@ -145,7 +145,7 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
                     .sensor()
                     .build();
             body.createFixture(radarFixture).setUserData(sensor);
-            Log.debug(tag, "Create Fixture sensorRadar");
+            Log.debug(tag, "Create Fixture radarSensor");
         }
 
     }
