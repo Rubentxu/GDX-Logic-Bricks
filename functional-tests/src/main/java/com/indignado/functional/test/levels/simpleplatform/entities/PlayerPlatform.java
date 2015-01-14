@@ -147,8 +147,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         entityBuilder.addController(controllerRadar, "Idle", "Walking", "Jump", "Fall")
-                .connectToSensor(nearSensor)
-                .connectToActuator(cameraActuator);
+                .connectToSensor(nearSensor);
 
         // Collision Sensor ----------------------------------------------------------------
         CollisionSensor collisionSensorGround = BricksUtils.getBuilder(CollisionSensorBuilder.class)

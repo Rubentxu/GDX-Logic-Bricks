@@ -19,7 +19,9 @@ public class NearSensor extends Sensor {
     public Body attachedRigidBody;
 
     // Signal Values
-    public ObjectSet<Contact> contactList = new ObjectSet<Contact>();
+    public ObjectSet<Contact> distanceContactList = new ObjectSet<Contact>();
+    public ObjectSet<Contact> resetDistanceContactList = new ObjectSet<Contact>();
+    public boolean initContact = false;
 
 
     @Override
@@ -30,7 +32,9 @@ public class NearSensor extends Sensor {
         distance = 0;
         resetDistance = 0;
         attachedRigidBody = null;
-        contactList.clear();
+        distanceContactList.clear();
+        resetDistanceContactList.clear();
+        initContact = false;
 
     }
 

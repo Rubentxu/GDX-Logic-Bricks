@@ -31,7 +31,6 @@ public class MessageSensorSystemTest extends BaseSensorSystemTest<MessageSensor,
         super();
         sensorSystem = new MessageSensorSystem();
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
 
     }
 

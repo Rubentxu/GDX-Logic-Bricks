@@ -43,7 +43,6 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         super();
         sensorSystem = new CollisionSensorSystem();
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
         GdxNativesLoader.load();
         physic = new World(new Vector2(0, -9.81f), true);
         physic.setContactListener(sensorSystem);

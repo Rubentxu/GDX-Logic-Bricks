@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.*;
+import com.indignado.logicbricks.systems.actuators.CameraActuatorSystem;
 import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
 import com.indignado.logicbricks.systems.sensors.*;
 import com.indignado.logicbricks.utils.Log;
@@ -59,18 +60,9 @@ public class World implements Disposable, ContactListener {
         engine.addSystem(viewPositionSystem);
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem(this));
-        engine.addSystem(new KeyboardSensorSystem());
         engine.addSystem(new MouseSensorSystem(this));
-        engine.addSystem(new CollisionSensorSystem());
-        engine.addSystem(new RadarSensorSystem());
-        engine.addSystem(new NearSensorSystem());
-        engine.addSystem(new MessageSensorSystem());
         engine.addSystem(new InstanceEntityActuatorSystem(this));
-        engine.addSystem(new PropertySensorSystem());
-
-
-        Gdx.input.setInputProcessor(engine.getInputs());
-        physics.setContactListener(this);
+        engine.addSystem(new CollisionSensorSystem());
 
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
@@ -78,9 +70,12 @@ public class World implements Disposable, ContactListener {
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         this.categoryBitsManager = new CategoryBitsManager();
         engine.update(0);
-        Gdx.app.setLogLevel(Settings.debugLevel);
         currentTime = TimeUtils.millis() / 1000.0;
         accumulatorPhysics = 0.0;
+
+        Gdx.input.setInputProcessor(engine.getInputs());
+        physics.setContactListener(this);
+        Gdx.app.setLogLevel(Settings.debugLevel);
 
     }
 

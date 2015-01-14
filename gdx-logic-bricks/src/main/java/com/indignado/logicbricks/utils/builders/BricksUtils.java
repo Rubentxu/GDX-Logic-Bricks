@@ -46,9 +46,9 @@ public class BricksUtils {
         bricksClasses.put(ScriptController.class, new BricksClasses(ScriptControllerComponent.class, ScriptControllerSystem.class));
 
         bricksClasses.put(CameraActuator.class, new BricksClasses(CameraActuatorComponent.class, CameraActuatorSystem.class));
-        bricksClasses.put(InstanceEntityActuator.class, new BricksClasses(InstanceEntityActuatorComponent.class, InstanceEntityActuatorSystem.class));
         bricksClasses.put(EditRigidBodyActuator.class, new BricksClasses(EditRigidBodyActuatorComponent.class, EditRigidBodyActuatorSystem.class));
         bricksClasses.put(EffectActuator.class, new BricksClasses(EffectActuatorComponent.class, EffectActuatorSystem.class));
+        bricksClasses.put(InstanceEntityActuator.class, new BricksClasses(InstanceEntityActuatorComponent.class, InstanceEntityActuatorSystem.class));
         bricksClasses.put(MessageActuator.class, new BricksClasses(MessageActuatorComponent.class, MessageActuatorSystem.class));
         bricksClasses.put(MotionActuator.class, new BricksClasses(MotionActuatorComponent.class, MotionActuatorSystem.class));
         bricksClasses.put(PropertyActuator.class, new BricksClasses(PropertyActuatorComponent.class, PropertyActuatorSystem.class));

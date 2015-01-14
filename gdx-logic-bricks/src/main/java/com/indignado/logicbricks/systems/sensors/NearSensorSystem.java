@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.sensors.NearSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.sensors.NearSensor;
@@ -29,29 +30,38 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
 
     @Override
     public boolean query(NearSensor sensor, float deltaTime) {
-        for (Contact contact : sensor.contactList) {
-            Log.debug(tag, "sensor contact %b", contact.isTouching());
-            if (contact.isTouching()) return true;
+        boolean isActive = false;
+
+        if(sensor.distanceContactList.size > 0) {
+            isActive = true;
+            if(!sensor.initContact) sensor.initContact = true;
+
+        } else if(sensor.initContact && sensor.resetDistanceContactList.size > 0) {
+            isActive = true;
+
+        } else  if(sensor.initContact) {
+            sensor.initContact = false;
+
         }
-        return false;
+        return isActive;
 
     }
 
 
     @Override
     public void beginContact(Contact contact) {
-        Object sensorA = contact.getFixtureA().getUserData();
-        Object sensorB = contact.getFixtureB().getUserData();
+        Object propertyA = contact.getFixtureA().getUserData();
+        Object propertyB = contact.getFixtureB().getUserData();
+        Log.debug(tag, "Begin contact %b A %s B %s Apos %s Bpos %s", contact.isTouching(), propertyA, propertyB,
+                contact.getFixtureA().getBody().getPosition(), contact.getFixtureB().getBody().getPosition());
 
-        if (sensorA != null && sensorA instanceof NearSensor) {
+        if (propertyA != null && propertyA instanceof Property) {
             Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
-            Body bodyB = contact.getFixtureB().getBody();
-            processNearSensors(entityB, bodyB, contact, (NearSensor) sensorA, true);
+            processAddNearSensors(entityB, contact, (Property) propertyA);
 
-        } else if (sensorB != null && sensorB instanceof NearSensor) {
+        } else if (propertyB != null && propertyB instanceof Property) {
             Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
-            Body bodyA = contact.getFixtureA().getBody();
-            processNearSensors(entityA, bodyA, contact, (NearSensor) sensorB, true);
+            processAddNearSensors(entityA, contact, (Property) propertyB);
 
         }
 
@@ -60,18 +70,17 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
 
     @Override
     public void endContact(Contact contact) {
-        Object sensorA = contact.getFixtureA().getUserData();
-        Object sensorB = contact.getFixtureB().getUserData();
+        Log.debug(tag, "End contact sensor contact %b", contact.isTouching());
+        Object propertyA = contact.getFixtureA().getUserData();
+        Object propertyB = contact.getFixtureB().getUserData();
+        Log.debug(tag, "End contact %b A %s B %s Apos %s Bpos %s", contact.isTouching(), propertyA, propertyB,
+                contact.getFixtureA().getBody().getPosition(), contact.getFixtureB().getBody().getPosition());
 
-        if (sensorA != null && sensorA instanceof NearSensor) {
-            Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
-            Body bodyB = contact.getFixtureB().getBody();
-            processNearSensors(entityB, bodyB,contact, (NearSensor) sensorA, false);
+        if (propertyA != null && propertyA instanceof Property) {
+            processRemoveNearSensors(contact, (Property) propertyA);
 
-        } else if (sensorB != null && sensorB instanceof NearSensor) {
-            Entity entityA = (Entity) contact.getFixtureA().getBody().getUserData();
-            Body bodyA = contact.getFixtureA().getBody();
-            processNearSensors(entityA, bodyA, contact, (NearSensor) sensorB, false);
+        } else if (propertyB != null && propertyB instanceof Property) {
+            processRemoveNearSensors(contact, (Property) propertyB);
 
         }
 
@@ -90,26 +99,70 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
     }
 
 
-    private void processNearSensors(Entity entity, Body body, Contact contact, NearSensor nearSensor, boolean addMode) {
-        BlackBoardComponent blackBoard = entity.getComponent(BlackBoardComponent.class);
-        IdentityComponent identity = entity.getComponent(IdentityComponent.class);
+    private void processAddNearSensors(Entity entity, Contact contact, Property property) {
+        NearSensor nearSensor = (NearSensor) property.getValue();
 
-        if((body.getPosition().dst(nearSensor.attachedRigidBody.getPosition()) <= nearSensor.distance && addMode) ||
-                !addMode && nearSensor.contactList.contains(contact))
+        if (nearSensor.targetPropertyName != null ) {
+            BlackBoardComponent blackBoard = entity.getComponent(BlackBoardComponent.class);
+            if(blackBoard.hasProperty(nearSensor.targetPropertyName)) {
+                if (property.getName().equals("NearSensor")) {
+                    nearSensor.distanceContactList.add(contact);
+                } else if (property.getName().equals("ResetNearSensor")) {
+                    nearSensor.resetDistanceContactList.add(contact);
+                }
+                Log.debug(tag, "Add Contact targetPropertyName");
+            }
 
-        if (blackBoard != null && nearSensor.targetPropertyName != null && blackBoard.hasProperty(nearSensor.targetPropertyName)) {
-            if (addMode) nearSensor.contactList.add(contact);
-            else nearSensor.contactList.remove(contact);
+        } else if (nearSensor.targetTag != null) {
+            IdentityComponent identity = entity.getComponent(IdentityComponent.class);
+            if( identity.tag.equals(nearSensor.targetTag)) {
+                if (property.getName().equals("NearSensor")) {
+                    nearSensor.distanceContactList.add(contact);
+                } else if (property.getName().equals("ResetNearSensor")) {
+                    nearSensor.resetDistanceContactList.add(contact);
+                }
+                Log.debug(tag, "Add Contact targetTag");
+            }
 
-        } else if (nearSensor.targetTag != null && identity.tag.equals(nearSensor.targetTag)) {
-            if (addMode) nearSensor.contactList.add(contact);
-            else nearSensor.contactList.remove(contact);
 
-        } else if (nearSensor.targetTag == null && nearSensor.targetPropertyName == null){
-            if (addMode) nearSensor.contactList.add(contact);
-            else nearSensor.contactList.remove(contact);
+        } else if (nearSensor.targetTag == null && nearSensor.targetPropertyName == null) {
+            if (property.getName().equals("NearSensor")) {
+                nearSensor.distanceContactList.add(contact);
+            } else if (property.getName().equals("ResetNearSensor")) {
+                nearSensor.resetDistanceContactList.add(contact);
+            }
+            Log.debug(tag, "Add Contact");
+
         }
+        Log.debug(tag, "distanceContactList size %d resetDistanceContactList %d", nearSensor.distanceContactList.size,
+                nearSensor.resetDistanceContactList.size);
 
+
+    }
+
+
+    private void processRemoveNearSensors(Contact contact, Property property) {
+        NearSensor nearSensor = (NearSensor) property.getValue();
+
+        if (property.getName().equals("NearSensor") && nearSensor.distanceContactList.contains(contact)) {
+            nearSensor.distanceContactList.remove(contact);
+
+        } else if (property.getName().equals("ResetNearSensor") && nearSensor.resetDistanceContactList.contains(contact)) {
+            nearSensor.resetDistanceContactList.remove(contact);
+
+        }
+        Log.debug(tag, "Remove NearSensor distanceContactList size %d resetDistanceContactList %d", nearSensor.distanceContactList.size,
+                nearSensor.resetDistanceContactList.size);
+
+    }
+
+
+    private boolean inTheDistance(Body body, Contact contact, float distance) {
+        WorldManifold manifold = contact.getWorldManifold();
+        for (Vector2 point : manifold.getPoints()) {
+            if (body.getPosition().dst(point) <= distance) return true;
+        }
+        return false;
 
     }
 
@@ -142,14 +195,25 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
         for (NearSensor sensor : nearSensors) {
             if (sensor.distance == 0)
                 throw new LogicBricksException(tag, "nearSensor distance can not be zero");
-            if(sensor.attachedRigidBody == null) sensor.attachedRigidBody = rigidBodiesComponent.rigidBodies.first();
+            if (sensor.attachedRigidBody == null) sensor.attachedRigidBody = rigidBodiesComponent.rigidBodies.first();
 
             FixtureDef nearFixture = fixtureBuilder
-                    .circleShape((sensor.resetDistance == 0)? sensor.distance: sensor.resetDistance)
+                    .circleShape(sensor.distance)
                     .sensor()
                     .build();
-            sensor.attachedRigidBody.createFixture(nearFixture).setUserData(sensor);
+            sensor.attachedRigidBody.createFixture(nearFixture).setUserData(new Property<NearSensor>("NearSensor", sensor));
+            if (sensor.resetDistance != 0) {
+                if (sensor.resetDistance <= sensor.distance)
+                    throw new LogicBricksException(tag, "ResetDistance can not be less than or equal to the distance");
+
+                FixtureDef nearResetFixture = fixtureBuilder
+                        .circleShape(sensor.resetDistance)
+                        .sensor()
+                        .build();
+                sensor.attachedRigidBody.createFixture(nearResetFixture).setUserData(new Property<NearSensor>("ResetNearSensor", sensor));
+            }
             Log.debug(tag, "Create Fixture nearSensor");
+
         }
 
     }

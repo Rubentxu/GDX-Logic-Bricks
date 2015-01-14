@@ -25,7 +25,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         super();
         sensorSystem = new KeyboardSensorSystem();
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
 
     }
 

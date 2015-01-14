@@ -30,7 +30,6 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         super();
         sensorSystem = new PropertySensorSystem();
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
 
     }
 

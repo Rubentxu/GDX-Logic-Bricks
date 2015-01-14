@@ -43,6 +43,8 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     public void beginContact(Contact contact) {
         Object sensorA = contact.getFixtureA().getUserData();
         Object sensorB = contact.getFixtureB().getUserData();
+        Log.debug(tag, "Begin contact %b A %s B %s Apos %s Bpos %s", contact.isTouching(), sensorA, sensorB,
+                contact.getFixtureA().getBody().getPosition(), contact.getFixtureB().getBody().getPosition());
 
         if (sensorA != null && sensorA instanceof RadarSensor) {
             Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
@@ -59,6 +61,8 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
     public void endContact(Contact contact) {
         Object sensorA = contact.getFixtureA().getUserData();
         Object sensorB = contact.getFixtureB().getUserData();
+        Log.debug(tag, "End contact %b A %s B %s Apos %s Bpos %s", contact.isTouching(), sensorA, sensorB,
+                contact.getFixtureA().getBody().getPosition(), contact.getFixtureB().getBody().getPosition());
 
         if (sensorA != null && sensorA instanceof RadarSensor) {
             Entity entityB = (Entity) contact.getFixtureB().getBody().getUserData();
@@ -88,17 +92,22 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
         IdentityComponent identity = entity.getComponent(IdentityComponent.class);
 
         if (blackBoard != null && radarSensor.propertyName != null && blackBoard.hasProperty(radarSensor.propertyName)) {
+            Log.debug(tag, "AddMode %b propertyName", addMode);
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
 
         } else if (radarSensor.targetTag != null && identity.tag.equals(radarSensor.targetTag)) {
+            Log.debug(tag, "AddMode %b targetTag", addMode);
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
-        } else if (radarSensor.targetTag == null && radarSensor.propertyName == null){
-            if (addMode) radarSensor.contactList.add(contact);
-            else radarSensor.contactList.remove(contact);
-        }
 
+        } else if (radarSensor.targetTag == null && radarSensor.propertyName == null){
+            Log.debug(tag, "AddMode %b null targets", addMode);
+            if (addMode) radarSensor.contactList.add(contact);
+            else radarSensor.contactList.remove(contact);
+
+        }
+        Log.debug(tag, "ContactList size %d", radarSensor.contactList.size);
 
     }
 

@@ -31,7 +31,6 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         super();
         sensorSystem = new MouseSensorSystem(null);
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
 
     }
 

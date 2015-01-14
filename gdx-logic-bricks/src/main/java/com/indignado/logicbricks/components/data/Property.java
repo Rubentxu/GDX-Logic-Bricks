@@ -42,4 +42,13 @@ public class Property<V> {
         this.isObservable = isObservable;
     }
 
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                '}';
+    }
+
 }
