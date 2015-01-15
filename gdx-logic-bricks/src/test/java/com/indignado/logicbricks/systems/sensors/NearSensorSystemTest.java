@@ -9,20 +9,17 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.CategoryBitsManager;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.NearSensor;
-import com.indignado.logicbricks.core.sensors.NearSensor;
-import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.NearSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.NearSensorBuilder;
 import org.junit.Test;
 
@@ -115,7 +112,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         identityGround.tag = "Ground";
 
         BlackBoardComponent blackBoardGround = entityBuilder.getComponent(BlackBoardComponent.class);
-        blackBoardGround.addProperty(new Property("GroundProperty","Value"));
+        blackBoardGround.addProperty(new Property("GroundProperty", "Value"));
 
         bodyGround = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
@@ -141,7 +138,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -182,7 +179,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -223,7 +220,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -264,7 +261,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -305,31 +302,31 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         engine.update(1);
         physic.step(1, 8, 3);
-        Log.debug("NearSensorSystemTest","Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         engine.update(1);
         physic.step(1, 8, 3);
-        Log.debug("NearSensorSystemTest","Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         engine.update(1);
         physic.step(1, 8, 3);
-        Log.debug("NearSensorSystemTest","Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         engine.update(1);
         physic.step(1, 8, 3);
-        Log.debug("NearSensorSystemTest","Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         engine.update(1);
         physic.step(1, 8, 3);
-        Log.debug("NearSensorSystemTest","Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
 
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
@@ -344,7 +341,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -378,7 +375,6 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
     }
 
 
-
     @Test
     public void resetDistanceTargetTagTest() {
         sensor.targetTag = "Ground";
@@ -387,7 +383,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -429,7 +425,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -471,7 +467,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -514,7 +510,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
 
         physic.step(1, 8, 3);
         engine.update(1);
-        Log.debug("NearSensorSystemTest","A) Player position %s Ground position %s",bodyPlayer.getPosition(),bodyGround.getPosition());
+        Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 

@@ -2,7 +2,7 @@ package com.indignado.logicbricks.core.sensors;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.ObjectSet;
-
+import com.indignado.logicbricks.core.data.Axis2D;
 
 /**
  * @author Rubentxu
@@ -12,7 +12,7 @@ public class RadarSensor extends Sensor {
     // Config Values
     public String targetTag;
     public String propertyName;
-    public Axis axis;
+    public Axis2D axis2D;
     public float angle = 0;
     public float distance = 0;
 
@@ -24,14 +24,12 @@ public class RadarSensor extends Sensor {
         super.reset();
         targetTag = null;
         propertyName = null;
-        axis = null;
+        axis2D = null;
         angle = 0;
         distance = 0;
         contactList.clear();
 
     }
 
-
-    public enum Axis {Xpositive, Ypositive, Xnegative, Ynegative}
 
 }

@@ -3,8 +3,8 @@ package com.indignado.logicbricks.systems.actuators;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.actuators.PropertyActuatorComponent;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.actuators.PropertyActuator;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.utils.Log;
 
 /**

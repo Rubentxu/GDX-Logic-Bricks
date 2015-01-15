@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.components.data;
+package com.indignado.logicbricks.core.data;
 
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.core.MessageManager;

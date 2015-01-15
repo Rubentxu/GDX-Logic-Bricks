@@ -7,9 +7,9 @@ import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
 import com.indignado.logicbricks.core.MessageManager;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
 
 /**

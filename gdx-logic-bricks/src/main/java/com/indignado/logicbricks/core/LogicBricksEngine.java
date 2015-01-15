@@ -58,17 +58,17 @@ public class LogicBricksEngine extends PooledEngine {
 
 
     @Override
-    public void addSystem (EntitySystem system) {
+    public void addSystem(EntitySystem system) {
         super.addSystem(system);
-        if(EntityListener.class.isInstance(system)) {
+        if (EntityListener.class.isInstance(system)) {
             this.addEntityListener((EntityListener) system);
 
         }
-        if(InputProcessor.class.isInstance(system)) {
+        if (InputProcessor.class.isInstance(system)) {
             inputs.addProcessor((InputProcessor) system);
 
         }
-        if(ContactListener.class.isInstance(system)) {
+        if (ContactListener.class.isInstance(system)) {
             contactSystems.add((ContactListener) system);
 
         }

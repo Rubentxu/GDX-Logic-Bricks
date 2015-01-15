@@ -2,7 +2,7 @@ package com.indignado.logicbricks.core.actuators;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
+import com.indignado.logicbricks.core.data.ParticleEffectView;
 
 /**
  * @author Rubentxu.

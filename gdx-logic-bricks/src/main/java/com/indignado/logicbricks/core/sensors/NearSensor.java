@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core.sensors;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.ObjectSet;
 
 

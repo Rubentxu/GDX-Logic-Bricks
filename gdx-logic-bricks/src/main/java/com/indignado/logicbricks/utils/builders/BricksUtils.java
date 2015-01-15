@@ -41,6 +41,7 @@ public class BricksUtils {
         bricksClasses.put(DelaySensor.class, new BricksClasses(DelaySensorComponent.class, DelaySensorSystem.class));
         bricksClasses.put(RadarSensor.class, new BricksClasses(RadarSensorComponent.class, RadarSensorSystem.class));
         bricksClasses.put(NearSensor.class, new BricksClasses(NearSensorComponent.class, NearSensorSystem.class));
+        bricksClasses.put(RaySensor.class, new BricksClasses(RaySensorComponent.class, RaySensorSystem.class));
 
         bricksClasses.put(ConditionalController.class, new BricksClasses(ConditionalControllerComponent.class, ConditionalControllerSystem.class));
         bricksClasses.put(ScriptController.class, new BricksClasses(ScriptControllerComponent.class, ScriptControllerSystem.class));

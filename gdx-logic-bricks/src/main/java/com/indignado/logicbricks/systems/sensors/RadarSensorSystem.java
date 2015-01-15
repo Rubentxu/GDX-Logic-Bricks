@@ -92,7 +92,7 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
         IdentityComponent identity = entity.getComponent(IdentityComponent.class);
 
         if (blackBoard != null && radarSensor.propertyName != null && blackBoard.hasProperty(radarSensor.propertyName)) {
-            Log.debug(tag, "AddMode %b propertyName", addMode);
+            Log.debug(tag, "AddMode %b targetPropertyName", addMode);
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
 
@@ -101,7 +101,7 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
 
-        } else if (radarSensor.targetTag == null && radarSensor.propertyName == null){
+        } else if (radarSensor.targetTag == null && radarSensor.propertyName == null) {
             Log.debug(tag, "AddMode %b null targets", addMode);
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
@@ -145,7 +145,7 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
             if (sensor.angle > 180)
                 throw new LogicBricksException(tag, "The angle of the radar can not be greater than 180");
             for (int i = 0; i < 7; i++) {
-                float angle = (float) (i / 6.0 * sensor.angle) - (sensor.angle / 2) + (sensor.axis.ordinal() * 90);
+                float angle = (float) (i / 6.0 * sensor.angle) - (sensor.angle / 2) + (sensor.axis2D.ordinal() * 90);
 
                 vertices[i + 1] = new Vector2(sensor.distance * MathUtils.cosDeg(angle), sensor.distance * MathUtils.sinDeg(angle));
             }

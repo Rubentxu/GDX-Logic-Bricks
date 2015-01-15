@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
+import com.indignado.logicbricks.core.data.Axis2D;
 import com.indignado.logicbricks.core.sensors.RadarSensor;
 
 /**
@@ -27,8 +28,8 @@ public class RadarSensorBuilder extends SensorBuilder<RadarSensor> {
     }
 
 
-    public RadarSensorBuilder setAxis(RadarSensor.Axis axis) {
-        brick.axis = axis;
+    public RadarSensorBuilder setAxis(Axis2D axis2D) {
+        brick.axis2D = axis2D;
         return this;
 
     }

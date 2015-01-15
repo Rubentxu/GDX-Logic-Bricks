@@ -12,13 +12,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.*;
-import com.indignado.logicbricks.components.data.AnimationView;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.AnimationView;
+import com.indignado.logicbricks.core.data.ParticleEffectView;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -138,6 +138,7 @@ public class PlayerPlatform extends EntityFactory {
         NearSensor nearSensor = BricksUtils.getBuilder(NearSensorBuilder.class)
                 .setTargetTag("test")
                 .setDistance(4)
+                .setResetDistance(6)
                 .setName("sensorPlayer")
                 .getBrick();
 

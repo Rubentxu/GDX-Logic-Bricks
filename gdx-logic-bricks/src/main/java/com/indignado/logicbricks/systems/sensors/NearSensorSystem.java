@@ -2,16 +2,15 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.components.sensors.NearSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.NearSensor;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -32,14 +31,14 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
     public boolean query(NearSensor sensor, float deltaTime) {
         boolean isActive = false;
 
-        if(sensor.distanceContactList.size > 0) {
+        if (sensor.distanceContactList.size > 0) {
             isActive = true;
-            if(!sensor.initContact) sensor.initContact = true;
+            if (!sensor.initContact) sensor.initContact = true;
 
-        } else if(sensor.initContact && sensor.resetDistanceContactList.size > 0) {
+        } else if (sensor.initContact && sensor.resetDistanceContactList.size > 0) {
             isActive = true;
 
-        } else  if(sensor.initContact) {
+        } else if (sensor.initContact) {
             sensor.initContact = false;
 
         }
@@ -102,9 +101,9 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
     private void processAddNearSensors(Entity entity, Contact contact, Property property) {
         NearSensor nearSensor = (NearSensor) property.getValue();
 
-        if (nearSensor.targetPropertyName != null ) {
+        if (nearSensor.targetPropertyName != null) {
             BlackBoardComponent blackBoard = entity.getComponent(BlackBoardComponent.class);
-            if(blackBoard.hasProperty(nearSensor.targetPropertyName)) {
+            if (blackBoard.hasProperty(nearSensor.targetPropertyName)) {
                 if (property.getName().equals("NearSensor")) {
                     nearSensor.distanceContactList.add(contact);
                 } else if (property.getName().equals("ResetNearSensor")) {
@@ -115,7 +114,7 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
 
         } else if (nearSensor.targetTag != null) {
             IdentityComponent identity = entity.getComponent(IdentityComponent.class);
-            if( identity.tag.equals(nearSensor.targetTag)) {
+            if (identity.tag.equals(nearSensor.targetTag)) {
                 if (property.getName().equals("NearSensor")) {
                     nearSensor.distanceContactList.add(contact);
                 } else if (property.getName().equals("ResetNearSensor")) {
@@ -153,16 +152,6 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
         }
         Log.debug(tag, "Remove NearSensor distanceContactList size %d resetDistanceContactList %d", nearSensor.distanceContactList.size,
                 nearSensor.resetDistanceContactList.size);
-
-    }
-
-
-    private boolean inTheDistance(Body body, Contact contact, float distance) {
-        WorldManifold manifold = contact.getWorldManifold();
-        for (Vector2 point : manifold.getPoints()) {
-            if (body.getPosition().dst(point) <= distance) return true;
-        }
-        return false;
 
     }
 

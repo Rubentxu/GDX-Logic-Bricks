@@ -16,10 +16,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
-import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.core.data.ParticleEffectView;
+import com.indignado.logicbricks.core.data.TextureView;
+import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.utils.Log;
 
 import java.util.Comparator;
