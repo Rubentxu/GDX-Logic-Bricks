@@ -28,9 +28,10 @@ public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent>
     @Override
     public boolean query(RaySensor sensor, float deltaTime) {
         sensor.contacts.clear();
-        float angle = sensor.axis2D.ordinal() * 90;
+        float angle = sensor.axis2D.ordinal() * 90.0f;
+
         Vector2 point1 = sensor.attachedRigidBody.getPosition();
-        Vector2 point2 = new Vector2(sensor.range * MathUtils.cosDeg(angle), sensor.range * MathUtils.sinDeg(angle));
+        Vector2 point2 = point1.cpy().add(new Vector2((float) MathUtils.cosDeg(angle), MathUtils.sinDeg(angle)).scl(sensor.range));
 
         physics.rayCast(sensor, point1, point2 );
 

@@ -21,8 +21,8 @@ public class RadarSensorBuilder extends SensorBuilder<RadarSensor> {
     }
 
 
-    public RadarSensorBuilder setPropertyName(String name) {
-        brick.propertyName = name;
+    public RadarSensorBuilder setTargetPropertyName(String name) {
+        brick.targetPropertyName = name;
         return this;
 
     }

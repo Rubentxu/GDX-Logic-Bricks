@@ -91,7 +91,7 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
         BlackBoardComponent blackBoard = entity.getComponent(BlackBoardComponent.class);
         IdentityComponent identity = entity.getComponent(IdentityComponent.class);
 
-        if (blackBoard != null && radarSensor.propertyName != null && blackBoard.hasProperty(radarSensor.propertyName)) {
+        if (blackBoard != null && radarSensor.targetPropertyName != null && blackBoard.hasProperty(radarSensor.targetPropertyName)) {
             Log.debug(tag, "AddMode %b targetPropertyName", addMode);
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
@@ -101,7 +101,7 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);
 
-        } else if (radarSensor.targetTag == null && radarSensor.propertyName == null) {
+        } else if (radarSensor.targetTag == null && radarSensor.targetPropertyName == null) {
             Log.debug(tag, "AddMode %b null targets", addMode);
             if (addMode) radarSensor.contactList.add(contact);
             else radarSensor.contactList.remove(contact);

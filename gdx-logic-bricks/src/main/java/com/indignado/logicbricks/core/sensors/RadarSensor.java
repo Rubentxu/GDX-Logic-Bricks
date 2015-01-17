@@ -11,7 +11,7 @@ public class RadarSensor extends Sensor {
 
     // Config Values
     public String targetTag;
-    public String propertyName;
+    public String targetPropertyName;
     public Axis2D axis2D;
     public float angle = 0;
     public float distance = 0;
@@ -23,7 +23,7 @@ public class RadarSensor extends Sensor {
     public void reset() {
         super.reset();
         targetTag = null;
-        propertyName = null;
+        targetPropertyName = null;
         axis2D = null;
         angle = 0;
         distance = 0;
