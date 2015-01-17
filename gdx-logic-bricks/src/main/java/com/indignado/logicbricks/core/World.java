@@ -3,13 +3,12 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -17,7 +16,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.systems.*;
 import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
-import com.indignado.logicbricks.systems.sensors.*;
+import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
+import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -28,7 +28,7 @@ import java.util.Iterator;
 /**
  * @author Rubentxu.
  */
-public class World implements Disposable {
+public class World implements Disposable, ContactListener {
     private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
@@ -59,23 +59,9 @@ public class World implements Disposable {
         engine.addSystem(viewPositionSystem);
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new StateSystem(this));
-        engine.addSystem(new KeyboardSensorSystem());
-        engine.addEntityListener(engine.getSystem(KeyboardSensorSystem.class));
         engine.addSystem(new MouseSensorSystem(this));
-        engine.addEntityListener(engine.getSystem(MouseSensorSystem.class));
-        engine.addSystem(new CollisionSensorSystem());
-        engine.addEntityListener(engine.getSystem(CollisionSensorSystem.class));
-        engine.addSystem(new MessageSensorSystem());
-        engine.addEntityListener(engine.getSystem(MessageSensorSystem.class));
         engine.addSystem(new InstanceEntityActuatorSystem(this));
-        engine.addSystem(new PropertySensorSystem());
-        engine.addEntityListener(engine.getSystem(PropertySensorSystem.class));
-
-        InputMultiplexer input = new InputMultiplexer();
-        input.addProcessor(engine.getSystem(KeyboardSensorSystem.class));
-        input.addProcessor(engine.getSystem(MouseSensorSystem.class));
-        Gdx.input.setInputProcessor(input);
-        physics.setContactListener(engine.getSystem(CollisionSensorSystem.class));
+        engine.addSystem(new CollisionSensorSystem());
 
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
@@ -83,9 +69,12 @@ public class World implements Disposable {
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         this.categoryBitsManager = new CategoryBitsManager();
         engine.update(0);
-        Gdx.app.setLogLevel(Settings.debugLevel);
         currentTime = TimeUtils.millis() / 1000.0;
         accumulatorPhysics = 0.0;
+
+        Gdx.input.setInputProcessor(engine.getInputs());
+        physics.setContactListener(this);
+        Gdx.app.setLogLevel(Settings.debugLevel);
 
     }
 
@@ -244,7 +233,49 @@ public class World implements Disposable {
 
     }
 
+
     public SpriteBatch getBatch() {
         return batch;
     }
+
+
+    @Override
+    public void beginContact(Contact contact) {
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.beginContact(contact);
+
+        }
+
+    }
+
+
+    @Override
+    public void endContact(Contact contact) {
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.endContact(contact);
+
+        }
+
+    }
+
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.preSolve(contact, oldManifold);
+
+        }
+
+    }
+
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+        for (ContactListener contactListener : engine.getContactSystems()) {
+            contactListener.postSolve(contact, impulse);
+
+        }
+
+    }
+
 }

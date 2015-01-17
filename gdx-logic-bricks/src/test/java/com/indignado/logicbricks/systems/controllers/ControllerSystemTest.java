@@ -1,37 +1,21 @@
 package com.indignado.logicbricks.systems.controllers;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Transform;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
-import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.LogicBricksEngine;
-import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.core.sensors.MouseSensor;
-import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
-import com.indignado.logicbricks.systems.StateSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
-import com.indignado.logicbricks.systems.sensors.SensorSystem;
-import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
-import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -77,8 +61,8 @@ public class ControllerSystemTest {
         controller.sensors.put(sensor.name, sensor);
         ObjectSet<Controller> controllersSet = new ObjectSet<>();
         controllersSet.add(controller);
-        ControllerComponent controllerComponent =  entityBuilder.getComponent(ControllerComponent.class);
-        controllerComponent.controllers.put(stateComponent.getCurrentState(),controllersSet);
+        ControllerComponent controllerComponent = entityBuilder.getComponent(ControllerComponent.class);
+        controllerComponent.controllers.put(stateComponent.getCurrentState(), controllersSet);
 
 
         player = entityBuilder.getEntity();
@@ -116,7 +100,7 @@ public class ControllerSystemTest {
                 .setName("sensor2Player")
                 .getBrick();
 
-        controller.sensors.put(sensor2.name,sensor2);
+        controller.sensors.put(sensor2.name, sensor2);
         sensor.pulseState = BrickMode.BM_ON;
         sensor2.pulseState = BrickMode.BM_ON;
         engine.addEntity(player);

@@ -39,14 +39,17 @@ public class BricksUtils {
         bricksClasses.put(PropertySensor.class, new BricksClasses(PropertySensorComponent.class, PropertySensorSystem.class));
         bricksClasses.put(MessageSensor.class, new BricksClasses(MessageSensorComponent.class, MessageSensorSystem.class));
         bricksClasses.put(DelaySensor.class, new BricksClasses(DelaySensorComponent.class, DelaySensorSystem.class));
+        bricksClasses.put(RadarSensor.class, new BricksClasses(RadarSensorComponent.class, RadarSensorSystem.class));
+        bricksClasses.put(NearSensor.class, new BricksClasses(NearSensorComponent.class, NearSensorSystem.class));
+        bricksClasses.put(RaySensor.class, new BricksClasses(RaySensorComponent.class, RaySensorSystem.class));
 
         bricksClasses.put(ConditionalController.class, new BricksClasses(ConditionalControllerComponent.class, ConditionalControllerSystem.class));
         bricksClasses.put(ScriptController.class, new BricksClasses(ScriptControllerComponent.class, ScriptControllerSystem.class));
 
         bricksClasses.put(CameraActuator.class, new BricksClasses(CameraActuatorComponent.class, CameraActuatorSystem.class));
-        bricksClasses.put(InstanceEntityActuator.class, new BricksClasses(InstanceEntityActuatorComponent.class, InstanceEntityActuatorSystem.class));
         bricksClasses.put(EditRigidBodyActuator.class, new BricksClasses(EditRigidBodyActuatorComponent.class, EditRigidBodyActuatorSystem.class));
         bricksClasses.put(EffectActuator.class, new BricksClasses(EffectActuatorComponent.class, EffectActuatorSystem.class));
+        bricksClasses.put(InstanceEntityActuator.class, new BricksClasses(InstanceEntityActuatorComponent.class, InstanceEntityActuatorSystem.class));
         bricksClasses.put(MessageActuator.class, new BricksClasses(MessageActuatorComponent.class, MessageActuatorSystem.class));
         bricksClasses.put(MotionActuator.class, new BricksClasses(MotionActuatorComponent.class, MotionActuatorSystem.class));
         bricksClasses.put(PropertyActuator.class, new BricksClasses(PropertyActuatorComponent.class, PropertyActuatorSystem.class));

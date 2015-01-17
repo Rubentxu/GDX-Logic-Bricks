@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
@@ -34,7 +33,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
         if (actuators != null) {
             for (MotionActuator actuator : actuators) {
                 for (Controller controller : actuator.controllers) {
-                    if(controller.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
+                    if (controller.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
                         Log.debug(tag, "Controller %s pulseState %s", controller.name, controller.pulseState);
                         actuator.pulseState = LogicBrick.BrickMode.BM_ON;
                     } else {
@@ -56,7 +55,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
         }
         Body body = actuator.targetRigidBody;
 
-        if (actuator.pulseState.equals(LogicBrick.BrickMode.BM_ON) ) {
+        if (actuator.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
 
 
             Log.debug(tag, "Actuator: %s", actuator.name);

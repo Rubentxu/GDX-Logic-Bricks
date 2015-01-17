@@ -9,7 +9,6 @@ import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
@@ -40,7 +39,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
             for (C controller : controllers) {
                 controller.pulseState = LogicBrick.BrickMode.BM_OFF;
                 for (Sensor sensor : controller.sensors.values()) {
-                    if(sensor.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
+                    if (sensor.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
                         //Log.debug(tag, "Sensor %s pulseState %s isPositive %b",sensor.name, sensor.pulseState, sensor.positive);
                         controller.pulseState = BrickMode.BM_IDLE;
                     } else {
@@ -50,7 +49,7 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
                 }
                 if (controller.pulseState.equals(BrickMode.BM_IDLE)) {
                     processController(controller);
-                    if(controller.pulseState.equals(BrickMode.BM_ON))
+                    if (controller.pulseState.equals(BrickMode.BM_ON))
                         Log.debug(tag, "Controller %s pulseState %s", controller.name, controller.pulseState);
                 }
             }

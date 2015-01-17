@@ -23,7 +23,6 @@ public class StateActuatorSystem extends ActuatorSystem<StateActuator, StateActu
         Log.debug(tag, "E) Actuator %s changeState %s", actuator.name, actuator.changeState);
         stateComponent.changeCurrentState(actuator.changeState);
 
-
     }
 
 

@@ -3,7 +3,6 @@ package com.indignado.logicbricks.utils.builders;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
@@ -18,14 +17,14 @@ import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
-import com.indignado.logicbricks.components.data.Property;
-import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;
 
@@ -124,7 +123,7 @@ public class EntityBuilder {
                 Log.debug(tag, "Error instance entitySystem %s", clazz.getSimpleName());
 
             }
-            if(entitySystem != null) {
+            if (entitySystem != null) {
                 engine.addSystem(entitySystem);
             } else {
                 Log.debug(tag, "Error instance entitySystem %s", clazz.getSimpleName());
@@ -310,9 +309,9 @@ public class EntityBuilder {
 
 
     private void config(IntMap<ObjectSet<LogicBrick>> bricks, Entity entity) {
-        if(entity == null) throw new LogicBricksException(tag,"Error: Not owner entity exist");
-        for (ObjectSet<LogicBrick> bricksSet : bricks.values() ) {
-            for (LogicBrick brick :  bricksSet) {
+        if (entity == null) throw new LogicBricksException(tag, "Error: Not owner entity exist");
+        for (ObjectSet<LogicBrick> bricksSet : bricks.values()) {
+            for (LogicBrick brick : bricksSet) {
                 brick.owner = entity;
             }
         }

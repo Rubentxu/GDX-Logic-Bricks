@@ -25,7 +25,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         super();
         sensorSystem = new KeyboardSensorSystem();
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
 
     }
 
@@ -113,7 +112,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     }
 
 
-
     @Test
     public void keyDownPulseModeTrueAndFalseTest() {
         sensor.pulse = Sensor.Pulse.PM_TRUE.getValue() | Sensor.Pulse.PM_FALSE.getValue();
@@ -145,7 +143,6 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         assertFalse(sensor.positive);
 
     }
-
 
 
     @Test

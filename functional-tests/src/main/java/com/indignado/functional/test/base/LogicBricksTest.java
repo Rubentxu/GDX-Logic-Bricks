@@ -29,7 +29,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
     public void create() {
         Settings.debug = true;
         Settings.debugLevel = Logger.DEBUG;
-        Settings.drawABBs = true;
+        Settings.drawABBs = false;
         Settings.drawBodies = true;
         Settings.drawJoints = true;
         Settings.drawContacts = true;
@@ -37,9 +37,9 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawStage = true;
         //Settings.debugEntity = "Player";
         Settings.debugTags.add("StateComponent");
-        Settings.debugTags.add("EffectActuatorSystem");
+        Settings.debugTags.add("RadarSensorSystem");
         //Settings.debugTags.add("DelaySensorSystem");
-       // Settings.debugTags.add("MotionActuatorSystem");
+        // Settings.debugTags.add("MotionActuatorSystem");
         //Settings.debugTags.add("EntityBuilder");
 
         batch = new SpriteBatch();

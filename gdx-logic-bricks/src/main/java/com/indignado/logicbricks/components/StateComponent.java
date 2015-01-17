@@ -12,12 +12,11 @@ import com.indignado.logicbricks.utils.Log;
 public class StateComponent extends Component implements Poolable {
     public static int eraseID = -1;
     public float time = 0.0f;
+    public int oldState = -1;
+    public boolean isChanged = false;
     private IntMap<String> states = new IntMap<>();
     private int typeIndex = -1;
     private int currentState = 0;
-    public int oldState = -1;
-    public boolean isChanged = false;
-
 
     public int createState(String state) {
         int ie = ++typeIndex;

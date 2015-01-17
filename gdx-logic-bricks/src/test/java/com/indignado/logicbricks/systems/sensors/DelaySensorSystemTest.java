@@ -3,20 +3,16 @@ package com.indignado.logicbricks.systems.sensors;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
-import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Rubentxu
@@ -87,7 +83,7 @@ public class DelaySensorSystemTest extends BaseSensorSystemTest<DelaySensor, Del
 
     @Test
     public void delayTest() {
-        sensor.delay =1.5f;
+        sensor.delay = 1.5f;
         engine.addEntity(player);
 
         engine.update(1);
@@ -103,7 +99,6 @@ public class DelaySensorSystemTest extends BaseSensorSystemTest<DelaySensor, Del
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
     }
-
 
 
     @Test

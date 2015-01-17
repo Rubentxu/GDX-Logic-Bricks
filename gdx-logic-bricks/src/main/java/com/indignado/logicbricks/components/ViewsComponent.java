@@ -3,7 +3,7 @@ package com.indignado.logicbricks.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.indignado.logicbricks.components.data.View;
+import com.indignado.logicbricks.core.data.View;
 
 /**
  * @author Rubentxu.

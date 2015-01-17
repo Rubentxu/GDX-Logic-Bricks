@@ -43,8 +43,8 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
     }
 
     @Override
-    public void update (float deltaTime) {
-       super.update(deltaTime);
+    public void update(float deltaTime) {
+        super.update(deltaTime);
 
     }
 
@@ -57,13 +57,13 @@ public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent>
             for (S sensor : sensors) {
                 boolean doDispatch = false, freqDispatch = false;
                 if (stateMapper.get(entity).isChanged) {
-                    Log.debug(tag,"reset firstExec state %d", state);
+                    Log.debug(tag, "reset firstExec state %d", state);
                     sensor.firstExec = true;
                     sensor.positive = false;
                     sensor.firstTap = Sensor.TapMode.TAP_IN;
-                    if(sensor instanceof DelaySensor){
-                        ((DelaySensor)sensor).time = 0;
-                        Log.debug(tag,"reset delaysensor time %f",((DelaySensor) sensor).time);
+                    if (sensor instanceof DelaySensor) {
+                        ((DelaySensor) sensor).time = 0;
+                        Log.debug(tag, "reset delaysensor time %f", ((DelaySensor) sensor).time);
                     }
 
                 }

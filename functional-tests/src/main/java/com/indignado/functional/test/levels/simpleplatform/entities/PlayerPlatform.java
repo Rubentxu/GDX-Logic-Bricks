@@ -2,7 +2,6 @@ package com.indignado.functional.test.levels.simpleplatform.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -13,13 +12,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.*;
-import com.indignado.logicbricks.components.data.AnimationView;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.AnimationView;
+import com.indignado.logicbricks.core.data.ParticleEffectView;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.utils.builders.BricksUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -139,7 +138,6 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToSensor(alwaysSensorCamera)
                 .connectToActuator(cameraActuator);
 
-
         // Collision Sensor ----------------------------------------------------------------
         CollisionSensor collisionSensorGround = BricksUtils.getBuilder(CollisionSensorBuilder.class)
                 .setTargetName("Ground")
@@ -206,7 +204,7 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("controllerChangeStateWalking")
                 .getBrick();
 
-        StateActuator stateActuatorWalking =  BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorWalking = BricksUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Walking"))
                 .setName("stateActuatorWalking")
                 .getBrick();
@@ -241,7 +239,7 @@ public class PlayerPlatform extends EntityFactory {
         /* State Jump/Fall to Change State Idle ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
         DelaySensor delaySensorContactGround = BricksUtils.getBuilder(DelaySensorBuilder.class)
-                .setDelay(1f)
+                .setDelay(0.4f)
                 .setDuration(3f)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .getBrick();
@@ -251,14 +249,14 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("controllerGround2")
                 .getBrick();
 
-        StateActuator stateActuatorIdle2 =  BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorIdle2 = BricksUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Idle"))
                 .setName("stateActuatorIdle2")
                 .getBrick();
 
 
-        entityBuilder.addController(controllerGround2, "Jump","Fall")
-                .connectToSensors(collisionSensorGround,delaySensorContactGround)
+        entityBuilder.addController(controllerGround2, "Jump", "Fall")
+                .connectToSensors(collisionSensorGround, delaySensorContactGround)
                 .connectToActuator(stateActuatorIdle2);
 
         /* State Idle ----------------------------------------------------------------
@@ -275,7 +273,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         EditRigidBodyActuator editRigidBodyActuatorIdle = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
-                .setFriction(10)
+                .setFriction(100)
                 .setTargetRigidBody(bodyPlayer)
                 .setName("editRigidBodyActuatorIdle")
                 .getBrick();
@@ -285,9 +283,15 @@ public class PlayerPlatform extends EntityFactory {
                 .setActive(false)
                 .getBrick();
 
+        MotionActuator motionActuatorIdle = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+                .setVelocity(new Vector2(0, 0))
+                .setLimitVelocityX(7)
+                .setName("motionActuatorWalkingRight")
+                .getBrick();
+
         entityBuilder.addController(controllerIdle, "Idle")
                 .connectToSensor(alwaysSensorIdle)
-                .connectToActuators(editRigidBodyActuatorIdle,pauseIdleEffectActuator);
+                .connectToActuators(editRigidBodyActuatorIdle, pauseIdleEffectActuator, motionActuatorIdle);
 
 
          /* State Walking ----------------------------------------------------------------
@@ -316,7 +320,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerWalking, "Walking")
                 .connectToSensor(alwaysSensorWalking)
-                .connectToActuators(editRigidBodyActuatorWalking,activeEffectActuator);
+                .connectToActuators(editRigidBodyActuatorWalking, activeEffectActuator);
 
         //  ** Walking Right **
         KeyboardSensor keyboardSensorImpulseRight = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
@@ -388,8 +392,7 @@ public class PlayerPlatform extends EntityFactory {
                 .getBrick();
 
         MotionActuator motionActuatorJump = BricksUtils.getBuilder(MotionActuatorBuilder.class)
-                .setImpulse(new Vector2(0, 7))
-                .setLimitVelocityX(7)
+                .setImpulse(new Vector2(0, 8))
                 .setName("motionActuatorJump")
                 .getBrick();
 
@@ -400,7 +403,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerImpulseJump, "Jump")
                 .connectToSensor(alwaysSensorImpulseJump)
-                .connectToActuators(motionActuatorJump,pauseJumpEffectActuator);
+                .connectToActuators(motionActuatorJump, pauseJumpEffectActuator);
 
         return entityBuilder.getEntity();
 

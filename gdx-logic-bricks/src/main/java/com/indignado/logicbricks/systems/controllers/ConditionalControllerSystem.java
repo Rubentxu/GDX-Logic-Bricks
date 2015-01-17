@@ -5,7 +5,6 @@ import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ConditionalController.Op;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu

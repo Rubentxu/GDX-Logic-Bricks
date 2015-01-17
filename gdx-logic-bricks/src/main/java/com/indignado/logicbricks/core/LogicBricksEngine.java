@@ -1,10 +1,11 @@
 package com.indignado.logicbricks.core;
 
-import com.badlogic.ashley.core.Component;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.core.*;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
@@ -23,7 +24,8 @@ public class LogicBricksEngine extends PooledEngine {
     private ObjectMap<Long, Entity> idEntities;
     private ObjectMap<String, Array<Entity>> tagEntities;
     private DataPools dataPools;
-
+    private InputMultiplexer inputs;
+    private Array<ContactListener> contactSystems;
 
     public LogicBricksEngine() {
         this(10, 100, 10, 100, 50, 200);
@@ -34,9 +36,11 @@ public class LogicBricksEngine extends PooledEngine {
     public LogicBricksEngine(int entityPoolInitialSize, int entityPoolMaxSize, int componentPoolInitialSize,
                              int componentPoolMaxSize, int bricksPoolInitialSize, int brickPoolMaxSize) {
         super(entityPoolInitialSize, entityPoolMaxSize, componentPoolInitialSize, componentPoolMaxSize);
-        this.idEntities = new ObjectMap<Long, Entity>();
-        this.tagEntities = new ObjectMap<String, Array<Entity>>();
-        this.dataPools = new DataPools(bricksPoolInitialSize, brickPoolMaxSize);
+        idEntities = new ObjectMap<Long, Entity>();
+        tagEntities = new ObjectMap<String, Array<Entity>>();
+        dataPools = new DataPools(bricksPoolInitialSize, brickPoolMaxSize);
+        inputs = new InputMultiplexer();
+        contactSystems = new Array<>();
 
     }
 
@@ -49,6 +53,25 @@ public class LogicBricksEngine extends PooledEngine {
         idEntities.remove(identity.uuid);
         tagEntities.get(identity.tag).removeValue(entity, false);
         super.removeEntityInternal(entity);
+
+    }
+
+
+    @Override
+    public void addSystem(EntitySystem system) {
+        super.addSystem(system);
+        if (EntityListener.class.isInstance(system)) {
+            this.addEntityListener((EntityListener) system);
+
+        }
+        if (InputProcessor.class.isInstance(system)) {
+            inputs.addProcessor((InputProcessor) system);
+
+        }
+        if (ContactListener.class.isInstance(system)) {
+            contactSystems.add((ContactListener) system);
+
+        }
 
     }
 
@@ -133,6 +156,14 @@ public class LogicBricksEngine extends PooledEngine {
     public <D extends Data> D createData(Class<D> dataType) {
         return (D) dataPools.obtain(dataType);
 
+    }
+
+    public InputMultiplexer getInputs() {
+        return inputs;
+    }
+
+    public Array<ContactListener> getContactSystems() {
+        return contactSystems;
     }
 
 
