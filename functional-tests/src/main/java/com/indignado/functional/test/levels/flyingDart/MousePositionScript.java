@@ -12,7 +12,6 @@ import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.Log;

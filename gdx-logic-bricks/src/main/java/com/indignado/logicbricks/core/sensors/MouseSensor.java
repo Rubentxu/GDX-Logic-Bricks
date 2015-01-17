@@ -22,7 +22,7 @@ public class MouseSensor extends Sensor {
         super.reset();
         mouseEvent = null;
         target = null;
-        positionSignal.set(0,0);
+        positionSignal.set(0, 0);
         amountScrollSignal = 0;
         mouseEventSignal = null;
 

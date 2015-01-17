@@ -2,9 +2,9 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.data.Property;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor.EvaluationType;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
@@ -30,7 +30,6 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         super();
         sensorSystem = new PropertySensorSystem();
         engine.addSystem(sensorSystem);
-        engine.addEntityListener(sensorSystem);
 
     }
 

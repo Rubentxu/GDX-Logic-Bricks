@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.components.data;
+package com.indignado.logicbricks.core.data;
 
 import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.core.MessageManager;
@@ -40,6 +40,15 @@ public class Property<V> {
 
     public void setObservable(boolean isObservable) {
         this.isObservable = isObservable;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "name='" + name + '\'' +
+                ", value=" + value +
+                '}';
     }
 
 }

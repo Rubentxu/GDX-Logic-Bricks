@@ -1,7 +1,6 @@
 package com.indignado.functional.test.levels.flyingDart;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.base.entities.Wall;
 import com.indignado.functional.test.levels.flyingDart.entities.Dart;

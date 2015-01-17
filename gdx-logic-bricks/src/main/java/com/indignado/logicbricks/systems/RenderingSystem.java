@@ -16,10 +16,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.components.data.ParticleEffectView;
-import com.indignado.logicbricks.components.data.TextureView;
-import com.indignado.logicbricks.components.data.View;
 import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.core.data.ParticleEffectView;
+import com.indignado.logicbricks.core.data.TextureView;
+import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.utils.Log;
 
 import java.util.Comparator;
@@ -46,7 +46,7 @@ public class RenderingSystem extends IteratingSystem {
     //private BitmapFont debugFont;
 
     public RenderingSystem(com.indignado.logicbricks.core.World world) {
-        this(world.getBatch(),world.getCamera(),world.getPhysics());
+        this(world.getBatch(), world.getCamera(), world.getPhysics());
 
     }
 
@@ -100,7 +100,7 @@ public class RenderingSystem extends IteratingSystem {
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
                 effect.setPosition(view.position.x, view.position.y);
                 effect.update(deltaTime);
-                if(((ParticleEffectView) view).autoStart) {
+                if (((ParticleEffectView) view).autoStart) {
                     effect.start();
                     ((ParticleEffectView) view).autoStart = false;
                 }
