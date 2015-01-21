@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.indignado.logicbricks.components.BuoyancyComponent;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
@@ -15,6 +16,7 @@ import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.*;
+import com.indignado.logicbricks.systems.BuoyancySystem;
 import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
@@ -24,14 +26,15 @@ import com.indignado.logicbricks.utils.Log;
 /**
  * @author Rubentxu.
  */
-public class BricksUtils {
-    private static String tag = "BricksUtils";
+public class EngineUtils {
+    private static String tag = "EngineUtils";
     private static ObjectMap<Class<? extends BrickBuilder>, BrickBuilder> buildersMap = new ObjectMap<>();
     private static ObjectMap<Class<? extends LogicBrick>, BricksClasses> bricksClasses = new ObjectMap<>();
-    private static BricksUtils instance;
+    private static ObjectMap<Class<? extends Component>, Class<? extends EntitySystem>> engineClasses = new ObjectMap<>();
+    private static EngineUtils instance;
 
 
-    private BricksUtils() {
+    private EngineUtils() {
         bricksClasses.put(AlwaysSensor.class, new BricksClasses(AlwaysSensorComponent.class, AlwaysSensorSystem.class));
         bricksClasses.put(CollisionSensor.class, new BricksClasses(CollisionSensorComponent.class, CollisionSensorSystem.class));
         bricksClasses.put(KeyboardSensor.class, new BricksClasses(KeyboardSensorComponent.class, KeyboardSensorSystem.class));
@@ -56,13 +59,14 @@ public class BricksUtils {
         bricksClasses.put(StateActuator.class, new BricksClasses(StateActuatorComponent.class, StateActuatorSystem.class));
         bricksClasses.put(TextureActuator.class, new BricksClasses(TextureActuatorComponent.class, TextureActuatorSystem.class));
 
+        engineClasses.put(BuoyancyComponent.class, BuoyancySystem.class);
 
     }
 
 
     private static synchronized void checkInstance() {
         if (instance == null) {
-            instance = new BricksUtils();
+            instance = new EngineUtils();
         }
     }
 
@@ -103,6 +107,13 @@ public class BricksUtils {
     public static <L extends LogicBrick> BricksClasses getBricksClasses(Class<L> clazz) {
         checkInstance();
         return bricksClasses.get(clazz);
+
+    }
+
+
+    public static Class<? extends EntitySystem> getSystemClass(Class<? extends Component> clazz) {
+        checkInstance();
+        return engineClasses.get(clazz);
 
     }
 

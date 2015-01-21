@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Before;
@@ -51,7 +51,7 @@ public class ControllerSystemTest {
         StateComponent stateComponent = entityBuilder.getComponent(StateComponent.class);
         stateComponent.createState(stateTest);
 
-        sensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        sensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
@@ -96,7 +96,7 @@ public class ControllerSystemTest {
 
     @Test
     public void twoSensorsTest() {
-        AlwaysSensor sensor2 = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor sensor2 = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("sensor2Player")
                 .getBrick();
 

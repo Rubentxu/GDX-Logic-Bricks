@@ -14,7 +14,7 @@ import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.utils.Log;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.StateActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
@@ -58,17 +58,17 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     private void addDurationComponents(World world, Entity entity, InstanceEntityActuator actuator) {
-        DelaySensor delaySensor = BricksUtils.getBuilder(DelaySensorBuilder.class)
+        DelaySensor delaySensor = EngineUtils.getBuilder(DelaySensorBuilder.class)
                 .setDelay(actuator.duration)
                 .setName("SensorDestroyEntity")
                 .getBrick();
 
-        StateActuator stateActuator = BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuator = EngineUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(StateComponent.eraseID)
                 .setName("ChangeStateRemove")
                 .getBrick();
 
-        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("DurationController")
                 .getBrick();
@@ -85,16 +85,16 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     private void addMotionComponents(World world, Entity entity, InstanceEntityActuator actuator) {
-        AlwaysSensor alwaysSensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("SensorMotionActuator")
                 .getBrick();
 
-        ConditionalController controller = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("ControllerMotionActuator")
                 .getBrick();
 
-        MotionActuator motionActuator = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuator = EngineUtils.getBuilder(MotionActuatorBuilder.class)
                 .setVelocity(actuator.initialVelocity)
                 .getBrick();
 

@@ -100,7 +100,7 @@ public class EntityBuilder {
         int state = getKeyState(nameState);
         sensor.state = state;
         ObjectSet<S> sensorsList = null;
-        BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(sensor.getClass());
+        EngineUtils.BricksClasses classes = EngineUtils.getBricksClasses(sensor.getClass());
         if (classes != null) {
             getSystem(classes.system);
             SC sensorComponent = (SC) getComponent(classes.component);
@@ -141,9 +141,13 @@ public class EntityBuilder {
         if (entity.getComponent(clazz) != null) {
             comp = (C) entity.getComponent(clazz);
         } else {
+            Class<? extends EntitySystem> system = EngineUtils.getSystemClass(clazz);
+            if(system != null) getSystem(system);
             comp = engine.createComponent(clazz);
             entity.add(comp);
+
         }
+
         return comp;
 
     }
@@ -187,7 +191,7 @@ public class EntityBuilder {
         controller.state = state;
         ObjectSet<C> controllerList = null;
 
-        BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(controller.getClass());
+        EngineUtils.BricksClasses classes = EngineUtils.getBricksClasses(controller.getClass());
         if (classes != null) {
             getSystem(classes.system);
             CC controllerComponent = (CC) getComponent(classes.component);
@@ -263,7 +267,7 @@ public class EntityBuilder {
         actuator.state = state;
         ObjectSet<A> actuatorList = null;
 
-        BricksUtils.BricksClasses classes = BricksUtils.getBricksClasses(actuator.getClass());
+        EngineUtils.BricksClasses classes = EngineUtils.getBricksClasses(actuator.getClass());
         if (classes != null) {
             getSystem(classes.system);
             AC actuatorComponent = (AC) getComponent(classes.component);

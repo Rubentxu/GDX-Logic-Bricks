@@ -8,7 +8,7 @@ import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 import org.junit.Test;
@@ -42,12 +42,12 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        sensor = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
