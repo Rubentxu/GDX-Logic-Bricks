@@ -32,7 +32,7 @@ public class BuoyancyComponent extends Component implements Poolable {
         linearDrag = 5.0f;
         angularDrag = 1.0f;
         useDensity = true;
-        gravity.set(0,-10f);
+        gravity.set(0,-10.0f);
         bodyList.clear();
 
     }

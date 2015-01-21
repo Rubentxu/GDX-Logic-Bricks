@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.indignado.logicbricks.components.BuoyancyComponent;
+import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
@@ -17,6 +18,7 @@ import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.systems.BuoyancySystem;
+import com.indignado.logicbricks.systems.RadialGravitySystem;
 import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
@@ -60,6 +62,7 @@ public class EngineUtils {
         bricksClasses.put(TextureActuator.class, new BricksClasses(TextureActuatorComponent.class, TextureActuatorSystem.class));
 
         engineClasses.put(BuoyancyComponent.class, BuoyancySystem.class);
+        engineClasses.put(RadialGravityComponent.class, RadialGravitySystem.class);
 
     }
 

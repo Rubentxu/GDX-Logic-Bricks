@@ -1,25 +1,28 @@
-package com.indignado.functional.test.levels.buoyancy.entities;
+package com.indignado.functional.test.levels.radialgravity.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.logicbricks.components.BuoyancyComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class Pool extends EntityFactory {
+public class Box extends EntityFactory {
 
 
-    public Pool(World world) {
+    public Box(World world) {
         super(world);
+
     }
 
 
@@ -35,27 +38,24 @@ public class Pool extends EntityFactory {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
-        identity.tag = "Pool";
+        identity.tag = "Box";
 
-        Body bodyPool = bodyBuilder
-                .fixture(bodyBuilder.fixtureDefBuilder()
-                        .boxShape(15, 3.5f)
-                        .density(2)
-                        .sensor())
-                .position(0, 0)
-                .mass(1f)
-                .type(BodyDef.BodyType.StaticBody)
+        StateComponent state = entityBuilder.getComponent(StateComponent.class);
+        state.createState("Default");
+
+        Body bodyBox = bodyBuilder.fixture(new FixtureDefBuilder()
+                .boxShape(MathUtils.random(0.7f,1.4f), MathUtils.random(0.7f,1.3f))
+                .friction(1f)
+                .density(1f))
+                .mass(1)
+                .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
-        RigidBodiesComponents rigidByPool = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByPool.rigidBodies.add(bodyPool);
-
-        BuoyancyComponent buoyancyComponent = entityBuilder.getComponent(BuoyancyComponent.class);
-        buoyancyComponent.offset = 8f;
+        RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
+        bodiesComponents.rigidBodies.add(bodyBox);
 
         Entity entity = entityBuilder.getEntity();
-
-        Gdx.app.log("Pool", "instance" + entity);
+        Gdx.app.log("Box", "instance" + entity);
         return entity;
 
     }

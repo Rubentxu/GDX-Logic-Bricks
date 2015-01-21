@@ -23,7 +23,7 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
     public static final float EPSILON = 1.1920928955078125E-7f;
     private Vector2 areac = new Vector2(0,0);
     private Vector2 massc = new Vector2(0,0);
-    Vector2 sc = new Vector2(0,0);
+    private Vector2 sc = new Vector2(0,0);
     private float area = 0;
     private float mass = 0;
     private float sarea = 0;
@@ -73,7 +73,6 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
                     case Polygon:
                         sarea = B2ShapeExtensions.computeSubmergedArea((PolygonShape) fixture.getShape(), buoyancy.normal, buoyancy.offset,
                                 fixture.getBody().getTransform(), sc);
-                        break;
 
                 }
 
@@ -109,7 +108,6 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
             body.applyForce(dragForce,areac,true);
             Log.debug(tag,"ApplyForce dragforce %s", dragForce);
             //Angular drag
-            //TODO: Something that makes more physical sense?
             body.applyTorque(-body.getInertia() / body.getMass() * area * body.getAngularVelocity()
                     * buoyancy.angularDrag,true);
             Log.debug(tag,"Velocity %s", body.getLinearVelocity());
@@ -119,235 +117,6 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
 
     }
 
-
-/*
-    public float computeSubmergedArea(CircleShape shape, final Vector2 normal, float offset, Transform xf, Vector2 c) {
-        Vector2 p = xf.mul(shape.getPosition());
-        float l = -(normal.dot(p) - offset);
-
-        if (l < - shape.getRadius() + EPSILON) {
-            // Completely dry
-            return 0;
-        }
-        if (l >  shape.getRadius()) {
-            // Completely wet
-            c.set(p);
-            return MathUtils.PI *  shape.getRadius() *  shape.getRadius();
-        }
-
-        // Magic
-        float r2 =  shape.getRadius() *  shape.getRadius();
-        float l2 = l * l;
-        float area = (float) (r2
-                * (Math.asin(l /  shape.getRadius()) + MathUtils.PI / 2.0f) + l
-                * Math.sqrt(r2 - l2));
-        float com = (float) (-2.0f / 3.0f * Math.pow(r2 - l2, 1.5f) / area);
-
-        c.x = p.x + normal.x * com;
-        c.y = p.y + normal.y * com;
-        Log.debug(tag,"computeSubmergedArea CircleShape. area %f", area);
-        return area;
-
-    }
-
-
-    public float computeSubmergedArea(PolygonShape shape, Vector2 normal, float offset, Transform xf, Vector2 c) {
-        //Transform plane into shape co-ordinates
-        c1.set(xf.vals[Transform.COS], xf.vals[Transform.SIN]);
-        c2.set(-xf.vals[Transform.SIN], xf.vals[Transform.COS]);
-
-        normalL.set(normal.dot(c1), normal.dot(c2));
-        float offsetL = offset - normal.dot(xf.getPosition());
-
-        float[] depths = new float[MAX_POLYGON_VERTICES];
-        int diveCount = 0;
-        int intoIndex = -1;
-        int outoIndex = -1;
-
-        boolean lastSubmerged = false;
-        int i = 0;
-        for (i = 0; i < shape.getVertexCount(); ++i) {
-            shape.getVertex(i, vertex);
-            // determine depth of this object versus the waterline.  negative represents submerged
-            depths[i] = normalL.dot(vertex) - offsetL;
-            boolean isSubmerged = depths[i] <- EPSILON;
-            if (i > 0) {
-                if (isSubmerged) {
-                    if (!lastSubmerged) {
-                        intoIndex = i-1;
-                        diveCount++;
-                    }
-
-                }
-                else {
-                    if (lastSubmerged) {
-                        outoIndex = i-1;
-                        diveCount++;
-                    }
-                }
-
-            }
-            lastSubmerged = isSubmerged;
-        }
-
-        switch(diveCount) {
-            case 0:
-                if (lastSubmerged) {
-                    //Completely submerged
-                    MassData md = new MassData();
-                    computeMass(shape,md, 1.0f);
-                    c.set(xf.mul(md.center.cpy()));
-                    return md.mass;
-                }
-                else {
-                    //Completely dry
-                    return 0;
-                }
-
-            case 1:
-                if(intoIndex==-1)
-                {
-                    intoIndex = shape.getVertexCount()-1;
-                }
-                else
-                {
-                    outoIndex = shape.getVertexCount()-1;
-                }
-                break;
-        }
-
-        int intoIndex2 = (intoIndex+1) % shape.getVertexCount();
-        int outoIndex2 = (outoIndex+1) % shape.getVertexCount();
-
-        float intoLambda = (0 - depths[intoIndex]) / (depths[intoIndex2] - depths[intoIndex]);
-        float outoLambda = (0 - depths[outoIndex]) / (depths[outoIndex2] - depths[outoIndex]);
-
-        Vector2 verIntoIndex = new Vector2();
-        shape.getVertex(intoIndex,verIntoIndex);
-        Vector2 verIntoIndex2 = new Vector2();
-        shape.getVertex(intoIndex2,verIntoIndex2);
-
-        Vector2 verOutoIndex = new Vector2();
-        shape.getVertex(outoIndex,verOutoIndex);
-        Vector2 verOutoIndex2 = new Vector2();
-        shape.getVertex(outoIndex2,verOutoIndex2);
-
-        Vector2 intoVec = new Vector2(verIntoIndex.x * (1-intoLambda) + verIntoIndex2.x * intoLambda,
-            verIntoIndex.y * (1-intoLambda)+ verIntoIndex2.y * intoLambda);
-
-        Vector2 outoVec = new Vector2(verOutoIndex.x * (1-outoLambda) + verOutoIndex2.x * outoLambda,
-                verOutoIndex.y * (1-outoLambda) + verOutoIndex2.y * outoLambda);
-
-        // Initialize accumulator
-        float area = 0;
-        Vector2 center = new Vector2(0,0);
-        Vector2 p2b = new Vector2();
-        shape.getVertex(intoIndex2,p2b);
-        Vector2 p3 = new Vector2();
-
-        float k_inv3 = 1.0f / 3.0f;
-
-        // An awkward loop from intoIndex2+1 to outIndex2
-        i = intoIndex2;
-        while (i != outoIndex2)
-        {
-            i = (i+1) % shape.getVertexCount();
-            if (i == outoIndex2)
-                p3 = outoVec;
-            else
-                shape.getVertex(i,p3);
-
-            // Add the triangle formed by intoVec,p2,p3
-            {
-                Vector2 e1 = p2b.sub(intoVec);
-                Vector2 e2 = p3.sub(intoVec);
-
-                float D = e1.crs(e2);
-
-                float triangleArea = 0.5f * D;
-
-                area += triangleArea;
-
-                // Area weighted centroid
-                center.x += triangleArea * k_inv3 * (intoVec.x + p2b.x + p3.x);
-                center.y += triangleArea * k_inv3 * (intoVec.y + p2b.y + p3.y);
-            }
-            //
-            p2b = p3;
-        }
-
-        // Normalize and transform centroid
-        center.x *= 1.0f / area;
-        center.y *= 1.0f / area;
-
-        c.set(xf.mul(center.cpy()));
-        Log.debug(tag,"computeSubmergedArea PolygonShape. area %f", area);
-        return area;
-
-    }
-
-
-    public void computeMass(PolygonShape shape, MassData massData, float density) {
-
-        final Vector2 center = new Vector2(0.0f, 0.0f);
-        float area = 0.0f;
-        float I = 0.0f;
-
-        // pRef is the reference point for forming triangles.
-        // It's location doesn't change the result (except for rounding error).
-        final Vector2 pRef = new Vector2(0.0f, 0.0f);
-
-        final float k_inv3 = 1.0f / 3.0f;
-
-        final Vector2 e1 = new Vector2();
-        final Vector2 e2 = new Vector2();
-
-        for (int i = 0; i < shape.getVertexCount(); ++i) {
-            // Triangle vertices.
-            final Vector2 p1 = pRef;
-            Vector2 p2 = new Vector2();
-            shape.getVertex(i, p2);
-            Vector2 p3 = new Vector2();
-            if(i + 1 < shape.getVertexCount() ) shape.getVertex(i+1,p3);
-            else shape.getVertex(0,p3);
-
-            e1.set(p2);
-            e1.sub(p1);
-
-            e2.set(p3);
-            e2.sub(p1);
-
-            final float D = e1.crs(e2);
-
-            final float triangleArea = 0.5f * D;
-            area += triangleArea;
-
-            // Area weighted centroid
-            center.x += triangleArea * k_inv3 * (p1.x + p2.x + p3.x);
-            center.y += triangleArea * k_inv3 * (p1.y + p2.y + p3.y);
-
-            final float px = p1.x, py = p1.y;
-            final float ex1 = e1.x, ey1 = e1.y;
-            final float ex2 = e2.x, ey2 = e2.y;
-
-            final float intx2 = k_inv3 * (0.25f * (ex1*ex1 + ex2*ex1 + ex2*ex2) + (px*ex1 + px*ex2)) + 0.5f*px*px;
-            final float inty2 = k_inv3 * (0.25f * (ey1*ey1 + ey2*ey1 + ey2*ey2) + (py*ey1 + py*ey2)) + 0.5f*py*py;
-
-            I += D * (intx2 + inty2);
-        }
-
-        // Total mass
-        massData.mass = density * area;
-
-        // Center of mass
-        assert(area > EPSILON);
-        center.scl(1.0f / area);
-        massData.center.set(center);
-
-        // Inertia tensor relative to the local origin.
-        massData.I = I*density;
-
-    }*/
 
     @Override
     public void beginContact(Contact contact) {
