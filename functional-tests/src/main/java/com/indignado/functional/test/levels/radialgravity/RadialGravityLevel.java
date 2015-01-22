@@ -32,18 +32,19 @@ public class RadialGravityLevel extends LevelFactory {
         world.getCamera().viewportHeight = Settings.Height * 3;
 
         Entity planet = world.getEntityFactories().get(Planet.class).createEntity();
-        world.positioningEntity(planet, 0, 14f, 0);
+        world.positioningEntity(planet, 0, 10f, 0);
         engine.addEntity(planet);
 
         Entity ground = world.getEntityFactories().get(Ground.class).createEntity();
+        world.positioningEntity(ground, 0, -22f, 0);
         engine.addEntity(ground);
 
         Entity box = world.getEntityFactories().get(Box.class).createEntity();
-        world.positioningEntity(box, 5, 29f, 0);
+        world.positioningEntity(box, 12f, 36f, 0);
         engine.addEntity(box);
 
         Entity box2 = world.getEntityFactories().get(Box.class).createEntity();
-        world.positioningEntity(box2, -8, 35f, 0);
+        world.positioningEntity(box2, -13, 33f, 0);
         engine.addEntity(box2);
 
     }

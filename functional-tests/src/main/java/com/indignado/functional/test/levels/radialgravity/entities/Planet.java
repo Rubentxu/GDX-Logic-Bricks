@@ -39,9 +39,10 @@ public class Planet extends EntityFactory {
 
         Body bodyPool = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
-                        .circleShape(4f)
-                        .density(1))
-                .mass(1f)
+                        .circleShape(5f)
+                        .density(1)
+                        .friction(2f))
+                .mass(2f)
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
@@ -49,7 +50,8 @@ public class Planet extends EntityFactory {
         rigidByPool.rigidBodies.add(bodyPool);
 
         RadialGravityComponent radialGravityComponent = entityBuilder.getComponent(RadialGravityComponent.class);
-        radialGravityComponent.radius = 11f;
+        radialGravityComponent.radius = 24f;
+       // radialGravityComponent.gravity = -18;
 
         Entity entity = entityBuilder.getEntity();
 

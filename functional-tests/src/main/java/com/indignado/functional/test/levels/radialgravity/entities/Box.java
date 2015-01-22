@@ -10,9 +10,17 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.actuators.MotionActuator;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.sensors.AlwaysSensor;
+import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
+import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
+import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 
 /**
  * @author Rubentxu.
@@ -44,17 +52,35 @@ public class Box extends EntityFactory {
         state.createState("Default");
 
         Body bodyBox = bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(MathUtils.random(0.7f,1.4f), MathUtils.random(0.7f,1.3f))
+                .boxShape(MathUtils.random(0.4f,0.8f), MathUtils.random(0.4f,0.8f))
                 .friction(1f)
-                .density(1f))
-                .mass(1)
+                .density(2f))
+                .mass(2)
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
+
+        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+                .setPulse(Sensor.Pulse.PM_TRUE)
+                .setName("alwaysSensor")
+                .getBrick();
+
+        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+                .setOp(ConditionalController.Op.OP_AND)
+                .getBrick();
+
+        MotionActuator motionActuator = EngineUtils.getBuilder(MotionActuatorBuilder.class)
+                .setTorque(5)
+                .getBrick();
+
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyBox);
 
-        Entity entity = entityBuilder.getEntity();
+        Entity entity = entityBuilder.addController(controller,"Default")
+                .connectToSensor(alwaysSensor)
+                .connectToActuator(motionActuator)
+                .getEntity();
+
         Gdx.app.log("Box", "instance" + entity);
         return entity;
 
