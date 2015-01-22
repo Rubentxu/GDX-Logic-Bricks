@@ -62,7 +62,7 @@ public class RadialGravitySystem extends IteratingSystem implements ContactListe
             }
 
         }
-        
+
     }
 
 
