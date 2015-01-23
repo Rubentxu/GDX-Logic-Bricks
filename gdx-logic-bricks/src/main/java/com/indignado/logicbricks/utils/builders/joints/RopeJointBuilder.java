@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.joints;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 
@@ -18,6 +19,12 @@ public class RopeJointBuilder extends BaseJointBuilder<RopeJointDef, RopeJointBu
     @Override
     public void reset() {
         jointDef = new RopeJointDef();
+
+    }
+
+
+    public RopeJointBuilder initialize(Body bodyA, Body bodyB) {
+        return super.initialize(bodyA, bodyB);
 
     }
 
