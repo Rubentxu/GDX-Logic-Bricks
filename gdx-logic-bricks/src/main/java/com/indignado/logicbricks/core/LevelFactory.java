@@ -5,20 +5,20 @@ package com.indignado.logicbricks.core;
  */
 public abstract class LevelFactory {
     protected String tag = this.getClass().getSimpleName();
-    protected World world;
+    protected Game game;
 
 
-    protected LevelFactory(World world) {
-        this.world = world;
+    protected LevelFactory(Game game) {
+        this.game = game;
 
     }
 
 
     public void loadAssets() {
-        for (EntityFactory factory : world.getEntityFactories().values()) {
+        for (EntityFactory factory : game.getEntityFactories().values()) {
             factory.loadAssets();
         }
-        world.getAssetManager().finishLoading();
+        game.getAssetManager().finishLoading();
 
     }
 

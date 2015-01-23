@@ -1,10 +1,7 @@
 package com.indignado.logicbricks.utils.builders;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * clone common-gdx project
@@ -67,6 +64,15 @@ public class FixtureDefBuilder {
     public FixtureDefBuilder polygonShape(Vector2[] vertices) {
         PolygonShape shape = new PolygonShape();
         shape.set(vertices);
+        fixtureDef.shape = shape;
+        return this;
+
+    }
+
+
+    public FixtureDefBuilder edgeShape(float xA, float yA, float xB, float yB) {
+        EdgeShape shape = new EdgeShape();
+        shape.set(xA, yA, xB, yB);
         fixtureDef.shape = shape;
         return this;
 

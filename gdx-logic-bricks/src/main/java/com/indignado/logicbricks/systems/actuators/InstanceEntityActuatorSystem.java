@@ -6,15 +6,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.InstanceEntityActuatorComponent;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.Log;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.StateActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
@@ -25,12 +25,12 @@ import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
  * @author Rubentxu
  */
 public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityActuator, InstanceEntityActuatorComponent> {
-    private World world;
+    private Game game;
 
 
-    public InstanceEntityActuatorSystem(World world) {
+    public InstanceEntityActuatorSystem(Game game) {
         super(InstanceEntityActuatorComponent.class);
-        this.world = world;
+        this.game = game;
 
     }
 
@@ -43,21 +43,21 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
             Vector2 position = body.getPosition().cpy();
             if (actuator.localPosition != null) position.add(actuator.localPosition);
 
-            world.positioningEntity(entity, position.x, position.y, actuator.angle);
+            game.positioningEntity(entity, position.x, position.y, actuator.angle);
             Log.debug(tag, "Create with position %s", position);
 
             if (actuator.initialVelocity != null) {
-                addMotionComponents(world, entity, actuator);
+                addMotionComponents(game, entity, actuator);
             }
-            if (actuator.duration != 0) addDurationComponents(world, entity, actuator);
-            world.getEngine().addEntity(entity);
+            if (actuator.duration != 0) addDurationComponents(game, entity, actuator);
+            game.getEngine().addEntity(entity);
 
         }
 
     }
 
 
-    private void addDurationComponents(World world, Entity entity, InstanceEntityActuator actuator) {
+    private void addDurationComponents(Game game, Entity entity, InstanceEntityActuator actuator) {
         DelaySensor delaySensor = EngineUtils.getBuilder(DelaySensorBuilder.class)
                 .setDelay(actuator.duration)
                 .setName("SensorDestroyEntity")
@@ -73,7 +73,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
                 .setName("DurationController")
                 .getBrick();
 
-        world.getEntityBuilder()
+        game.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
                 .connectToSensor(delaySensor)
@@ -84,7 +84,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
     }
 
 
-    private void addMotionComponents(World world, Entity entity, InstanceEntityActuator actuator) {
+    private void addMotionComponents(Game game, Entity entity, InstanceEntityActuator actuator) {
         AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("SensorMotionActuator")
                 .getBrick();
@@ -100,7 +100,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
         Log.debug(tag, "Initial Velocity %s Angle %f", actuator.initialVelocity.toString(), actuator.angle);
 
-        world.getEntityBuilder()
+        game.getEntityBuilder()
                 .initialize(entity)
                 .addController(controller, entity.getComponent(StateComponent.class).getStates())
                 .connectToSensor(alwaysSensor)

@@ -25,7 +25,7 @@ public class RadialGravityTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new RadialGravityLevel(world));
+        addLevel(new RadialGravityLevel(game));
 
     }
 

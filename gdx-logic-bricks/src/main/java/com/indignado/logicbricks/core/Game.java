@@ -21,6 +21,7 @@ import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
 
 import java.util.Iterator;
 
@@ -28,7 +29,7 @@ import java.util.Iterator;
 /**
  * @author Rubentxu.
  */
-public class World implements Disposable, ContactListener {
+public class Game implements Disposable, ContactListener {
     private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
@@ -36,7 +37,8 @@ public class World implements Disposable, ContactListener {
     private final OrthographicCamera camera;
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
-    // Systems
+    private final JointBuilder jointBuilder;
+
     private final ViewPositionSystem viewPositionSystem;
     private final SpriteBatch batch;
     private String tag = this.getClass().getSimpleName();
@@ -47,13 +49,18 @@ public class World implements Disposable, ContactListener {
     private double accumulatorPhysics;
 
 
-    public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
-                 SpriteBatch batch, OrthographicCamera camera) {
+    public Game(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
+                SpriteBatch batch, OrthographicCamera camera) {
         this.physics = physics;
         this.assetManager = assetManager;
         this.camera = camera;
         this.engine = new LogicBricksEngine();
         this.batch = batch;
+
+        entityBuilder = new EntityBuilder(engine);
+        bodyBuilder = new BodyBuilder(physics);
+        jointBuilder = new JointBuilder(physics);
+
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         viewPositionSystem = new ViewPositionSystem();
         engine.addSystem(viewPositionSystem);
@@ -63,8 +70,7 @@ public class World implements Disposable, ContactListener {
         engine.addSystem(new InstanceEntityActuatorSystem(this));
         engine.addSystem(new CollisionSensorSystem());
 
-        entityBuilder = new EntityBuilder(engine);
-        bodyBuilder = new BodyBuilder(physics);
+
         this.levelFactories = new IntMap<LevelFactory>();
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         this.categoryBitsManager = new CategoryBitsManager();
@@ -100,6 +106,7 @@ public class World implements Disposable, ContactListener {
             level.createLevel();
 
         }
+        if (Settings.draggableBodies) engine.addSystem(new DraggableBodySystem(this));
 
     }
 
@@ -206,18 +213,28 @@ public class World implements Disposable, ContactListener {
 
     }
 
+
     public EntityBuilder getEntityBuilder() {
         return entityBuilder;
+
     }
 
 
     public BodyBuilder getBodyBuilder() {
         return bodyBuilder;
+
+    }
+
+
+    public JointBuilder getJointBuilder() {
+        return jointBuilder;
+
     }
 
 
     public <T extends EntityFactory> void addEntityFactory(T factory) {
         entityFactories.put(factory.getClass(), factory);
+
 
     }
 
