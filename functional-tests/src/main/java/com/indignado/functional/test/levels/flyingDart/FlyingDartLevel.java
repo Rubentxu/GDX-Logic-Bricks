@@ -8,7 +8,7 @@ import com.indignado.functional.test.levels.flyingDart.entities.TriggerDart;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 
 /**
  * @author Rubentxu.
@@ -16,30 +16,30 @@ import com.indignado.logicbricks.core.World;
 public class FlyingDartLevel extends LevelFactory {
 
 
-    public FlyingDartLevel(World world) {
-        super(world);
-        world.addEntityFactory(new Dart(world));
-        world.addEntityFactory(new Ground(world));
-        world.addEntityFactory(new Wall(world));
-        world.addEntityFactory(new TriggerDart(world));
+    public FlyingDartLevel(Game game) {
+        super(game);
+        game.addEntityFactory(new Dart(game));
+        game.addEntityFactory(new Ground(game));
+        game.addEntityFactory(new Wall(game));
+        game.addEntityFactory(new TriggerDart(game));
 
     }
 
 
     @Override
     public void createLevel() {
-        LogicBricksEngine engine = world.getEngine();
-        world.getCamera().position.set(0, 9, 0);
-        world.getCamera().viewportWidth = Settings.Width;
-        world.getCamera().viewportHeight = Settings.Height;
-        Entity trigger = world.getEntityFactories().get(TriggerDart.class).createEntity();
-        world.positioningEntity(trigger, -14, 2f, 0);
+        LogicBricksEngine engine = game.getEngine();
+        game.getCamera().position.set(0, 9, 0);
+        game.getCamera().viewportWidth = Settings.Width;
+        game.getCamera().viewportHeight = Settings.Height;
+        Entity trigger = game.getEntityFactories().get(TriggerDart.class).createEntity();
+        game.positioningEntity(trigger, -14, 2f, 0);
         engine.addEntity(trigger);
 
-        Entity ground = world.getEntityFactories().get(Ground.class).createEntity();
+        Entity ground = game.getEntityFactories().get(Ground.class).createEntity();
         engine.addEntity(ground);
-        Entity wall = world.getEntityFactories().get(Wall.class).createEntity();
-        world.positioningEntity(wall, 14, 10, 0);
+        Entity wall = game.getEntityFactories().get(Wall.class).createEntity();
+        game.positioningEntity(wall, 14, 10, 0);
         engine.addEntity(wall);
 
     }

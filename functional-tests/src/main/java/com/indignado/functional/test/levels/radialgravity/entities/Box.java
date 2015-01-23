@@ -9,13 +9,13 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
@@ -28,8 +28,8 @@ import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 public class Box extends EntityFactory {
 
 
-    public Box(World world) {
-        super(world);
+    public Box(Game game) {
+        super(game);
 
     }
 
@@ -41,9 +41,9 @@ public class Box extends EntityFactory {
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = world.getEntityBuilder();
+        EntityBuilder entityBuilder = game.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = world.getBodyBuilder();
+        BodyBuilder bodyBuilder = game.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Box";

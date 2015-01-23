@@ -7,7 +7,7 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -18,8 +18,8 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 public class Ground extends EntityFactory {
 
 
-    public Ground(World world) {
-        super(world);
+    public Ground(Game game) {
+        super(game);
 
     }
 
@@ -31,13 +31,13 @@ public class Ground extends EntityFactory {
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = world.getEntityBuilder();
+        EntityBuilder entityBuilder = game.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = world.getBodyBuilder();
+        BodyBuilder bodyBuilder = game.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Ground";
-        identity.category = world.getCategoryBitsManager().getCategoryBits("Ground");
+        identity.category = game.getCategoryBitsManager().getCategoryBits("Ground");
 
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);

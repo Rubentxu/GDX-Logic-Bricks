@@ -7,7 +7,7 @@ import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.simpleplatform.entities.PlayerPlatform;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 
 /**
  * @author Rubentxu.
@@ -15,33 +15,33 @@ import com.indignado.logicbricks.core.World;
 public class SimplePlatformLevel extends LevelFactory {
 
 
-    public SimplePlatformLevel(World world) {
-        super(world);
-        world.addEntityFactory(new PlayerPlatform(world));
-        world.addEntityFactory(new Ground(world));
-        world.addEntityFactory(new Crate(world));
+    public SimplePlatformLevel(Game game) {
+        super(game);
+        game.addEntityFactory(new PlayerPlatform(game));
+        game.addEntityFactory(new Ground(game));
+        game.addEntityFactory(new Crate(game));
     }
 
 
     @Override
     public void createLevel() {
-        PooledEngine engine = world.getEngine();
-        world.getCamera().position.set(0, 7, 0);
-        world.getCamera().viewportWidth = Settings.Width;
-        world.getCamera().viewportHeight = Settings.Height;
+        PooledEngine engine = game.getEngine();
+        game.getCamera().position.set(0, 7, 0);
+        game.getCamera().viewportWidth = Settings.Width;
+        game.getCamera().viewportHeight = Settings.Height;
 
-        Entity player = world.getEntityFactories().get(PlayerPlatform.class).createEntity();
+        Entity player = game.getEntityFactories().get(PlayerPlatform.class).createEntity();
         engine.addEntity(player);
 
-        Entity ground = world.getEntityFactories().get(Ground.class).createEntity();
+        Entity ground = game.getEntityFactories().get(Ground.class).createEntity();
         engine.addEntity(ground);
 
-        Entity box = world.getEntityFactories().get(Crate.class).createEntity();
-        world.positioningEntity(box, -3, 5f, 0);
+        Entity box = game.getEntityFactories().get(Crate.class).createEntity();
+        game.positioningEntity(box, -3, 5f, 0);
         engine.addEntity(box);
 
-        Entity box2 = world.getEntityFactories().get(Crate.class).createEntity();
-        world.positioningEntity(box2, 9, 7f, 0);
+        Entity box2 = game.getEntityFactories().get(Crate.class).createEntity();
+        game.positioningEntity(box2, 9, 7f, 0);
         engine.addEntity(box2);
 
     }

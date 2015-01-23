@@ -25,7 +25,7 @@ public class BuoyancyTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new BuoyancyLevel(world));
+        addLevel(new BuoyancyLevel(game));
 
     }
 

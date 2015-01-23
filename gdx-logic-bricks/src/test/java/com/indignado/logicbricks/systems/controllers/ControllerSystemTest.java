@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Before;

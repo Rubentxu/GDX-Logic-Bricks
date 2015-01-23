@@ -21,6 +21,7 @@ import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
 
 import java.util.Iterator;
 
@@ -28,7 +29,7 @@ import java.util.Iterator;
 /**
  * @author Rubentxu.
  */
-public class World implements Disposable, ContactListener {
+public class Game implements Disposable, ContactListener {
     private static int levelIndex = 0;
     private final AssetManager assetManager;
     private final com.badlogic.gdx.physics.box2d.World physics;
@@ -36,7 +37,8 @@ public class World implements Disposable, ContactListener {
     private final OrthographicCamera camera;
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
-    // Systems
+    private final JointBuilder jointBuilder;
+
     private final ViewPositionSystem viewPositionSystem;
     private final SpriteBatch batch;
     private String tag = this.getClass().getSimpleName();
@@ -47,8 +49,8 @@ public class World implements Disposable, ContactListener {
     private double accumulatorPhysics;
 
 
-    public World(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
-                 SpriteBatch batch, OrthographicCamera camera) {
+    public Game(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
+                SpriteBatch batch, OrthographicCamera camera) {
         this.physics = physics;
         this.assetManager = assetManager;
         this.camera = camera;
@@ -65,6 +67,7 @@ public class World implements Disposable, ContactListener {
 
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
+        jointBuilder = new JointBuilder(physics);
         this.levelFactories = new IntMap<LevelFactory>();
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         this.categoryBitsManager = new CategoryBitsManager();
@@ -206,13 +209,22 @@ public class World implements Disposable, ContactListener {
 
     }
 
+
     public EntityBuilder getEntityBuilder() {
         return entityBuilder;
+
     }
 
 
     public BodyBuilder getBodyBuilder() {
         return bodyBuilder;
+
+    }
+
+
+    public JointBuilder getJointBuilder() {
+        return jointBuilder;
+
     }
 
 

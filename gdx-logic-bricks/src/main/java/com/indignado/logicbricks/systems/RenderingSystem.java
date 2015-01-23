@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.TextureView;
@@ -45,8 +46,8 @@ public class RenderingSystem extends IteratingSystem {
     private Box2DDebugRenderer debugRenderer;
     //private BitmapFont debugFont;
 
-    public RenderingSystem(com.indignado.logicbricks.core.World world) {
-        this(world.getBatch(), world.getCamera(), world.getPhysics());
+    public RenderingSystem(Game game) {
+        this(game.getBatch(), game.getCamera(), game.getPhysics());
 
     }
 

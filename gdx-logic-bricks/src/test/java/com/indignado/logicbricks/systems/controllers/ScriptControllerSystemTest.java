@@ -10,7 +10,7 @@ import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;

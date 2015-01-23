@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.utils.builders;
+package com.indignado.logicbricks.utils;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.EntitySystem;
@@ -23,7 +23,7 @@ import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
-import com.indignado.logicbricks.utils.Log;
+import com.indignado.logicbricks.utils.builders.BrickBuilder;
 
 /**
  * @author Rubentxu.
@@ -121,7 +121,7 @@ public class EngineUtils {
     }
 
 
-    class BricksClasses<C extends Component, S extends EntitySystem> {
+    public class BricksClasses<C extends Component, S extends EntitySystem> {
         public Class<C> component;
         public Class<S> system;
 

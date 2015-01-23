@@ -15,7 +15,7 @@ import com.indignado.logicbricks.utils.Log;
 /**
  * @author Rubentxu
  */
-public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent> implements EntityListener{
+public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent> implements EntityListener {
     private World physics;
 
     public RaySensorSystem(World physics) {
@@ -33,9 +33,9 @@ public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent>
         Vector2 point1 = sensor.attachedRigidBody.getPosition();
         Vector2 point2 = point1.cpy().add(new Vector2((float) MathUtils.cosDeg(angle), MathUtils.sinDeg(angle)).scl(sensor.range));
 
-        physics.rayCast(sensor, point1, point2 );
+        physics.rayCast(sensor, point1, point2);
 
-        if(sensor.contacts.size > 0) {
+        if (sensor.contacts.size > 0) {
             return true;
 
         }
@@ -53,7 +53,8 @@ public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent>
             IntMap.Values<ObjectSet<RaySensor>> values = raySensorComponent.sensors.values();
             while (values.hasNext()) {
                 for (RaySensor sensor : values.next()) {
-                    if (sensor.attachedRigidBody == null) sensor.attachedRigidBody = rigidBodiesComponent.rigidBodies.first();
+                    if (sensor.attachedRigidBody == null)
+                        sensor.attachedRigidBody = rigidBodiesComponent.rigidBodies.first();
 
                 }
             }

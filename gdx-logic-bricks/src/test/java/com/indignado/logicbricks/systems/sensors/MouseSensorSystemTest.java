@@ -11,7 +11,7 @@ import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 import org.junit.Test;

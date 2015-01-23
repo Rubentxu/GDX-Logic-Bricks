@@ -8,10 +8,10 @@ import com.badlogic.ashley.core.Entity;
  */
 public abstract class EntityFactory {
     protected String tag = this.getClass().getSimpleName();
-    protected World world;
+    protected Game game;
 
-    public EntityFactory(World world) {
-        this.world = world;
+    public EntityFactory(Game game) {
+        this.game = game;
 
     }
 

@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor.MouseEvent;
@@ -22,12 +22,12 @@ import com.indignado.logicbricks.utils.Log;
  */
 public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
     private ObjectMap<MouseEvent, ObjectSet<MouseSensor>> mouseSensors;
-    private World world;
+    private Game game;
 
-    public MouseSensorSystem(World world) {
+    public MouseSensorSystem(Game game) {
         super(MouseSensorComponent.class);
         mouseSensors = new ObjectMap<MouseEvent, ObjectSet<MouseSensor>>();
-        this.world = world;
+        this.game = game;
 
     }
 
@@ -99,7 +99,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-        if (world != null) world.getCamera().unproject(worldCoordinates);
+        if (game != null) game.getCamera().unproject(worldCoordinates);
         else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d, pointer %d, button %d", screenX, screenY,
                 pointer, button);
 
@@ -123,7 +123,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-        if (world != null) world.getCamera().unproject(worldCoordinates);
+        if (game != null) game.getCamera().unproject(worldCoordinates);
         else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d, pointer %d, button %d", screenX, screenY,
                 pointer, button);
 
@@ -175,7 +175,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Vector3 worldCoordinates = new Vector3(screenX, screenY, 0);
-        if (world != null) world.getCamera().unproject(worldCoordinates);
+        if (game != null) game.getCamera().unproject(worldCoordinates);
         else Log.debug(tag, "Testing TouchDow screenX %d, screenY %d", screenX, screenY);
         changeSensors(MouseEvent.MOVEMENT, worldCoordinates);
         changeSensors(MouseEvent.MOUSE_OVER, worldCoordinates);

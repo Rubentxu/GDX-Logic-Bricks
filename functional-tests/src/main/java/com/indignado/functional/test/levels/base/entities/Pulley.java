@@ -1,25 +1,27 @@
-package com.indignado.functional.test.levels.radialgravity.entities;
+package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class Planet extends EntityFactory {
+public class Pulley extends EntityFactory {
 
 
-    public Planet(Game game) {
+    public Pulley(Game game) {
         super(game);
+
     }
 
 
@@ -35,27 +37,26 @@ public class Planet extends EntityFactory {
         BodyBuilder bodyBuilder = game.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
-        identity.tag = "Planet";
+        identity.tag = "Pulley";
+        identity.category = game.getCategoryBitsManager().getCategoryBits("Pulley");
 
-        Body bodyPool = bodyBuilder
-                .fixture(bodyBuilder.fixtureDefBuilder()
-                        .circleShape(5f)
-                        .density(1)
-                        .friction(2f))
-                .mass(2f)
+        StateComponent state = entityBuilder.getComponent(StateComponent.class);
+        state.createState("Default");
+
+        Body bodyCrate = bodyBuilder.fixture(new FixtureDefBuilder()
+                .boxShape(1, 1)
+                .friction(0.5f)
+                .restitution(0.5f))
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
-        RigidBodiesComponents rigidByPool = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByPool.rigidBodies.add(bodyPool);
 
-        RadialGravityComponent radialGravityComponent = entityBuilder.getComponent(RadialGravityComponent.class);
-        radialGravityComponent.radius = 24f;
-       // radialGravityComponent.gravity = -18;
+
+        RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
+        bodiesComponents.rigidBodies.add(bodyCrate);
 
         Entity entity = entityBuilder.getEntity();
-
-        Gdx.app.log("Planet", "instance " + entity);
+        Gdx.app.log("Crate", "instance" + entity);
         return entity;
 
     }

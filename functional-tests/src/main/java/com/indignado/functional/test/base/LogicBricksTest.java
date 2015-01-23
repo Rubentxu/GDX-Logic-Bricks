@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
 
@@ -20,7 +21,7 @@ import java.net.URL;
  * @author Rubentxu.
  */
 public abstract class LogicBricksTest implements ApplicationListener {
-    protected com.indignado.logicbricks.core.World world;
+    protected Game game;
     protected SpriteBatch batch;
     protected OrthographicCamera camera;
 
@@ -44,7 +45,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        world = new com.indignado.logicbricks.core.World(new World(Settings.gravity, true)
+        game = new Game(new World(Settings.gravity, true)
                 , new AssetManager(new TestFileHandleResolver()), batch, camera);
 
 
@@ -52,8 +53,8 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
 
     public void addLevel(LevelFactory levelFactory) {
-        world.addLevelCreator(levelFactory);
-        world.createLevel(1);
+        game.addLevelCreator(levelFactory);
+        game.createLevel(1);
 
     }
 
@@ -71,7 +72,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;
-        world.update();
+        game.update();
 
 
     }

@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MessageSensorBuilder;
