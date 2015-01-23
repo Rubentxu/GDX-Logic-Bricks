@@ -16,7 +16,7 @@ import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
@@ -63,26 +63,26 @@ public class TriggerDart extends EntityFactory {
         entityBuilder.addRigidBody(bodyTrigger);
 
 
-        MouseSensor trigger = BricksUtils.getBuilder(MouseSensorBuilder.class)
+        MouseSensor trigger = EngineUtils.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON_DOWN)
                 .setFrequency(0.7f)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("SensorMouse")
                 .getBrick();
 
-        AlwaysSensor alwaysSensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("DelayTrigger")
                 .getBrick();
 
 
-        ScriptController controllerTrigger = BricksUtils.getBuilder(ScriptControllerBuilder.class)
+        ScriptController controllerTrigger = EngineUtils.getBuilder(ScriptControllerBuilder.class)
                 .setScript(new MousePositionScript())
                 .setName("MousePosition")
                 .getBrick();
 
 
-        InstanceEntityActuator instanceEntityActuator = BricksUtils.getBuilder(InstanceEntityActuatorBuilder.class)
+        InstanceEntityActuator instanceEntityActuator = EngineUtils.getBuilder(InstanceEntityActuatorBuilder.class)
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(world.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(2, 1))

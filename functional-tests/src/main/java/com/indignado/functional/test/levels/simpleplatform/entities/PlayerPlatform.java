@@ -20,7 +20,7 @@ import com.indignado.logicbricks.core.data.AnimationView;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.*;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.*;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
@@ -118,17 +118,17 @@ public class PlayerPlatform extends EntityFactory {
 
         // ALL States
         // Create Bricks Camera ----------------------------------------------------------------
-        AlwaysSensor alwaysSensorCamera = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensorCamera = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("alwaysSensorCamera")
                 .getBrick();
 
-        ConditionalController controllerCamera = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerCamera = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerCamera")
                 .getBrick();
 
-        CameraActuator cameraActuator = BricksUtils.getBuilder(CameraActuatorBuilder.class)
+        CameraActuator cameraActuator = EngineUtils.getBuilder(CameraActuatorBuilder.class)
                 .setHeight((short) 1)
                 .setCamera(camera)
                 .setName("cameraActuator")
@@ -139,7 +139,7 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToActuator(cameraActuator);
 
         // Collision Sensor ----------------------------------------------------------------
-        CollisionSensor collisionSensorGround = BricksUtils.getBuilder(CollisionSensorBuilder.class)
+        CollisionSensor collisionSensorGround = EngineUtils.getBuilder(CollisionSensorBuilder.class)
                 .setTargetName("Ground")
                 .setPulse(Sensor.Pulse.PM_TRUE, Sensor.Pulse.PM_FALSE)
                 .setName("collisionSensorGround")
@@ -148,24 +148,24 @@ public class PlayerPlatform extends EntityFactory {
 
         /* State Walking to Change State Idle ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
-        KeyboardSensor keyboardSensorWalkingRight = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorWalkingRight = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.D)
                 .setPulse(Sensor.Pulse.PM_TRUE, Sensor.Pulse.PM_FALSE)
                 .setName("keyboardSensorWalkingRight")
                 .getBrick();
 
-        KeyboardSensor keyboardSensorWalkingLeft = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorWalkingLeft = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
                 .setPulse(Sensor.Pulse.PM_TRUE, Sensor.Pulse.PM_FALSE)
                 .setName("keyboardSensorWalkingLeft")
                 .getBrick();
 
-        ConditionalController controllerMoveFalse = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerMoveFalse = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_NOR)
                 .setName("controllerChangeStateIdle")
                 .getBrick();
 
-        StateActuator stateActuatorIdle = BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorIdle = EngineUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Idle"))
                 .setName("stateActuatorIdle")
                 .getBrick();
@@ -175,7 +175,7 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToActuators(stateActuatorIdle);
 
         // Ground contact
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerGround")
                 .getBrick();
@@ -187,24 +187,24 @@ public class PlayerPlatform extends EntityFactory {
 
          /* State Idle to Change State Walking ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
-        KeyboardSensor keyboardSensorWalkingRight2 = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorWalkingRight2 = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.D)
                 .setPulse(Sensor.Pulse.PM_TRUE, Sensor.Pulse.PM_FALSE)
                 .setName("keyboardSensorWalkingRight2")
                 .getBrick();
 
-        KeyboardSensor keyboardSensorWalkingLeft2 = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorWalkingLeft2 = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
                 .setPulse(Sensor.Pulse.PM_TRUE, Sensor.Pulse.PM_FALSE)
                 .setName("keyboardSensorWalkingLeft2")
                 .getBrick();
 
-        ConditionalController controllerChangeStateWalking = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerChangeStateWalking = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_OR)
                 .setName("controllerChangeStateWalking")
                 .getBrick();
 
-        StateActuator stateActuatorWalking = BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorWalking = EngineUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Walking"))
                 .setName("stateActuatorWalking")
                 .getBrick();
@@ -216,18 +216,18 @@ public class PlayerPlatform extends EntityFactory {
 
          /* Idle/Walking to Change State Jump ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
-        KeyboardSensor keyboardSensorJump = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorJump = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.W)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("keyboardSensorJump")
                 .getBrick();
 
-        ConditionalController controllerJump = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerJump = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerJump")
                 .getBrick();
 
-        StateActuator stateActuatorJump = BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorJump = EngineUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Jump"))
                 .setName("stateActuatorJump")
                 .getBrick();
@@ -238,18 +238,18 @@ public class PlayerPlatform extends EntityFactory {
 
         /* State Jump/Fall to Change State Idle ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
-        DelaySensor delaySensorContactGround = BricksUtils.getBuilder(DelaySensorBuilder.class)
+        DelaySensor delaySensorContactGround = EngineUtils.getBuilder(DelaySensorBuilder.class)
                 .setDelay(0.4f)
                 .setDuration(3f)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .getBrick();
 
-        ConditionalController controllerGround2 = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround2 = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerGround2")
                 .getBrick();
 
-        StateActuator stateActuatorIdle2 = BricksUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuatorIdle2 = EngineUtils.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(stateComponent.getState("Idle"))
                 .setName("stateActuatorIdle2")
                 .getBrick();
@@ -263,27 +263,27 @@ public class PlayerPlatform extends EntityFactory {
            ---------------------------------------------------------------------------------- */
 
         // ** Idle Friction **
-        AlwaysSensor alwaysSensorIdle = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensorIdle = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("alwaysSensorIdle")
                 .getBrick();
 
-        ConditionalController controllerIdle = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerIdle = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerIdle")
                 .getBrick();
 
-        EditRigidBodyActuator editRigidBodyActuatorIdle = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
+        EditRigidBodyActuator editRigidBodyActuatorIdle = EngineUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
                 .setFriction(100)
                 .setTargetRigidBody(bodyPlayer)
                 .setName("editRigidBodyActuatorIdle")
                 .getBrick();
 
-        EffectActuator pauseIdleEffectActuator = BricksUtils.getBuilder(EffectActuatorBuilder.class)
+        EffectActuator pauseIdleEffectActuator = EngineUtils.getBuilder(EffectActuatorBuilder.class)
                 .setEffectView(particleEffectView)
                 .setActive(false)
                 .getBrick();
 
-        MotionActuator motionActuatorIdle = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuatorIdle = EngineUtils.getBuilder(MotionActuatorBuilder.class)
                 .setVelocity(new Vector2(0, 0))
                 .setLimitVelocityX(7)
                 .setName("motionActuatorWalkingRight")
@@ -298,22 +298,22 @@ public class PlayerPlatform extends EntityFactory {
            ---------------------------------------------------------------------------------- */
 
         // ** Walking **
-        AlwaysSensor alwaysSensorWalking = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensorWalking = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("alwaysSensorWalking")
                 .getBrick();
 
-        ConditionalController controllerWalking = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerWalking = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerWalking")
                 .getBrick();
 
-        EditRigidBodyActuator editRigidBodyActuatorWalking = BricksUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
+        EditRigidBodyActuator editRigidBodyActuatorWalking = EngineUtils.getBuilder(EditRigidBodyActuatorBuilder.class)
                 .setFriction(0.3f)
                 .setTargetRigidBody(bodyPlayer)
                 .setName("editRigidBodyActuatorWalking")
                 .getBrick();
 
-        EffectActuator activeEffectActuator = BricksUtils.getBuilder(EffectActuatorBuilder.class)
+        EffectActuator activeEffectActuator = EngineUtils.getBuilder(EffectActuatorBuilder.class)
                 .setEffectView(particleEffectView)
                 .setActive(true)
                 .getBrick();
@@ -323,24 +323,24 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToActuators(editRigidBodyActuatorWalking, activeEffectActuator);
 
         //  ** Walking Right **
-        KeyboardSensor keyboardSensorImpulseRight = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorImpulseRight = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.D)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("keyboardSensorImpulseRight")
                 .getBrick();
 
-        ConditionalController controllerWalkingRight = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerWalkingRight = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerWalkingRight")
                 .getBrick();
 
-        MotionActuator motionActuatorWalkingRight = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuatorWalkingRight = EngineUtils.getBuilder(MotionActuatorBuilder.class)
                 .setImpulse(new Vector2(2, 0))
                 .setLimitVelocityX(7)
                 .setName("motionActuatorWalkingRight")
                 .getBrick();
 
-        TextureActuator textureActuatorWalkingRight = BricksUtils.getBuilder(TextureActuatorBuilder.class)
+        TextureActuator textureActuatorWalkingRight = EngineUtils.getBuilder(TextureActuatorBuilder.class)
                 .setFlipX(false)
                 .setTextureView(playerView)
                 .setName("textureActuatorWalkingRight")
@@ -351,24 +351,24 @@ public class PlayerPlatform extends EntityFactory {
                 .connectToActuators(motionActuatorWalkingRight, textureActuatorWalkingRight);
 
         //  ** Walking Left **
-        KeyboardSensor keyboardSensorImpulseLeft = BricksUtils.getBuilder(KeyboardSensorBuilder.class)
+        KeyboardSensor keyboardSensorImpulseLeft = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("keyboardSensorImpulseLeft")
                 .getBrick();
 
-        ConditionalController controllerWalkingLeft = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerWalkingLeft = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerWalkingLeft")
                 .getBrick();
 
-        MotionActuator motionActuatorWalkingLeft = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuatorWalkingLeft = EngineUtils.getBuilder(MotionActuatorBuilder.class)
                 .setImpulse(new Vector2(-2, 0))
                 .setLimitVelocityX(7)
                 .setName("motionActuatorWalkingLeft")
                 .getBrick();
 
-        TextureActuator textureActuatorWalkingLeft = BricksUtils.getBuilder(TextureActuatorBuilder.class)
+        TextureActuator textureActuatorWalkingLeft = EngineUtils.getBuilder(TextureActuatorBuilder.class)
                 .setFlipX(true)
                 .setTextureView(playerView)
                 .setName("textureActuatorWalkingLeft")
@@ -382,21 +382,21 @@ public class PlayerPlatform extends EntityFactory {
           /* State Jump ----------------------------------------------------------------
            ---------------------------------------------------------------------------------- */
 
-        AlwaysSensor alwaysSensorImpulseJump = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensorImpulseJump = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("alwaysSensorImpulseJump")
                 .getBrick();
 
-        ConditionalController controllerImpulseJump = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerImpulseJump = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("controllerImpulseJump")
                 .getBrick();
 
-        MotionActuator motionActuatorJump = BricksUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuatorJump = EngineUtils.getBuilder(MotionActuatorBuilder.class)
                 .setImpulse(new Vector2(0, 8))
                 .setName("motionActuatorJump")
                 .getBrick();
 
-        EffectActuator pauseJumpEffectActuator = BricksUtils.getBuilder(EffectActuatorBuilder.class)
+        EffectActuator pauseJumpEffectActuator = EngineUtils.getBuilder(EffectActuatorBuilder.class)
                 .setEffectView(particleEffectView)
                 .setActive(false)
                 .getBrick();

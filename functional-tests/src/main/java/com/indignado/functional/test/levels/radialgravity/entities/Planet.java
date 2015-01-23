@@ -1,26 +1,25 @@
-package com.indignado.functional.test.levels.base.entities;
+package com.indignado.functional.test.levels.radialgravity.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
+import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
-import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
 /**
  * @author Rubentxu.
  */
-public class Ground extends EntityFactory {
+public class Planet extends EntityFactory {
 
 
-    public Ground(World world) {
+    public Planet(World world) {
         super(world);
-
     }
 
 
@@ -36,23 +35,27 @@ public class Ground extends EntityFactory {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
-        identity.tag = "Ground";
-        identity.category = world.getCategoryBitsManager().getCategoryBits("Ground");
+        identity.tag = "Planet";
 
-
-        StateComponent state = entityBuilder.getComponent(StateComponent.class);
-        state.createState("Default");
-        Body bodyWall = bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(50, 0.5f)
-                .friction(0.5f))
+        Body bodyPool = bodyBuilder
+                .fixture(bodyBuilder.fixtureDefBuilder()
+                        .circleShape(5f)
+                        .density(1)
+                        .friction(2f))
+                .mass(2f)
+                .type(BodyDef.BodyType.StaticBody)
                 .build();
 
-        RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
-        bodiesComponents.rigidBodies.add(bodyWall);
-        Gdx.app.log("Ground", "init instance3");
+        RigidBodiesComponents rigidByPool = entityBuilder.getComponent(RigidBodiesComponents.class);
+        rigidByPool.rigidBodies.add(bodyPool);
+
+        RadialGravityComponent radialGravityComponent = entityBuilder.getComponent(RadialGravityComponent.class);
+        radialGravityComponent.radius = 24f;
+       // radialGravityComponent.gravity = -18;
 
         Entity entity = entityBuilder.getEntity();
-        Gdx.app.log("Ground", "instance ");
+
+        Gdx.app.log("Planet", "instance " + entity);
         return entity;
 
     }

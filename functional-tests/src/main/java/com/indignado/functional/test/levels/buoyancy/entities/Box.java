@@ -1,8 +1,10 @@
-package com.indignado.functional.test.levels.base.entities;
+package com.indignado.functional.test.levels.buoyancy.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
@@ -15,10 +17,10 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 /**
  * @author Rubentxu.
  */
-public class Ground extends EntityFactory {
+public class Box extends EntityFactory {
 
 
-    public Ground(World world) {
+    public Box(World world) {
         super(world);
 
     }
@@ -36,23 +38,23 @@ public class Ground extends EntityFactory {
         BodyBuilder bodyBuilder = world.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
-        identity.tag = "Ground";
-        identity.category = world.getCategoryBitsManager().getCategoryBits("Ground");
-
+        identity.tag = "Box";
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
-        Body bodyWall = bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(50, 0.5f)
-                .friction(0.5f))
+
+        Body bodyBox = bodyBuilder.fixture(new FixtureDefBuilder()
+                .boxShape(MathUtils.random(0.5f,2), MathUtils.random(0.5f,2.5f))
+                .friction(0.5f)
+                .density(1f))
+                .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
-        bodiesComponents.rigidBodies.add(bodyWall);
-        Gdx.app.log("Ground", "init instance3");
+        bodiesComponents.rigidBodies.add(bodyBox);
 
         Entity entity = entityBuilder.getEntity();
-        Gdx.app.log("Ground", "instance ");
+        Gdx.app.log("Box", "instance" + entity);
         return entity;
 
     }

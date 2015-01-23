@@ -10,7 +10,7 @@ import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
@@ -45,7 +45,7 @@ public class ScriptControllerSystemTest {
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        AlwaysSensor sensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor sensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("SensorScript")
                 .getBrick();
 
@@ -56,7 +56,7 @@ public class ScriptControllerSystemTest {
             }
         };
 
-        ScriptController controller = BricksUtils.getBuilder(ScriptControllerBuilder.class)
+        ScriptController controller = EngineUtils.getBuilder(ScriptControllerBuilder.class)
                 .setScript(script)
                 .setName("playerController")
                 .getBrick();
