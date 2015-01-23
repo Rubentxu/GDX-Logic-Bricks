@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 /**
  * @author Rubentxu.
  */
-public class WeldJointBuilder extends BaseJointBuilder<WeldJointDef>{
+public class WeldJointBuilder extends BaseJointBuilder<WeldJointDef, WeldJointBuilder> {
 
 
     public WeldJointBuilder(World world) {
@@ -24,7 +24,7 @@ public class WeldJointBuilder extends BaseJointBuilder<WeldJointDef>{
     }
 
 
-    public WeldJointBuilder initialize (Body body1, Body body2, Vector2 anchor) {
+    public WeldJointBuilder initialize(Body body1, Body body2, Vector2 anchor) {
         jointDef.initialize(body1, body2, anchor);
         return this;
 

@@ -14,8 +14,8 @@ import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.EngineUtils;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
@@ -52,7 +52,7 @@ public class Box extends EntityFactory {
         state.createState("Default");
 
         Body bodyBox = bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(MathUtils.random(0.4f,0.8f), MathUtils.random(0.4f,0.8f))
+                .boxShape(MathUtils.random(0.4f, 0.8f), MathUtils.random(0.4f, 0.8f))
                 .friction(1f)
                 .density(2f))
                 .mass(2)
@@ -76,7 +76,7 @@ public class Box extends EntityFactory {
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyBox);
 
-        Entity entity = entityBuilder.addController(controller,"Default")
+        Entity entity = entityBuilder.addController(controller, "Default")
                 .connectToSensor(alwaysSensor)
                 .connectToActuator(motionActuator)
                 .getEntity();

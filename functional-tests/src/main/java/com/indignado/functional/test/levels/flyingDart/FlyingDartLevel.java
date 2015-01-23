@@ -5,10 +5,10 @@ import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.base.entities.Wall;
 import com.indignado.functional.test.levels.flyingDart.entities.Dart;
 import com.indignado.functional.test.levels.flyingDart.entities.TriggerDart;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.Game;
 
 /**
  * @author Rubentxu.

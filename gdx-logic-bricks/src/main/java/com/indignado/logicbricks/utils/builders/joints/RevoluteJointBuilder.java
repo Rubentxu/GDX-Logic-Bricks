@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 /**
  * @author Rubentxu.
  */
-public class RevoluteJointBuilder extends BaseJointBuilder<RevoluteJointDef> {
+public class RevoluteJointBuilder extends BaseJointBuilder<RevoluteJointDef, PulleyJointBuilder> {
 
 
     public RevoluteJointBuilder(World world) {
@@ -24,7 +24,7 @@ public class RevoluteJointBuilder extends BaseJointBuilder<RevoluteJointDef> {
     }
 
 
-    public RevoluteJointBuilder initialize (Body bodyA, Body bodyB, Vector2 anchor) {
+    public RevoluteJointBuilder initialize(Body bodyA, Body bodyB, Vector2 anchor) {
         jointDef.initialize(bodyA, bodyB, anchor);
         return this;
 

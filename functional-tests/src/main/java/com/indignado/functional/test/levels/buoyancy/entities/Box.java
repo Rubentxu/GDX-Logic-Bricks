@@ -44,7 +44,7 @@ public class Box extends EntityFactory {
         state.createState("Default");
 
         Body bodyBox = bodyBuilder.fixture(new FixtureDefBuilder()
-                .boxShape(MathUtils.random(0.5f,2), MathUtils.random(0.5f,2.5f))
+                .boxShape(MathUtils.random(0.5f, 2), MathUtils.random(0.5f, 2.5f))
                 .friction(0.5f)
                 .density(1f))
                 .type(BodyDef.BodyType.DynamicBody)

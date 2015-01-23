@@ -4,10 +4,11 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.indignado.functional.test.levels.base.entities.Crate;
 import com.indignado.functional.test.levels.base.entities.Ground;
+import com.indignado.functional.test.levels.base.entities.Pulley;
 import com.indignado.functional.test.levels.simpleplatform.entities.PlayerPlatform;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.Game;
 
 /**
  * @author Rubentxu.
@@ -20,6 +21,7 @@ public class SimplePlatformLevel extends LevelFactory {
         game.addEntityFactory(new PlayerPlatform(game));
         game.addEntityFactory(new Ground(game));
         game.addEntityFactory(new Crate(game));
+        game.addEntityFactory(new Pulley(game));
     }
 
 
@@ -43,6 +45,11 @@ public class SimplePlatformLevel extends LevelFactory {
         Entity box2 = game.getEntityFactories().get(Crate.class).createEntity();
         game.positioningEntity(box2, 9, 7f, 0);
         engine.addEntity(box2);
+
+
+        Entity pulley = game.getEntityFactories().get(Pulley.class).createEntity();
+        game.positioningEntity(pulley, 5, 11f, 0);
+        engine.addEntity(pulley);
 
     }
 

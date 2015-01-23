@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.Game;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.utils.Log;
 
 /**

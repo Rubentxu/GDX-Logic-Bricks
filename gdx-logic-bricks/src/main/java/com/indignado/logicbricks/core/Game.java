@@ -56,6 +56,11 @@ public class Game implements Disposable, ContactListener {
         this.camera = camera;
         this.engine = new LogicBricksEngine();
         this.batch = batch;
+
+        entityBuilder = new EntityBuilder(engine);
+        bodyBuilder = new BodyBuilder(physics);
+        jointBuilder = new JointBuilder(physics);
+
         engine.addSystem(new RenderingSystem(batch, camera, physics));
         viewPositionSystem = new ViewPositionSystem();
         engine.addSystem(viewPositionSystem);
@@ -65,9 +70,7 @@ public class Game implements Disposable, ContactListener {
         engine.addSystem(new InstanceEntityActuatorSystem(this));
         engine.addSystem(new CollisionSensorSystem());
 
-        entityBuilder = new EntityBuilder(engine);
-        bodyBuilder = new BodyBuilder(physics);
-        jointBuilder = new JointBuilder(physics);
+
         this.levelFactories = new IntMap<LevelFactory>();
         this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         this.categoryBitsManager = new CategoryBitsManager();
@@ -103,6 +106,7 @@ public class Game implements Disposable, ContactListener {
             level.createLevel();
 
         }
+        if (Settings.draggableBodies) engine.addSystem(new DraggableBodySystem(this));
 
     }
 
@@ -230,6 +234,7 @@ public class Game implements Disposable, ContactListener {
 
     public <T extends EntityFactory> void addEntityFactory(T factory) {
         entityFactories.put(factory.getClass(), factory);
+
 
     }
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
 /**
  * @author Rubentxu.
  */
-public class RopeJointBuilder extends BaseJointBuilder<RopeJointDef>{
+public class RopeJointBuilder extends BaseJointBuilder<RopeJointDef, RopeJointBuilder> {
 
 
     public RopeJointBuilder(World world) {

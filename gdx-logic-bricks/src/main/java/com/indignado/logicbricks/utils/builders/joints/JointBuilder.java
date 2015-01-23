@@ -10,7 +10,6 @@ public class JointBuilder {
     private DistanceJointBuilder distanceJointBuilder;
     private FrictionJointBuilder frictionJointBuilder;
     private GearJointBuilder gearJointBuilder;
-    private MouseJointBuilder mouseJointBuilder;
     private PrismaticJointBuilder prismaticJointBuilder;
     private PulleyJointBuilder pulleyJointBuilder;
     private RevoluteJointBuilder revoluteJointBuilder;
@@ -26,79 +25,71 @@ public class JointBuilder {
 
 
     public DistanceJointBuilder distanceJoint() {
-        if(distanceJointBuilder == null)  distanceJointBuilder = new DistanceJointBuilder(world);
+        if (distanceJointBuilder == null) distanceJointBuilder = new DistanceJointBuilder(world);
         else distanceJointBuilder.reset();
         return distanceJointBuilder;
 
     }
 
 
-    public FrictionJointBuilder frictionJointBuilder() {
-        if(frictionJointBuilder == null)  frictionJointBuilder = new FrictionJointBuilder(world);
+    public FrictionJointBuilder frictionJoint() {
+        if (frictionJointBuilder == null) frictionJointBuilder = new FrictionJointBuilder(world);
         else frictionJointBuilder.reset();
         return frictionJointBuilder;
 
     }
 
 
-    public GearJointBuilder gearJointBuilder() {
-        if(gearJointBuilder == null)  gearJointBuilder = new GearJointBuilder(world);
+    public GearJointBuilder gearJoint() {
+        if (gearJointBuilder == null) gearJointBuilder = new GearJointBuilder(world);
         else gearJointBuilder.reset();
         return gearJointBuilder;
 
     }
 
 
-    public MouseJointBuilder mouseJointBuilder() {
-        if(mouseJointBuilder == null)  mouseJointBuilder = new MouseJointBuilder(world);
-        else mouseJointBuilder.reset();
-        return mouseJointBuilder;
-
-    }
-
-
-    public PrismaticJointBuilder prismaticJointBuilder() {
-        if(prismaticJointBuilder == null)  prismaticJointBuilder = new PrismaticJointBuilder(world);
+    public PrismaticJointBuilder prismaticJoint() {
+        if (prismaticJointBuilder == null) prismaticJointBuilder = new PrismaticJointBuilder(world);
         else prismaticJointBuilder.reset();
         return prismaticJointBuilder;
 
     }
 
 
-    public PulleyJointBuilder pulleyJointBuilder() {
-        if(pulleyJointBuilder == null)  pulleyJointBuilder = new PulleyJointBuilder(world);
+    public PulleyJointBuilder pulleyJoint() {
+        if (pulleyJointBuilder == null) pulleyJointBuilder = new PulleyJointBuilder(world);
         else pulleyJointBuilder.reset();
         return pulleyJointBuilder;
 
     }
 
 
-    public RevoluteJointBuilder revoluteJointBuilder() {
-        if(revoluteJointBuilder == null)  revoluteJointBuilder = new RevoluteJointBuilder(world);
+    public RevoluteJointBuilder revoluteJoint() {
+        if (revoluteJointBuilder == null) revoluteJointBuilder = new RevoluteJointBuilder(world);
         else revoluteJointBuilder.reset();
         return revoluteJointBuilder;
 
     }
 
 
-    public RopeJointBuilder ropeJointBuilder() {
-        if(ropeJointBuilder == null)  ropeJointBuilder = new RopeJointBuilder(world);
+    public RopeJointBuilder ropeJoint() {
+        if (ropeJointBuilder == null) ropeJointBuilder = new RopeJointBuilder(world);
         else ropeJointBuilder.reset();
         return ropeJointBuilder;
 
     }
 
 
-    public WeldJointBuilder weldJointBuilder() {
-        if(weldJointBuilder == null)  weldJointBuilder = new WeldJointBuilder(world);
+    public WeldJointBuilder weldJoint() {
+        if (weldJointBuilder == null) weldJointBuilder = new WeldJointBuilder(world);
         else weldJointBuilder.reset();
         return weldJointBuilder;
 
     }
 
 
-    public WheelJointBuilder wheelJointBuilder() {
-        if(wheelJointBuilder == null)  wheelJointBuilder = new WheelJointBuilder(world);
+    public WheelJointBuilder wheelJoint() {
+        if (wheelJointBuilder == null) wheelJointBuilder = new WheelJointBuilder(world);
         else wheelJointBuilder.reset();
         return wheelJointBuilder;
 

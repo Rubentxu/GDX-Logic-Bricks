@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 /**
  * @author Rubentxu.
  */
-public class WheelJointBuilder extends BaseJointBuilder<WheelJointDef>{
+public class WheelJointBuilder extends BaseJointBuilder<WheelJointDef, WheelJointBuilder> {
 
 
     public WheelJointBuilder(World world) {
@@ -24,7 +24,7 @@ public class WheelJointBuilder extends BaseJointBuilder<WheelJointDef>{
     }
 
 
-    public WheelJointBuilder initialize (Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis) {
+    public WheelJointBuilder initialize(Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis) {
         jointDef.initialize(bodyA, bodyB, anchor, axis);
         return this;
 

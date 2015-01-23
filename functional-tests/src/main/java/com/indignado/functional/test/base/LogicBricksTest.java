@@ -29,6 +29,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
     @Override
     public void create() {
         Settings.debug = true;
+        Settings.draggableBodies = true;
         Settings.debugLevel = Logger.DEBUG;
         Settings.drawABBs = false;
         Settings.drawBodies = true;

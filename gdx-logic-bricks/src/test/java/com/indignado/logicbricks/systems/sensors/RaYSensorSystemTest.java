@@ -17,9 +17,9 @@ import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.RaySensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.RaySensorBuilder;
 import org.junit.Test;
@@ -41,7 +41,6 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
     private RigidBodiesComponents rigidByGround;
     private CategoryBitsManager categoryBitsManager;
     private BodyBuilder bodyBuilder;
-
 
 
     public RaySensorSystemTest() {

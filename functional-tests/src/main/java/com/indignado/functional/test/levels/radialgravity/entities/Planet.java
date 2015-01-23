@@ -51,7 +51,7 @@ public class Planet extends EntityFactory {
 
         RadialGravityComponent radialGravityComponent = entityBuilder.getComponent(RadialGravityComponent.class);
         radialGravityComponent.radius = 24f;
-       // radialGravityComponent.gravity = -18;
+        // radialGravityComponent.gravity = -18;
 
         Entity entity = entityBuilder.getEntity();
 

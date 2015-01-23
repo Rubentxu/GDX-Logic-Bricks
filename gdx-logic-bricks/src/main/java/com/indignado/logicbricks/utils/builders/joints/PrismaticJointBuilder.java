@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 /**
  * @author Rubentxu.
  */
-public class PrismaticJointBuilder extends BaseJointBuilder<PrismaticJointDef> {
+public class PrismaticJointBuilder extends BaseJointBuilder<PrismaticJointDef, PrismaticJointBuilder> {
 
 
     public PrismaticJointBuilder(World world) {
@@ -24,7 +24,7 @@ public class PrismaticJointBuilder extends BaseJointBuilder<PrismaticJointDef> {
     }
 
 
-    public PrismaticJointBuilder initialize (Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis) {
+    public PrismaticJointBuilder initialize(Body bodyA, Body bodyB, Vector2 anchor, Vector2 axis) {
         jointDef.initialize(bodyA, bodyB, anchor, axis);
         return this;
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.PulleyJointDef;
 /**
  * @author Rubentxu.
  */
-public class PulleyJointBuilder extends BaseJointBuilder<PulleyJointDef> {
+public class PulleyJointBuilder extends BaseJointBuilder<PulleyJointDef, PulleyJointBuilder> {
 
 
     public PulleyJointBuilder(World world) {
@@ -24,8 +24,8 @@ public class PulleyJointBuilder extends BaseJointBuilder<PulleyJointDef> {
     }
 
 
-    public PulleyJointBuilder initialize (Body bodyA, Body bodyB, Vector2 groundAnchorA, Vector2 groundAnchorB, Vector2 anchorA,
-                                          Vector2 anchorB, float ratio) {
+    public PulleyJointBuilder initialize(Body bodyA, Body bodyB, Vector2 groundAnchorA, Vector2 groundAnchorB, Vector2 anchorA,
+                                         Vector2 anchorB, float ratio) {
         jointDef.initialize(bodyA, bodyB, groundAnchorA, groundAnchorB, anchorA, anchorB, ratio);
         return this;
 

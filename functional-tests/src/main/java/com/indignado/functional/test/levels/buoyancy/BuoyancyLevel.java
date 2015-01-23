@@ -5,10 +5,10 @@ import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.buoyancy.entities.Box;
 import com.indignado.functional.test.levels.buoyancy.entities.Pool;
 import com.indignado.logicbricks.components.BuoyancyComponent;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.Game;
 
 /**
  * @author Rubentxu.

@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
 /**
  * @author Rubentxu.
  */
-public class FrictionJointBuilder extends BaseJointBuilder<FrictionJointDef> {
+public class FrictionJointBuilder extends BaseJointBuilder<FrictionJointDef, FrictionJointBuilder> {
 
 
     public FrictionJointBuilder(World world) {
@@ -24,7 +24,7 @@ public class FrictionJointBuilder extends BaseJointBuilder<FrictionJointDef> {
     }
 
 
-    public FrictionJointBuilder initialize (Body bodyA, Body bodyB, Vector2 anchor) {
+    public FrictionJointBuilder initialize(Body bodyA, Body bodyB, Vector2 anchor) {
         jointDef.initialize(bodyA, bodyB, anchor);
         return this;
 

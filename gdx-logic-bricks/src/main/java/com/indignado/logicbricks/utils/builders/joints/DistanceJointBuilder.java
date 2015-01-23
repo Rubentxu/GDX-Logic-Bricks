@@ -1,12 +1,14 @@
 package com.indignado.logicbricks.utils.builders.joints;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 
 /**
  * @author Rubentxu.
  */
-public class DistanceJointBuilder extends BaseJointBuilder<DistanceJointDef> {
+public class DistanceJointBuilder extends BaseJointBuilder<DistanceJointDef, DistanceJointBuilder> {
 
 
     public DistanceJointBuilder(World world) {
@@ -22,8 +24,8 @@ public class DistanceJointBuilder extends BaseJointBuilder<DistanceJointDef> {
     }
 
 
-    public DistanceJointBuilder length(float length) {
-        jointDef.length = length;
+    public DistanceJointBuilder initialize(Body bodyA, Body bodyB, Vector2 anchorA, Vector2 anchorB) {
+        jointDef.initialize(bodyA, bodyB, anchorA, anchorB);
         return this;
 
     }

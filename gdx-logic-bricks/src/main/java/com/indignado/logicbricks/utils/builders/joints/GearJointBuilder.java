@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders.joints;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.GearJointDef;
@@ -7,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.joints.GearJointDef;
 /**
  * @author Rubentxu.
  */
-public class GearJointBuilder extends BaseJointBuilder<GearJointDef> {
+public class GearJointBuilder extends BaseJointBuilder<GearJointDef, GearJointBuilder> {
 
 
     public GearJointBuilder(World world) {
@@ -19,6 +20,12 @@ public class GearJointBuilder extends BaseJointBuilder<GearJointDef> {
     @Override
     public void reset() {
         jointDef = new GearJointDef();
+
+    }
+
+
+    public GearJointBuilder initialize(Body bodyA, Body bodyB) {
+        return super.initialize(bodyA, bodyB);
 
     }
 
