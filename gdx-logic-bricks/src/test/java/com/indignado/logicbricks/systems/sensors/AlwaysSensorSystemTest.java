@@ -7,7 +7,7 @@ import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Test;
@@ -44,11 +44,11 @@ public class AlwaysSensorSystemTest extends BaseSensorSystemTest<AlwaysSensor, A
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = BricksUtils.getBuilder(AlwaysSensorBuilder.class)
+        sensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

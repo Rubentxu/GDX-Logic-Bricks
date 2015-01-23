@@ -78,11 +78,16 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
             }
 
             if (!actuator.fixedRotation) {
-                if (actuator.angularVelocity != 0)
+                if (actuator.angularVelocity != 0) {
+                    Log.debug(tag, "Apply angularVelocity: %s", actuator.angularVelocity);
                     body.setAngularVelocity(actuator.angularVelocity);
-                else if (actuator.torque != 0) body.applyTorque(actuator.torque, true);
-                else if (actuator.angularImpulse != 0)
+                } else if (actuator.torque != 0) {
+                    Log.debug(tag, "Apply Torque: %s", actuator.torque);
+                    body.applyTorque(actuator.torque, true);
+                } else if (actuator.angularImpulse != 0) {
+                    Log.debug(tag, "Apply angularImpulse: %s", actuator.angularImpulse);
                     body.applyAngularImpulse(actuator.angularImpulse, true);
+                }
 
             } else {
                 if (!actuator.targetRigidBody.isFixedRotation()) body.setFixedRotation(true);
@@ -108,7 +113,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
         if (!body.isFixedRotation() && !actuator.fixedRotation && actuator.angularVelocity == 0 && actuator.torque == 0 && actuator.angularImpulse == 0) {
             float angle = MathUtils.atan2(body.getLinearVelocity().y, body.getLinearVelocity().x);
             Log.debug(tag, "velocity %s apply angle: %f", body.getLinearVelocity(), angle);
-            body.setTransform(body.getPosition().x, body.getPosition().y, angle);
+            body.setTransform(body.getPosition(), angle);
         }
 
     }

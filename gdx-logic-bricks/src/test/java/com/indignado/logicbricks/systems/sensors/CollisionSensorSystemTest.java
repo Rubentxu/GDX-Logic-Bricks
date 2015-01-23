@@ -15,7 +15,7 @@ import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.CollisionSensorBuilder;
 import org.junit.Test;
@@ -87,12 +87,12 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        sensor = BricksUtils.getBuilder(CollisionSensorBuilder.class)
+        sensor = EngineUtils.getBuilder(CollisionSensorBuilder.class)
                 .setTargetName("Ground")
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

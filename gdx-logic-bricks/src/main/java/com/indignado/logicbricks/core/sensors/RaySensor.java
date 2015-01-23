@@ -36,6 +36,7 @@ public class RaySensor extends Sensor implements RayCastCallback {
         axis2D = Axis2D.Xpositive;;
         range = 0.0f;
         xRayMode = false;
+        attachedRigidBody = null;
         contacts.clear();
 
     }

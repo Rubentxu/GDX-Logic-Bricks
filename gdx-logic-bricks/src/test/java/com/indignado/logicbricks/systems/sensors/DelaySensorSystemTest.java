@@ -7,7 +7,7 @@ import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
 import org.junit.Test;
@@ -43,11 +43,11 @@ public class DelaySensorSystemTest extends BaseSensorSystemTest<DelaySensor, Del
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = BricksUtils.getBuilder(DelaySensorBuilder.class)
+        sensor = EngineUtils.getBuilder(DelaySensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

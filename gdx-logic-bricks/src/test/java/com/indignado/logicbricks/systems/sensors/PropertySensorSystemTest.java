@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor.EvaluationType;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
 import org.junit.Test;
@@ -54,12 +54,12 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(property);
 
-        sensor = BricksUtils.getBuilder(PropertySensorBuilder.class)
+        sensor = EngineUtils.getBuilder(PropertySensorBuilder.class)
                 .setProperty(propertyName)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

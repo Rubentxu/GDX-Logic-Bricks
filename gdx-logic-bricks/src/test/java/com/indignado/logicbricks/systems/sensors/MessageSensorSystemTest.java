@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.builders.BricksUtils;
+import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MessageSensorBuilder;
@@ -51,18 +51,18 @@ public class MessageSensorSystemTest extends BaseSensorSystemTest<MessageSensor,
         identityPlayer.tag = "Player";
 
         message = "TestMessage";
-        sensor = BricksUtils.getBuilder(MessageSensorBuilder.class)
+        sensor = EngineUtils.getBuilder(MessageSensorBuilder.class)
                 .setSubject(message)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = BricksUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
         ActuatorTest actuatorTest = new ActuatorTest();
 
-        messageActuator = BricksUtils.getBuilder(MessageActuatorBuilder.class)
+        messageActuator = EngineUtils.getBuilder(MessageActuatorBuilder.class)
                 .setMessage(message)
                 .getBrick();
 

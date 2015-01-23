@@ -36,8 +36,8 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawVelocities = true;
         Settings.drawStage = true;
         //Settings.debugEntity = "Player";
-        Settings.debugTags.add("StateComponent");
-        Settings.debugTags.add("RadarSensorSystem");
+        Settings.debugTags.add("ActuatorSystem");
+        Settings.debugTags.add("RadialGravitySystem");
         //Settings.debugTags.add("DelaySensorSystem");
         // Settings.debugTags.add("MotionActuatorSystem");
         //Settings.debugTags.add("EntityBuilder");
