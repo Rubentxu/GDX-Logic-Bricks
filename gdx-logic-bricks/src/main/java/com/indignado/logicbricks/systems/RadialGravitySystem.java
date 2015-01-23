@@ -54,10 +54,12 @@ public class RadialGravitySystem extends IteratingSystem implements ContactListe
                 body.applyForceToCenter(planet_distance, true);
 
                 float desiredAngle = MathUtils.atan2(-body.getLinearVelocity().x, body.getLinearVelocity().y);
-                while ( desiredAngle < -180 * MathUtils.degreesToRadians ) desiredAngle += 360 * MathUtils.degreesToRadians;
-                while ( desiredAngle >  180 * MathUtils.degreesToRadians ) desiredAngle -= 360 * MathUtils.degreesToRadians;
+                while (desiredAngle < -180 * MathUtils.degreesToRadians)
+                    desiredAngle += 360 * MathUtils.degreesToRadians;
+                while (desiredAngle > 180 * MathUtils.degreesToRadians)
+                    desiredAngle -= 360 * MathUtils.degreesToRadians;
 
-                body.applyTorque(desiredAngle < 0? planet_distance.nor().len()/2 : -planet_distance.nor().len()/2, true);
+                body.applyTorque(desiredAngle < 0 ? planet_distance.nor().len() / 2 : -planet_distance.nor().len() / 2, true);
 
             }
 
@@ -92,11 +94,10 @@ public class RadialGravitySystem extends IteratingSystem implements ContactListe
         }
 
         if (!processContactBody(contact.getFixtureA().getBody(), contact))
-            processContactBody(contact.getFixtureB().getBody(),contact);
+            processContactBody(contact.getFixtureB().getBody(), contact);
 
 
     }
-
 
 
     public boolean processContactBody(Body body, Contact contact) {

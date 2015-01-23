@@ -1,12 +1,9 @@
 package com.indignado.logicbricks.utils;
 
-/**
- * @author Rubentxu.
- */
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+
 
 public class B2ShapeExtensions {
 
@@ -78,7 +75,7 @@ public class B2ShapeExtensions {
         c1.set(transform.vals[Transform.COS], transform.vals[Transform.SIN]);
         c2.set(-transform.vals[Transform.SIN], transform.vals[Transform.COS]);
 
-        normalL.set(0,0);
+        normalL.set(0, 0);
         normalL.set(normal.dot(c1), normal.dot(c2));
         float offsetL = offset - normal.dot(transform.getPosition());
 

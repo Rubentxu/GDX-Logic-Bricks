@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
-import com.indignado.logicbricks.core.World;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -18,13 +18,13 @@ import com.indignado.logicbricks.utils.Log;
 public class StateSystem extends IteratingSystem {
     Array<Entity> toRemove;
     private String tag = this.getClass().getSimpleName();
-    private World world;
+    private Game game;
     private ComponentMapper<StateComponent> sm;
 
 
-    public StateSystem(World world) {
+    public StateSystem(Game game) {
         super(Family.all(StateComponent.class).get(), 0);
-        this.world = world;
+        this.game = game;
         sm = ComponentMapper.getFor(StateComponent.class);
         toRemove = new Array<Entity>();
 
@@ -35,12 +35,12 @@ public class StateSystem extends IteratingSystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
         for (Entity entity : toRemove) {
-            world.getEngine().removeEntity(entity);
+            game.getEngine().removeEntity(entity);
             RigidBodiesComponents rigidBodies = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodies != null) {
                 for (Body body : rigidBodies.rigidBodies) {
                     rigidBodies.rigidBodies.removeValue(body, true);
-                    world.getPhysics().destroyBody(body);
+                    game.getPhysics().destroyBody(body);
                     Log.debug(tag, "Remove entity id %d", entity.getId());
                 }
             }

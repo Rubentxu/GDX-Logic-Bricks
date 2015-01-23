@@ -2,6 +2,7 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 
@@ -49,5 +50,9 @@ public class Settings {
     public static boolean drawGrid = false;
     public static boolean drawFPS = true;
 
+    // DraggableBody
+    public static boolean draggableBodies = false;
+    public static Body draggableRefBody;
+    public static float draggableMaxForce = 500;
 
 }

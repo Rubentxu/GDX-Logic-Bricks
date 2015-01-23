@@ -13,14 +13,14 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.data.AnimationView;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.*;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.*;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
@@ -37,28 +37,28 @@ public class PlayerPlatform extends EntityFactory {
     private String atlas = "assets/animations/sprites.pack";
 
 
-    public PlayerPlatform(World world) {
-        super(world);
+    public PlayerPlatform(Game game) {
+        super(game);
     }
 
 
     @Override
     public void loadAssets() {
-        if (!world.getAssetManager().isLoaded(effect)) world.getAssetManager().load(effect, ParticleEffect.class);
-        if (!world.getAssetManager().isLoaded(atlas)) world.getAssetManager().load(atlas, TextureAtlas.class);
+        if (!game.getAssetManager().isLoaded(effect)) game.getAssetManager().load(effect, ParticleEffect.class);
+        if (!game.getAssetManager().isLoaded(atlas)) game.getAssetManager().load(atlas, TextureAtlas.class);
 
     }
 
 
     @Override
     public Entity createEntity() {
-        OrthographicCamera camera = world.getCamera();
-        EntityBuilder entityBuilder = world.getEntityBuilder();
+        OrthographicCamera camera = game.getCamera();
+        EntityBuilder entityBuilder = game.getEntityBuilder();
         entityBuilder.initialize();
 
         // Assets entity
-        ParticleEffect dustEffect = world.getAssetManager().get(effect, ParticleEffect.class);
-        TextureAtlas textureAtlas = world.getAssetManager().get(atlas, TextureAtlas.class);
+        ParticleEffect dustEffect = game.getAssetManager().get(effect, ParticleEffect.class);
+        TextureAtlas textureAtlas = game.getAssetManager().get(atlas, TextureAtlas.class);
         Array<TextureAtlas.AtlasRegion> heroWalking = textureAtlas.findRegions("Andando");
         Array<TextureAtlas.AtlasRegion> heroJump = textureAtlas.findRegions("Saltando");
         Array<TextureAtlas.AtlasRegion> heroFall = textureAtlas.findRegions("Cayendo");
@@ -82,7 +82,7 @@ public class PlayerPlatform extends EntityFactory {
         BlackBoardComponent blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
 
-        Body bodyPlayer = world.getBodyBuilder().fixture(world.getBodyBuilder().fixtureDefBuilder()
+        Body bodyPlayer = game.getBodyBuilder().fixture(game.getBodyBuilder().fixtureDefBuilder()
                 .boxShape(0.35f, 1)
                 .density(1))
                 .type(BodyDef.BodyType.DynamicBody)

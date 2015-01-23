@@ -8,7 +8,7 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 
@@ -18,8 +18,8 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
 public class Planet extends EntityFactory {
 
 
-    public Planet(World world) {
-        super(world);
+    public Planet(Game game) {
+        super(game);
     }
 
 
@@ -30,9 +30,9 @@ public class Planet extends EntityFactory {
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = world.getEntityBuilder();
+        EntityBuilder entityBuilder = game.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = world.getBodyBuilder();
+        BodyBuilder bodyBuilder = game.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Planet";
@@ -51,7 +51,7 @@ public class Planet extends EntityFactory {
 
         RadialGravityComponent radialGravityComponent = entityBuilder.getComponent(RadialGravityComponent.class);
         radialGravityComponent.radius = 24f;
-       // radialGravityComponent.gravity = -18;
+        // radialGravityComponent.gravity = -18;
 
         Entity entity = entityBuilder.getEntity();
 

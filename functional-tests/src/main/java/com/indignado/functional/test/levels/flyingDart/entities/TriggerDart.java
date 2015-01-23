@@ -9,14 +9,14 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.functional.test.levels.flyingDart.MousePositionScript;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.EngineUtils;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.InstanceEntityActuatorBuilder;
@@ -31,27 +31,27 @@ public class TriggerDart extends EntityFactory {
     private String dartTexture = "assets/textures/dart.png";
 
 
-    public TriggerDart(World world) {
-        super(world);
+    public TriggerDart(Game game) {
+        super(game);
     }
 
 
     @Override
     public void loadAssets() {
-        if (!world.getAssetManager().isLoaded(dartTexture)) world.getAssetManager().load(dartTexture, Texture.class);
+        if (!game.getAssetManager().isLoaded(dartTexture)) game.getAssetManager().load(dartTexture, Texture.class);
 
     }
 
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = world.getEntityBuilder();
+        EntityBuilder entityBuilder = game.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = world.getBodyBuilder();
+        BodyBuilder bodyBuilder = game.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Trigger";
-        identity.category = world.getCategoryBitsManager().getCategoryBits("TriggerDart");
+        identity.category = game.getCategoryBitsManager().getCategoryBits("TriggerDart");
         identity.collisionMask = (short) ~identity.category;
 
 
@@ -84,7 +84,7 @@ public class TriggerDart extends EntityFactory {
 
         InstanceEntityActuator instanceEntityActuator = EngineUtils.getBuilder(InstanceEntityActuatorBuilder.class)
                 .setType(InstanceEntityActuator.Type.AddEntity)
-                .setEntityFactory(world.getEntityFactories().get(Dart.class))
+                .setEntityFactory(game.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(2, 1))
                 .setDuration(5f)
                 .setName("ActuatorInstanceDart")

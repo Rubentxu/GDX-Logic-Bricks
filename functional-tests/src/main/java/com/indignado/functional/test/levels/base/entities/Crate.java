@@ -8,7 +8,7 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.World;
+import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -19,8 +19,8 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 public class Crate extends EntityFactory {
 
 
-    public Crate(World world) {
-        super(world);
+    public Crate(Game game) {
+        super(game);
 
     }
 
@@ -32,13 +32,13 @@ public class Crate extends EntityFactory {
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = world.getEntityBuilder();
+        EntityBuilder entityBuilder = game.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = world.getBodyBuilder();
+        BodyBuilder bodyBuilder = game.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Crate";
-        identity.category = world.getCategoryBitsManager().getCategoryBits("Crate");
+        identity.category = game.getCategoryBitsManager().getCategoryBits("Crate");
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

@@ -15,32 +15,18 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu
  */
 public class BuoyancySystem extends IteratingSystem implements ContactListener {
-    private String tag = this.getClass().getSimpleName();
-    private ComponentMapper<BuoyancyComponent> bm;
-
+    public static final float EPSILON = 1.1920928955078125E-7f;
     private static Vector2 c1 = new Vector2();
     private static Vector2 c2 = new Vector2();
-    public static final float EPSILON = 1.1920928955078125E-7f;
-    private Vector2 areac = new Vector2(0,0);
-    private Vector2 massc = new Vector2(0,0);
-    private Vector2 sc = new Vector2(0,0);
+    private String tag = this.getClass().getSimpleName();
+    private ComponentMapper<BuoyancyComponent> bm;
+    private Vector2 areac = new Vector2(0, 0);
+    private Vector2 massc = new Vector2(0, 0);
+    private Vector2 sc = new Vector2(0, 0);
     private float area = 0;
     private float mass = 0;
     private float sarea = 0;
     private float shapeDensity = 0;
-
-    private void resetValues() {
-        c1.set(0,0);
-        c2.set(0,0);
-        areac.set(0,0);
-        massc.set(0,0);
-        sc.set(0,0);
-        area = 0;
-        mass = 0;
-        sarea = 0;
-        shapeDensity = 0;
-
-    }
 
     public BuoyancySystem() {
         super(Family.all(BuoyancyComponent.class).get(), 4);
@@ -48,6 +34,18 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
 
     }
 
+    private void resetValues() {
+        c1.set(0, 0);
+        c2.set(0, 0);
+        areac.set(0, 0);
+        massc.set(0, 0);
+        sc.set(0, 0);
+        area = 0;
+        mass = 0;
+        sarea = 0;
+        shapeDensity = 0;
+
+    }
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
@@ -57,13 +55,13 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
     }
 
 
-    private <T extends Shape> boolean  applyToFixture(BuoyancyComponent buoyancy) {
+    private <T extends Shape> boolean applyToFixture(BuoyancyComponent buoyancy) {
 
         for (Body body : buoyancy.bodyList) {
             if (!body.isAwake() || !body.getType().equals(BodyDef.BodyType.DynamicBody)) continue;
             resetValues();
 
-            for(Fixture fixture : body.getFixtureList()) {
+            for (Fixture fixture : body.getFixtureList()) {
                 switch (fixture.getShape().getType()) {
                     case Circle:
                         sarea = B2ShapeExtensions.computeSubmergedArea((CircleShape) fixture.getShape(), buoyancy.normal, buoyancy.offset,
@@ -80,12 +78,10 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
                 areac.x += sarea * sc.x;
                 areac.y += sarea * sc.y;
 
-                if(buoyancy.useDensity) {
+                if (buoyancy.useDensity) {
                     //TODO: Expose density publicly
                     shapeDensity = fixture.getDensity();
-                }
-                else
-                {
+                } else {
                     shapeDensity = 1;
                 }
                 mass += sarea * shapeDensity;
@@ -97,20 +93,20 @@ public class BuoyancySystem extends IteratingSystem implements ContactListener {
 
             massc.x /= mass;
             massc.y /= mass;
-            if(area < EPSILON) continue;
+            if (area < EPSILON) continue;
             //Buoyancy
             Vector2 buoyancyForce = buoyancy.gravity.cpy().scl(-buoyancy.density * area);
-            body.applyForce(buoyancyForce,massc,true);
-            Log.debug(tag,"ApplyForce buoyancyForce %s", buoyancyForce);
+            body.applyForce(buoyancyForce, massc, true);
+            Log.debug(tag, "ApplyForce buoyancyForce %s", buoyancyForce);
             //Linear drag
             Vector2 dragForce = body.getLinearVelocityFromWorldPoint(areac).sub(buoyancy.velocity);
             dragForce.scl(-buoyancy.linearDrag * area);
-            body.applyForce(dragForce,areac,true);
-            Log.debug(tag,"ApplyForce dragforce %s", dragForce);
+            body.applyForce(dragForce, areac, true);
+            Log.debug(tag, "ApplyForce dragforce %s", dragForce);
             //Angular drag
             body.applyTorque(-body.getInertia() / body.getMass() * area * body.getAngularVelocity()
-                    * buoyancy.angularDrag,true);
-            Log.debug(tag,"Velocity %s", body.getLinearVelocity());
+                    * buoyancy.angularDrag, true);
+            Log.debug(tag, "Velocity %s", body.getLinearVelocity());
 
         }
         return true;

@@ -33,7 +33,8 @@ public class RaySensor extends Sensor implements RayCastCallback {
         super.reset();
         targetTag = null;
         targetPropertyName = null;
-        axis2D = Axis2D.Xpositive;;
+        axis2D = Axis2D.Xpositive;
+        ;
         range = 0.0f;
         xRayMode = false;
         attachedRigidBody = null;
@@ -46,21 +47,21 @@ public class RaySensor extends Sensor implements RayCastCallback {
     public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
         Entity entity = (Entity) fixture.getBody().getUserData();
 
-        if(entity == null) throw new LogicBricksException("RaySensor","The userdata fixture must return an entity");
+        if (entity == null) throw new LogicBricksException("RaySensor", "The userdata fixture must return an entity");
 
-        if(targetTag != null && targetTag.equals(entity.getComponent(IdentityComponent.class).tag)) {
+        if (targetTag != null && targetTag.equals(entity.getComponent(IdentityComponent.class).tag)) {
             contacts.add(entity);
 
-        } else if(targetPropertyName != null && entity.getComponent(BlackBoardComponent.class) != null
+        } else if (targetPropertyName != null && entity.getComponent(BlackBoardComponent.class) != null
                 && entity.getComponent(BlackBoardComponent.class).hasProperty(targetPropertyName)) {
             contacts.add(entity);
 
-        } else if(targetTag == null && targetPropertyName == null) {
+        } else if (targetTag == null && targetPropertyName == null) {
             contacts.add(entity);
 
         }
 
-        if(xRayMode) return 1 ;
+        if (xRayMode) return 1;
         else return 0;
 
     }
