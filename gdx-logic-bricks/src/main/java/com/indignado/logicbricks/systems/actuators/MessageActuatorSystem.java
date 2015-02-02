@@ -1,8 +1,6 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.indignado.logicbricks.components.actuators.MessageActuatorComponent;
-import com.indignado.logicbricks.core.MessageManager;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 
 /**
@@ -20,7 +18,7 @@ public class MessageActuatorSystem extends ActuatorSystem<MessageActuator, Messa
 
     @Override
     public void processActuator(MessageActuator actuator, float deltaTime) {
-        MessageDispatcher.getInstance().dispatchMessage(actuator.delay, actuator, MessageManager.getMessageKey(actuator.message), actuator.extraInfo);
+        game.getMessageManager().dispatchMessage(actuator.delay, actuator, actuator.message, actuator.extraInfo);
 
     }
 

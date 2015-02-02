@@ -1,13 +1,12 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Test;
@@ -20,13 +19,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class AlwaysSensorSystemTest extends BaseSensorSystemTest<AlwaysSensor, AlwaysSensorSystem> {
 
-
-    public AlwaysSensorSystemTest() {
-        super();
-        sensorSystem = new AlwaysSensorSystem();
-        engine.addSystem(sensorSystem);
-
-    }
 
 
     @Override
@@ -44,11 +36,11 @@ public class AlwaysSensorSystemTest extends BaseSensorSystemTest<AlwaysSensor, A
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+        sensor = game.getBuilder(AlwaysSensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

@@ -3,15 +3,13 @@ package com.indignado.logicbricks.systems.controllers;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
-import com.indignado.logicbricks.utils.EngineUtils;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ScriptControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 import org.junit.Before;
@@ -22,20 +20,10 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Rubentxu.
  */
-public class ScriptControllerSystemTest {
-    private LogicBricksEngine engine;
+public class ScriptControllerSystemTest extends BaseTest{
     private boolean checkScript;
-    private EntityBuilder entityBuilder;
     private Entity player;
 
-
-    public ScriptControllerSystemTest() {
-        engine = new LogicBricksEngine();
-        entityBuilder = new EntityBuilder(engine);
-        ConditionalControllerSystem controllerSystem = new ConditionalControllerSystem();
-        engine.addSystem(controllerSystem);
-
-    }
 
 
     @Before
@@ -45,7 +33,7 @@ public class ScriptControllerSystemTest {
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        AlwaysSensor sensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor sensor = game.getBuilder(AlwaysSensorBuilder.class)
                 .setName("SensorScript")
                 .getBrick();
 
@@ -56,7 +44,7 @@ public class ScriptControllerSystemTest {
             }
         };
 
-        ScriptController controller = EngineUtils.getBuilder(ScriptControllerBuilder.class)
+        ScriptController controller = game.getBuilder(ScriptControllerBuilder.class)
                 .setScript(script)
                 .setName("playerController")
                 .getBrick();

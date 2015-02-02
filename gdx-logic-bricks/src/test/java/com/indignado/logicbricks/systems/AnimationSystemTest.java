@@ -1,7 +1,6 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
@@ -18,7 +17,6 @@ import org.mockito.Mockito;
  */
 public class AnimationSystemTest extends BaseTest {
 
-    PooledEngine engine;
     TextureRegion playerTextureRegion;
     private ViewsComponent viewsComponent;
 
@@ -33,8 +31,6 @@ public class AnimationSystemTest extends BaseTest {
 
     @Before
     public void setup() {
-        engine = new PooledEngine();
-        engine.addSystem(new AnimationSystem());
 
         playerTextureRegion = Mockito.mock(TextureRegion.class);
 

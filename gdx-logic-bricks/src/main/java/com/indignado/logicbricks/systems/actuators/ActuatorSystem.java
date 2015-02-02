@@ -7,11 +7,11 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
@@ -19,7 +19,6 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComponent> extends LogicBrickSystem {
-    protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<AC> actuatorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 

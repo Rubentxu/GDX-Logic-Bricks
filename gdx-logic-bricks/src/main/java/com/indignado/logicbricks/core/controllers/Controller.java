@@ -1,8 +1,8 @@
 package com.indignado.logicbricks.core.controllers;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.actuators.Actuator;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.sensors.Sensor;
 
 /**

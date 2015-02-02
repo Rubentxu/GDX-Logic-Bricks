@@ -3,7 +3,6 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
@@ -110,6 +109,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
     @Override
     public void entityAdded(Entity entity) {
+        MessageManager messageManager = game.getMessageManager();
         PropertySensorComponent propertySensors = entity.getComponent(PropertySensorComponent.class);
         if (propertySensors != null) {
             IntMap.Values<ObjectSet<PropertySensor>> values = propertySensors.sensors.values();
@@ -120,8 +120,8 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                         if (blackBoard != null) {
                             if (blackBoard.hasProperty(sensor.property)) {
                                 Property property = blackBoard.getProperty(sensor.property);
-                                property.setObservable(true);
-                                MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.property + "_Changed"));
+                                if (property.isObservable())
+                                    messageManager.getMessageDispatcher().addListener(sensor, messageManager.getMessageKey(sensor.property + "_Changed"));
                             }
                         }
                     }
@@ -135,16 +135,18 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
 
     @Override
     public void entityRemoved(Entity entity) {
+        MessageManager messageManager = game.getMessageManager();
         PropertySensorComponent propertySensors = entity.getComponent(PropertySensorComponent.class);
         if (propertySensors != null) {
             IntMap.Values<ObjectSet<PropertySensor>> values = propertySensors.sensors.values();
             while (values.hasNext()) {
                 for (PropertySensor sensor : values.next()) {
                     if (sensor.evaluationType.equals(PropertySensor.EvaluationType.CHANGED))
-                        MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.property + "_Changed"));
+                        messageManager.getMessageDispatcher().removeListener(sensor, messageManager.getMessageKey(sensor.property + "_Changed"));
                 }
             }
         }
+
     }
 
 }

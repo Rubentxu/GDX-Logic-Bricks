@@ -5,13 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
 import org.junit.Test;
@@ -29,7 +28,7 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
     public MouseSensorSystemTest() {
         super();
-        sensorSystem = new MouseSensorSystem(null);
+        sensorSystem = new MouseSensorSystem();
         engine.addSystem(sensorSystem);
 
     }
@@ -54,12 +53,12 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         view.height = 3;
         entityBuilder.getComponent(ViewsComponent.class).views.add(view);
 
-        sensor = EngineUtils.getBuilder(MouseSensorBuilder.class)
+        sensor = game.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.MOVEMENT)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

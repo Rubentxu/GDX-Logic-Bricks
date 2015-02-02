@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
@@ -16,11 +15,10 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu
  */
 public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent> implements EntityListener {
-    private World physics;
 
-    public RaySensorSystem(World physics) {
+
+    public RaySensorSystem() {
         super(RaySensorComponent.class);
-        this.physics = physics;
 
     }
 
@@ -33,7 +31,7 @@ public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent>
         Vector2 point1 = sensor.attachedRigidBody.getPosition();
         Vector2 point2 = point1.cpy().add(new Vector2((float) MathUtils.cosDeg(angle), MathUtils.sinDeg(angle)).scl(sensor.range));
 
-        physics.rayCast(sensor, point1, point2);
+        game.getPhysics().rayCast(sensor, point1, point2);
 
         if (sensor.contacts.size > 0) {
             return true;

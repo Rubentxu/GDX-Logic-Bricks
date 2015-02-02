@@ -3,7 +3,6 @@ package com.indignado.logicbricks.core.data;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
-import com.indignado.logicbricks.core.Data;
 
 /**
  * @author Rubentxu.

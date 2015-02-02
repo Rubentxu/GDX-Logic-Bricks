@@ -3,28 +3,23 @@ package com.indignado.logicbricks.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
  */
-public class StateSystem extends IteratingSystem {
+public class StateSystem extends LogicBrickSystem {
     Array<Entity> toRemove;
-    private String tag = this.getClass().getSimpleName();
-    private Game game;
     private ComponentMapper<StateComponent> sm;
 
 
-    public StateSystem(Game game) {
+    public StateSystem() {
         super(Family.all(StateComponent.class).get(), 0);
-        this.game = game;
         sm = ComponentMapper.getFor(StateComponent.class);
         toRemove = new Array<Entity>();
 

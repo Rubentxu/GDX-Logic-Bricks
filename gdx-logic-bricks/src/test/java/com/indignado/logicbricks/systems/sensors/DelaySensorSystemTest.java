@@ -1,13 +1,12 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
 import org.junit.Test;
@@ -18,14 +17,6 @@ import static org.junit.Assert.*;
  * @author Rubentxu
  */
 public class DelaySensorSystemTest extends BaseSensorSystemTest<DelaySensor, DelaySensorSystem> {
-
-
-    public DelaySensorSystemTest() {
-        super();
-        sensorSystem = new DelaySensorSystem();
-        engine.addSystem(sensorSystem);
-
-    }
 
 
     @Override
@@ -43,11 +34,11 @@ public class DelaySensorSystemTest extends BaseSensorSystemTest<DelaySensor, Del
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = EngineUtils.getBuilder(DelaySensorBuilder.class)
+        sensor = game.getBuilder(DelaySensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

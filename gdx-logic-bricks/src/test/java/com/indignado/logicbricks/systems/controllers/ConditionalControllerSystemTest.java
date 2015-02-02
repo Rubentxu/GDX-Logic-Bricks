@@ -2,13 +2,11 @@ package com.indignado.logicbricks.systems.controllers;
 
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
-import com.indignado.logicbricks.utils.EngineUtils;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,29 +16,17 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Rubentxu.
  */
-public class ConditionalControllerSystemTest {
-    LogicBricksEngine engine;
-    private ControllerSystem controllerSystem;
+public class ConditionalControllerSystemTest extends BaseTest{
     private ConditionalController controller;
     private TestSensor sensor;
     private TestSensor sensor2;
     private TestSensor sensor3;
     private Entity player;
-    private EntityBuilder entityBuilder;
-
-
-    public ConditionalControllerSystemTest() {
-        engine = new LogicBricksEngine();
-        entityBuilder = new EntityBuilder(engine);
-        controllerSystem = new ConditionalControllerSystem();
-        engine.addSystem(controllerSystem);
-
-    }
 
 
     @Before
     public void setup() {
-        entityBuilder.initialize();
+        game.getEntityBuilder().initialize();
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
@@ -56,7 +42,7 @@ public class ConditionalControllerSystemTest {
         sensor3.name = "sensor3Player";
         sensor3.pulseState = LogicBrick.BrickMode.BM_ON;
 
-        controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        controller = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("playerController")
                 .getBrick();

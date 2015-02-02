@@ -18,15 +18,15 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
-import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.BricksClasses;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -101,7 +101,7 @@ public class EntityBuilder {
         int state = getKeyState(nameState);
         sensor.state = state;
         ObjectSet<S> sensorsList = null;
-        EngineUtils.BricksClasses classes = EngineUtils.getBricksClasses(sensor.getClass());
+        BricksClasses classes = engine.getBricksClasses(sensor.getClass());
         if (classes != null) {
             getSystem(classes.system);
             SC sensorComponent = (SC) getComponent(classes.component);
@@ -142,7 +142,7 @@ public class EntityBuilder {
         if (entity.getComponent(clazz) != null) {
             comp = (C) entity.getComponent(clazz);
         } else {
-            Class<? extends EntitySystem> system = EngineUtils.getSystemClass(clazz);
+            Class<? extends EntitySystem> system = engine.getSystemClass(clazz);
             if (system != null) getSystem(system);
             comp = engine.createComponent(clazz);
             entity.add(comp);
@@ -192,7 +192,7 @@ public class EntityBuilder {
         controller.state = state;
         ObjectSet<C> controllerList = null;
 
-        EngineUtils.BricksClasses classes = EngineUtils.getBricksClasses(controller.getClass());
+        BricksClasses classes = engine.getBricksClasses(controller.getClass());
         if (classes != null) {
             getSystem(classes.system);
             CC controllerComponent = (CC) getComponent(classes.component);
@@ -268,7 +268,7 @@ public class EntityBuilder {
         actuator.state = state;
         ObjectSet<A> actuatorList = null;
 
-        EngineUtils.BricksClasses classes = EngineUtils.getBricksClasses(actuator.getClass());
+        BricksClasses classes = engine.getBricksClasses(actuator.getClass());
         if (classes != null) {
             getSystem(classes.system);
             AC actuatorComponent = (AC) getComponent(classes.component);

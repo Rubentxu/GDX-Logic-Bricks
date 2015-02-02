@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor.MouseEvent;
@@ -22,12 +21,11 @@ import com.indignado.logicbricks.utils.Log;
  */
 public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComponent> implements InputProcessor, EntityListener {
     private ObjectMap<MouseEvent, ObjectSet<MouseSensor>> mouseSensors;
-    private Game game;
 
-    public MouseSensorSystem(Game game) {
+
+    public MouseSensorSystem() {
         super(MouseSensorComponent.class);
         mouseSensors = new ObjectMap<MouseEvent, ObjectSet<MouseSensor>>();
-        this.game = game;
 
     }
 

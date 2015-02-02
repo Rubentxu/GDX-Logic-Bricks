@@ -63,26 +63,26 @@ public class TriggerDart extends EntityFactory {
         entityBuilder.addRigidBody(bodyTrigger);
 
 
-        MouseSensor trigger = EngineUtils.getBuilder(MouseSensorBuilder.class)
+        MouseSensor trigger = game.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.LEFT_BUTTON_DOWN)
                 .setFrequency(0.7f)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("SensorMouse")
                 .getBrick();
 
-        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = game.getBuilder(AlwaysSensorBuilder.class)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("DelayTrigger")
                 .getBrick();
 
 
-        ScriptController controllerTrigger = EngineUtils.getBuilder(ScriptControllerBuilder.class)
+        ScriptController controllerTrigger = game.getBuilder(ScriptControllerBuilder.class)
                 .setScript(new MousePositionScript())
                 .setName("MousePosition")
                 .getBrick();
 
 
-        InstanceEntityActuator instanceEntityActuator = EngineUtils.getBuilder(InstanceEntityActuatorBuilder.class)
+        InstanceEntityActuator instanceEntityActuator = game.getBuilder(InstanceEntityActuatorBuilder.class)
                 .setType(InstanceEntityActuator.Type.AddEntity)
                 .setEntityFactory(game.getEntityFactories().get(Dart.class))
                 .setLocalPosition(new Vector2(2, 1))

@@ -59,16 +59,16 @@ public class Box extends EntityFactory {
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
-        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = game.getBuilder(AlwaysSensorBuilder.class)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("alwaysSensor")
                 .getBrick();
 
-        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
-        MotionActuator motionActuator = EngineUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuator = game.getBuilder(MotionActuatorBuilder.class)
                 .setTorque(5)
                 .getBrick();
 

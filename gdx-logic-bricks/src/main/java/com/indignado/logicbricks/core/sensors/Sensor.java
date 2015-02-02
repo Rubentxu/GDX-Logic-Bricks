@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.core.sensors;
 
-import com.indignado.logicbricks.core.LogicBrick;
+import com.indignado.logicbricks.core.data.LogicBrick;
 
 /**
  * @author Rubentxu

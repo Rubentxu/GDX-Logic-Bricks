@@ -7,10 +7,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.utils.Log;
 
 /**

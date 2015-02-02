@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.systems;
 
-import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -8,17 +8,13 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.utils.Log;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
 
 /**
  * @author Rubentxu
  */
-public class DraggableBodySystem extends EntitySystem implements InputProcessor {
-    private String tag = this.getClass().getSimpleName();
-    private Game game;
+public class DraggableBodySystem extends LogicBrickSystem implements InputProcessor {
     private MouseJointDef jointDef;
     private MouseJoint joint;
     private Vector3 tmp = new Vector3();
@@ -39,15 +35,14 @@ public class DraggableBodySystem extends EntitySystem implements InputProcessor 
     };
 
 
-    public DraggableBodySystem(Game game) {
-        this.game = game;
+    public DraggableBodySystem() {
+        super(null);
         if (Settings.draggableBodies) {
-            BodyBuilder bodyBuilder = game.getBodyBuilder();
-
             jointDef = new MouseJointDef();
-            jointDef.bodyA = Settings.draggableRefBody;
+            jointDef.bodyA = game.getBodyBuilder().build();
             jointDef.collideConnected = true;
             jointDef.maxForce = Settings.draggableMaxForce;
+
         } else {
             Log.error(tag, "A reference not set up a draggableRefBody");
 
@@ -57,7 +52,7 @@ public class DraggableBodySystem extends EntitySystem implements InputProcessor 
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (Settings.draggableBodies && Settings.draggableRefBody != null) {
+        if (Settings.draggableBodies) {
             game.getCamera().unproject(tmp.set(screenX, screenY, 0));
             game.getPhysics().QueryAABB(queryCallback, tmp.x, tmp.y, tmp.x, tmp.y);
 
@@ -69,7 +64,7 @@ public class DraggableBodySystem extends EntitySystem implements InputProcessor 
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (Settings.draggableBodies && Settings.draggableRefBody != null) {
+        if (Settings.draggableBodies) {
             if (joint == null)
                 return false;
 
@@ -85,7 +80,7 @@ public class DraggableBodySystem extends EntitySystem implements InputProcessor 
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (Settings.draggableBodies && Settings.draggableRefBody != null) {
+        if (Settings.draggableBodies) {
             if (joint == null)
                 return false;
 
@@ -130,6 +125,11 @@ public class DraggableBodySystem extends EntitySystem implements InputProcessor 
 
     }
 
+
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+
+    }
 }
 
 

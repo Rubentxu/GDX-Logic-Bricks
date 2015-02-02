@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -16,7 +16,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.TextureView;
@@ -28,11 +27,10 @@ import java.util.Comparator;
 /**
  * @author Rubentxu
  */
-public class RenderingSystem extends IteratingSystem {
-    private final World physics;
+public class RenderingSystem extends LogicBrickSystem {
+    private World physics;
     protected Viewport viewport;
     protected OrthographicCamera uiCamera;
-    private String tag = this.getClass().getSimpleName();
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Array<View> renderQueue;
@@ -46,12 +44,18 @@ public class RenderingSystem extends IteratingSystem {
     private Box2DDebugRenderer debugRenderer;
     //private BitmapFont debugFont;
 
-    public RenderingSystem(Game game) {
-        this(game.getBatch(), game.getCamera(), game.getPhysics());
+
+    @Override
+    public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
+        batch = game.getBatch();
+        camera = game.getCamera();
+        camera.position.set(Settings.Width / 2, Settings.Height / 2, 0);
+        physics = game.getPhysics();
 
     }
 
-    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, World physics) {
+    public RenderingSystem() {
         super(Family.all(ViewsComponent.class).get(), 5);
         vm = ComponentMapper.getFor(ViewsComponent.class);
 
@@ -63,10 +67,6 @@ public class RenderingSystem extends IteratingSystem {
             }
         };
 
-        this.batch = batch;
-        this.camera = camera;
-        this.camera.position.set(Settings.Width / 2, Settings.Height / 2, 0);
-        this.physics = physics;
 
         if (Settings.debug) {
             this.debugShapeRenderer = new ShapeRenderer();
