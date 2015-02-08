@@ -28,6 +28,7 @@ public abstract class LogicBrickSystem extends IteratingSystem {
 
     @Override
     public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
         if (engine instanceof LogicBricksEngine) {
             this.game = ((LogicBricksEngine) engine).getGame();
 

@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -85,14 +83,14 @@ public class Game implements Disposable, ContactListener {
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
         jointBuilder = new JointBuilder(physics);
+        bricksBuilders = new ObjectMap<>();
 
         engine.addSystem(new RenderingSystem());
         viewSystem = new ViewSystem();
         engine.addSystem(viewSystem);
-        //engine.addSystem(new AnimationSystem());
-        //engine.addSystem(new StateSystem());
-        //engine.addSystem(new MouseSensorSystem());
-        //engine.addSystem(new InstanceEntityActuatorSystem());
+        engine.addSystem(new StateSystem());
+        engine.addSystem(new MouseSensorSystem());
+        engine.addSystem(new InstanceEntityActuatorSystem());
         engine.addSystem(new CollisionSensorSystem());
 
         levelFactories = new IntMap<LevelFactory>();
@@ -101,7 +99,7 @@ public class Game implements Disposable, ContactListener {
         messageManager = new MessageManager();
 
         engine.update(0);
-        currentTime = TimeUtils.millis() / 1000.0;
+        currentTime = 0.0f;
         accumulatorPhysics = 0.0;
 
         Gdx.input.setInputProcessor(engine.getInputs());
@@ -137,12 +135,10 @@ public class Game implements Disposable, ContactListener {
         engine.registerBricksClasses(StateActuator.class, StateActuatorComponent.class, StateActuatorSystem.class);
         engine.registerBricksClasses(TextureActuator.class, TextureActuatorComponent.class, TextureActuatorSystem.class);
 
-        engine.registerEngineClasses(Family.all(BuoyancyComponent.class).get(), BuoyancySystem.class);
-        engine.registerEngineClasses(Family.all(RadialGravityComponent.class).get(), RadialGravitySystem.class);
-        engine.registerEngineClasses(Family.all(ViewsComponent.class).get(), RenderingSystem.class);
-        engine.registerEngineClasses(Family.all(StateComponent.class).get(), StateSystem.class);
-        engine.registerEngineClasses(Family.all(ViewsComponent.class, StateComponent.class).get(), ViewSystem.class);
-
+        engine.registerEngineClasses(BuoyancyComponent.class, BuoyancySystem.class);
+        engine.registerEngineClasses(RadialGravityComponent.class, RadialGravitySystem.class);
+        engine.registerEngineClasses(ViewsComponent.class, RenderingSystem.class, ViewSystem.class);
+        engine.registerEngineClasses(StateComponent.class, StateSystem.class);
 
     }
 
@@ -211,26 +207,19 @@ public class Game implements Disposable, ContactListener {
 
 
     public void update() {
-        this.update(TimeUtils.millis() / 1000.0f);
+        update(Gdx.graphics.getDeltaTime());
 
     }
 
 
     public void update(float newTime) {
-        double frameTime = Math.min(newTime - currentTime, 0.25);
+        double frameTime = Math.min(newTime  , 0.25);
         float deltaTime = (float) frameTime;
 
-        currentTime = newTime;
-        accumulatorPhysics += frameTime;
+        physics.step(Gdx.graphics.getDeltaTime(), Settings.velocityIterations, Settings.positionIterations);
+        engine.update(Gdx.graphics.getDeltaTime());
+        messageManager.getMessageDispatcher().update(Gdx.graphics.getDeltaTime());
 
-        while (accumulatorPhysics >= Settings.physicsDeltaTime) {
-            physics.step(Settings.physicsDeltaTime, Settings.velocityIterations, Settings.positionIterations);
-            accumulatorPhysics -= Settings.physicsDeltaTime;
-            viewSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
-
-        }
-        engine.update(deltaTime);
-        messageManager.getMessageDispatcher().update(deltaTime);
 
     }
 

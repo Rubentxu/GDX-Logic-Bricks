@@ -8,7 +8,6 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.Game;
-import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -47,8 +46,6 @@ public class Ground extends EntityFactory {
                 .boxShape(50, 0.5f)
                 .friction(0.5f))
                 .build();
-
-        Settings.draggableRefBody = bodyGround;
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
         bodiesComponents.rigidBodies.add(bodyGround);

@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Logger;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
@@ -23,6 +24,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
     @Override
     public void create() {
         Settings.debug = true;
+        Settings.drawFPS = true;
         Settings.draggableBodies = true;
         Settings.debugLevel = Logger.DEBUG;
         Settings.drawABBs = false;
@@ -32,14 +34,14 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawVelocities = true;
         Settings.drawStage = true;
         //Settings.debugEntity = "Player";
-        Settings.debugTags.add("ActuatorSystem");
-        Settings.debugTags.add("RadialGravitySystem");
-        //Settings.debugTags.add("DelaySensorSystem");
+        Settings.debugTags.add("System");
+        Settings.debugTags.add("Game");
+        Settings.debugTags.add("LogicBricksEngine");
         // Settings.debugTags.add("MotionActuatorSystem");
         //Settings.debugTags.add("EntityBuilder");
 
 
-        game = new Game(new AssetManager(new TestFileHandleResolver()));
+        game = new Game(new AssetManager(new TestFileHandleResolver()), new SpriteBatch());
         batch = game.getBatch();
         camera = game.getCamera();
 
@@ -62,12 +64,12 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void render() {
+        Log.debug("TEST", "Update....");
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;
-        game.update();
-
+        game.update(deltaTime);
 
     }
 

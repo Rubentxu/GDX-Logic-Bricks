@@ -30,7 +30,7 @@ public class LogicBricksEngine extends PooledEngine {
     private InputMultiplexer inputs;
     private Array<ContactListener> contactSystems;
     private ObjectMap<Class<? extends LogicBrick>, BricksClasses> bricksClasses;
-    private ObjectMap<Class<? extends Component>, Class<? extends EntitySystem>> engineClasses;
+    private ObjectMap<Class<? extends Component>, Class<? extends LogicBrickSystem>[]> systemClasses;
 
 
     public LogicBricksEngine(Game game) {
@@ -49,7 +49,7 @@ public class LogicBricksEngine extends PooledEngine {
         contactSystems = new Array<>();
         this.game = game;
 
-        engineClasses = new ObjectMap<>();
+        systemClasses = new ObjectMap<>();
         bricksClasses = new ObjectMap<>();
 
     }
@@ -190,8 +190,8 @@ public class LogicBricksEngine extends PooledEngine {
     }
 
 
-    public void registerEngineClasses(Class<? extends Component> component, Class<? extends LogicBrickSystem> system) {
-        engineClasses.put(component, system);
+    public void registerEngineClasses(Class<? extends Component> component, Class<? extends LogicBrickSystem> ... system) {
+        systemClasses.put(component, system);
 
     }
 
@@ -202,8 +202,8 @@ public class LogicBricksEngine extends PooledEngine {
     }
 
 
-    public Class<? extends EntitySystem> getSystemClass(Class<? extends Component> clazz) {
-        return engineClasses.get(clazz);
+    public Class<? extends LogicBrickSystem>[] getSystemClass(Class<? extends Component> clazz) {
+        return systemClasses.get(clazz);
 
     }
 

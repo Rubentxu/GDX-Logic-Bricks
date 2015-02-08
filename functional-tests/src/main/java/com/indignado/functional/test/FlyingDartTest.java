@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.functional.test.levels.flyingDart.FlyingDartCollisionRule;
 import com.indignado.functional.test.levels.flyingDart.FlyingDartLevel;
+import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 
@@ -34,6 +35,8 @@ public class FlyingDartTest extends LogicBricksTest {
         flyingDartCollisionRule = new FlyingDartCollisionRule();
         CollisionSensorSystem collisionSensorSystem = game.getEngine().getSystem(CollisionSensorSystem.class);
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
+        Settings.drawFPSPosX = -12.0f;
+        Settings.drawFPSPosY = 18.0f;
 
     }
 

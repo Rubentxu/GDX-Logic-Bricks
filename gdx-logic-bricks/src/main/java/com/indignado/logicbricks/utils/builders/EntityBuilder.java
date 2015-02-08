@@ -27,6 +27,7 @@ import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.core.sensors.Sensor;
+import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -142,13 +143,18 @@ public class EntityBuilder {
         if (entity.getComponent(clazz) != null) {
             comp = (C) entity.getComponent(clazz);
         } else {
-            Class<? extends EntitySystem> system = engine.getSystemClass(clazz);
-            if (system != null) getSystem(system);
+            Class<? extends LogicBrickSystem>[] systems = engine.getSystemClass(clazz);
+            if(systems != null) {
+                for (Class<? extends LogicBrickSystem> system : systems) {
+                    if (system != null) getSystem(system);
+
+                }
+
+            }
             comp = engine.createComponent(clazz);
             entity.add(comp);
 
         }
-
         return comp;
 
     }

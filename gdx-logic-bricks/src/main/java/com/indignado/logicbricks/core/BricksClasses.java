@@ -17,9 +17,5 @@ public class BricksClasses<C extends Component, S extends LogicBrickSystem> {
     }
 
 
-    public C getComponent(S system) {
-        
-    }
-
 }
 

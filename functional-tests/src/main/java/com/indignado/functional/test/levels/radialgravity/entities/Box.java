@@ -14,7 +14,6 @@ import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;

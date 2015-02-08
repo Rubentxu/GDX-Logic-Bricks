@@ -27,7 +27,7 @@ public class Settings {
     public static boolean doSleep = false;
     public static int velocityIterations = 6;
     public static int positionIterations = 10;
-    public static float physicsDeltaTime = 0.01f;
+    public static float physicsDeltaTime = 1.0f / 60.0f;
 
 
     // Particles
@@ -48,6 +48,8 @@ public class Settings {
     public static boolean drawStage = false;
     public static boolean drawGrid = false;
     public static boolean drawFPS = true;
+    public static float drawFPSPosX = 0;
+    public static float drawFPSPosY = 0;
 
     // DraggableBody
     public static boolean draggableBodies = false;

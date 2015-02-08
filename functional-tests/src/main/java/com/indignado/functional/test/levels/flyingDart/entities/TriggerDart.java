@@ -15,7 +15,6 @@ import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
