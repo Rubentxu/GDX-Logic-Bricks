@@ -1,8 +1,11 @@
 package com.indignado.logicbricks.core.data;
 
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
-import com.indignado.logicbricks.core.MessageManager;
+<<<<<<< HEAD
+import com.badlogic.gdx.ai.msg.MessageManager;
+import com.indignado.logicbricks.core.MessageHandler;
 
+=======
+>>>>>>> feature/reestructuracion
 /**
  * @author Rubentxu.
  */
@@ -40,8 +43,11 @@ public class Property<V> {
 
     public void setValue(V value) {
         this.value = value;
+<<<<<<< HEAD
         if (isObservable)
             MessageManager.getInstance().dispatchMessage(null, MessageHandler.getMessageKey(name + "_Changed"));
+=======
+>>>>>>> feature/reestructuracion
 
     }
 
@@ -60,5 +66,6 @@ public class Property<V> {
                 '}';
 
     }
+
 
 }

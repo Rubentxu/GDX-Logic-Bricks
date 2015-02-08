@@ -3,7 +3,6 @@ package com.indignado.logicbricks.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.components.BuoyancyComponent;
@@ -14,11 +13,10 @@ import com.indignado.logicbricks.utils.Log;
 /**
  * @author Rubentxu
  */
-public class BuoyancySystem extends IteratingSystem implements ContactListener {
+public class BuoyancySystem extends LogicBrickSystem implements ContactListener {
     public static final float EPSILON = 1.1920928955078125E-7f;
     private static Vector2 c1 = new Vector2();
     private static Vector2 c2 = new Vector2();
-    private String tag = this.getClass().getSimpleName();
     private ComponentMapper<BuoyancyComponent> bm;
     private Vector2 areac = new Vector2(0, 0);
     private Vector2 massc = new Vector2(0, 0);

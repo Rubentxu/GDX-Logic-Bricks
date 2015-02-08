@@ -4,21 +4,17 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.CategoryBitsManager;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.NearSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.Log;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.NearSensorBuilder;
 import org.junit.Test;
@@ -29,39 +25,19 @@ import static org.junit.Assert.*;
  * @author Rubentxu
  */
 public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearSensorSystem> {
-    NearSensor sensor;
+
     IdentityComponent identityPlayer;
     IdentityComponent identityGround;
-    private World physic;
-    private Entity ground;
     private Body bodyPlayer;
     private Body bodyGround;
-    private RigidBodiesComponents rigidByPlayer;
-    private RigidBodiesComponents rigidByGround;
-    private CategoryBitsManager categoryBitsManager;
-    private BodyBuilder bodyBuilder;
 
-
-    public NearSensorSystemTest() {
-        super();
-        sensorSystem = new NearSensorSystem();
-        engine.addSystem(sensorSystem);
-        GdxNativesLoader.load();
-        physic = new World(new Vector2(0, 0f), true);
-        physic.setContactListener(sensorSystem);
-        bodyBuilder = new BodyBuilder(physic);
-
-    }
 
 
     @Override
     public void tearDown() {
         player = null;
-        ground = null;
         bodyPlayer = null;
         bodyGround = null;
-        rigidByPlayer = null;
-        rigidByGround = null;
         sensor = null;
         identityPlayer = null;
 
@@ -71,7 +47,7 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
     @Override
     protected void createContext() {
         // Create Player Entity
-        this.categoryBitsManager = new CategoryBitsManager();
+        CategoryBitsManager categoryBitsManager = new CategoryBitsManager();
         entityBuilder.initialize();
         identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
@@ -85,15 +61,15 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
-        rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
+        RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        sensor = EngineUtils.getBuilder(NearSensorBuilder.class)
+        sensor = game.getBuilder(NearSensorBuilder.class)
                 .setDistance(4)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
@@ -123,10 +99,10 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
-        rigidByGround = entityBuilder.getComponent(RigidBodiesComponents.class);
+        RigidBodiesComponents rigidByGround = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByGround.rigidBodies.add(bodyGround);
 
-        ground = entityBuilder.getEntity();
+        Entity ground = entityBuilder.getEntity();
         engine.addEntity(ground);
 
     }
@@ -136,35 +112,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
     public void defaultTest() {
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 0));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
@@ -177,35 +148,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.targetTag = "Ground";
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 0));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
@@ -218,35 +184,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.targetTag = "test";
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 0));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
@@ -259,35 +220,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.targetPropertyName = "GroundProperty";
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 0));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
@@ -300,32 +256,27 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.targetPropertyName = "test";
         engine.addEntity(player);
 
-        engine.update(1);
-        physic.step(1, 8, 3);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        engine.update(1);
-        physic.step(1, 8, 3);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        engine.update(1);
-        physic.step(1, 8, 3);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        engine.update(1);
-        physic.step(1, 8, 3);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        engine.update(1);
-        physic.step(1, 8, 3);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
 
         assertFalse(sensor.positive);
@@ -339,35 +290,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.resetDistance = 6;
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 2));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
@@ -381,35 +327,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.resetDistance = 6;
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 2));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
@@ -423,35 +364,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.resetDistance = 6;
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 2));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
@@ -465,35 +401,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.resetDistance = 6;
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 2));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
@@ -508,35 +439,30 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         sensor.resetDistance = 6;
         engine.addEntity(player);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 4));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
         bodyPlayer.setLinearVelocity(new Vector2(0, 2));
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("NearSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);

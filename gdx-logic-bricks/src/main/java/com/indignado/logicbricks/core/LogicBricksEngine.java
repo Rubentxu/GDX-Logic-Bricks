@@ -14,33 +14,44 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ReflectionPool;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.core.data.Data;
+import com.indignado.logicbricks.core.data.LogicBrick;
+import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends PooledEngine {
-    private String tag = this.getClass().getSimpleName();
+    private String tag = LogicBricksEngine.class.getSimpleName();
+    private final Game game;
     private ObjectMap<Long, Entity> idEntities;
     private ObjectMap<String, Array<Entity>> tagEntities;
     private DataPools dataPools;
     private InputMultiplexer inputs;
     private Array<ContactListener> contactSystems;
+    private ObjectMap<Class<? extends LogicBrick>, BricksClasses> bricksClasses;
+    private ObjectMap<Class<? extends Component>, Class<? extends LogicBrickSystem>[]> systemClasses;
 
-    public LogicBricksEngine() {
-        this(10, 100, 10, 100, 50, 200);
+
+    public LogicBricksEngine(Game game) {
+        this(10, 100, 10, 100, 50, 200, game);
 
     }
 
 
     public LogicBricksEngine(int entityPoolInitialSize, int entityPoolMaxSize, int componentPoolInitialSize,
-                             int componentPoolMaxSize, int bricksPoolInitialSize, int brickPoolMaxSize) {
+                             int componentPoolMaxSize, int bricksPoolInitialSize, int brickPoolMaxSize, Game game) {
         super(entityPoolInitialSize, entityPoolMaxSize, componentPoolInitialSize, componentPoolMaxSize);
         idEntities = new ObjectMap<Long, Entity>();
         tagEntities = new ObjectMap<String, Array<Entity>>();
         dataPools = new DataPools(bricksPoolInitialSize, brickPoolMaxSize);
         inputs = new InputMultiplexer();
         contactSystems = new Array<>();
+        this.game = game;
+
+        systemClasses = new ObjectMap<>();
+        bricksClasses = new ObjectMap<>();
 
     }
 
@@ -125,6 +136,7 @@ public class LogicBricksEngine extends PooledEngine {
                 }
             }
         }
+
     }
 
 
@@ -164,6 +176,37 @@ public class LogicBricksEngine extends PooledEngine {
 
     public Array<ContactListener> getContactSystems() {
         return contactSystems;
+    }
+
+
+    public Game getGame() {
+        return game;
+
+    }
+
+
+    public void registerBricksClasses(Class <? extends LogicBrick> brick, Class<? extends Component> component,
+                                               Class<? extends LogicBrickSystem> system) {
+        bricksClasses.put(brick, new BricksClasses(component, system));
+
+    }
+
+
+    public void registerEngineClasses(Class<? extends Component> component, Class<? extends LogicBrickSystem> ... system) {
+        systemClasses.put(component, system);
+
+    }
+
+
+    public <L extends LogicBrick> BricksClasses getBricksClasses(Class<L> clazz) {
+        return bricksClasses.get(clazz);
+
+    }
+
+
+    public Class<? extends LogicBrickSystem>[] getSystemClass(Class<? extends Component> clazz) {
+        return systemClasses.get(clazz);
+
     }
 
 

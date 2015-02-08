@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.core;
+package com.indignado.logicbricks.core.data;
 
 import com.badlogic.ashley.core.Entity;
 

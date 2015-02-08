@@ -3,19 +3,14 @@ package com.indignado.functional.test.base;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.Settings;
-
-import java.io.File;
-import java.net.URL;
+import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu.
@@ -29,6 +24,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
     @Override
     public void create() {
         Settings.debug = true;
+        Settings.drawFPS = true;
         Settings.draggableBodies = true;
         Settings.debugLevel = Logger.DEBUG;
         Settings.drawABBs = false;
@@ -38,17 +34,16 @@ public abstract class LogicBricksTest implements ApplicationListener {
         Settings.drawVelocities = true;
         Settings.drawStage = true;
         //Settings.debugEntity = "Player";
-        Settings.debugTags.add("ActuatorSystem");
-        Settings.debugTags.add("RadialGravitySystem");
-        //Settings.debugTags.add("DelaySensorSystem");
+        Settings.debugTags.add("System");
+        Settings.debugTags.add("Game");
+        Settings.debugTags.add("LogicBricksEngine");
         // Settings.debugTags.add("MotionActuatorSystem");
         //Settings.debugTags.add("EntityBuilder");
 
-        batch = new SpriteBatch();
-        camera = new OrthographicCamera();
-        game = new Game(new World(Settings.gravity, true)
-                , new AssetManager(new TestFileHandleResolver()), batch, camera);
 
+        game = new Game(new AssetManager(new TestFileHandleResolver()), new SpriteBatch());
+        batch = game.getBatch();
+        camera = game.getCamera();
 
     }
 
@@ -69,12 +64,12 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void render() {
+        Log.debug("TEST", "Update....");
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         float deltaTime = Gdx.graphics.getDeltaTime();
         if (deltaTime > 0.1f) deltaTime = 0.1f;
-        game.update();
-
+        game.update(deltaTime);
 
     }
 
@@ -94,18 +89,6 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void dispose() {
-
-    }
-
-
-    public class TestFileHandleResolver implements FileHandleResolver {
-        @Override
-        public FileHandle resolve(String fileName) {
-            URL url = Thread.currentThread().getContextClassLoader().getResource(fileName);
-            File file = new File(url.getPath());
-            return new FileHandle(file);
-
-        }
 
     }
 

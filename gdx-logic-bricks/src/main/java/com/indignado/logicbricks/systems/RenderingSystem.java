@@ -1,11 +1,13 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,7 +18,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.TextureView;
@@ -28,11 +29,10 @@ import java.util.Comparator;
 /**
  * @author Rubentxu
  */
-public class RenderingSystem extends IteratingSystem {
-    private final World physics;
+public class RenderingSystem extends LogicBrickSystem {
+    private World physics;
     protected Viewport viewport;
     protected OrthographicCamera uiCamera;
-    private String tag = this.getClass().getSimpleName();
     private SpriteBatch batch;
     private OrthographicCamera camera;
     private Array<View> renderQueue;
@@ -44,14 +44,11 @@ public class RenderingSystem extends IteratingSystem {
     // Debug
     private ShapeRenderer debugShapeRenderer;
     private Box2DDebugRenderer debugRenderer;
-    //private BitmapFont debugFont;
+    private BitmapFont debugFont;
 
-    public RenderingSystem(Game game) {
-        this(game.getBatch(), game.getCamera(), game.getPhysics());
 
-    }
 
-    public RenderingSystem(SpriteBatch batch, OrthographicCamera camera, World physics) {
+    public RenderingSystem() {
         super(Family.all(ViewsComponent.class).get(), 5);
         vm = ComponentMapper.getFor(ViewsComponent.class);
 
@@ -63,19 +60,34 @@ public class RenderingSystem extends IteratingSystem {
             }
         };
 
-        this.batch = batch;
-        this.camera = camera;
-        this.camera.position.set(Settings.Width / 2, Settings.Height / 2, 0);
-        this.physics = physics;
 
         if (Settings.debug) {
             this.debugShapeRenderer = new ShapeRenderer();
             this.debugRenderer = new Box2DDebugRenderer(Settings.drawBodies, Settings.drawJoints, Settings.drawABBs,
                     Settings.drawInactiveBodies, Settings.drawVelocities, Settings.drawContacts);
-            //this.debugFont = new BitmapFont();
+            debugFont = new BitmapFont();
+            debugFont.setUseIntegerPositions(false);
+            debugFont.setScale(0.1f);
             uiCamera = new OrthographicCamera();
 
         }
+        debugRenderer.setDrawAABBs(Settings.drawABBs);
+        debugRenderer.setDrawBodies(Settings.drawBodies);
+        debugRenderer.setDrawContacts(Settings.drawContacts);
+        debugRenderer.setDrawInactiveBodies(Settings.drawInactiveBodies);
+        debugRenderer.setDrawJoints(Settings.drawJoints);
+        debugRenderer.setDrawVelocities(Settings.drawVelocities);
+
+    }
+
+
+    @Override
+    public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
+        batch = game.getBatch();
+        camera = game.getCamera();
+        camera.position.set(Settings.Width / 2, Settings.Height / 2, 0);
+        physics = game.getPhysics();
 
     }
 
@@ -124,11 +136,12 @@ public class RenderingSystem extends IteratingSystem {
 
 
         }
+        debugDrawUI();
         batch.end();
         renderQueue.clear();
 
         debugDrawWorld();
-        debugDrawUI();
+
 
     }
 
@@ -164,12 +177,7 @@ public class RenderingSystem extends IteratingSystem {
                 debugShapeRenderer.end();
             }
 
-            debugRenderer.setDrawAABBs(Settings.drawABBs);
-            debugRenderer.setDrawBodies(Settings.drawBodies);
-            debugRenderer.setDrawContacts(Settings.drawContacts);
-            debugRenderer.setDrawInactiveBodies(Settings.drawInactiveBodies);
-            debugRenderer.setDrawJoints(Settings.drawJoints);
-            debugRenderer.setDrawVelocities(Settings.drawVelocities);
+
             debugRenderer.render(physics, camera.combined);
 
         }
@@ -177,18 +185,14 @@ public class RenderingSystem extends IteratingSystem {
 
     protected void debugDrawUI() {
         if (Settings.debug) {
-            /*if (Settings.drawFPS) {
+            if (Settings.drawFPS) {
                 String fpsText = String.format("%d FPS", Gdx.graphics.getFramesPerSecond());
-                BitmapFont.TextBounds bounds = debugFont.getBounds(fpsText);
-                batch.setProjectionMatrix(uiCamera.combined);
-                batch.begin();
                 debugFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-                debugFont.draw(batch, fpsText, bounds.width - 20.0f, 20.0f);
-                batch.end();
-            }*/
+                debugFont.draw(batch, fpsText, Settings.drawFPSPosX, Settings.drawFPSPosY);
 
-
+            }
         }
+
     }
 
 

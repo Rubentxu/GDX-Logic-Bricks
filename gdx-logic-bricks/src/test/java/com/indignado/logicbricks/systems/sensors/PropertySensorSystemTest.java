@@ -2,14 +2,13 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
 import com.indignado.logicbricks.core.sensors.PropertySensor.EvaluationType;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.PropertySensorBuilder;
 import org.junit.Test;
@@ -54,12 +53,12 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(property);
 
-        sensor = EngineUtils.getBuilder(PropertySensorBuilder.class)
+        sensor = game.getBuilder(PropertySensorBuilder.class)
                 .setProperty(propertyName)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

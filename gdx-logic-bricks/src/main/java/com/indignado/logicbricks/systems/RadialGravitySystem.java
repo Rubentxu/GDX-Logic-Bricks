@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -18,12 +17,12 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 /**
  * @author Rubentxu
  */
-public class RadialGravitySystem extends IteratingSystem implements ContactListener, EntityListener {
-    private String tag = this.getClass().getSimpleName();
+public class RadialGravitySystem extends LogicBrickSystem implements ContactListener, EntityListener {
     private ComponentMapper<RadialGravityComponent> rgm;
     private Vector2 debris_position;
     private Vector2 planet_distance;
     private float force;
+
 
     public RadialGravitySystem() {
         super(Family.all(RadialGravityComponent.class).get(), 4);

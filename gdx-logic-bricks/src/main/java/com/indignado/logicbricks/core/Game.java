@@ -12,14 +12,26 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Constructor;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.indignado.logicbricks.components.*;
+import com.indignado.logicbricks.components.actuators.*;
+import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
+import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
+import com.indignado.logicbricks.components.sensors.*;
+import com.indignado.logicbricks.core.actuators.*;
+import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.systems.*;
-import com.indignado.logicbricks.systems.actuators.InstanceEntityActuatorSystem;
-import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
-import com.indignado.logicbricks.systems.sensors.MouseSensorSystem;
+import com.indignado.logicbricks.systems.actuators.*;
+import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
+import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
+import com.indignado.logicbricks.systems.sensors.*;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.BrickBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
 
@@ -30,60 +42,105 @@ import java.util.Iterator;
  * @author Rubentxu.
  */
 public class Game implements Disposable, ContactListener {
+    private static String tag = Game.class.getSimpleName();
     private static int levelIndex = 0;
     private final AssetManager assetManager;
+    private final LogicBricksEngine engine;
     private final com.badlogic.gdx.physics.box2d.World physics;
     private final IntMap<LevelFactory> levelFactories;
     private final OrthographicCamera camera;
+
+    // Builders
     private final EntityBuilder entityBuilder;
     private final BodyBuilder bodyBuilder;
     private final JointBuilder jointBuilder;
+    private ObjectMap<Class<? extends BrickBuilder>, BrickBuilder> bricksBuilders;
 
-    private final ViewPositionSystem viewPositionSystem;
-    private final SpriteBatch batch;
-    private String tag = this.getClass().getSimpleName();
-    private LogicBricksEngine engine;
+    private ViewSystem viewSystem;
+    private SpriteBatch batch;
+    private MessageManager messageManager;
+
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
     private CategoryBitsManager categoryBitsManager;
     private double currentTime;
     private double accumulatorPhysics;
 
 
-    public Game(com.badlogic.gdx.physics.box2d.World physics, AssetManager assetManager,
-                SpriteBatch batch, OrthographicCamera camera) {
-        this.physics = physics;
+    public Game() {
+        this(new AssetManager(), new SpriteBatch());
+
+    }
+
+
+    public Game(AssetManager assetManager, SpriteBatch batch) {
+        this.physics = new World(Settings.gravity, true);
         this.assetManager = assetManager;
-        this.camera = camera;
-        this.engine = new LogicBricksEngine();
+        this.camera = new OrthographicCamera();
+
+        this.engine = new LogicBricksEngine(this);
         this.batch = batch;
 
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
         jointBuilder = new JointBuilder(physics);
+        bricksBuilders = new ObjectMap<>();
 
-        engine.addSystem(new RenderingSystem(batch, camera, physics));
-        viewPositionSystem = new ViewPositionSystem();
-        engine.addSystem(viewPositionSystem);
-        engine.addSystem(new AnimationSystem());
-        engine.addSystem(new StateSystem(this));
-        engine.addSystem(new MouseSensorSystem(this));
-        engine.addSystem(new InstanceEntityActuatorSystem(this));
+        engine.addSystem(new RenderingSystem());
+        viewSystem = new ViewSystem();
+        engine.addSystem(viewSystem);
+        engine.addSystem(new StateSystem());
+        engine.addSystem(new MouseSensorSystem());
+        engine.addSystem(new InstanceEntityActuatorSystem());
         engine.addSystem(new CollisionSensorSystem());
 
+        levelFactories = new IntMap<LevelFactory>();
+        entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
+        categoryBitsManager = new CategoryBitsManager();
+        messageManager = new MessageManager();
 
-        this.levelFactories = new IntMap<LevelFactory>();
-        this.entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
-        this.categoryBitsManager = new CategoryBitsManager();
         engine.update(0);
-        currentTime = TimeUtils.millis() / 1000.0;
+        currentTime = 0.0f;
         accumulatorPhysics = 0.0;
 
         Gdx.input.setInputProcessor(engine.getInputs());
         physics.setContactListener(this);
         Gdx.app.setLogLevel(Settings.debugLevel);
+        registerDefaultClasses();
 
     }
 
+
+    private void registerDefaultClasses() {
+        engine.registerBricksClasses(AlwaysSensor.class, AlwaysSensorComponent.class, AlwaysSensorSystem.class);
+        engine.registerBricksClasses(CollisionSensor.class, CollisionSensorComponent.class, CollisionSensorSystem.class);
+        engine.registerBricksClasses(KeyboardSensor.class, KeyboardSensorComponent.class, KeyboardSensorSystem.class);
+        engine.registerBricksClasses(MouseSensor.class, MouseSensorComponent.class, MouseSensorSystem.class);
+        engine.registerBricksClasses(PropertySensor.class, PropertySensorComponent.class, PropertySensorSystem.class);
+        engine.registerBricksClasses(MessageSensor.class, MessageSensorComponent.class, MessageSensorSystem.class);
+        engine.registerBricksClasses(DelaySensor.class, DelaySensorComponent.class, DelaySensorSystem.class);
+        engine.registerBricksClasses(RadarSensor.class, RadarSensorComponent.class, RadarSensorSystem.class);
+        engine.registerBricksClasses(NearSensor.class, NearSensorComponent.class, NearSensorSystem.class);
+        engine.registerBricksClasses(RaySensor.class, RaySensorComponent.class, RaySensorSystem.class);
+
+        engine.registerBricksClasses(ConditionalController.class, ConditionalControllerComponent.class, ConditionalControllerSystem.class);
+        engine.registerBricksClasses(ScriptController.class, ScriptControllerComponent.class, ScriptControllerSystem.class);
+
+        engine.registerBricksClasses(CameraActuator.class, CameraActuatorComponent.class, CameraActuatorSystem.class);
+        engine.registerBricksClasses(EditRigidBodyActuator.class, EditRigidBodyActuatorComponent.class, EditRigidBodyActuatorSystem.class);
+        engine.registerBricksClasses(EffectActuator.class, EffectActuatorComponent.class, EffectActuatorSystem.class);
+        engine.registerBricksClasses(InstanceEntityActuator.class, InstanceEntityActuatorComponent.class, InstanceEntityActuatorSystem.class);
+        engine.registerBricksClasses(MessageActuator.class, MessageActuatorComponent.class, MessageActuatorSystem.class);
+        engine.registerBricksClasses(MotionActuator.class, MotionActuatorComponent.class, MotionActuatorSystem.class);
+        engine.registerBricksClasses(PropertyActuator.class, PropertyActuatorComponent.class, PropertyActuatorSystem.class);
+        engine.registerBricksClasses(StateActuator.class, StateActuatorComponent.class, StateActuatorSystem.class);
+        engine.registerBricksClasses(TextureActuator.class, TextureActuatorComponent.class, TextureActuatorSystem.class);
+
+        engine.registerEngineClasses(BuoyancyComponent.class, BuoyancySystem.class);
+        engine.registerEngineClasses(RadialGravityComponent.class, RadialGravitySystem.class);
+        engine.registerEngineClasses(ViewsComponent.class, RenderingSystem.class, ViewSystem.class);
+        engine.registerEngineClasses(StateComponent.class, StateSystem.class);
+
+    }
 
     public void addLevelCreator(LevelFactory level) {
         levelIndex++;
@@ -106,7 +163,7 @@ public class Game implements Disposable, ContactListener {
             level.createLevel();
 
         }
-        if (Settings.draggableBodies) engine.addSystem(new DraggableBodySystem(this));
+        if (Settings.draggableBodies) engine.addSystem(new DraggableBodySystem());
 
     }
 
@@ -148,21 +205,56 @@ public class Game implements Disposable, ContactListener {
     }
 
 
+
     public void update() {
-        double newTime = TimeUtils.millis() / 1000.0;
-        double frameTime = Math.min(newTime - currentTime, 0.25);
+        update(Gdx.graphics.getDeltaTime());
+
+    }
+
+
+    public void update(float newTime) {
+        double frameTime = Math.min(newTime  , 0.25);
         float deltaTime = (float) frameTime;
 
-        currentTime = newTime;
-        accumulatorPhysics += frameTime;
+        physics.step(Gdx.graphics.getDeltaTime(), Settings.velocityIterations, Settings.positionIterations);
+        engine.update(Gdx.graphics.getDeltaTime());
+        messageManager.getMessageDispatcher().update(Gdx.graphics.getDeltaTime());
 
-        while (accumulatorPhysics >= Settings.physicsDeltaTime) {
-            physics.step(Settings.physicsDeltaTime, Settings.velocityIterations, Settings.positionIterations);
-            accumulatorPhysics -= Settings.physicsDeltaTime;
-            viewPositionSystem.setAlpha((float) (accumulatorPhysics / Settings.physicsDeltaTime));
 
+    }
+
+
+    public <B extends BrickBuilder> B getBuilder(Class<B> clazzBuilder) {
+        B builder = (B) bricksBuilders.get(clazzBuilder);
+        if (builder == null) {
+            synchronized (clazzBuilder) {
+                try {
+                    Constructor constructor = findConstructor(clazzBuilder);
+                    builder = (B) constructor.newInstance((Object[]) null);
+                    bricksBuilders.put(clazzBuilder, builder);
+                } catch (Exception e) {
+                    Log.debug(tag, "Error instance actuatorBuilder %s" + clazzBuilder.getSimpleName());
+                }
+            }
         }
-        engine.update(deltaTime);
+        return builder;
+
+    }
+
+
+
+    private <B extends BrickBuilder> Constructor findConstructor(Class<B> type) {
+        try {
+            return ClassReflection.getConstructor(type, (Class[]) null);
+        } catch (Exception ex1) {
+            try {
+                Constructor constructor = ClassReflection.getDeclaredConstructor(type, (Class[]) null);
+                constructor.setAccessible(true);
+                return constructor;
+            } catch (ReflectionException ex2) {
+                return null;
+            }
+        }
 
     }
 
@@ -253,6 +345,7 @@ public class Game implements Disposable, ContactListener {
 
     public SpriteBatch getBatch() {
         return batch;
+
     }
 
 
@@ -295,4 +388,7 @@ public class Game implements Disposable, ContactListener {
 
     }
 
+    public MessageManager getMessageManager() {
+        return messageManager;
+    }
 }

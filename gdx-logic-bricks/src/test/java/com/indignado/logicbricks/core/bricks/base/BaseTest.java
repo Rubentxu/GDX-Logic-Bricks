@@ -1,11 +1,18 @@
 package com.indignado.logicbricks.core.bricks.base;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.Logger;
+import com.indignado.logicbricks.core.Game;
+import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.mockito.Mockito;
 
 /**
@@ -13,8 +20,23 @@ import org.mockito.Mockito;
  *
  * @author Rubentxu
  */
-public class BaseTest extends ApplicationAdapter {
-    protected String path;
+public class BaseTest {
+    protected final Game game;
+    protected LogicBricksEngine engine;
+    protected EntityBuilder entityBuilder;
+    protected BodyBuilder bodyBuilder;
+
+    public BaseTest() {
+        GdxNativesLoader.load();
+        Settings.debugLevel = Logger.DEBUG;
+        TestFileHandleResolver fileHandle = new TestFileHandleResolver();
+        this.game = new Game(new AssetManager(fileHandle),Mockito.mock(SpriteBatch.class));
+        engine = game.getEngine();
+        entityBuilder = game.getEntityBuilder();
+        bodyBuilder = game.getBodyBuilder();
+
+    }
+
 
     protected IntMap<Animation> getAnimations() {
         IntMap<Animation> animations = new IntMap<Animation>();
@@ -30,10 +52,6 @@ public class BaseTest extends ApplicationAdapter {
 
     }
 
-    protected FileHandle getFileHandle(String relativePath) {
-        return new FileHandle(Thread.currentThread().getContextClassLoader().getResource(relativePath).getPath());
-
-    }
 
 
     protected enum PlayerState {WALKING, JUMP, FALL, IDLE}

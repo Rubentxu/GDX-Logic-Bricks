@@ -6,10 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
-import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
+import com.indignado.logicbricks.core.data.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
@@ -18,7 +18,6 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public abstract class ControllerSystem<C extends Controller, CC extends ControllerComponent> extends LogicBrickSystem {
-    protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<CC> controllerMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 

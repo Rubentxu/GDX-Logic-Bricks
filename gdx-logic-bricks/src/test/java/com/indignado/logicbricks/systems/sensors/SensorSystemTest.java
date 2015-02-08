@@ -1,15 +1,14 @@
 package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
-import com.indignado.logicbricks.core.LogicBrick.BrickMode;
-import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.bricks.base.BaseTest;
+import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
-import com.indignado.logicbricks.systems.StateSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,8 +18,8 @@ import static org.junit.Assert.*;
 /**
  * @author Rubentxu
  */
-public class SensorSystemTest {
-    LogicBricksEngine engine;
+public class SensorSystemTest extends BaseTest{
+
     private String stateTest;
     private String stateTest2;
     private boolean isActive = false;
@@ -31,28 +30,25 @@ public class SensorSystemTest {
 
     @Before
     public void setup() {
-        engine = new LogicBricksEngine();
         this.stateTest = "StatePruebas";
         this.stateTest2 = "StatePruebas2";
-        sensorSystem = new TestSensorSystem();
-        engine.addSystem(sensorSystem);
-        engine.addSystem(new StateSystem(null));
-        player = engine.createEntity();
-        stateComponent = new StateComponent();
+        engine.registerBricksClasses(TestSensor.class, TestSensorComponent.class, TestSensorSystem.class);
+
+        // Create Player entity
+        entityBuilder.initialize();
+        stateComponent = entityBuilder.getComponent(StateComponent.class);
         stateComponent.changeCurrentState(stateComponent.createState(stateTest));
         stateComponent.createState(stateTest2);
-        player.add(stateComponent);
-        RigidBodiesComponents rigidBodiesComponents = new RigidBodiesComponents();
-        player.add(rigidBodiesComponents);
+
+        entityBuilder.getComponent(RigidBodiesComponents.class);
+
         sensor = new TestSensor();
         sensor.state = stateComponent.getCurrentState();
         sensor.frequency = 1;
-        TestSensorComponent testSensorComponent = new TestSensorComponent();
-        ObjectSet<TestSensor> sensorsStateTest = new ObjectSet<TestSensor>();
-        sensorsStateTest.add(sensor);
-        testSensorComponent.sensors.put(stateComponent.getState(stateTest), sensorsStateTest);
-        testSensorComponent.sensors.put(stateComponent.getState(stateTest2), sensorsStateTest);
-        player.add(testSensorComponent);
+
+        entityBuilder.addController(new Controller(), stateTest, stateTest2)
+                .connectToSensor(sensor);
+        player = entityBuilder.getEntity();
 
     }
 

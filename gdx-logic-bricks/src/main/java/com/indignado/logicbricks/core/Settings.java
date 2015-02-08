@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 
@@ -28,7 +27,7 @@ public class Settings {
     public static boolean doSleep = false;
     public static int velocityIterations = 6;
     public static int positionIterations = 10;
-    public static float physicsDeltaTime = 0.01f;
+    public static float physicsDeltaTime = 1.0f / 60.0f;
 
 
     // Particles
@@ -49,10 +48,11 @@ public class Settings {
     public static boolean drawStage = false;
     public static boolean drawGrid = false;
     public static boolean drawFPS = true;
+    public static float drawFPSPosX = 0;
+    public static float drawFPSPosY = 0;
 
     // DraggableBody
     public static boolean draggableBodies = false;
-    public static Body draggableRefBody;
     public static float draggableMaxForce = 500;
 
 }

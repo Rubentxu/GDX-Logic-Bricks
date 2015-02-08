@@ -3,6 +3,7 @@ package com.indignado.logicbricks.utils.builders.joints;
 /**
  * @author Rubentxu.
  */
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.JointDef;

@@ -14,7 +14,6 @@ import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -59,16 +58,16 @@ public class Box extends EntityFactory {
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
-        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = game.getBuilder(AlwaysSensorBuilder.class)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("alwaysSensor")
                 .getBrick();
 
-        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
-        MotionActuator motionActuator = EngineUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuator = game.getBuilder(MotionActuatorBuilder.class)
                 .setTorque(5)
                 .getBrick();
 

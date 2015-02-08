@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,27 +14,22 @@ import static org.junit.Assert.assertEquals;
  */
 public class StateSystemTest extends BaseTest {
 
-    LogicBricksEngine engine;
     private StateComponent stateComponent;
 
 
     @Before
     public void setup() {
-        engine = new LogicBricksEngine();
-        engine.addSystem(new StateSystem(null));
+        game.getEngine().addSystem(new StateSystem());
 
-        stateComponent = new StateComponent();
+        stateComponent =  entityBuilder.getComponent(StateComponent.class);
         stateComponent.changeCurrentState(PlayerState.WALKING.ordinal());
+        Entity player = entityBuilder.getEntity();
 
     }
 
 
     @Test
     public void stateSystemTest() {
-        Entity player = engine.createEntity();
-        player.add(stateComponent);
-
-        engine.addEntity(player);
 
         float deltaTime = 1;
         engine.update(deltaTime);

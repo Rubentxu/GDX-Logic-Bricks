@@ -1,15 +1,19 @@
 package com.indignado.logicbricks.systems.sensors;
 
+<<<<<<< HEAD
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.MessageHandler;
+=======
+import com.indignado.logicbricks.components.IdentityComponent;
+>>>>>>> feature/reestructuracion
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.actuators.MessageActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.MessageSensorBuilder;
@@ -29,8 +33,6 @@ public class MessageSensorSystemTest extends BaseSensorSystemTest<MessageSensor,
 
     public MessageSensorSystemTest() {
         super();
-        sensorSystem = new MessageSensorSystem();
-        engine.addSystem(sensorSystem);
 
     }
 
@@ -78,7 +80,11 @@ public class MessageSensorSystemTest extends BaseSensorSystemTest<MessageSensor,
     @Test
     public void messageTest() {
         engine.addEntity(player);
+<<<<<<< HEAD
         MessageManager.getInstance().dispatchMessage(messageActuator, MessageHandler.getMessageKey(message));
+=======
+        game.getMessageManager().getMessageDispatcher().dispatchMessage(messageActuator, game.getMessageManager().getMessageKey(message));
+>>>>>>> feature/reestructuracion
 
         engine.update(1);
         assertTrue(sensor.positive);

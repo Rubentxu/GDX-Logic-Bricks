@@ -7,8 +7,8 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
-import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.core.data.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.core.sensors.Sensor.Pulse;
@@ -20,7 +20,6 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public abstract class SensorSystem<S extends Sensor, SC extends SensorComponent> extends LogicBrickSystem {
-    protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<SC> sensorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 
