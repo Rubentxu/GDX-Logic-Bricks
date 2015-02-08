@@ -3,12 +3,12 @@ package com.indignado.logicbricks.systems.sensors;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.sensors.PropertySensorComponent;
-import com.indignado.logicbricks.core.MessageManager;
+import com.indignado.logicbricks.core.MessageHandler;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.sensors.PropertySensor;
 
@@ -121,7 +121,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                             if (blackBoard.hasProperty(sensor.property)) {
                                 Property property = blackBoard.getProperty(sensor.property);
                                 property.setObservable(true);
-                                MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.property + "_Changed"));
+                                MessageManager.getInstance().addListener(sensor, MessageHandler.getMessageKey(sensor.property + "_Changed"));
                             }
                         }
                     }
@@ -141,7 +141,7 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
             while (values.hasNext()) {
                 for (PropertySensor sensor : values.next()) {
                     if (sensor.evaluationType.equals(PropertySensor.EvaluationType.CHANGED))
-                        MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.property + "_Changed"));
+                        MessageManager.getInstance().removeListener(sensor, MessageHandler.getMessageKey(sensor.property + "_Changed"));
                 }
             }
         }

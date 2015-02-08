@@ -7,7 +7,7 @@ import com.indignado.logicbricks.utils.Log;
 /**
  * @author Rubentxu
  */
-public class MessageManager {
+public class MessageHandler {
     private static String tag = "MessageManager";
     private static ArrayMap<Integer, String> messageType = new ArrayMap<>();
     private static int count = 0;

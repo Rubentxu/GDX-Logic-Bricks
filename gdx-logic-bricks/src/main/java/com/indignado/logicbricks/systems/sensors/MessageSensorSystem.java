@@ -2,11 +2,11 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntityListener;
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.sensors.MessageSensorComponent;
-import com.indignado.logicbricks.core.MessageManager;
+import com.indignado.logicbricks.core.MessageHandler;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
 
 /**
@@ -40,7 +40,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
             while (values.hasNext()) {
                 for (MessageSensor sensor : values.next()) {
                     if (sensor.autoRegister)
-                        MessageDispatcher.getInstance().addListener(sensor, MessageManager.getMessageKey(sensor.subject));
+                        MessageManager.getInstance().addListener(sensor, MessageHandler.getMessageKey(sensor.subject));
                 }
             }
         }
@@ -54,7 +54,7 @@ public class MessageSensorSystem extends SensorSystem<MessageSensor, MessageSens
             IntMap.Values<ObjectSet<MessageSensor>> values = messageSensors.sensors.values();
             while (values.hasNext()) {
                 for (MessageSensor sensor : values.next()) {
-                    MessageDispatcher.getInstance().removeListener(sensor, MessageManager.getMessageKey(sensor.subject));
+                    MessageManager.getInstance().removeListener(sensor, MessageHandler.getMessageKey(sensor.subject));
                 }
 
             }
