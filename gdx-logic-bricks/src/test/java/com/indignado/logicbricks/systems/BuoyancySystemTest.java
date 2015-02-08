@@ -66,7 +66,7 @@ public class BuoyancySystemTest extends BaseTest{
     @Test
     public void defaultTest() {
         buoyancyComponent.offset = 6;
-        game.update();
+        game.update(1);
         Log.debug("BuoyancySystemTest", "A) Player position %s", bodyPlayer.getPosition());
 
         game.update(1);

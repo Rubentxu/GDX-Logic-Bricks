@@ -1,7 +1,8 @@
 package com.indignado.logicbricks.core.data;
 
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
-import com.indignado.logicbricks.core.MessageManager;
+import com.badlogic.gdx.ai.msg.MessageManager;
+import com.indignado.logicbricks.core.MessageHandler;
+
 
 /**
  * @author Rubentxu.

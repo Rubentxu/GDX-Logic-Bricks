@@ -27,7 +27,7 @@ public class Settings {
     public static boolean doSleep = false;
     public static int velocityIterations = 6;
     public static int positionIterations = 10;
-    public static float physicsDeltaTime = 1.0f / 60.0f;
+    public static float fixedTimeStep = 0.01f;
 
 
     // Particles
@@ -37,6 +37,7 @@ public class Settings {
     // Debug
     public static int debugLevel = Logger.INFO;
     public static boolean debug = debugLevel > Logger.ERROR;
+    public static boolean testing = false;
     public static Array<String> debugTags = new Array<>();
     public static String debugEntity;
     public static boolean drawBodies = false;

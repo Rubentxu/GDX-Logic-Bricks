@@ -120,7 +120,6 @@ public class PropertySensorSystem extends SensorSystem<PropertySensor, PropertyS
                         if (blackBoard != null) {
                             if (blackBoard.hasProperty(sensor.property)) {
                                 Property property = blackBoard.getProperty(sensor.property);
-                                property.setObservable(true);
                                 MessageManager.getInstance().addListener(sensor, MessageHandler.getMessageKey(sensor.property + "_Changed"));
                             }
                         }

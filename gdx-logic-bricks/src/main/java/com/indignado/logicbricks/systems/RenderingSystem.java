@@ -61,22 +61,25 @@ public class RenderingSystem extends LogicBrickSystem {
         };
 
 
-        if (Settings.debug) {
+        if (Settings.drawGrid) {
             this.debugShapeRenderer = new ShapeRenderer();
+        }
+        if (!Settings.testing) {
             this.debugRenderer = new Box2DDebugRenderer(Settings.drawBodies, Settings.drawJoints, Settings.drawABBs,
                     Settings.drawInactiveBodies, Settings.drawVelocities, Settings.drawContacts);
+            debugRenderer.setDrawAABBs(Settings.drawABBs);
+            debugRenderer.setDrawBodies(Settings.drawBodies);
+            debugRenderer.setDrawContacts(Settings.drawContacts);
+            debugRenderer.setDrawInactiveBodies(Settings.drawInactiveBodies);
+            debugRenderer.setDrawJoints(Settings.drawJoints);
+            debugRenderer.setDrawVelocities(Settings.drawVelocities);
+
             debugFont = new BitmapFont();
             debugFont.setUseIntegerPositions(false);
             debugFont.setScale(0.1f);
             uiCamera = new OrthographicCamera();
 
         }
-        debugRenderer.setDrawAABBs(Settings.drawABBs);
-        debugRenderer.setDrawBodies(Settings.drawBodies);
-        debugRenderer.setDrawContacts(Settings.drawContacts);
-        debugRenderer.setDrawInactiveBodies(Settings.drawInactiveBodies);
-        debugRenderer.setDrawJoints(Settings.drawJoints);
-        debugRenderer.setDrawVelocities(Settings.drawVelocities);
 
     }
 
@@ -147,12 +150,10 @@ public class RenderingSystem extends LogicBrickSystem {
 
 
     protected void debugDrawWorld() {
-        if (Settings.debug) {
-
-            debugShapeRenderer.setProjectionMatrix(camera.combined);
-
+        if (Settings.debug && !Settings.testing) {
             if (Settings.drawGrid) {
                 // Debug shapes
+                debugShapeRenderer.setProjectionMatrix(camera.combined);
                 debugShapeRenderer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
                 debugShapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 debugShapeRenderer.line(-Settings.Width * 0.5f, 0.0f, Settings.Width * 0.5f, 0.0f);
@@ -176,15 +177,14 @@ public class RenderingSystem extends LogicBrickSystem {
 
                 debugShapeRenderer.end();
             }
-
-
             debugRenderer.render(physics, camera.combined);
 
         }
     }
 
+
     protected void debugDrawUI() {
-        if (Settings.debug) {
+        if (Settings.debug && !Settings.testing) {
             if (Settings.drawFPS) {
                 String fpsText = String.format("%d FPS", Gdx.graphics.getFramesPerSecond());
                 debugFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);

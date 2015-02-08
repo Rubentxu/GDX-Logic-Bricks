@@ -1,5 +1,8 @@
 package com.indignado.logicbricks.core.bricks.base;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,7 +31,11 @@ public class BaseTest {
 
     public BaseTest() {
         GdxNativesLoader.load();
+        Gdx.input = Mockito.mock(Input.class);
+        Gdx.app = Mockito.mock(Application.class);
+
         Settings.debugLevel = Logger.DEBUG;
+        Settings.testing = true;
         TestFileHandleResolver fileHandle = new TestFileHandleResolver();
         this.game = new Game(new AssetManager(fileHandle),Mockito.mock(SpriteBatch.class));
         engine = game.getEngine();

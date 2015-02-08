@@ -3,6 +3,7 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -58,12 +59,15 @@ public class Game implements Disposable, ContactListener {
 
     private ViewSystem viewSystem;
     private SpriteBatch batch;
-    private MessageManager messageManager;
 
     private ObjectMap<Class<? extends EntityFactory>, EntityFactory> entityFactories;
     private CategoryBitsManager categoryBitsManager;
-    private double currentTime;
-    private double accumulatorPhysics;
+
+    private float fixedTimesStepAccumulator = 0.0f;
+    private float fixedTimesStepAccumulatorRatio = 0.0f;
+    private static final int MAX_STEPS = 5;
+    private int nSteps;
+    private int nStepsClamped;
 
 
     public Game() {
@@ -96,11 +100,8 @@ public class Game implements Disposable, ContactListener {
         levelFactories = new IntMap<LevelFactory>();
         entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
         categoryBitsManager = new CategoryBitsManager();
-        messageManager = new MessageManager();
 
         engine.update(0);
-        currentTime = 0.0f;
-        accumulatorPhysics = 0.0;
 
         Gdx.input.setInputProcessor(engine.getInputs());
         physics.setContactListener(this);
@@ -212,14 +213,26 @@ public class Game implements Disposable, ContactListener {
     }
 
 
-    public void update(float newTime) {
-        double frameTime = Math.min(newTime  , 0.25);
-        float deltaTime = (float) frameTime;
+    public void update(float dt) {
+        fixedTimesStepAccumulator += dt;
+        nSteps = MathUtils.floor(fixedTimesStepAccumulator / Settings.fixedTimeStep);
+        if(nSteps > 0) fixedTimesStepAccumulator -= nSteps * Settings.fixedTimeStep;
+        fixedTimesStepAccumulatorRatio = fixedTimesStepAccumulator / Settings.fixedTimeStep;
 
-        physics.step(Gdx.graphics.getDeltaTime(), Settings.velocityIterations, Settings.positionIterations);
-        engine.update(Gdx.graphics.getDeltaTime());
-        messageManager.getMessageDispatcher().update(Gdx.graphics.getDeltaTime());
+        nStepsClamped = Math.min(nSteps, MAX_STEPS);
 
+        for(int i = 0; i < nStepsClamped; ++i) {
+            singleStep(Settings.fixedTimeStep);
+
+        }
+        MessageManager.getInstance().update(dt);
+
+    }
+
+
+    public void singleStep(float dt) {
+        physics.step(dt, Settings.velocityIterations, Settings.positionIterations);
+        engine.update(dt);
 
     }
 
@@ -388,7 +401,4 @@ public class Game implements Disposable, ContactListener {
 
     }
 
-    public MessageManager getMessageManager() {
-        return messageManager;
-    }
 }
