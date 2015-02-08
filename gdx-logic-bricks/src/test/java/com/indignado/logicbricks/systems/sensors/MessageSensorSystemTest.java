@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.systems.sensors;
 
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.MessageManager;
+import com.indignado.logicbricks.core.MessageHandler;
 import com.indignado.logicbricks.core.actuators.MessageActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.MessageSensor;
@@ -78,7 +78,7 @@ public class MessageSensorSystemTest extends BaseSensorSystemTest<MessageSensor,
     @Test
     public void messageTest() {
         engine.addEntity(player);
-        MessageDispatcher.getInstance().dispatchMessage(messageActuator, MessageManager.getMessageKey(message));
+        MessageManager.getInstance().dispatchMessage(messageActuator, MessageHandler.getMessageKey(message));
 
         engine.update(1);
         assertTrue(sensor.positive);

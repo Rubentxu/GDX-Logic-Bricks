@@ -3,7 +3,7 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -88,7 +88,7 @@ public class LogicBricksEngine extends PooledEngine {
 
     public void update(float deltaTime) {
         super.update(deltaTime);
-        MessageDispatcher.getInstance().update(deltaTime);
+        MessageManager.getInstance().update(deltaTime);
 
     }
 

@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
 /**
  * @author Rubentxu
  */
-public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySensorSystem> {
+class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySensorSystem> {
     RaySensor sensor;
     IdentityComponent identityPlayer;
     IdentityComponent identityGround;
