@@ -52,13 +52,14 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
                 .connectToSensor(sensor)
                 .connectToActuator(actuatorTest)
                 .getEntity();
-
+        sensorSystem = engine.getSystem(KeyboardSensorSystem.class);
     }
 
 
     @Test
     public void keyDownTest() {
         engine.addEntity(player);
+
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
 
@@ -82,6 +83,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     public void keyDownPulseModeTrueTest() {
         sensor.pulse = Sensor.Pulse.PM_TRUE.getValue();
         engine.addEntity(player);
+
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
 
@@ -109,6 +111,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     public void keyDownPulseModeTrueAndFalseTest() {
         sensor.pulse = Sensor.Pulse.PM_TRUE.getValue() | Sensor.Pulse.PM_FALSE.getValue();
         engine.addEntity(player);
+
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
 
@@ -141,6 +144,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     @Test
     public void keyDownAllKeysConfigTest() {
         engine.addEntity(player);
+
         sensor.keyCode = Input.Keys.UNKNOWN;
         sensor.allKeys = true;
         sensorSystem.keyTyped('a');
@@ -161,6 +165,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     @Test
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
         engine.addEntity(player);
+
         sensor.keyCode = Input.Keys.UNKNOWN;
         sensor.allKeys = true;
         sensor.logToggle = true;

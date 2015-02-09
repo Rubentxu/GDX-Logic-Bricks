@@ -19,15 +19,18 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
+import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.components.sensors.*;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.systems.*;
 import com.indignado.logicbricks.systems.actuators.*;
 import com.indignado.logicbricks.systems.controllers.ConditionalControllerSystem;
+import com.indignado.logicbricks.systems.controllers.ControllerSystem;
 import com.indignado.logicbricks.systems.controllers.ScriptControllerSystem;
 import com.indignado.logicbricks.systems.sensors.*;
 import com.indignado.logicbricks.utils.Log;
@@ -65,7 +68,6 @@ public class Game implements Disposable, ContactListener {
 
     private float fixedTimesStepAccumulator = 0.0f;
     private float fixedTimesStepAccumulatorRatio = 0.0f;
-    private static final int MAX_STEPS = 5;
     private int nSteps;
     private int nStepsClamped;
 
@@ -77,7 +79,7 @@ public class Game implements Disposable, ContactListener {
 
 
     public Game(AssetManager assetManager, SpriteBatch batch) {
-        this.physics = new World(Settings.gravity, true);
+        this.physics = new World(Settings.GRAVITY, true);
         this.assetManager = assetManager;
         this.camera = new OrthographicCamera();
 
@@ -92,10 +94,7 @@ public class Game implements Disposable, ContactListener {
         engine.addSystem(new RenderingSystem());
         viewSystem = new ViewSystem();
         engine.addSystem(viewSystem);
-        engine.addSystem(new StateSystem());
-        engine.addSystem(new MouseSensorSystem());
-        engine.addSystem(new InstanceEntityActuatorSystem());
-        engine.addSystem(new CollisionSensorSystem());
+
 
         levelFactories = new IntMap<LevelFactory>();
         entityFactories = new ObjectMap<Class<? extends EntityFactory>, EntityFactory>();
@@ -105,7 +104,7 @@ public class Game implements Disposable, ContactListener {
 
         Gdx.input.setInputProcessor(engine.getInputs());
         physics.setContactListener(this);
-        Gdx.app.setLogLevel(Settings.debugLevel);
+        Gdx.app.setLogLevel(Settings.DEBUG_LEVEL);
         registerDefaultClasses();
 
     }
@@ -123,6 +122,7 @@ public class Game implements Disposable, ContactListener {
         engine.registerBricksClasses(NearSensor.class, NearSensorComponent.class, NearSensorSystem.class);
         engine.registerBricksClasses(RaySensor.class, RaySensorComponent.class, RaySensorSystem.class);
 
+        engine.registerBricksClasses(Controller.class, ControllerComponent.class, ControllerSystem.class);
         engine.registerBricksClasses(ConditionalController.class, ConditionalControllerComponent.class, ConditionalControllerSystem.class);
         engine.registerBricksClasses(ScriptController.class, ScriptControllerComponent.class, ScriptControllerSystem.class);
 
@@ -164,13 +164,13 @@ public class Game implements Disposable, ContactListener {
             level.createLevel();
 
         }
-        if (Settings.draggableBodies) engine.addSystem(new DraggableBodySystem());
+        if (Settings.DRAGGABLE_BOX2D_BODIES) engine.addSystem(new DraggableBodySystem());
 
     }
 
 
     public void positioningEntity(Entity entity, float posX, float posY, float angle) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
         for (Body rigidBody : rbc.rigidBodies) {
             Vector2 originPosition = new Vector2(posX, posY);
@@ -215,14 +215,14 @@ public class Game implements Disposable, ContactListener {
 
     public void update(float dt) {
         fixedTimesStepAccumulator += dt;
-        nSteps = MathUtils.floor(fixedTimesStepAccumulator / Settings.fixedTimeStep);
-        if(nSteps > 0) fixedTimesStepAccumulator -= nSteps * Settings.fixedTimeStep;
-        fixedTimesStepAccumulatorRatio = fixedTimesStepAccumulator / Settings.fixedTimeStep;
+        nSteps = MathUtils.round(fixedTimesStepAccumulator / Settings.FIXED_TIME_STEP);
+        if(nSteps > 0) fixedTimesStepAccumulator -= nSteps * Settings.FIXED_TIME_STEP;
+        fixedTimesStepAccumulatorRatio = fixedTimesStepAccumulator / Settings.FIXED_TIME_STEP;
 
-        nStepsClamped = Math.min(nSteps, MAX_STEPS);
+        nStepsClamped = Math.min(nSteps, Settings.MAX_STEPS);
 
         for(int i = 0; i < nStepsClamped; ++i) {
-            singleStep(Settings.fixedTimeStep);
+            singleStep(Settings.FIXED_TIME_STEP);
 
         }
         MessageManager.getInstance().update(dt);
@@ -231,7 +231,7 @@ public class Game implements Disposable, ContactListener {
 
 
     public void singleStep(float dt) {
-        physics.step(dt, Settings.velocityIterations, Settings.positionIterations);
+        physics.step(dt, Settings.BOX2D_VELOCITY_ITERATIONS, Settings.BOX2D_POSITION_ITERATIONS);
         engine.update(dt);
 
     }
@@ -283,8 +283,8 @@ public class Game implements Disposable, ContactListener {
 
 
     public void resize(int width, int height) {
-        this.camera.viewportHeight = Settings.Height;
-        this.camera.viewportWidth = (Settings.Height / height) * width;
+        this.camera.viewportHeight = Settings.HEIGHT;
+        this.camera.viewportWidth = (Settings.HEIGHT / height) * width;
 
     }
 

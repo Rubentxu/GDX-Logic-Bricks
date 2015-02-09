@@ -27,7 +27,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         ObjectSet<MotionActuator> actuators = (ObjectSet<MotionActuator>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {

@@ -26,12 +26,13 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         super(Family.all(clazz, StateComponent.class).get(), 2);
         this.controllerMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
+
     }
 
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         ObjectSet<C> controllers = (ObjectSet<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {

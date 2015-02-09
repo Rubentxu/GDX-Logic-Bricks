@@ -1,9 +1,6 @@
 package com.indignado.logicbricks.systems.sensors.base;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.utils.GdxNativesLoader;
-import com.badlogic.gdx.utils.Logger;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -19,14 +16,12 @@ public abstract class BaseSensorSystemTest<S extends Sensor, SS extends SensorSy
     protected S sensor;
     protected SS sensorSystem;
     protected Entity player;
-    protected Game game;
 
 
     public BaseSensorSystemTest() {
-        GdxNativesLoader.load();
-        Settings.debugLevel = Logger.DEBUG;
-        Settings.debugTags.add("sensorSystem");
-        this.game = new Game();
+        super();
+        Settings.DEBUG_TAGS.add("SensorSystem");
+        Settings.DEBUG_TAGS.add(tag);
 
 
     }
@@ -35,6 +30,7 @@ public abstract class BaseSensorSystemTest<S extends Sensor, SS extends SensorSy
     @Before
     public void baseSetup() {
         createContext();
+
 
     }
 

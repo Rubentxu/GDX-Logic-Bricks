@@ -48,11 +48,11 @@ public class DraggableBodySystem extends LogicBrickSystem implements InputProces
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
-        if (Settings.draggableBodies) {
+        if (Settings.DRAGGABLE_BOX2D_BODIES) {
             jointDef = new MouseJointDef();
             jointDef.bodyA = game.getBodyBuilder().build();
             jointDef.collideConnected = true;
-            jointDef.maxForce = Settings.draggableMaxForce;
+            jointDef.maxForce = Settings.DRAGGABLE_BOX2D_MAX_FORCE;
 
         } else {
             Log.error(tag, "A reference not set up a draggableRefBody");
@@ -64,7 +64,7 @@ public class DraggableBodySystem extends LogicBrickSystem implements InputProces
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (Settings.draggableBodies) {
+        if (Settings.DRAGGABLE_BOX2D_BODIES) {
             game.getCamera().unproject(tmp.set(screenX, screenY, 0));
             game.getPhysics().QueryAABB(queryCallback, tmp.x, tmp.y, tmp.x, tmp.y);
 
@@ -76,7 +76,7 @@ public class DraggableBodySystem extends LogicBrickSystem implements InputProces
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (Settings.draggableBodies) {
+        if (Settings.DRAGGABLE_BOX2D_BODIES) {
             if (joint == null)
                 return false;
 
@@ -92,7 +92,7 @@ public class DraggableBodySystem extends LogicBrickSystem implements InputProces
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (Settings.draggableBodies) {
+        if (Settings.DRAGGABLE_BOX2D_BODIES) {
             if (joint == null)
                 return false;
 

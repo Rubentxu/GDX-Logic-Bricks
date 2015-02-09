@@ -49,6 +49,13 @@ public class ControllerSystemTest extends BaseTest{
         controllersSet.add(controller);
         ControllerComponent controllerComponent = entityBuilder.getComponent(ControllerComponent.class);
         controllerComponent.controllers.put(stateComponent.getCurrentState(), controllersSet);
+        ControllerSystem controllerSystem = new ControllerSystem(ControllerComponent.class) {
+            @Override
+            public void processController(Controller controller) {
+
+            }
+        };
+        engine.addSystem(controllerSystem);
 
         player = entityBuilder.getEntity();
 
@@ -60,19 +67,19 @@ public class ControllerSystemTest extends BaseTest{
         sensor.pulseState = BrickMode.BM_ON;
         engine.addEntity(player);
 
-        engine.update(1);
-        assertEquals(BrickMode.BM_ON, controller.pulseState);
+        game.singleStep(1);
+        assertEquals(BrickMode.BM_IDLE, controller.pulseState);
 
         sensor.pulseState = BrickMode.BM_IDLE;
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(BrickMode.BM_OFF, controller.pulseState);
 
-        sensor.pulseState = BrickMode.BM_ON;
-        engine.update(1);
-        assertEquals(BrickMode.BM_ON, controller.pulseState);
+        sensor.pulseState = BrickMode.BM_IDLE;
+        game.singleStep(1);
+        assertEquals(BrickMode.BM_OFF, controller.pulseState);
 
         sensor.pulseState = BrickMode.BM_OFF;
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(BrickMode.BM_OFF, controller.pulseState);
 
 
@@ -90,40 +97,25 @@ public class ControllerSystemTest extends BaseTest{
         sensor2.pulseState = BrickMode.BM_ON;
         engine.addEntity(player);
 
-        engine.update(1);
-        assertEquals(BrickMode.BM_ON, controller.pulseState);
+        game.singleStep(1);
+        assertEquals(BrickMode.BM_IDLE, controller.pulseState);
 
         sensor.pulseState = BrickMode.BM_IDLE;
         sensor2.pulseState = BrickMode.BM_ON;
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(BrickMode.BM_OFF, controller.pulseState);
 
         sensor.pulseState = BrickMode.BM_ON;
         sensor2.pulseState = BrickMode.BM_OFF;
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(BrickMode.BM_OFF, controller.pulseState);
 
         sensor.pulseState = BrickMode.BM_OFF;
         sensor2.pulseState = BrickMode.BM_ON;
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(BrickMode.BM_OFF, controller.pulseState);
 
 
-    }
-
-
-    private class TestControllerSystem extends ControllerSystem<Controller, ControllerComponent> {
-
-        public TestControllerSystem() {
-            super(ControllerComponent.class);
-        }
-
-
-        @Override
-        public void processController(Controller controller) {
-            controller.pulseState = BrickMode.BM_ON;
-
-        }
     }
 
 

@@ -19,12 +19,11 @@ public class StateSystemTest extends BaseTest {
 
     @Before
     public void setup() {
-        game.getEngine().addSystem(new StateSystem());
-
+        entityBuilder.initialize();
         stateComponent =  entityBuilder.getComponent(StateComponent.class);
         stateComponent.changeCurrentState(PlayerState.WALKING.ordinal());
         Entity player = entityBuilder.getEntity();
-
+        engine.addEntity(player);
     }
 
 
@@ -32,7 +31,7 @@ public class StateSystemTest extends BaseTest {
     public void stateSystemTest() {
 
         float deltaTime = 1;
-        engine.update(deltaTime);
+        game.update(deltaTime);
 
         assertEquals(deltaTime, stateComponent.time, 0.1);
 

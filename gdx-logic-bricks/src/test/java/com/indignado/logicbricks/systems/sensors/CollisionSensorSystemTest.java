@@ -53,7 +53,7 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .circleShape(1)
                         .restitution(0f))
-                .position(40, 23)
+                .position(40, 25)
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
@@ -109,8 +109,8 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         identityPlayer.collisionMask = (short) identityGround.category;
         engine.addEntity(player);
 
-        game.update(1);
-        game.update(1);
+        game.singleStep(1);
+        game.singleStep(1);
 
         assertTrue(sensor.contactList.first().isTouching());
         assertTrue(sensor.positive);
@@ -124,8 +124,8 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         identityPlayer.collisionMask = (short) ~identityGround.category;
         engine.addEntity(player);
 
-        game.update(1);
-        game.update(1);
+        game.singleStep(1);
+        game.singleStep(1);
 
         assertEquals(0, sensor.contactList.size);
         assertFalse(sensor.positive);
@@ -138,8 +138,8 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
     public void endBodyCollisionTest() {
         engine.addEntity(player);
 
-        game.update(1);
-        game.update(1);
+        game.singleStep(1);
+        game.singleStep(1);
 
         assertTrue(sensor.contactList.first().isTouching());
         assertTrue(sensor.positive);
@@ -147,8 +147,8 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
 
         bodyPlayer.applyForce(0, 60, bodyPlayer.getWorldCenter().x, bodyPlayer.getWorldCenter().y, true);
 
-        game.update(1);
-        game.update(1);
+        game.singleStep(1);
+        game.singleStep(1);
         System.out.println("Body position3: " + bodyPlayer.getPosition());
 
         System.out.println("Body position4: " + bodyPlayer.getPosition());

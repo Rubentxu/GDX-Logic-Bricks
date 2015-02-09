@@ -10,50 +10,53 @@ import com.badlogic.gdx.utils.Logger;
  * @author Rubentxu.
  */
 public class Settings {
-    private static final int entityTypePoolMaxSize = 100;
+
     // Application config
-    public static float Width = 30; //30 metres
-    public static float Height = 20; // 20 metres
-    public static float aspectRatio = Width / Height;
-    public static float metresToPixels = 64;
-    public static float pixelsToMetres = 1.0f / metresToPixels;
-    public static boolean catchBack = true;
-    public static boolean catchMenu = true;
-    public static Color backgroundColor = Color.BLUE;
+    public static float WIDTH = 30; //30 metres
+    public static float HEIGHT = 20; // 20 metres
+    public static float ASPECT_RATIO = WIDTH / HEIGHT;
+    public static float METRES_TO_PIXELS = 64;
+    public static float PIXELS_TO_METRES = 1.0f / METRES_TO_PIXELS;
+    public static boolean CATCHBACK = true;
+    public static boolean CATCHMENU = true;
+    public static Color BACKGROUNDCOLOR = Color.BLUE;
     // LogicBricksEngine
-    public static int entityTypePoolInitialSize = 10;
+    public static int ENTITY_POOL_SIZE = 10;
+    private static final int ENTITY_POOL_MAX_SIZE = 100;
     // Physics
-    public static Vector2 gravity = new Vector2(0, -9.81f);
-    public static boolean doSleep = false;
-    public static int velocityIterations = 6;
-    public static int positionIterations = 10;
-    public static float fixedTimeStep = 0.01f;
+    public static Vector2 GRAVITY = new Vector2(0, -9.81f);
+    public static int BOX2D_VELOCITY_ITERATIONS = 6;
+    public static int BOX2D_POSITION_ITERATIONS = 10;
+
+    // STEPS
+    public static float FIXED_TIME_STEP = 1.0f / 60.0f;
+    public static int MAX_STEPS = 5;
 
 
     // Particles
-    public static int particlePoolInitialCapacity;
-    public static int particlePoolMaxCapacity;
+    public static int PARTICLE_POOL_CAPACITY;
+    public static int PARTICLE_POOL_MAX_CAPACITY;
 
     // Debug
-    public static int debugLevel = Logger.INFO;
-    public static boolean debug = debugLevel > Logger.ERROR;
-    public static boolean testing = false;
-    public static Array<String> debugTags = new Array<>();
-    public static String debugEntity;
-    public static boolean drawBodies = false;
-    public static boolean drawJoints = false;
-    public static boolean drawABBs = false;
-    public static boolean drawInactiveBodies = false;
-    public static boolean drawVelocities = false;
-    public static boolean drawContacts = false;
-    public static boolean drawStage = false;
-    public static boolean drawGrid = false;
-    public static boolean drawFPS = true;
+    public static int DEBUG_LEVEL = Logger.INFO;
+    public static boolean DEBUG = DEBUG_LEVEL > Logger.ERROR;
+    public static boolean TESTING = false;
+    public static Array<String> DEBUG_TAGS = new Array<>();
+    public static String DEBUG_ENTITY;
+    public static boolean DRAW_BOX2D_BODIES = false;
+    public static boolean DRAW_BOX2D_JOINTS = false;
+    public static boolean DRAW_BOX2D_ABBs = false;
+    public static boolean DRAW_BOX2D_INACTIVE_BODIES = false;
+    public static boolean DRAW_BOX2D_VELOCITIES = false;
+    public static boolean DRAW_BOX2D_CONTACTS = false;
+    public static boolean DRAW_STAGE = false;
+    public static boolean DRAW_GRID = false;
+    public static boolean DRAW_FPS = true;
     public static float drawFPSPosX = 0;
     public static float drawFPSPosY = 0;
 
     // DraggableBody
-    public static boolean draggableBodies = false;
-    public static float draggableMaxForce = 500;
+    public static boolean DRAGGABLE_BOX2D_BODIES = false;
+    public static float DRAGGABLE_BOX2D_MAX_FORCE = 500;
 
 }

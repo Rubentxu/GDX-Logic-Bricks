@@ -47,7 +47,7 @@ public class BuoyancySystem extends LogicBrickSystem implements ContactListener 
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         applyToFixture(bm.get(entity));
 
     }

@@ -28,8 +28,8 @@ public class RadialGravityLevel extends LevelFactory {
     public void createLevel() {
         LogicBricksEngine engine = game.getEngine();
         game.getCamera().position.set(0, 7, 0);
-        game.getCamera().viewportWidth = Settings.Width * 3;
-        game.getCamera().viewportHeight = Settings.Height * 3;
+        game.getCamera().viewportWidth = Settings.WIDTH * 3;
+        game.getCamera().viewportHeight = Settings.HEIGHT * 3;
 
         Entity planet = game.getEntityFactories().get(Planet.class).createEntity();
         game.positioningEntity(planet, 0, 10f, 0);

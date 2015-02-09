@@ -3,7 +3,6 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -59,7 +58,7 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     protected void removeEntityInternal(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, false);
-        if (Settings.debugEntity != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
+        if (Settings.DEBUG_ENTITY != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
         Log.debug(tag, "LogicBricksEngine");
         idEntities.remove(identity.uuid);
         tagEntities.get(identity.tag).removeValue(entity, false);
@@ -99,7 +98,7 @@ public class LogicBricksEngine extends PooledEngine {
 
     public void update(float deltaTime) {
         super.update(deltaTime);
-        MessageManager.getInstance().update(deltaTime);
+
 
     }
 
@@ -115,7 +114,7 @@ public class LogicBricksEngine extends PooledEngine {
     private void configEntity(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
         identity.uuid = entity.getId();
-        if (Settings.debugEntity != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
+        if (Settings.DEBUG_ENTITY != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
         if (!tagEntities.containsKey(identity.tag)) {
             tagEntities.put(identity.tag, new Array<Entity>());
 

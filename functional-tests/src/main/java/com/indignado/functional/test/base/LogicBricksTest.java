@@ -23,22 +23,22 @@ public abstract class LogicBricksTest implements ApplicationListener {
 
     @Override
     public void create() {
-        Settings.debug = true;
-        Settings.drawFPS = true;
-        Settings.draggableBodies = true;
-        Settings.debugLevel = Logger.DEBUG;
-        Settings.drawABBs = false;
-        Settings.drawBodies = true;
-        Settings.drawJoints = true;
-        Settings.drawContacts = true;
-        Settings.drawVelocities = true;
-        Settings.drawStage = true;
-        //Settings.debugEntity = "Player";
-        Settings.debugTags.add("System");
-        Settings.debugTags.add("Game");
-        Settings.debugTags.add("LogicBricksEngine");
-        // Settings.debugTags.add("MotionActuatorSystem");
-        //Settings.debugTags.add("EntityBuilder");
+        Settings.DEBUG = true;
+        Settings.DRAW_FPS = true;
+        Settings.DRAGGABLE_BOX2D_BODIES = true;
+        Settings.DEBUG_LEVEL = Logger.DEBUG;
+        Settings.DRAW_BOX2D_ABBs = false;
+        Settings.DRAW_BOX2D_BODIES = true;
+        Settings.DRAW_BOX2D_JOINTS = true;
+        Settings.DRAW_BOX2D_CONTACTS = true;
+        Settings.DRAW_BOX2D_VELOCITIES = true;
+
+        //Settings.DEBUG_ENTITY = "Player";
+        Settings.DEBUG_TAGS.add("System");
+        Settings.DEBUG_TAGS.add("Game");
+        Settings.DEBUG_TAGS.add("LogicBricksEngine");
+        // Settings.DEBUG_TAGS.add("MotionActuatorSystem");
+        //Settings.DEBUG_TAGS.add("EntityBuilder");
 
 
         game = new Game(new AssetManager(new TestFileHandleResolver()), new SpriteBatch());

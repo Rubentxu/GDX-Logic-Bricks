@@ -29,8 +29,8 @@ public class BuoyancyLevel extends LevelFactory {
     public void createLevel() {
         LogicBricksEngine engine = game.getEngine();
         game.getCamera().position.set(0, 7, 0);
-        game.getCamera().viewportWidth = Settings.Width * 2;
-        game.getCamera().viewportHeight = Settings.Height * 2;
+        game.getCamera().viewportWidth = Settings.WIDTH * 2;
+        game.getCamera().viewportHeight = Settings.HEIGHT * 2;
 
         Entity pool = game.getEntityFactories().get(Pool.class).createEntity();
         game.positioningEntity(pool, -16, 4f, 0);

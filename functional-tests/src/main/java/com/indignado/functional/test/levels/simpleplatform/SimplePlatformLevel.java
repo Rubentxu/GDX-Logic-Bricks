@@ -29,8 +29,8 @@ public class SimplePlatformLevel extends LevelFactory {
     public void createLevel() {
         PooledEngine engine = game.getEngine();
         game.getCamera().position.set(0, 7, 0);
-        game.getCamera().viewportWidth = Settings.Width;
-        game.getCamera().viewportHeight = Settings.Height;
+        game.getCamera().viewportWidth = Settings.WIDTH;
+        game.getCamera().viewportHeight = Settings.HEIGHT;
 
         Entity player = game.getEntityFactories().get(PlayerPlatform.class).createEntity();
         engine.addEntity(player);

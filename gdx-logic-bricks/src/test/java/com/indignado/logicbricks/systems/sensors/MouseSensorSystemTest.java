@@ -4,10 +4,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.data.LogicBrick;
-import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
@@ -26,13 +24,6 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
     private Transform transform;
 
-    public MouseSensorSystemTest() {
-        super();
-        sensorSystem = new MouseSensorSystem();
-        engine.addSystem(sensorSystem);
-
-    }
-
 
     @Override
     protected void tearDown() {
@@ -46,13 +37,13 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         entityBuilder.initialize();
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
-        TextureView view = new TextureView();
         transform = new Transform(new Vector2(), 0);
+       /* TextureView view = new TextureView();
         view.attachedTransform = transform;
         view.width = 4;
         view.height = 3;
         entityBuilder.getComponent(ViewsComponent.class).views.add(view);
-
+*/
         sensor = game.getBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.MOVEMENT)
                 .setName("sensorPlayer")
@@ -69,6 +60,7 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
                 .connectToSensor(sensor)
                 .connectToActuator(actuatorTest)
                 .getEntity();
+        sensorSystem = engine.getSystem(MouseSensorSystem.class);
 
     }
 
@@ -78,11 +70,11 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         engine.addEntity(player);
 
         sensorSystem.mouseMoved(50, 50);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
@@ -97,20 +89,20 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
         transform.setPosition(new Vector2(24, 24));
         sensorSystem.mouseMoved(25, 25);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         sensorSystem.mouseMoved(28, 28);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -123,15 +115,15 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         engine.addEntity(player);
 
         sensorSystem.scrolled(-1);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -144,15 +136,15 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         engine.addEntity(player);
 
         sensorSystem.scrolled(1);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -166,20 +158,20 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
 
         sensorSystem.touchDown(5, 5, 1, Input.Buttons.LEFT);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.LEFT);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -193,20 +185,20 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
 
         sensorSystem.touchDown(5, 5, 1, Input.Buttons.MIDDLE);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.MIDDLE);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -220,20 +212,20 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
 
 
         sensorSystem.touchDown(5, 5, 1, Input.Buttons.RIGHT);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.RIGHT);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -246,15 +238,15 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         engine.addEntity(player);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.LEFT);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -267,15 +259,15 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         engine.addEntity(player);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.MIDDLE);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -288,15 +280,15 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         engine.addEntity(player);
 
         sensorSystem.touchUp(5, 5, 1, Input.Buttons.RIGHT);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 

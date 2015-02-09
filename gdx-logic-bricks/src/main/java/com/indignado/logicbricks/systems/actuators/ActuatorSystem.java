@@ -41,7 +41,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         Log.debug(tag, "A) current state %d name %s time " + stateMapper.get(entity).time + " ", state, stateMapper.get(entity).getCurrentStateName());
         ObjectSet<A> actuators = (ObjectSet<A>) actuatorMapper.get(entity).actuators.get(state);

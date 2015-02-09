@@ -22,7 +22,7 @@ public class ScriptControllerSystem extends ControllerSystem<ScriptController, S
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         ObjectSet<ScriptController> controllers = (ObjectSet<ScriptController>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {

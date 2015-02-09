@@ -78,20 +78,20 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         sensor.evaluationType = EvaluationType.CHANGED;
         engine.addEntity(player);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
         property.setValue(1);
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -105,26 +105,26 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         sensor.max = 3;
         engine.addEntity(player);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
         property.setValue(1);
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
         property.setValue(2);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         property.setValue(4);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -137,20 +137,20 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         sensor.value = 2;
         engine.addEntity(player);
 
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         property.setValue(2);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -164,20 +164,20 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         sensor.value = 0;
         engine.addEntity(player);
 
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         property.setValue(2);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -192,20 +192,20 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         property.setValue(2);
         engine.addEntity(player);
 
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         property.setValue(0);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 
@@ -219,20 +219,20 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         sensor.value = 1;
         engine.addEntity(player);
 
-        engine.update(1);
+        game.singleStep(1);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
         assertTrue(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertTrue(sensor.positive);
 
         property.setValue(1);
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_ON);
         assertFalse(sensor.positive);
 
-        engine.update(1);
+        game.singleStep(1);
         assertTrue(sensor.pulseState == LogicBrick.BrickMode.BM_OFF);
         assertFalse(sensor.positive);
 

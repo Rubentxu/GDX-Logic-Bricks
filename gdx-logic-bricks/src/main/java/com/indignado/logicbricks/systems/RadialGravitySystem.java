@@ -34,7 +34,7 @@ public class RadialGravitySystem extends LogicBrickSystem implements ContactList
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         RadialGravityComponent radialGravity = rgm.get(entity);
         Vector2 planet_position = radialGravity.attachedRigidBody.getWorldCenter();
 
