@@ -225,7 +225,7 @@ public class Game implements Disposable, ContactListener {
             singleStep(Settings.FIXED_TIME_STEP);
 
         }
-        MessageManager.getInstance().update(dt);
+
 
     }
 
@@ -233,6 +233,7 @@ public class Game implements Disposable, ContactListener {
     public void singleStep(float dt) {
         physics.step(dt, Settings.BOX2D_VELOCITY_ITERATIONS, Settings.BOX2D_POSITION_ITERATIONS);
         engine.update(dt);
+        MessageManager.getInstance().update(dt);
 
     }
 

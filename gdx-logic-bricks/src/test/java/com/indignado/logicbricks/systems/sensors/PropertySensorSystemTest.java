@@ -49,7 +49,7 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         identityPlayer.tag = "Player";
 
         propertyName = "testProperty";
-        property = new Property<Integer>(propertyName, 0);
+        property = new Property<Integer>(propertyName, 0, true);
         blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(property);
 
