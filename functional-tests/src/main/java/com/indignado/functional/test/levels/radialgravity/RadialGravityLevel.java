@@ -2,7 +2,7 @@ package com.indignado.functional.test.levels.radialgravity;
 
 import com.badlogic.ashley.core.Entity;
 import com.indignado.functional.test.levels.base.entities.Ground;
-import com.indignado.functional.test.levels.radialgravity.entities.Box;
+import com.indignado.functional.test.levels.radialgravity.entities.Cohete;
 import com.indignado.functional.test.levels.radialgravity.entities.Planet;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LevelFactory;
@@ -17,7 +17,7 @@ public class RadialGravityLevel extends LevelFactory {
 
     public RadialGravityLevel(Game game) {
         super(game);
-        game.addEntityFactory(new Box(game));
+        game.addEntityFactory(new Cohete(game));
         game.addEntityFactory(new Planet(game));
         game.addEntityFactory(new Ground(game));
 
@@ -39,11 +39,11 @@ public class RadialGravityLevel extends LevelFactory {
         game.positioningEntity(ground, 0, -22f, 0);
         engine.addEntity(ground);
 
-        Entity box = game.getEntityFactories().get(Box.class).createEntity();
+        Entity box = game.getEntityFactories().get(Cohete.class).createEntity();
         game.positioningEntity(box, 12f, 36f, 0);
         engine.addEntity(box);
 
-        Entity box2 = game.getEntityFactories().get(Box.class).createEntity();
+        Entity box2 = game.getEntityFactories().get(Cohete.class).createEntity();
         game.positioningEntity(box2, -13, 33f, 0);
         engine.addEntity(box2);
 

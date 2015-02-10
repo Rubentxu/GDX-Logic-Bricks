@@ -3,15 +3,18 @@ package com.indignado.functional.test.levels.flyingDart.entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.functional.test.levels.flyingDart.MousePositionScript;
 import com.indignado.logicbricks.components.IdentityComponent;
+import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -27,7 +30,7 @@ import com.indignado.logicbricks.utils.builders.sensors.MouseSensorBuilder;
  * @author Rubentxu.
  */
 public class TriggerDart extends EntityFactory {
-    private String dartTexture = "assets/textures/dart.png";
+    private String hand = "assets/textures/hand.png";
 
 
     public TriggerDart(Game game) {
@@ -37,7 +40,7 @@ public class TriggerDart extends EntityFactory {
 
     @Override
     public void loadAssets() {
-        if (!game.getAssetManager().isLoaded(dartTexture)) game.getAssetManager().load(dartTexture, Texture.class);
+        if (!game.getAssetManager().isLoaded(hand)) game.getAssetManager().load(hand, Texture.class);
 
     }
 
@@ -90,6 +93,17 @@ public class TriggerDart extends EntityFactory {
                 .getBrick();
 
 
+        TextureView triggerView = new TextureView();
+        triggerView.setName("trigger");
+        triggerView.setTextureRegion(new TextureRegion(game.getAssetManager().get(hand, Texture.class)));
+        triggerView.setHeight(5f);
+        triggerView.setWidth(3f);
+        triggerView.setAttachedTransform(bodyTrigger.getTransform());
+        triggerView.setLayer(0);
+
+        ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
+        viewsComponent.views.add(triggerView);
+
         Entity entity = entityBuilder
                 .addController(controllerTrigger, "Default")
                 .connectToSensors(trigger, alwaysSensor)
@@ -98,6 +112,7 @@ public class TriggerDart extends EntityFactory {
 
         Gdx.app.log("TriggerDart", "instance" + entity);
         return entity;
+
     }
 
 

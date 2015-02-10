@@ -2,14 +2,18 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
+import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.Game;
+import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
@@ -18,7 +22,7 @@ import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
  * @author Rubentxu.
  */
 public class Pulley extends EntityFactory {
-
+    private String box2 = "assets/textures/box2.png";
 
     public Pulley(Game game) {
         super(game);
@@ -28,6 +32,8 @@ public class Pulley extends EntityFactory {
 
     @Override
     public void loadAssets() {
+        if (!game.getAssetManager().isLoaded(box2)) game.getAssetManager().load(box2, Texture.class);
+
     }
 
 
@@ -71,6 +77,26 @@ public class Pulley extends EntityFactory {
         bodiesComponents.rigidBodies.add(body1);
 
         bodiesComponents.rigidBodies.add(body2);
+
+        TextureView boxView = new TextureView();
+        boxView.setName("box");
+        boxView.setTextureRegion(new TextureRegion(game.getAssetManager().get(box2, Texture.class)));
+        boxView.setHeight(2.5f);
+        boxView.setWidth(2.5f);
+        boxView.setAttachedTransform(body1.getTransform());
+        boxView.setLayer(0);
+
+        TextureView boxView2 = new TextureView();
+        boxView2.setName("box2");
+        boxView2.setTextureRegion(new TextureRegion(game.getAssetManager().get(box2, Texture.class)));
+        boxView2.setHeight(2.5f);
+        boxView2.setWidth(2.5f);
+        boxView2.setAttachedTransform(body2.getTransform());
+        boxView2.setLayer(0);
+
+        ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
+        viewsComponent.views.add(boxView);
+        viewsComponent.views.add(boxView2);
 
         Entity entity = entityBuilder.getEntity();
         Gdx.app.log("Crate", "instance" + entity);
