@@ -17,7 +17,7 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu
  */
 public class CollisionSensorSystem extends SensorSystem<CollisionSensor, CollisionSensorComponent> implements ContactListener, EntityListener {
-    private Array<ContactListener> collisionsRules;
+    private Array<ContactListener> collisionsRules =  new Array<>();
 
 
     public CollisionSensorSystem() {
@@ -27,7 +27,6 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
 
 
     public void addCollisionRule(ContactListener collisionRule) {
-        if (this.collisionsRules == null) this.collisionsRules = new Array<>();
         this.collisionsRules.add(collisionRule);
 
     }

@@ -33,8 +33,10 @@ public class FlyingDartTest extends LogicBricksTest {
         super.create();
         addLevel(new FlyingDartLevel(game));
         flyingDartCollisionRule = new FlyingDartCollisionRule();
-        CollisionSensorSystem collisionSensorSystem = game.getEngine().getSystem(CollisionSensorSystem.class);
+
+        CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
+        game.getEngine().addSystem(collisionSensorSystem);
         Settings.drawFPSPosX = -12.0f;
         Settings.drawFPSPosY = 18.0f;
 
@@ -44,7 +46,7 @@ public class FlyingDartTest extends LogicBricksTest {
     @Override
     public void render() {
         super.render();
-        game.getPhysics().clearForces();
+        //game.getPhysics().clearForces();
 
         for (WeldJointDef jointDef : flyingDartCollisionRule.jointDefs) {
             Log.debug(tag, "CreateJoint");
@@ -59,6 +61,7 @@ public class FlyingDartTest extends LogicBricksTest {
 
         }
         flyingDartCollisionRule.destroyJoints.clear();
+
     }
 
 }

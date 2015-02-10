@@ -25,6 +25,7 @@ public abstract class LogicBricksTest implements ApplicationListener {
     public void create() {
         Settings.DEBUG = true;
         Settings.DRAW_FPS = true;
+        Settings.FIXED_TIME_STEP = 1 / 75F;
         Settings.DRAGGABLE_BOX2D_BODIES = true;
         Settings.DEBUG_LEVEL = Logger.DEBUG;
         Settings.DRAW_BOX2D_ABBs = false;

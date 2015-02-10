@@ -18,6 +18,7 @@ public class SimplePlatformLevel extends LevelFactory {
 
     public SimplePlatformLevel(Game game) {
         super(game);
+
         game.addEntityFactory(new PlayerPlatform(game));
         game.addEntityFactory(new Ground(game));
         game.addEntityFactory(new Crate(game));

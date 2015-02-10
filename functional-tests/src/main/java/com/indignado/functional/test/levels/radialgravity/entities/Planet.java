@@ -2,13 +2,18 @@ package com.indignado.functional.test.levels.radialgravity.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.Game;
+import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 
@@ -16,7 +21,7 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
  * @author Rubentxu.
  */
 public class Planet extends EntityFactory {
-
+    private String planet = "assets/textures/planet.png";
 
     public Planet(Game game) {
         super(game);
@@ -25,6 +30,8 @@ public class Planet extends EntityFactory {
 
     @Override
     public void loadAssets() {
+        if (!game.getAssetManager().isLoaded(planet)) game.getAssetManager().load(planet, Texture.class);
+
     }
 
 
@@ -37,7 +44,7 @@ public class Planet extends EntityFactory {
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Planet";
 
-        Body bodyPool = bodyBuilder
+        Body bodyPlanet = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .circleShape(5f)
                         .density(1)
@@ -47,11 +54,24 @@ public class Planet extends EntityFactory {
                 .build();
 
         RigidBodiesComponents rigidByPool = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByPool.rigidBodies.add(bodyPool);
+        rigidByPool.rigidBodies.add(bodyPlanet);
 
         RadialGravityComponent radialGravityComponent = entityBuilder.getComponent(RadialGravityComponent.class);
         radialGravityComponent.radius = 24f;
         // radialGravityComponent.gravity = -18;
+
+
+        TextureView planetView = new TextureView();
+        planetView.setName("Planet");
+        planetView.setTextureRegion(new TextureRegion(game.getAssetManager().get(planet, Texture.class)));
+        planetView.setHeight(10f);
+        planetView.setWidth(10f);
+        planetView.position = new Vector2(0,10f);
+        planetView.setAttachedTransform(bodyPlanet.getTransform());
+        planetView.setLayer(0);
+
+        ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
+        viewsComponent.views.add(planetView);
 
         Entity entity = entityBuilder.getEntity();
 
