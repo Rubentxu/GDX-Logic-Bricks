@@ -30,8 +30,8 @@ public class FlyingDartLevel extends LevelFactory {
     public void createLevel() {
         LogicBricksEngine engine = game.getEngine();
         game.getCamera().position.set(0, 9, 0);
-        game.getCamera().viewportWidth = Settings.Width;
-        game.getCamera().viewportHeight = Settings.Height;
+        game.getCamera().viewportWidth = Settings.WIDTH;
+        game.getCamera().viewportHeight = Settings.HEIGHT;
         Entity trigger = game.getEntityFactories().get(TriggerDart.class).createEntity();
         game.positioningEntity(trigger, -14, 2f, 0);
         engine.addEntity(trigger);

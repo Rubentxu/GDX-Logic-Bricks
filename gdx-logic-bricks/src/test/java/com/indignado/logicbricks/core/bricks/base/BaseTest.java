@@ -1,20 +1,63 @@
 package com.indignado.logicbricks.core.bricks.base;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.IntMap;
+import com.badlogic.gdx.utils.Logger;
+import com.indignado.logicbricks.core.Game;
+import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.utils.builders.BodyBuilder;
+import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.mockito.Mockito;
+
+import static org.mockito.Mockito.when;
 
 /**
  * Created on 18/10/14.
  *
  * @author Rubentxu
  */
-public class BaseTest extends ApplicationAdapter {
-    protected String path;
+public class BaseTest {
+    protected String tag = this.getClass().getSimpleName();
+    protected final Game game;
+    protected LogicBricksEngine engine;
+    protected EntityBuilder entityBuilder;
+    protected BodyBuilder bodyBuilder;
+
+    public BaseTest() {
+        GdxNativesLoader.load();
+        SpriteBatch batch = Mockito.mock(SpriteBatch.class);
+        when(batch.getColor()).thenReturn(new Color());
+
+        Gdx.input = Mockito.mock(Input.class);
+        Gdx.app = Mockito.mock(Application.class);
+
+        Gdx.graphics = Mockito.mock(Graphics.class);
+        when(Gdx.graphics.getWidth()).thenReturn((int) Settings.WIDTH);
+        when(Gdx.graphics.getHeight()).thenReturn((int) Settings.HEIGHT);
+
+        Settings.DEBUG_LEVEL = Logger.DEBUG;
+        Settings.TESTING = true;
+        Settings.MAX_STEPS = 60;
+        TestFileHandleResolver fileHandle = new TestFileHandleResolver();
+        this.game = new Game(new AssetManager(fileHandle), batch);
+
+        engine = game.getEngine();
+        entityBuilder = game.getEntityBuilder();
+        bodyBuilder = game.getBodyBuilder();
+
+    }
+
 
     protected IntMap<Animation> getAnimations() {
         IntMap<Animation> animations = new IntMap<Animation>();
@@ -30,10 +73,6 @@ public class BaseTest extends ApplicationAdapter {
 
     }
 
-    protected FileHandle getFileHandle(String relativePath) {
-        return new FileHandle(Thread.currentThread().getContextClassLoader().getResource(relativePath).getPath());
-
-    }
 
 
     protected enum PlayerState {WALKING, JUMP, FALL, IDLE}

@@ -13,7 +13,6 @@ import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.actuators.StateActuatorBuilder;
@@ -25,12 +24,10 @@ import com.indignado.logicbricks.utils.builders.sensors.DelaySensorBuilder;
  * @author Rubentxu
  */
 public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityActuator, InstanceEntityActuatorComponent> {
-    private Game game;
 
 
-    public InstanceEntityActuatorSystem(Game game) {
+    public InstanceEntityActuatorSystem() {
         super(InstanceEntityActuatorComponent.class);
-        this.game = game;
 
     }
 
@@ -58,17 +55,17 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     private void addDurationComponents(Game game, Entity entity, InstanceEntityActuator actuator) {
-        DelaySensor delaySensor = EngineUtils.getBuilder(DelaySensorBuilder.class)
+        DelaySensor delaySensor = game.getBuilder(DelaySensorBuilder.class)
                 .setDelay(actuator.duration)
                 .setName("SensorDestroyEntity")
                 .getBrick();
 
-        StateActuator stateActuator = EngineUtils.getBuilder(StateActuatorBuilder.class)
+        StateActuator stateActuator = game.getBuilder(StateActuatorBuilder.class)
                 .setChangeState(StateComponent.eraseID)
                 .setName("ChangeStateRemove")
                 .getBrick();
 
-        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("DurationController")
                 .getBrick();
@@ -85,16 +82,16 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
 
     private void addMotionComponents(Game game, Entity entity, InstanceEntityActuator actuator) {
-        AlwaysSensor alwaysSensor = EngineUtils.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = game.getBuilder(AlwaysSensorBuilder.class)
                 .setName("SensorMotionActuator")
                 .getBrick();
 
-        ConditionalController controller = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("ControllerMotionActuator")
                 .getBrick();
 
-        MotionActuator motionActuator = EngineUtils.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuator = game.getBuilder(MotionActuatorBuilder.class)
                 .setVelocity(actuator.initialVelocity)
                 .getBrick();
 

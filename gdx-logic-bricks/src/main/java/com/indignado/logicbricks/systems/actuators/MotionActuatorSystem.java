@@ -7,10 +7,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.MotionActuatorComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -27,7 +27,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         ObjectSet<MotionActuator> actuators = (ObjectSet<MotionActuator>) actuatorMapper.get(entity).actuators.get(state);
         if (actuators != null) {

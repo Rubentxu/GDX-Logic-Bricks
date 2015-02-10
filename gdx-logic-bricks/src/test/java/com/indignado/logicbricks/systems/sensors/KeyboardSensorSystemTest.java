@@ -2,13 +2,12 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.gdx.Input;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.sensors.KeyboardSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
-import com.indignado.logicbricks.utils.EngineUtils;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.KeyboardSensorBuilder;
 import org.junit.Test;
@@ -21,12 +20,6 @@ import static org.junit.Assert.*;
  */
 public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSensor, KeyboardSensorSystem> {
 
-    public KeyboardSensorSystemTest() {
-        super();
-        sensorSystem = new KeyboardSensorSystem();
-        engine.addSystem(sensorSystem);
-
-    }
 
 
     @Override
@@ -42,12 +35,12 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = EngineUtils.getBuilder(KeyboardSensorBuilder.class)
+        sensor = game.getBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = EngineUtils.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
@@ -59,13 +52,14 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
                 .connectToSensor(sensor)
                 .connectToActuator(actuatorTest)
                 .getEntity();
-
+        sensorSystem = engine.getSystem(KeyboardSensorSystem.class);
     }
 
 
     @Test
     public void keyDownTest() {
         engine.addEntity(player);
+
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
 
@@ -89,6 +83,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     public void keyDownPulseModeTrueTest() {
         sensor.pulse = Sensor.Pulse.PM_TRUE.getValue();
         engine.addEntity(player);
+
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
 
@@ -116,6 +111,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     public void keyDownPulseModeTrueAndFalseTest() {
         sensor.pulse = Sensor.Pulse.PM_TRUE.getValue() | Sensor.Pulse.PM_FALSE.getValue();
         engine.addEntity(player);
+
         sensorSystem.keyTyped('a');
         sensorSystem.keyDown(Input.Keys.A);
 
@@ -148,6 +144,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     @Test
     public void keyDownAllKeysConfigTest() {
         engine.addEntity(player);
+
         sensor.keyCode = Input.Keys.UNKNOWN;
         sensor.allKeys = true;
         sensorSystem.keyTyped('a');
@@ -168,6 +165,7 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
     @Test
     public void keyBoardSensorAllKeysAndLogToggleConfigTest() {
         engine.addEntity(player);
+
         sensor.keyCode = Input.Keys.UNKNOWN;
         sensor.allKeys = true;
         sensor.logToggle = true;

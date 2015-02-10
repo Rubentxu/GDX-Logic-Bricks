@@ -6,10 +6,10 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
-import com.indignado.logicbricks.core.LogicBrick;
-import com.indignado.logicbricks.core.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
+import com.indignado.logicbricks.core.data.LogicBrick.BrickMode;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
@@ -18,7 +18,6 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public abstract class ControllerSystem<C extends Controller, CC extends ControllerComponent> extends LogicBrickSystem {
-    protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<CC> controllerMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 
@@ -27,12 +26,13 @@ public abstract class ControllerSystem<C extends Controller, CC extends Controll
         super(Family.all(clazz, StateComponent.class).get(), 2);
         this.controllerMapper = ComponentMapper.getFor(clazz);
         stateMapper = ComponentMapper.getFor(StateComponent.class);
+
     }
 
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         ObjectSet<C> controllers = (ObjectSet<C>) controllerMapper.get(entity).controllers.get(state);
         if (controllers != null) {

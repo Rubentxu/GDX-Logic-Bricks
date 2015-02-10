@@ -69,6 +69,7 @@ public class BlackBoardComponent extends Component implements Poolable {
         if (propertyTypeIndex < properties.getCapacity()) {
             Property<V> property = properties.get(propertyTypeIndex);
             property.setValue(value);
+
         }
 
     }

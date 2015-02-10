@@ -7,11 +7,11 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
@@ -19,7 +19,6 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComponent> extends LogicBrickSystem {
-    protected String tag = this.getClass().getSimpleName();
     protected ComponentMapper<AC> actuatorMapper;
     protected ComponentMapper<StateComponent> stateMapper;
 
@@ -42,7 +41,7 @@ public abstract class ActuatorSystem<A extends Actuator, AC extends ActuatorComp
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        if (Settings.debugEntity != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         Integer state = stateMapper.get(entity).getCurrentState();
         Log.debug(tag, "A) current state %d name %s time " + stateMapper.get(entity).time + " ", state, stateMapper.get(entity).getCurrentStateName());
         ObjectSet<A> actuators = (ObjectSet<A>) actuatorMapper.get(entity).actuators.get(state);

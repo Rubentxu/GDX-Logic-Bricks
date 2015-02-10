@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.core.LogicBrick;
 import com.indignado.logicbricks.core.Script;
 import com.indignado.logicbricks.core.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -36,7 +36,7 @@ public class MousePositionScript implements Script {
             Body ownerBody = instanceEntityActuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
 
             float angle = MathUtils.atan2(mousePosition.y - ownerBody.getPosition().y, mousePosition.x - ownerBody.getPosition().x);
-            instanceEntityActuator.initialVelocity = new Vector2(Settings.Width / 2 * MathUtils.cos(angle), Settings.Width * MathUtils.sin(angle));
+            instanceEntityActuator.initialVelocity = new Vector2(Settings.WIDTH / 2 * MathUtils.cos(angle), Settings.WIDTH * MathUtils.sin(angle));
             instanceEntityActuator.angle = angle;
             controller.pulseState = LogicBrick.BrickMode.BM_ON;
 

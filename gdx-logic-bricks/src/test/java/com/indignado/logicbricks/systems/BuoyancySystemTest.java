@@ -1,43 +1,21 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.indignado.logicbricks.components.BuoyancyComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.core.LogicBricksEngine;
+import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import com.indignado.logicbricks.utils.Log;
-import com.indignado.logicbricks.utils.builders.BodyBuilder;
-import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Rubentxu.
  */
-public class BuoyancySystemTest {
-    private final BodyBuilder bodyBuilder;
-    private LogicBricksEngine engine;
+public class BuoyancySystemTest extends BaseTest{
     private BuoyancyComponent buoyancyComponent;
-    private World physic;
     private Body bodyPlayer;
-    private EntityBuilder entityBuilder;
-
-
-    public BuoyancySystemTest() {
-        GdxNativesLoader.load();
-        physic = new World(new Vector2(0, -9.8f), true);
-        bodyBuilder = new BodyBuilder(physic);
-        engine = new LogicBricksEngine();
-        BuoyancySystem buoyancySystem = new BuoyancySystem();
-        engine.addSystem(buoyancySystem);
-        entityBuilder = new EntityBuilder(engine);
-        physic.setContactListener(buoyancySystem);
-
-    }
 
 
     @Before
@@ -88,32 +66,25 @@ public class BuoyancySystemTest {
     @Test
     public void defaultTest() {
         buoyancyComponent.offset = 6;
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "A) Player position %s", bodyPlayer.getPosition());
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "B) Player position %s", bodyPlayer.getPosition());
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "C) Player position %s", bodyPlayer.getPosition());
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "D) Player position %s", bodyPlayer.getPosition());
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "E) Player position %s", bodyPlayer.getPosition());
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "F) Player position %s", bodyPlayer.getPosition());
 
-        physic.step(1, 8, 3);
-        engine.update(1);
+        game.update(1);
         Log.debug("BuoyancySystemTest", "G) Player position %s", bodyPlayer.getPosition());
         //assertEquals(deltaTime, stateComponent.time, 0.1);
 
