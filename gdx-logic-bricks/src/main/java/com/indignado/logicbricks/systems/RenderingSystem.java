@@ -64,7 +64,7 @@ public class RenderingSystem extends LogicBrickSystem {
         if (Settings.DRAW_GRID) {
             this.debugShapeRenderer = new ShapeRenderer();
         }
-        if (!Settings.TESTING) {
+        if (Settings.DEBUG && !Settings.TESTING) {
             this.debugRenderer = new Box2DDebugRenderer(Settings.DRAW_BOX2D_BODIES, Settings.DRAW_BOX2D_JOINTS, Settings.DRAW_BOX2D_ABBs,
                     Settings.DRAW_BOX2D_INACTIVE_BODIES, Settings.DRAW_BOX2D_VELOCITIES, Settings.DRAW_BOX2D_CONTACTS);
             debugRenderer.setDrawAABBs(Settings.DRAW_BOX2D_ABBs);
