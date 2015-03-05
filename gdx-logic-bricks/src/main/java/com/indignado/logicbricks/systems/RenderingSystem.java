@@ -5,11 +5,12 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.data.View;
@@ -33,8 +34,8 @@ public class RenderingSystem extends LogicBrickSystem {
     private World physics;
     protected Viewport viewport;
     protected OrthographicCamera uiCamera;
-    private SpriteBatch batch;
-    private OrthographicCamera camera;
+    private Batch batch;
+    private Camera camera;
     private Array<View> renderQueue;
     private Comparator<View> comparator;
     private ComponentMapper<ViewsComponent> vm;
@@ -87,10 +88,10 @@ public class RenderingSystem extends LogicBrickSystem {
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
-        batch = game.getBatch();
-        camera = game.getCamera();
+        batch = context.get(Batch.class);
+        camera = context.get(Camera.class);
         camera.position.set(Settings.WIDTH / 2, Settings.HEIGHT / 2, 0);
-        physics = game.getPhysics();
+        physics = context.get(World.class);
 
     }
 
@@ -223,7 +224,7 @@ public class RenderingSystem extends LogicBrickSystem {
     }
 
 
-    public OrthographicCamera getCamera() {
+    public Camera getCamera() {
         return camera;
 
     }

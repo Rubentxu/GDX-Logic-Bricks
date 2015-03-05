@@ -14,7 +14,7 @@ public class InstanceEntityActuatorBuilder extends ActuatorBuilder<InstanceEntit
 
     }
 
-    public InstanceEntityActuatorBuilder setEntityFactory(EntityFactory entityFactory) {
+    public <T extends EntityFactory> InstanceEntityActuatorBuilder setEntityFactory(Class<T> entityFactory) {
         brick.entityFactory = entityFactory;
         return this;
 

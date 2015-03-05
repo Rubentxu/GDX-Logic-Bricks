@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.buoyancy.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,11 +13,11 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 
 /**
  * @author Rubentxu.
@@ -24,23 +25,24 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 public class Box extends EntityFactory {
     private String box = "assets/textures/box1.png";
 
-    public Box(Game game) {
-        super(game);
+    public Box(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
+
 
     }
 
 
     @Override
     public void loadAssets() {
-        if (!game.getAssetManager().isLoaded(box)) game.getAssetManager().load(box, Texture.class);
+        if (!assetManager.isLoaded(box)) assetManager.load(box, Texture.class);
     }
 
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Box";
@@ -64,7 +66,7 @@ public class Box extends EntityFactory {
 
         TextureView boxView = new TextureView();
         boxView.setName("Box");
-        boxView.setTextureRegion(new TextureRegion(game.getAssetManager().get(box, Texture.class)));
+        boxView.setTextureRegion(new TextureRegion(assetManager.get(box, Texture.class)));
         boxView.setHeight(height*2);
         boxView.setWidth(widt*2);
         boxView.setAttachedTransform(bodyBox.getTransform());

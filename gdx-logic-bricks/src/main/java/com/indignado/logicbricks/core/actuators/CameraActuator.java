@@ -1,12 +1,12 @@
 package com.indignado.logicbricks.core.actuators;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Camera;
 
 /**
  * @author Rubentxu.
  */
 public class CameraActuator extends Actuator {
-    public OrthographicCamera camera;
+    public Camera camera;
     public short height = 0;
 
     @Override

@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.radialgravity.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -12,7 +13,6 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.data.TextureView;
@@ -21,6 +21,7 @@ import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 import com.indignado.logicbricks.utils.builders.actuators.MotionActuatorBuilder;
 import com.indignado.logicbricks.utils.builders.controllers.ConditionalControllerBuilder;
 import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
@@ -31,23 +32,23 @@ import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
 public class Cohete extends EntityFactory {
     private String cohete = "assets/textures/Cohete.png";
 
-    public Cohete(Game game) {
-        super(game);
+    public Cohete(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
 
     }
 
 
     @Override
     public void loadAssets() {
-        if (!game.getAssetManager().isLoaded(cohete)) game.getAssetManager().load(cohete, Texture.class);
+        if (!assetManager.isLoaded(cohete)) assetManager.load(cohete, Texture.class);
     }
 
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Box";
@@ -63,16 +64,16 @@ public class Cohete extends EntityFactory {
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
-        AlwaysSensor alwaysSensor = game.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor alwaysSensor = builders.getBrickBuilder(AlwaysSensorBuilder.class)
                 .setPulse(Sensor.Pulse.PM_TRUE)
                 .setName("alwaysSensor")
                 .getBrick();
 
-        ConditionalController controller = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controller = builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
-        MotionActuator motionActuator = game.getBuilder(MotionActuatorBuilder.class)
+        MotionActuator motionActuator = builders.getBrickBuilder(MotionActuatorBuilder.class)
                 .setTorque(5)
                 .getBrick();
 
@@ -83,7 +84,7 @@ public class Cohete extends EntityFactory {
 
         TextureView coheteView = new TextureView();
         coheteView.setName("Cohete");
-        coheteView.setTextureRegion(new TextureRegion(game.getAssetManager().get(cohete, Texture.class)));
+        coheteView.setTextureRegion(new TextureRegion(assetManager.get(cohete, Texture.class)));
         coheteView.setHeight(2.5f);
         coheteView.setWidth(2.5f);
         coheteView.setAttachedTransform(bodyCohete.getTransform());

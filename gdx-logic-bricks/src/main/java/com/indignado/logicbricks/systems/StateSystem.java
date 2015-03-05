@@ -1,13 +1,15 @@
 package com.indignado.logicbricks.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -16,6 +18,7 @@ import com.indignado.logicbricks.utils.Log;
 public class StateSystem extends LogicBrickSystem {
     Array<Entity> toRemove;
     private ComponentMapper<StateComponent> sm;
+    private World physics;
 
 
     public StateSystem() {
@@ -27,15 +30,23 @@ public class StateSystem extends LogicBrickSystem {
 
 
     @Override
+    public void addedToEngine(Engine engine) {
+        super.addedToEngine(engine);
+        physics = context.get(World.class);
+
+    }
+
+
+    @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         for (Entity entity : toRemove) {
-            game.getEngine().removeEntity(entity);
+            engine.removeEntity(entity);
             RigidBodiesComponents rigidBodies = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodies != null) {
                 for (Body body : rigidBodies.rigidBodies) {
                     rigidBodies.rigidBodies.removeValue(body, true);
-                    game.getPhysics().destroyBody(body);
+                    physics.destroyBody(body);
                     Log.debug(tag, "Remove entity id %d", entity.getId());
                 }
             }

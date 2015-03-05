@@ -34,11 +34,11 @@ public class DelaySensorSystemTest extends BaseSensorSystemTest<DelaySensor, Del
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = game.getBuilder(DelaySensorBuilder.class)
+        sensor =builders.getBrickBuilder(DelaySensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

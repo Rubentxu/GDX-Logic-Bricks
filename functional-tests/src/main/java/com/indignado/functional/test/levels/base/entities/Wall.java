@@ -2,15 +2,16 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 
 /**
  * @author Rubentxu.
@@ -18,8 +19,8 @@ import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 public class Wall extends EntityFactory {
 
 
-    public Wall(Game game) {
-        super(game);
+    public Wall(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
 
     }
 
@@ -31,13 +32,13 @@ public class Wall extends EntityFactory {
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Wall";
-        identity.category = game.getCategoryBitsManager().getCategoryBits("Wall");
+        //identity.category = game.getCategoryBitsManager().getCategoryBits("Wall");
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");

@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.Controller;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.functional.test.levels.flyingDart.FlyingDartCollisionRule;
 import com.indignado.functional.test.levels.flyingDart.FlyingDartLevel;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.systems.sensors.CollisionSensorSystem;
 import com.indignado.logicbricks.utils.Log;
 
@@ -31,12 +31,12 @@ public class FlyingDartTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new FlyingDartLevel(game));
+        addLevel(new FlyingDartLevel(engine, builders, assetManager));
         flyingDartCollisionRule = new FlyingDartCollisionRule();
 
         CollisionSensorSystem collisionSensorSystem = new CollisionSensorSystem();
         collisionSensorSystem.addCollisionRule(flyingDartCollisionRule);
-        game.getEngine().addSystem(collisionSensorSystem);
+        engine.addSystem(collisionSensorSystem);
         Settings.drawFPSPosX = -12.0f;
         Settings.drawFPSPosY = 18.0f;
 
@@ -50,14 +50,14 @@ public class FlyingDartTest extends LogicBricksTest {
 
         for (WeldJointDef jointDef : flyingDartCollisionRule.jointDefs) {
             Log.debug(tag, "CreateJoint");
-            game.getPhysics().createJoint(jointDef);
+            physics.createJoint(jointDef);
 
         }
         flyingDartCollisionRule.jointDefs.clear();
 
         for (Joint joint : flyingDartCollisionRule.destroyJoints) {
             Log.debug(tag, "DestroyJoint");
-            game.getPhysics().destroyJoint(joint);
+            physics.destroyJoint(joint);
 
         }
         flyingDartCollisionRule.destroyJoints.clear();

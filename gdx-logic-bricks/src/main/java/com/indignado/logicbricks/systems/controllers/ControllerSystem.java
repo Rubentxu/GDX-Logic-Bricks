@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.LogicBrick.BrickMode;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.functional.test.levels.buoyancy.BuoyancyLevel;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 
 
 /**
@@ -26,7 +26,7 @@ public class BuoyancyTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new BuoyancyLevel(game));
+        addLevel(new BuoyancyLevel(engine, builders, assetManager));
         Settings.drawFPSPosX = -25.0f;
         Settings.drawFPSPosY = 25.0f;
 

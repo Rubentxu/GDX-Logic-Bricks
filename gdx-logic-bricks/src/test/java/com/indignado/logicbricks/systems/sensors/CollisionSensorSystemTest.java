@@ -61,12 +61,12 @@ public class CollisionSensorSystemTest extends BaseSensorSystemTest<CollisionSen
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        sensor = game.getBuilder(CollisionSensorBuilder.class)
+        sensor =builders.getBrickBuilder(CollisionSensorBuilder.class)
                 .setTargetName("Ground")
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

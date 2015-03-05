@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.radialgravity.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -12,10 +13,10 @@ import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 
 /**
  * @author Rubentxu.
@@ -23,23 +24,24 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
 public class Planet extends EntityFactory {
     private String planet = "assets/textures/planet.png";
 
-    public Planet(Game game) {
-        super(game);
+    public Planet(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
+
     }
 
 
     @Override
     public void loadAssets() {
-        if (!game.getAssetManager().isLoaded(planet)) game.getAssetManager().load(planet, Texture.class);
+        if (!assetManager.isLoaded(planet)) assetManager.load(planet, Texture.class);
 
     }
 
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Planet";
@@ -63,7 +65,7 @@ public class Planet extends EntityFactory {
 
         TextureView planetView = new TextureView();
         planetView.setName("Planet");
-        planetView.setTextureRegion(new TextureRegion(game.getAssetManager().get(planet, Texture.class)));
+        planetView.setTextureRegion(new TextureRegion(assetManager.get(planet, Texture.class)));
         planetView.setHeight(10f);
         planetView.setWidth(10f);
         planetView.position = new Vector2(0,10f);

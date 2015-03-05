@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.base.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -12,10 +13,10 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
 
 /**
@@ -24,29 +25,29 @@ import com.indignado.logicbricks.utils.builders.joints.JointBuilder;
 public class Pulley extends EntityFactory {
     private String box2 = "assets/textures/box2.png";
 
-    public Pulley(Game game) {
-        super(game);
+    public Pulley(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
 
     }
 
 
     @Override
     public void loadAssets() {
-        if (!game.getAssetManager().isLoaded(box2)) game.getAssetManager().load(box2, Texture.class);
+        if (!assetManager.isLoaded(box2)) assetManager.load(box2, Texture.class);
 
     }
 
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
-        JointBuilder jointBuilder = game.getJointBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
+        JointBuilder jointBuilder = builders.getJointBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Pulley";
-        identity.category = game.getCategoryBitsManager().getCategoryBits("Pulley");
+        //identity.category = game.getCategoryBitsManager().getCategoryBits("Pulley");
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
@@ -80,7 +81,7 @@ public class Pulley extends EntityFactory {
 
         TextureView boxView = new TextureView();
         boxView.setName("box");
-        boxView.setTextureRegion(new TextureRegion(game.getAssetManager().get(box2, Texture.class)));
+        boxView.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
         boxView.setHeight(2.5f);
         boxView.setWidth(2.5f);
         boxView.setAttachedTransform(body1.getTransform());
@@ -88,7 +89,7 @@ public class Pulley extends EntityFactory {
 
         TextureView boxView2 = new TextureView();
         boxView2.setName("box2");
-        boxView2.setTextureRegion(new TextureRegion(game.getAssetManager().get(box2, Texture.class)));
+        boxView2.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
         boxView2.setHeight(2.5f);
         boxView2.setWidth(2.5f);
         boxView2.setAttachedTransform(body2.getTransform());

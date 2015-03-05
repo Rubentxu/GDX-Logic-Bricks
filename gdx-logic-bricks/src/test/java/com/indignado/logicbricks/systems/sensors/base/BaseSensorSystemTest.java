@@ -1,7 +1,7 @@
 package com.indignado.logicbricks.systems.sensors.base;
 
 import com.badlogic.ashley.core.Entity;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.sensors.SensorSystem;

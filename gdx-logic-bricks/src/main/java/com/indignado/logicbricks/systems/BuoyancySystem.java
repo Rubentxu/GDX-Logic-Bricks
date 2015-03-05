@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.components.BuoyancyComponent;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.utils.B2ShapeExtensions;
 import com.indignado.logicbricks.utils.Log;
 
