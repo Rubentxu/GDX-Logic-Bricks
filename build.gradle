@@ -34,6 +34,7 @@ ext {
     gdxAIVersion = '1.5.0'
     ashleyVersion = '1.3.3'
     daggerVersion = '1.2.2'
+    box2dlightsVersion = '1.3'
 
 }
 
@@ -44,8 +45,7 @@ project(":gdx-logic-bricks") {
         compile "com.badlogicgames.gdx:gdx-ai:$gdxAIVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        compile "com.squareup.dagger:dagger:$daggerVersion"
-        provided "com.squareup.dagger:dagger-compiler:$daggerVersion"
+        compile "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
 
     }
 

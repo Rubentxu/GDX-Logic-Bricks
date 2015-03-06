@@ -3,6 +3,7 @@ package com.indignado.functional.test.levels.simpleplatform;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
 import com.indignado.functional.test.levels.base.entities.Crate;
+import com.indignado.functional.test.levels.base.entities.DefaultLight;
 import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.base.entities.Pulley;
 import com.indignado.functional.test.levels.simpleplatform.entities.PlayerCamera;
@@ -19,6 +20,7 @@ public class SimplePlatformLevel extends LevelFactory {
 
     public SimplePlatformLevel(LogicBricksEngine engine, LBBuilders builders, AssetManager assetManager) {
         super(engine, assetManager);
+        addEntityFactory(new DefaultLight(builders, assetManager));
         addEntityFactory(new PlayerCamera(builders, assetManager));
         addEntityFactory(new PlayerPlatform(builders, assetManager));
         addEntityFactory(new Ground(builders, assetManager));
@@ -29,8 +31,12 @@ public class SimplePlatformLevel extends LevelFactory {
 
     @Override
     public void createLevel() {
+        Entity light = entitiesFactories.get(DefaultLight.class).createEntity();
+        positioningLight(light, 5, 5);
+        engine.addEntity(light);
+
         Entity camera = entitiesFactories.get(PlayerCamera.class).createEntity();
-        configCamera(camera, 0, 7);
+        positioningCamera(camera, 0, 7);
         engine.addEntity(camera);
 
         Entity player = entitiesFactories.get(PlayerPlatform.class).createEntity();

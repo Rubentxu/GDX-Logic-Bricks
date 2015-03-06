@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.systems;
 
+import box2dLight.RayHandler;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -46,7 +47,7 @@ public class RenderingSystem extends LogicBrickSystem {
     private ShapeRenderer debugShapeRenderer;
     private Box2DDebugRenderer debugRenderer;
     private BitmapFont debugFont;
-
+    private RayHandler rayHandler;
 
 
     public RenderingSystem() {
@@ -92,6 +93,7 @@ public class RenderingSystem extends LogicBrickSystem {
         camera = context.get(Camera.class);
         camera.position.set(Settings.WIDTH / 2, Settings.HEIGHT / 2, 0);
         physics = context.get(World.class);
+        rayHandler = context.get(RayHandler.class);
 
     }
 
@@ -102,6 +104,7 @@ public class RenderingSystem extends LogicBrickSystem {
         renderQueue.sort(comparator);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
 
         for (View view : renderQueue) {
@@ -144,7 +147,8 @@ public class RenderingSystem extends LogicBrickSystem {
         debugDrawUI();
         batch.end();
         renderQueue.clear();
-
+        rayHandler.setCombinedMatrix(camera.combined);
+        rayHandler.updateAndRender();
         debugDrawWorld();
 
 

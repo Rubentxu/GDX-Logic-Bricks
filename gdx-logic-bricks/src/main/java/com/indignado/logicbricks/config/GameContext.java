@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.config;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -53,7 +54,8 @@ public class GameContext implements ContextProviders {
         context.put(LogicBricksEngine.class, provideEngine());
         registerDefaultClasses();
         context.put(Camera.class, provideCamera());
-        context.put(LBBuilders.class, provideUtilBuilder(get(LogicBricksEngine.class),get(World.class)));
+        context.put(RayHandler.class, provideRayHandler(get(World.class)));
+        context.put(LBBuilders.class, provideUtilBuilder(get(LogicBricksEngine.class),get(World.class), get(RayHandler.class)));
         context.put(Game.class, provideGame(get(LogicBricksEngine.class), get(World.class)));
 
     }
@@ -104,10 +106,19 @@ public class GameContext implements ContextProviders {
 
 
     @Override
-    public <T> LBBuilders provideUtilBuilder(LogicBricksEngine engine, T physics) {
-        return new LBBuilders(engine, (World) physics);
+    public <T> LBBuilders provideUtilBuilder(LogicBricksEngine engine, T physics, RayHandler rayHandler) {
+        return new LBBuilders(engine, (World) physics, rayHandler);
 
     }
+
+
+    @Override
+    public <T> RayHandler provideRayHandler(T physics) {
+        return new RayHandler((World) physics);
+    }
+
+
+
 
 
     @Override

@@ -31,7 +31,7 @@ public class FlyingDartLevel extends LevelFactory {
     @Override
     public void createLevel() {
         Entity camera = entitiesFactories.get(DefaultCamera.class).createEntity();
-        configCamera(camera, 0, 9);
+        positioningCamera(camera, 0, 9);
         engine.addEntity(camera);
 
         Entity trigger = entitiesFactories.get(TriggerDart.class).createEntity();

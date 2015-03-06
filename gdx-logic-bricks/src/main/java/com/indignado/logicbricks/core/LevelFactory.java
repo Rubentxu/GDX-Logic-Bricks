@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.core;
 
+import box2dLight.Light;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.indignado.logicbricks.components.CameraComponent;
+import com.indignado.logicbricks.components.LightComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.utils.Log;
@@ -59,13 +61,24 @@ public abstract class LevelFactory {
     }
 
 
-    public void configCamera(Entity entity, float posX, float posY) {
+    public void positioningCamera(Entity entity, float posX, float posY) {
         if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         CameraComponent cameraComponent = entity.getComponent(CameraComponent.class);
         if(cameraComponent != null && cameraComponent.camera != null) {
             Camera camera = cameraComponent.camera;
             camera.position.set(posX, posY, 0);
             camera.update();
+        }
+    }
+
+
+    public void positioningLight(Entity entity, float posX, float posY) {
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        LightComponent lightComponent = entity.getComponent(LightComponent.class);
+        if(lightComponent != null && lightComponent.light != null) {
+            Light light = lightComponent.light;
+            light.setPosition(posX, posY);
+
         }
     }
 

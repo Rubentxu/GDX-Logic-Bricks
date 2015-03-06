@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.utils.builders;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
@@ -18,12 +19,14 @@ public class LBBuilders {
     private EntityBuilder entityBuilder;
     private BodyBuilder bodyBuilder;
     private JointBuilder jointBuilder;
+    private LightBuilder lightBuilder;
 
-    public LBBuilders(LogicBricksEngine engine, World physics) {
+    public LBBuilders(LogicBricksEngine engine, World physics, RayHandler rayHandler) {
         bricksBuilders = new ObjectMap<>();
         entityBuilder = new EntityBuilder(engine);
         bodyBuilder = new BodyBuilder(physics);
         jointBuilder = new JointBuilder(physics);
+        lightBuilder = new LightBuilder(rayHandler);
 
     }
 
@@ -64,6 +67,12 @@ public class LBBuilders {
     }
 
 
+    public LightBuilder getLightBuilder() {
+        return lightBuilder;
+
+    }
+
+
     private <B extends BrickBuilder> Constructor findConstructor(Class<B> type) {
         try {
             return ClassReflection.getConstructor(type, (Class[]) null);
@@ -78,5 +87,6 @@ public class LBBuilders {
         }
 
     }
+
 
 }

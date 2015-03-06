@@ -29,7 +29,7 @@ public class RadialGravityLevel extends LevelFactory {
     @Override
     public void createLevel() {
         Entity camera = entitiesFactories.get(DefaultCamera.class).createEntity();
-        configCamera(camera, 8, 7);
+        positioningCamera(camera, 8, 7);
         engine.addEntity(camera);
 
         Entity planet = entitiesFactories.get(Planet.class).createEntity();

@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.config;
 
+import box2dLight.RayHandler;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -25,7 +26,9 @@ public interface ContextProviders {
 
     public Batch provideBatch();
 
-    public <T> LBBuilders provideUtilBuilder(LogicBricksEngine engine, T physics);
+    public <T> RayHandler provideRayHandler(T physics);
+
+    public <T> LBBuilders provideUtilBuilder(LogicBricksEngine engine, T physics, RayHandler rayHandler);
 
     void registerDefaultClasses();
 

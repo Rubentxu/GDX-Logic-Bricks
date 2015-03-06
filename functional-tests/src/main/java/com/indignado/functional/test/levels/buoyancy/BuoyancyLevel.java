@@ -30,7 +30,7 @@ public class BuoyancyLevel extends LevelFactory {
     @Override
     public void createLevel() {
         Entity camera = entitiesFactories.get(DefaultCamera.class).createEntity();
-        configCamera(camera, 0, 7);
+        positioningCamera(camera, 0, 7);
         engine.addEntity(camera);
 
         Entity pool = entitiesFactories.get(Pool.class).createEntity();
