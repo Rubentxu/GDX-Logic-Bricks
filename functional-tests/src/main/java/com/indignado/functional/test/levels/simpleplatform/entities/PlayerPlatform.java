@@ -120,27 +120,6 @@ public class PlayerPlatform extends EntityFactory {
 
 
         // ALL States
-        // Create Bricks Camera ----------------------------------------------------------------
-        AlwaysSensor alwaysSensorCamera = builders.getBrickBuilder(AlwaysSensorBuilder.class)
-                .setPulse(Sensor.Pulse.PM_TRUE)
-                .setName("alwaysSensorCamera")
-                .getBrick();
-
-        ConditionalController controllerCamera = builders.getBrickBuilder(ConditionalControllerBuilder.class)
-                .setOp(ConditionalController.Op.OP_AND)
-                .setName("controllerCamera")
-                .getBrick();
-
-        CameraActuator cameraActuator = builders.getBrickBuilder(CameraActuatorBuilder.class)
-                .setHeight((short) 1)
-                //.setCamera(camera)
-                .setName("cameraActuator")
-                .getBrick();
-
-        entityBuilder.addController(controllerCamera, "Idle", "Walking", "Jump", "Fall")
-                .connectToSensor(alwaysSensorCamera)
-                .connectToActuator(cameraActuator);
-
         // Collision Sensor ----------------------------------------------------------------
         CollisionSensor collisionSensorGround = builders.getBrickBuilder(CollisionSensorBuilder.class)
                 .setTargetName("Ground")

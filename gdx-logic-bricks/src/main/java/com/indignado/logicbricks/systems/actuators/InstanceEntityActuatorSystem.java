@@ -155,6 +155,7 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
 
         MotionActuator motionActuator = builders.getBrickBuilder(MotionActuatorBuilder.class)
                 .setVelocity(actuator.initialVelocity)
+                .setName("MotionActuatorInstance")
                 .getBrick();
 
         Log.debug(tag, "Initial Velocity %s Angle %f", actuator.initialVelocity.toString(), actuator.angle);

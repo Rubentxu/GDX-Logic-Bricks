@@ -126,14 +126,15 @@ public class RenderingSystem extends LogicBrickSystem {
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
 
-                float originX = textureView.width * 0.5f;
-                float originY = textureView.height * 0.5f;
+                if(textureView.textureRegion != null) {
+                    processTextureFlip(textureView);
+                    float originX = textureView.width * 0.5f;
+                    float originY = textureView.height * 0.5f;
 
-                processTextureFlip(textureView);
+                    batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
+                            originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
 
-                batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
-                        originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
-
+                }
                 // Gdx.app.log("RederingSystem", "texture width " + textureView.width + " height " + textureView.height
                 //        + " texture position " + textureView.position);
             }

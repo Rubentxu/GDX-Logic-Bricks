@@ -26,6 +26,8 @@ public class BuoyancyTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
+        Settings.HEIGHT = 30;
+        Settings.WIDTH = 40;
         addLevel(new BuoyancyLevel(engine, builders, assetManager));
         Settings.drawFPSPosX = -25.0f;
         Settings.drawFPSPosY = 25.0f;

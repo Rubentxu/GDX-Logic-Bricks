@@ -1,8 +1,7 @@
 package com.indignado.logicbricks.systems.actuators;
 
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.CameraActuatorComponent;
@@ -22,19 +21,22 @@ public class CameraActuatorSystem extends ActuatorSystem<CameraActuator, CameraA
 
     @Override
     public void processActuator(CameraActuator actuator, float deltaTime) {
-        RigidBodiesComponents rc = actuator.owner.getComponent(RigidBodiesComponents.class);
-        Body body = rc.rigidBodies.first();
-        moveCamera(actuator.camera, body.getTransform());
+        Entity target = null;
+        if(actuator.followEntity != null)
+            target = actuator.followEntity;
+        else if(actuator.followTagEntity != null)
+            actuator.followEntity = target = engine.getEntities(actuator.followTagEntity).first();
+
+        if(target != null) {
+            RigidBodiesComponents rc = target.getComponent(RigidBodiesComponents.class);
+            Transform transform = rc.rigidBodies.first().getTransform();
+            Vector3 position = actuator.camera.position;
+            position.x += (transform.getPosition().x - position.x) * actuator.damping;
+            position.y += (transform.getPosition().y - position.y) * actuator.damping;
+        }
 
     }
 
 
-    private void moveCamera(Camera camera, Transform target) {
-        float lerp = 0.08f;
-        Vector3 position = camera.position;
-        position.x += (target.getPosition().x - position.x) * lerp;
-        position.y += (target.getPosition().y - position.y) * lerp;
-
-    }
 
 }

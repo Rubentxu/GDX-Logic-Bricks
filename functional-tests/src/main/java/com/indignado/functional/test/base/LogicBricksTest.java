@@ -69,8 +69,8 @@ public abstract class LogicBricksTest implements ApplicationListener {
     public void resize(int width, int height) {
         Gdx.app.log("TEST", "Resize : " + width + " " + height);
         Camera camera = context.get(Camera.class);
-        camera.viewportHeight = 40;
-        camera.viewportWidth = 60;
+        camera.viewportHeight = Settings.HEIGHT;
+        camera.viewportWidth = Settings.WIDTH;
 
     }
 

@@ -12,7 +12,6 @@ import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.systems.DraggableBodySystem;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
-import com.indignado.logicbricks.systems.ViewSystem;
 
 import java.util.Iterator;
 
@@ -26,8 +25,8 @@ public class Game implements Disposable, ContactListener {
     private final IntMap<LevelFactory> levelFactories;
     private final World physics;
     private final LogicBricksEngine engine;
+    private final RenderingSystem renderingSystem;
 
-    private ViewSystem viewSystem;
 
     private CategoryBitsManager categoryBitsManager;
 
@@ -41,15 +40,14 @@ public class Game implements Disposable, ContactListener {
     public Game(LogicBricksEngine engine, World physics) {
         this.engine = engine;
         this.physics = physics;
-
-        engine.addSystem(new RenderingSystem());
-        viewSystem = new ViewSystem();
-        engine.addSystem(viewSystem);
+        renderingSystem = new RenderingSystem();
+        renderingSystem.setProcessing(false);
+        engine.addSystem(renderingSystem);
 
         levelFactories = new IntMap<LevelFactory>();
         categoryBitsManager = new CategoryBitsManager();
 
-        engine.update(0);
+        //engine.update(0);
 
         Gdx.input.setInputProcessor(engine.getInputs());
         physics.setContactListener(this);
@@ -107,7 +105,7 @@ public class Game implements Disposable, ContactListener {
             singleStep(Settings.FIXED_TIME_STEP);
 
         }
-
+        renderingSystem.update(dt);
 
     }
 

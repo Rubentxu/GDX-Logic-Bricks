@@ -41,7 +41,7 @@ public class Pool extends EntityFactory {
 
         Body bodyPool = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
-                        .boxShape(15, 3.5f)
+                        .boxShape(7, 2.5f)
                         .density(2)
                         .sensor())
                 .position(0, 0)
@@ -53,7 +53,7 @@ public class Pool extends EntityFactory {
         rigidByPool.rigidBodies.add(bodyPool);
 
         BuoyancyComponent buoyancyComponent = entityBuilder.getComponent(BuoyancyComponent.class);
-        buoyancyComponent.offset = 8f;
+        buoyancyComponent.offset = 4f;
 
         Entity entity = entityBuilder.getEntity();
 

@@ -66,7 +66,8 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef.initialize(bodyB, bodyA, bodyA.getWorldCenter());
                     jointDefs.add(weldJointDef);
                     Log.debug(tag, "Create WeldJoint");
-
+                    contextB.setValueProperty("freeFlight", true);
+                    motionB.actuators.get(0).iterator().next().fixedRotation = true;
 
                 }
             }
@@ -77,6 +78,8 @@ public class FlyingDartCollisionRule implements ContactListener {
                     weldJointDef.initialize(bodyA, bodyB, bodyB.getWorldCenter());
                     jointDefs.add(weldJointDef);
                     Log.debug(tag, "Create WeldJoint");
+                    contextA.setValueProperty("freeFlight", true);
+                    motionA.actuators.get(0).iterator().next().fixedRotation = true;
 
                 }
             }
@@ -101,17 +104,6 @@ public class FlyingDartCollisionRule implements ContactListener {
                 }
             }
 
-
-            if (identityA.tag == "Dart") {
-                contextA.setValueProperty("freeFlight", true);
-                motionA.actuators.get(0).iterator().next().fixedRotation = true;
-            }
-
-            if (identityB.tag == "Dart") {
-                contextB.setValueProperty("freeFlight", true);
-                motionB.actuators.get(0).iterator().next().fixedRotation = true;
-
-            }
 
         }
 

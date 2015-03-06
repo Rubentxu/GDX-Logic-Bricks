@@ -2,10 +2,12 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.indignado.logicbricks.components.CameraComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.utils.Log;
@@ -54,6 +56,17 @@ public abstract class LevelFactory {
 
         }
 
+    }
+
+
+    public void configCamera(Entity entity, float posX, float posY) {
+        if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
+        CameraComponent cameraComponent = entity.getComponent(CameraComponent.class);
+        if(cameraComponent != null && cameraComponent.camera != null) {
+            Camera camera = cameraComponent.camera;
+            camera.position.set(posX, posY, 0);
+            camera.update();
+        }
     }
 
 

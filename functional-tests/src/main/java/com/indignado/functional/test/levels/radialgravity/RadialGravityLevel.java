@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.radialgravity;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
+import com.indignado.functional.test.levels.base.entities.DefaultCamera;
 import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.radialgravity.entities.Cohete;
 import com.indignado.functional.test.levels.radialgravity.entities.Planet;
@@ -17,6 +18,7 @@ public class RadialGravityLevel extends LevelFactory {
 
     public RadialGravityLevel(LogicBricksEngine engine, LBBuilders builders, AssetManager assetManager) {
         super(engine, assetManager);
+        addEntityFactory(new DefaultCamera(builders, assetManager));
         addEntityFactory(new Cohete(builders, assetManager));
         addEntityFactory(new Planet(builders, assetManager));
         addEntityFactory(new Ground(builders, assetManager));
@@ -26,11 +28,10 @@ public class RadialGravityLevel extends LevelFactory {
 
     @Override
     public void createLevel() {
+        Entity camera = entitiesFactories.get(DefaultCamera.class).createEntity();
+        configCamera(camera, 8, 7);
+        engine.addEntity(camera);
 
-      /*  game.getCamera().position.set(0, 7, 0);
-        game.getCamera().viewportWidth = Settings.WIDTH * 3;
-        game.getCamera().viewportHeight = Settings.HEIGHT * 3;
-*/
         Entity planet = entitiesFactories.get(Planet.class).createEntity();
         positioningEntity(planet, 0, 10f, 0);
         engine.addEntity(planet);

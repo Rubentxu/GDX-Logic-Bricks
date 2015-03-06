@@ -51,8 +51,8 @@ public class Box extends EntityFactory {
         state.createState("Default");
 
 
-        float widt = MathUtils.random(0.5f, 2);
-        float height =  MathUtils.random(0.5f, 2.5f);
+        float widt = MathUtils.random(0.2f, 1);
+        float height =  MathUtils.random(0.1f, 1f);
 
         Body bodyBox = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(widt, height)
