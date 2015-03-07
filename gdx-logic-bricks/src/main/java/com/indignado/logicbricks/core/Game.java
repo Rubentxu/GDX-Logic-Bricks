@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ai.fsm.StateMachine;
 import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.*;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntMap;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.systems.DraggableBodySystem;
+import com.indignado.logicbricks.systems.LightRenderingSystem;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.systems.RenderingSystem;
 
@@ -34,14 +34,13 @@ public class Game implements Disposable, ContactListener {
     private float fixedTimesStepAccumulatorRatio = 0.0f;
     private int nSteps;
     private int nStepsClamped;
-    public StateMachine<Game> gameStateMachine;
+
 
 
     public Game(LogicBricksEngine engine, World physics) {
         this.engine = engine;
         this.physics = physics;
         renderingSystem = new RenderingSystem();
-        renderingSystem.setProcessing(false);
         engine.addSystem(renderingSystem);
 
         levelFactories = new IntMap<LevelFactory>();
@@ -106,6 +105,7 @@ public class Game implements Disposable, ContactListener {
 
         }
         renderingSystem.update(dt);
+        if(null != engine.getSystem(LightRenderingSystem.class)) engine.getSystem(LightRenderingSystem.class).update(dt);
 
     }
 

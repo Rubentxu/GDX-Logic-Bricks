@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.indignado.logicbricks.components.BuoyancyComponent;
-import com.indignado.logicbricks.components.RadialGravityComponent;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.actuators.*;
 import com.indignado.logicbricks.components.controllers.ConditionalControllerComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
@@ -153,6 +150,7 @@ public class GameContext implements ContextProviders {
         engine.registerEngineClasses(RadialGravityComponent.class, RadialGravitySystem.class);
         engine.registerEngineClasses(ViewsComponent.class, RenderingSystem.class, ViewSystem.class);
         engine.registerEngineClasses(StateComponent.class, StateSystem.class);
+        engine.registerEngineClasses(LightComponent.class, LightRenderingSystem.class);
 
     }
 
