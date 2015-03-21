@@ -26,7 +26,7 @@ public class ConditionalControllerSystemTest extends BaseTest{
 
     @Before
     public void setup() {
-        game.getEntityBuilder().initialize();
+        entityBuilder.initialize();
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
@@ -42,7 +42,7 @@ public class ConditionalControllerSystemTest extends BaseTest{
         sensor3.name = "sensor3Player";
         sensor3.pulseState = LogicBrick.BrickMode.BM_ON;
 
-        controller = game.getBuilder(ConditionalControllerBuilder.class)
+        controller =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .setName("playerController")
                 .getBrick();

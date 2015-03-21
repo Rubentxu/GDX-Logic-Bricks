@@ -65,13 +65,13 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        sensor = game.getBuilder(RaySensorBuilder.class)
+        sensor =builders.getBrickBuilder(RaySensorBuilder.class)
                 .setAxis(Axis2D.Ynegative)
                 .setRange(4.0F)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

@@ -9,8 +9,8 @@ public class TextureView extends View {
     public TextureRegion textureRegion;
     public float height;
     public float width;
-    public boolean flipX;
-    public boolean flipY;
+    public boolean flipX = false;
+    public boolean flipY = false;
 
 
     public TextureView setTextureRegion(TextureRegion textureRegion) {

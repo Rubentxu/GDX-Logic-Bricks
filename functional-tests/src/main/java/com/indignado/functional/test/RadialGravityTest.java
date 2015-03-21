@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.indignado.functional.test.base.LogicBricksTest;
 import com.indignado.functional.test.levels.radialgravity.RadialGravityLevel;
+import com.indignado.logicbricks.config.Settings;
 
 
 /**
@@ -25,7 +26,9 @@ public class RadialGravityTest extends LogicBricksTest {
     @Override
     public void create() {
         super.create();
-        addLevel(new RadialGravityLevel(game));
+        Settings.HEIGHT = 60;
+        Settings.WIDTH = 73;
+        addLevel(new RadialGravityLevel(engine, builders, assetManager));
 
     }
 

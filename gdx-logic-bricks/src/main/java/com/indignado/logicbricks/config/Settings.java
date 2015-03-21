@@ -1,4 +1,4 @@
-package com.indignado.logicbricks.core;
+package com.indignado.logicbricks.config;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;

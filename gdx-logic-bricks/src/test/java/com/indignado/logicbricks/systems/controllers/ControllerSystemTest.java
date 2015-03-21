@@ -37,7 +37,7 @@ public class ControllerSystemTest extends BaseTest{
         StateComponent stateComponent = entityBuilder.getComponent(StateComponent.class);
         stateComponent.createState(stateTest);
 
-        sensor = game.getBuilder(AlwaysSensorBuilder.class)
+        sensor =builders.getBrickBuilder(AlwaysSensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
@@ -88,7 +88,7 @@ public class ControllerSystemTest extends BaseTest{
 
     @Test
     public void twoSensorsTest() {
-        AlwaysSensor sensor2 = game.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor sensor2 =builders.getBrickBuilder(AlwaysSensorBuilder.class)
                 .setName("sensor2Player")
                 .getBrick();
 

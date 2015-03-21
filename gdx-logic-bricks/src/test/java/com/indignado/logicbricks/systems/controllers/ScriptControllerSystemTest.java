@@ -33,7 +33,7 @@ public class ScriptControllerSystemTest extends BaseTest{
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        AlwaysSensor sensor = game.getBuilder(AlwaysSensorBuilder.class)
+        AlwaysSensor sensor =builders.getBrickBuilder(AlwaysSensorBuilder.class)
                 .setName("SensorScript")
                 .getBrick();
 
@@ -44,7 +44,7 @@ public class ScriptControllerSystemTest extends BaseTest{
             }
         };
 
-        ScriptController controller = game.getBuilder(ScriptControllerBuilder.class)
+        ScriptController controller =builders.getBrickBuilder(ScriptControllerBuilder.class)
                 .setScript(script)
                 .setName("playerController")
                 .getBrick();

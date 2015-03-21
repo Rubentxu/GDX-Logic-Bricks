@@ -36,11 +36,11 @@ public class AlwaysSensorSystemTest extends BaseSensorSystemTest<AlwaysSensor, A
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = game.getBuilder(AlwaysSensorBuilder.class)
+        sensor =builders.getBrickBuilder(AlwaysSensorBuilder.class)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

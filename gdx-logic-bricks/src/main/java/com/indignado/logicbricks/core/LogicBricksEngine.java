@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.ReflectionPool;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
+import com.indignado.logicbricks.config.GameContext;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.data.Data;
 import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
@@ -23,7 +25,7 @@ import com.indignado.logicbricks.utils.Log;
  */
 public class LogicBricksEngine extends PooledEngine {
     private String tag = LogicBricksEngine.class.getSimpleName();
-    private final Game game;
+    private GameContext context;
     private ObjectMap<Long, Entity> idEntities;
     private ObjectMap<String, Array<Entity>> tagEntities;
     private DataPools dataPools;
@@ -33,21 +35,21 @@ public class LogicBricksEngine extends PooledEngine {
     private ObjectMap<Class<? extends Component>, Class<? extends LogicBrickSystem>[]> systemClasses;
 
 
-    public LogicBricksEngine(Game game) {
-        this(10, 100, 10, 100, 50, 200, game);
+    public LogicBricksEngine(GameContext context) {
+        this(10, 100, 10, 100, 50, 200, context);
 
     }
 
 
     public LogicBricksEngine(int entityPoolInitialSize, int entityPoolMaxSize, int componentPoolInitialSize,
-                             int componentPoolMaxSize, int bricksPoolInitialSize, int brickPoolMaxSize, Game game) {
+                             int componentPoolMaxSize, int bricksPoolInitialSize, int brickPoolMaxSize, GameContext context) {
         super(entityPoolInitialSize, entityPoolMaxSize, componentPoolInitialSize, componentPoolMaxSize);
         idEntities = new ObjectMap<Long, Entity>();
         tagEntities = new ObjectMap<String, Array<Entity>>();
         dataPools = new DataPools(bricksPoolInitialSize, brickPoolMaxSize);
         inputs = new InputMultiplexer();
         contactSystems = new Array<>();
-        this.game = game;
+        this.context = context;
 
         systemClasses = new ObjectMap<>();
         bricksClasses = new ObjectMap<>();
@@ -178,8 +180,8 @@ public class LogicBricksEngine extends PooledEngine {
     }
 
 
-    public Game getGame() {
-        return game;
+    public GameContext getGameContext() {
+        return context;
 
     }
 
