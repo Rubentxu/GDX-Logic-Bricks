@@ -1,6 +1,8 @@
 package com.indignado.logicbricks.core;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.assets.AssetManager;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 
 
 /**
@@ -8,10 +10,12 @@ import com.badlogic.ashley.core.Entity;
  */
 public abstract class EntityFactory {
     protected String tag = this.getClass().getSimpleName();
-    protected Game game;
+    protected LBBuilders builders;
+    protected AssetManager assetManager;
 
-    public EntityFactory(Game game) {
-        this.game = game;
+    public EntityFactory(LBBuilders builders, AssetManager assetManager) {
+        this.builders = builders;
+        this.assetManager = assetManager;
 
     }
 

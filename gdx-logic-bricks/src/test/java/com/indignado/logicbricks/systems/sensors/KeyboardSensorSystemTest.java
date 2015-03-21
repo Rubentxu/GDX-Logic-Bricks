@@ -35,12 +35,12 @@ public class KeyboardSensorSystemTest extends BaseSensorSystemTest<KeyboardSenso
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
-        sensor = game.getBuilder(KeyboardSensorBuilder.class)
+        sensor = builders.getBrickBuilder(KeyboardSensorBuilder.class)
                 .setKeyCode(Input.Keys.A)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

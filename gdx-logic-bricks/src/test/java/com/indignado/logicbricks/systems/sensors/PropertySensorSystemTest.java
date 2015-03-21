@@ -53,12 +53,12 @@ public class PropertySensorSystemTest extends BaseSensorSystemTest<PropertySenso
         blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(property);
 
-        sensor = game.getBuilder(PropertySensorBuilder.class)
+        sensor =builders.getBrickBuilder(PropertySensorBuilder.class)
                 .setProperty(propertyName)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

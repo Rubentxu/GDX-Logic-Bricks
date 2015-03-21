@@ -3,7 +3,7 @@ package com.indignado.logicbricks.utils;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 
 /**
  * @author Rubentxu.

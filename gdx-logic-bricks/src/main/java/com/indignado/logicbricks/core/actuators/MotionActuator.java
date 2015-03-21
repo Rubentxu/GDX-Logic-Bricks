@@ -12,9 +12,9 @@ public class MotionActuator extends Actuator {
     public Vector2 force;
     public Vector2 impulse;
 
-    public float angularVelocity = 0;
-    public float torque = 0;
-    public float angularImpulse = 0;
+    public float angularVelocity = 0.0f;
+    public float torque = 0.0f;
+    public float angularImpulse = 0.0f;
 
     public boolean fixedRotation = false;
     public float limitVelocityX = 0;

@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.controllers.ScriptControllerComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.controllers.ScriptController;
 import com.indignado.logicbricks.utils.Log;
 

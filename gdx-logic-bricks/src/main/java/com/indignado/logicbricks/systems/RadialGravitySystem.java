@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.LogicBricksException;
-import com.indignado.logicbricks.core.Settings;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 

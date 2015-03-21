@@ -64,12 +64,12 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        sensor = game.getBuilder(NearSensorBuilder.class)
+        sensor =builders.getBrickBuilder(NearSensorBuilder.class)
                 .setDistance(4)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.flyingDart.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -9,12 +10,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.data.Property;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 
 /**
  * @author Rubentxu.
@@ -23,23 +24,24 @@ public class Dart extends EntityFactory {
     private String dartTexture = "assets/textures/dart.png";
 
 
-    public Dart(Game game) {
-        super(game);
+    public Dart(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
+
     }
 
 
     @Override
     public void loadAssets() {
-        if (!game.getAssetManager().isLoaded(dartTexture)) game.getAssetManager().load(dartTexture, Texture.class);
+        if (!assetManager.isLoaded(dartTexture)) assetManager.load(dartTexture, Texture.class);
 
     }
 
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         BlackBoardComponent context = entityBuilder.getComponent(BlackBoardComponent.class);
         context.addProperty(new Property<Boolean>("freeFlight", false));
@@ -47,9 +49,9 @@ public class Dart extends EntityFactory {
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Dart";
-        identity.category = game.getCategoryBitsManager().getCategoryBits("Dart");
+     /*   identity.category = game.getCategoryBitsManager().getCategoryBits("Dart");
         identity.collisionMask = (short) (game.getCategoryBitsManager().getCategoryBits("Wall") |
-                game.getCategoryBitsManager().getCategoryBits("Ground"));
+                game.getCategoryBitsManager().getCategoryBits("Ground"));*/
 
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
@@ -74,7 +76,7 @@ public class Dart extends EntityFactory {
 
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
-        arrowView.setTextureRegion(new TextureRegion(game.getAssetManager().get(dartTexture, Texture.class)));
+        arrowView.setTextureRegion(new TextureRegion(assetManager.get(dartTexture, Texture.class)));
         arrowView.setHeight(1f);
         arrowView.setWidth(2.3f);
         arrowView.setAttachedTransform(bodyArrow.getTransform());

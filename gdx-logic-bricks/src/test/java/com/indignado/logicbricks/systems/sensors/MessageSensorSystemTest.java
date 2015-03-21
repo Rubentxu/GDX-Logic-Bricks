@@ -45,23 +45,23 @@ public class MessageSensorSystemTest extends BaseSensorSystemTest<MessageSensor,
     @Override
     protected void createContext() {
         // Create Player Entity
-        game.getEntityBuilder().initialize();
+        entityBuilder.initialize();
         IdentityComponent identityPlayer = entityBuilder.getComponent(IdentityComponent.class);
         identityPlayer.tag = "Player";
 
         message = "TestMessage";
-        sensor = game.getBuilder(MessageSensorBuilder.class)
+        sensor =builders.getBrickBuilder(MessageSensorBuilder.class)
                 .setSubject(message)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
         ActuatorTest actuatorTest = new ActuatorTest();
 
-        messageActuator = game.getBuilder(MessageActuatorBuilder.class)
+        messageActuator =builders.getBrickBuilder(MessageActuatorBuilder.class)
                 .setMessage(message)
                 .getBrick();
 

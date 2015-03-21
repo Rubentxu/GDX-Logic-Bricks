@@ -3,6 +3,7 @@ package com.indignado.logicbricks.utils.builders;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
@@ -11,10 +12,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.indignado.logicbricks.components.BlackBoardComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.components.actuators.ActuatorComponent;
 import com.indignado.logicbricks.components.controllers.ControllerComponent;
 import com.indignado.logicbricks.components.sensors.SensorComponent;
@@ -35,7 +33,7 @@ import com.indignado.logicbricks.utils.Log;
  */
 public class EntityBuilder {
     private static String tag = "EntityBuilder";
-    LogicBricksEngine engine;
+    private LogicBricksEngine engine;
     private Entity entity;
     private Controller controller;
     private Array<String> controllerStates;
@@ -155,6 +153,7 @@ public class EntityBuilder {
             entity.add(comp);
 
         }
+        if(comp instanceof CameraComponent) ((CameraComponent) comp).camera = engine.getGameContext().get(Camera.class);
         return comp;
 
     }

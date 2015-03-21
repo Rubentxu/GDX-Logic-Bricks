@@ -44,12 +44,12 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         view.height = 3;
         entityBuilder.getComponent(ViewsComponent.class).views.add(view);
 */
-        sensor = game.getBuilder(MouseSensorBuilder.class)
+        sensor =builders.getBrickBuilder(MouseSensorBuilder.class)
                 .setMouseEvent(MouseSensor.MouseEvent.MOVEMENT)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 

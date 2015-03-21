@@ -2,15 +2,16 @@ package com.indignado.functional.test.levels.buoyancy.entities;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.BuoyancyComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.EntityFactory;
-import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
+import com.indignado.logicbricks.utils.builders.LBBuilders;
 
 /**
  * @author Rubentxu.
@@ -18,8 +19,9 @@ import com.indignado.logicbricks.utils.builders.EntityBuilder;
 public class Pool extends EntityFactory {
 
 
-    public Pool(Game game) {
-        super(game);
+    public Pool(LBBuilders builders, AssetManager assetManager) {
+        super(builders, assetManager);
+
     }
 
 
@@ -30,16 +32,16 @@ public class Pool extends EntityFactory {
 
     @Override
     public Entity createEntity() {
-        EntityBuilder entityBuilder = game.getEntityBuilder();
+        EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
-        BodyBuilder bodyBuilder = game.getBodyBuilder();
+        BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Pool";
 
         Body bodyPool = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
-                        .boxShape(15, 3.5f)
+                        .boxShape(7, 2.5f)
                         .density(2)
                         .sensor())
                 .position(0, 0)
@@ -51,7 +53,7 @@ public class Pool extends EntityFactory {
         rigidByPool.rigidBodies.add(bodyPool);
 
         BuoyancyComponent buoyancyComponent = entityBuilder.getComponent(BuoyancyComponent.class);
-        buoyancyComponent.offset = 8f;
+        buoyancyComponent.offset = 4f;
 
         Entity entity = entityBuilder.getEntity();
 

@@ -65,14 +65,14 @@ public class RadarSensorSystemTest extends BaseSensorSystemTest<RadarSensor, Rad
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
 
-        sensor = game.getBuilder(RadarSensorBuilder.class)
+        sensor =builders.getBrickBuilder(RadarSensorBuilder.class)
                 .setAngle(90)
                 .setAxis(Axis2D.Ynegative)
                 .setDistance(4F)
                 .setName("sensorPlayer")
                 .getBrick();
 
-        ConditionalController controllerGround = game.getBuilder(ConditionalControllerBuilder.class)
+        ConditionalController controllerGround =builders.getBrickBuilder(ConditionalControllerBuilder.class)
                 .setOp(ConditionalController.Op.OP_AND)
                 .getBrick();
 
