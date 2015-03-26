@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -41,6 +42,7 @@ public class RenderingSystem extends LogicBrickSystem {
     private ComponentMapper<ViewsComponent> vm;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
+    private Matrix4 matrix;
 
     // Debug
     private ShapeRenderer debugShapeRenderer;
@@ -51,6 +53,7 @@ public class RenderingSystem extends LogicBrickSystem {
     public RenderingSystem() {
         super(Family.all(ViewsComponent.class).get(), 5);
         vm = ComponentMapper.getFor(ViewsComponent.class);
+        matrix = new Matrix4();
         setProcessing(false);
         renderQueue = new Array<View>();
         comparator = new Comparator<View>() {
@@ -111,11 +114,11 @@ public class RenderingSystem extends LogicBrickSystem {
                 batch.setColor(Color.WHITE);
             }
             batch.getColor().a = view.opacity;
+            batch.setTransformMatrix(view.transform.matrix);
 
             if (view instanceof ParticleEffectView) {
 
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
-                effect.setPosition(view.position.x, view.position.y);
                 effect.update(deltaTime);
                 if (((ParticleEffectView) view).autoStart) {
                     effect.start();
@@ -125,14 +128,11 @@ public class RenderingSystem extends LogicBrickSystem {
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
+                matrix = textureView.transform.matrix;
 
                 if(textureView.textureRegion != null) {
                     processTextureFlip(textureView);
-                    float originX = textureView.width * 0.5f;
-                    float originY = textureView.height * 0.5f;
-
-                    batch.draw(textureView.textureRegion, textureView.position.x - originX, textureView.position.y - originY,
-                            originX, originY, textureView.width, textureView.height, 1, 1, textureView.rotation);
+                    batch.draw(textureView.textureRegion, 0, 0, matrix.getScaleX(), matrix.getScaleY());
 
                 }
                 // Gdx.app.log("RederingSystem", "texture width " + textureView.width + " height " + textureView.height

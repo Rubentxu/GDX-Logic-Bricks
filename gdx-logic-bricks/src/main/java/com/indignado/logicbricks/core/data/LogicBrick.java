@@ -11,6 +11,7 @@ public class LogicBrick implements Data {
     public Entity owner;
     public BrickMode pulseState = BrickMode.BM_IDLE;
 
+
     @Override
     public void reset() {
         name = null;

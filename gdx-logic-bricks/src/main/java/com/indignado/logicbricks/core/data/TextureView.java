@@ -7,28 +7,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class TextureView extends View {
     public TextureRegion textureRegion;
-    public float height;
-    public float width;
     public boolean flipX = false;
     public boolean flipY = false;
 
 
+    public TextureView() {
+        super.transform = new Transform2D();
+
+    }
+
+
+    public TextureView(RectTransform transform) {
+        super.transform = transform;
+
+    }
+
+
     public TextureView setTextureRegion(TextureRegion textureRegion) {
         this.textureRegion = textureRegion;
-        return this;
-
-    }
-
-
-    public TextureView setHeight(float height) {
-        this.height = height;
-        return this;
-
-    }
-
-
-    public TextureView setWidth(float width) {
-        this.width = width;
         return this;
 
     }
@@ -52,8 +48,6 @@ public class TextureView extends View {
     public void reset() {
         super.reset();
         textureRegion = null;
-        height = 0;
-        width = 0;
         flipX = false;
         flipY = false;
 

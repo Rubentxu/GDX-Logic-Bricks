@@ -3,7 +3,6 @@ package com.indignado.logicbricks.core;
 import com.badlogic.ashley.core.*;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -17,6 +16,8 @@ import com.indignado.logicbricks.config.GameContext;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.data.Data;
 import com.indignado.logicbricks.core.data.LogicBrick;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
 import com.indignado.logicbricks.utils.Log;
 
@@ -126,9 +127,11 @@ public class LogicBricksEngine extends PooledEngine {
         RigidBodiesComponents rigidBodies = getComponent(entity, RigidBodiesComponents.class, false);
 
         if (rigidBodies != null) {
-            for (Body rigidBody : rigidBodies.rigidBodies) {
-                rigidBody.setUserData(entity);
-                for (Fixture fixture : rigidBody.getFixtureList()) {
+            for (RigidBody rigidBody : rigidBodies.rigidBodies) {
+                if(rigidBody instanceof RigidBody2D) {
+                    ((RigidBody2D) rigidBody).body.setUserData(entity);
+                }
+                for (Fixture fixture : ((RigidBody2D) rigidBody).body.getFixtureList()) {
                     Filter filter = new Filter();
                     filter.categoryBits = identity.category;
                     filter.maskBits = identity.collisionMask;

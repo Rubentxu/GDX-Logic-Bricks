@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
@@ -15,9 +16,7 @@ import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
-import com.indignado.logicbricks.core.data.AnimationView;
-import com.indignado.logicbricks.core.data.ParticleEffectView;
-import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.*;
 import com.indignado.logicbricks.core.sensors.*;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -52,7 +51,7 @@ public class PlayerPlatform extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(Vector3 position) {
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         //OrthographicCamera camera = game.getCamera();
@@ -90,18 +89,16 @@ public class PlayerPlatform extends EntityFactory {
                 .density(1))
                 .type(BodyDef.BodyType.DynamicBody)
                 .fixedRotation()
-                .position(0, 5)
+                .position(position.x, position.y)
                 .mass(1)
                 .build();
 
-        RigidBodiesComponents rbc = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rbc.rigidBodies.add(bodyPlayer);
+        RigidBody2D rigidBody2D = new RigidBody2D(bodyPlayer);
 
+        RigidBodiesComponents rbc = entityBuilder.getComponent(RigidBodiesComponents.class);
+        rbc.rigidBodies.add(rigidBody2D);
 
         AnimationView playerView = new AnimationView();
-        playerView.setHeight(2.3f);
-        playerView.setWidth(1.8f);
-        playerView.setAttachedTransform(bodyPlayer.getTransform());
         playerView.animations = new IntMap<>();
         playerView.animations.put(stateComponent.getState("Idle"), idle);
         playerView.animations.put(stateComponent.getState("Walking"), walking);
@@ -109,10 +106,20 @@ public class PlayerPlatform extends EntityFactory {
         playerView.animations.put(stateComponent.getState("Fall"), fall);
         playerView.setLayer(1);
 
+        Transform2D transform2D = (Transform2D) playerView.transform;
+        transform2D.matrix.scl(1.8f, 2.3f, 0);
+        transform2D.rigidBody = rigidBody2D;
+
+        Transforms2DComponent transforms2DComponent = entityBuilder.getComponent(Transforms2DComponent.class);
+        transforms2DComponent.transforms.add(transform2D);
+
         ParticleEffectView particleEffectView = new ParticleEffectView();
-        particleEffectView.setAttachedTransform(bodyPlayer.getTransform());
         particleEffectView.effect = dustEffect;
-        particleEffectView.setLocalPosition(new Vector2(0, -1));
+        particleEffectView.transform.matrix.setTranslation(0, -1, 0);
+        particleEffectView.transform.group.parent = transform2D;
+        transform2D.group.children.add(particleEffectView.transform);
+
+        transforms2DComponent.transforms.add(particleEffectView.transform);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
         viewsComponent.views.add(playerView);

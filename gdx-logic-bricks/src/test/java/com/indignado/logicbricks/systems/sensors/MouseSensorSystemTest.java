@@ -39,7 +39,7 @@ public class MouseSensorSystemTest extends BaseSensorSystemTest<MouseSensor, Mou
         identityPlayer.tag = "Player";
         transform = new Transform(new Vector2(), 0);
        /* TextureView view = new TextureView();
-        view.attachedTransform = transform;
+        view.attachedTransform = rectTransform;
         view.width = 4;
         view.height = 3;
         entityBuilder.getComponent(ViewsComponent.class).views.add(view);

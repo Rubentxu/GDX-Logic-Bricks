@@ -200,7 +200,7 @@ public class B2ShapeExtensions {
             p2.set(p3);
         }
 
-        // Normalize and transform centroid
+        // Normalize and rectTransform centroid
         c.x /= area;
         c.y /= area;
         c.set(transform.mul(c));
