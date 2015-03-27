@@ -2,16 +2,16 @@ package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.indignado.logicbricks.core.actuators.EffectActuator;
+import com.indignado.logicbricks.core.actuators.Effect2DActuator;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 
 /**
  * @author Rubentxu.
  */
-public class EffectActuatorBuilder extends ActuatorBuilder<EffectActuator> {
+public class EffectActuatorBuilder extends ActuatorBuilder<Effect2DActuator> {
 
     public EffectActuatorBuilder() {
-        brick = new EffectActuator();
+        brick = new Effect2DActuator();
     }
 
     public EffectActuatorBuilder setEffectView(ParticleEffectView effectView) {
@@ -56,9 +56,9 @@ public class EffectActuatorBuilder extends ActuatorBuilder<EffectActuator> {
     }
 
     @Override
-    public EffectActuator getBrick() {
-        EffectActuator brickTemp = brick;
-        brick = new EffectActuator();
+    public Effect2DActuator getBrick() {
+        Effect2DActuator brickTemp = brick;
+        brick = new Effect2DActuator();
         return brickTemp;
 
     }

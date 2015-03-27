@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -18,6 +17,8 @@ import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.actuators.StateActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.DelaySensor;
 import com.indignado.logicbricks.utils.Log;
@@ -84,12 +85,15 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
     public void processActuator(InstanceEntityActuator actuator, float deltaTime) {
         if (actuator.type == InstanceEntityActuator.Type.AddEntity) {
             Entity entity = createEntity(actuator.entityFactory);
-            Body body = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
-            Vector2 position = body.getPosition().cpy();
-            if (actuator.localPosition != null) position.add(actuator.localPosition);
+            RigidBody rigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
+            if(rigidBody instanceof RigidBody2D) {
+                Vector2 position = ((RigidBody2D) rigidBody).body.getPosition().cpy();
+                if (actuator.localPosition != null) position.add(actuator.localPosition);
 
-            positioningEntity(entity, position.x, position.y, actuator.angle);
-            Log.debug(tag, "Create with position %s", position);
+                positioningEntity(entity, position.x, position.y, actuator.angle);
+                Log.debug(tag, "Create with position %s", position);
+
+            }
 
             if (actuator.initialVelocity != null) {
                 addMotionComponents(entity, actuator);
@@ -105,11 +109,13 @@ public class InstanceEntityActuatorSystem extends ActuatorSystem<InstanceEntityA
     public void positioningEntity(Entity entity, float posX, float posY, float angle) {
         if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         RigidBodiesComponents rbc = entity.getComponent(RigidBodiesComponents.class);
-        for (Body rigidBody : rbc.rigidBodies) {
-            Vector2 originPosition = new Vector2(posX, posY);
-            originPosition.add(rigidBody.getPosition());
-            rigidBody.setTransform(originPosition, (rigidBody.getAngle() + angle) * MathUtils.degreesToRadians);
-            Log.debug(tag, "Entity initial position %s", originPosition.toString());
+        for (RigidBody rigidBody : rbc.rigidBodies) {
+            if(rigidBody instanceof RigidBody2D) {
+                Vector2 originPosition = new Vector2(posX, posY);
+                originPosition.add(((RigidBody2D) rigidBody).body.getPosition());
+                ((RigidBody2D) rigidBody).body.setTransform(originPosition, (((RigidBody2D) rigidBody).body.getAngle() + angle) * MathUtils.degreesToRadians);
+                Log.debug(tag, "Entity initial position %s", originPosition.toString());
+            }
 
         }
 

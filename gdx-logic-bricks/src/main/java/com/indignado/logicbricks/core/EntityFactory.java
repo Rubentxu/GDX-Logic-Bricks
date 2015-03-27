@@ -31,7 +31,13 @@ public abstract class EntityFactory {
     }
 
 
-    public abstract Entity createEntity(Vector3 vector3);
+    public Entity createEntity(Vector3 position) {
+        return createEntity(position.x, position.y, position.z);
+
+    }
+
+
+    public abstract Entity createEntity(float x, float y, float z);
 
 
 }

@@ -1,6 +1,6 @@
 package com.indignado.logicbricks.utils.builders.sensors;
 
-import com.badlogic.gdx.physics.box2d.Body;
+import com.indignado.logicbricks.core.data.RigidBody;
 import com.indignado.logicbricks.core.sensors.NearSensor;
 
 /**
@@ -42,7 +42,7 @@ public class NearSensorBuilder extends SensorBuilder<NearSensor> {
     }
 
 
-    public NearSensorBuilder setAttachedRigidBody(Body rigidBody) {
+    public NearSensorBuilder setAttachedRigidBody(RigidBody rigidBody) {
         brick.attachedRigidBody = rigidBody;
         return this;
 

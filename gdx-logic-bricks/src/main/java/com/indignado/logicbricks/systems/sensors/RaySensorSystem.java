@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.sensors.RaySensorComponent;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.RaySensor;
 import com.indignado.logicbricks.utils.Log;
 
@@ -61,8 +63,11 @@ public class RaySensorSystem extends SensorSystem<RaySensor, RaySensorComponent>
             IntMap.Values<ObjectSet<RaySensor>> values = raySensorComponent.sensors.values();
             while (values.hasNext()) {
                 for (RaySensor sensor : values.next()) {
-                    if (sensor.attachedRigidBody == null)
-                        sensor.attachedRigidBody = rigidBodiesComponent.rigidBodies.first();
+                    if (sensor.attachedRigidBody == null) {
+                        RigidBody rigidBody = rigidBodiesComponent.rigidBodies.first();
+                        if(rigidBody instanceof RigidBody2D) sensor.attachedRigidBody = ((RigidBody2D) rigidBody).body;
+
+                    }
 
                 }
             }

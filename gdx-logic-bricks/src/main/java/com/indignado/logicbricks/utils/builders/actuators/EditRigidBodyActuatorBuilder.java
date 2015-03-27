@@ -1,8 +1,8 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.core.actuators.EditRigidBodyActuator;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 
 /**
  * @author Rubentxu.
@@ -13,7 +13,7 @@ public class EditRigidBodyActuatorBuilder extends ActuatorBuilder<EditRigidBodyA
         brick = new EditRigidBodyActuator();
     }
 
-    public EditRigidBodyActuatorBuilder setTargetRigidBody(Body targetRigidBody) {
+    public EditRigidBodyActuatorBuilder setTargetRigidBody(RigidBody2D targetRigidBody) {
         brick.targetRigidBody = targetRigidBody;
         return this;
 

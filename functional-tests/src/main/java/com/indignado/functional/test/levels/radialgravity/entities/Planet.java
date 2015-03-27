@@ -5,14 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -38,7 +37,7 @@ public class Planet extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -46,12 +45,13 @@ public class Planet extends EntityFactory {
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Planet";
 
-        Body bodyPlanet = bodyBuilder
+        RigidBody2D bodyPlanet = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .circleShape(5f)
                         .density(1)
                         .friction(2f))
                 .mass(2f)
+                .position(0,10)
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
@@ -66,10 +66,9 @@ public class Planet extends EntityFactory {
         TextureView planetView = new TextureView();
         planetView.setName("Planet");
         planetView.setTextureRegion(new TextureRegion(assetManager.get(planet, Texture.class)));
-        planetView.setHeight(10f);
-        planetView.setWidth(10f);
-        planetView.position = new Vector2(0,10f);
-        planetView.setAttachedTransform(bodyPlanet.getTransform());
+
+        planetView.transform.matrix.scl(10f,10f,1);
+        planetView.transform.rigidBody = bodyPlanet;
         planetView.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);

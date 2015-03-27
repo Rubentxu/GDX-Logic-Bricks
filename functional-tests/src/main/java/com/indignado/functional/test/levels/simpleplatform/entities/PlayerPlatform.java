@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
@@ -51,7 +49,7 @@ public class PlayerPlatform extends EntityFactory {
 
 
     @Override
-    public Entity createEntity(Vector3 position) {
+    public Entity createEntity(float x, float y, float z) {
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
 
         //OrthographicCamera camera = game.getCamera();
@@ -84,19 +82,17 @@ public class PlayerPlatform extends EntityFactory {
         BlackBoardComponent blackBoardComponent = entityBuilder.getComponent(BlackBoardComponent.class);
         blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
 
-        Body bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+        RigidBody2D bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(0.35f, 1)
                 .density(1))
                 .type(BodyDef.BodyType.DynamicBody)
                 .fixedRotation()
-                .position(position.x, position.y)
+                .position(x, y)
                 .mass(1)
                 .build();
 
-        RigidBody2D rigidBody2D = new RigidBody2D(bodyPlayer);
-
         RigidBodiesComponents rbc = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rbc.rigidBodies.add(rigidBody2D);
+        rbc.rigidBodies.add(bodyPlayer);
 
         AnimationView playerView = new AnimationView();
         playerView.animations = new IntMap<>();
@@ -108,7 +104,7 @@ public class PlayerPlatform extends EntityFactory {
 
         Transform2D transform2D = (Transform2D) playerView.transform;
         transform2D.matrix.scl(1.8f, 2.3f, 0);
-        transform2D.rigidBody = rigidBody2D;
+        transform2D.rigidBody = bodyPlayer;
 
         Transforms2DComponent transforms2DComponent = entityBuilder.getComponent(Transforms2DComponent.class);
         transforms2DComponent.transforms.add(transform2D);
@@ -116,8 +112,8 @@ public class PlayerPlatform extends EntityFactory {
         ParticleEffectView particleEffectView = new ParticleEffectView();
         particleEffectView.effect = dustEffect;
         particleEffectView.transform.matrix.setTranslation(0, -1, 0);
-        particleEffectView.transform.group.parent = transform2D;
-        transform2D.group.children.add(particleEffectView.transform);
+        particleEffectView.transform.group = new Group(transform2D);
+        transform2D.group = new Group(null,particleEffectView.transform);
 
         transforms2DComponent.transforms.add(particleEffectView.transform);
 
@@ -267,7 +263,7 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("editRigidBodyActuatorIdle")
                 .getBrick();
 
-        EffectActuator pauseIdleEffectActuator = builders.getBrickBuilder(EffectActuatorBuilder.class)
+        Effect2DActuator pauseIdleEffect2DActuator = builders.getBrickBuilder(EffectActuatorBuilder.class)
                 .setEffectView(particleEffectView)
                 .setActive(false)
                 .getBrick();
@@ -280,7 +276,7 @@ public class PlayerPlatform extends EntityFactory {
 
         entityBuilder.addController(controllerIdle, "Idle")
                 .connectToSensor(alwaysSensorIdle)
-                .connectToActuators(editRigidBodyActuatorIdle, pauseIdleEffectActuator, motionActuatorIdle);
+                .connectToActuators(editRigidBodyActuatorIdle, pauseIdleEffect2DActuator, motionActuatorIdle);
 
 
          /* State Walking ----------------------------------------------------------------
@@ -302,14 +298,14 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("editRigidBodyActuatorWalking")
                 .getBrick();
 
-        EffectActuator activeEffectActuator = builders.getBrickBuilder(EffectActuatorBuilder.class)
+        Effect2DActuator activeEffect2DActuator = builders.getBrickBuilder(EffectActuatorBuilder.class)
                 .setEffectView(particleEffectView)
                 .setActive(true)
                 .getBrick();
 
         entityBuilder.addController(controllerWalking, "Walking")
                 .connectToSensor(alwaysSensorWalking)
-                .connectToActuators(editRigidBodyActuatorWalking, activeEffectActuator);
+                .connectToActuators(editRigidBodyActuatorWalking, activeEffect2DActuator);
 
         //  ** Walking Right **
         KeyboardSensor keyboardSensorImpulseRight = builders.getBrickBuilder(KeyboardSensorBuilder.class)
@@ -385,14 +381,14 @@ public class PlayerPlatform extends EntityFactory {
                 .setName("motionActuatorJump")
                 .getBrick();
 
-        EffectActuator pauseJumpEffectActuator = builders.getBrickBuilder(EffectActuatorBuilder.class)
+        Effect2DActuator pauseJumpEffect2DActuator = builders.getBrickBuilder(EffectActuatorBuilder.class)
                 .setEffectView(particleEffectView)
                 .setActive(false)
                 .getBrick();
 
         entityBuilder.addController(controllerImpulseJump, "Jump")
                 .connectToSensor(alwaysSensorImpulseJump)
-                .connectToActuators(motionActuatorJump, pauseJumpEffectActuator);
+                .connectToActuators(motionActuatorJump, pauseJumpEffect2DActuator);
 
         return entityBuilder.getEntity();
 

@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.functional.test.levels.flyingDart.MousePositionScript;
 import com.indignado.logicbricks.components.IdentityComponent;
@@ -14,6 +13,7 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.InstanceEntityActuator;
 import com.indignado.logicbricks.core.controllers.ScriptController;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
@@ -48,7 +48,7 @@ public class TriggerDart extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -59,9 +59,10 @@ public class TriggerDart extends EntityFactory {
         identity.collisionMask = (short) ~identity.category;*/
 
 
-        Body bodyTrigger = bodyBuilder.fixture(new FixtureDefBuilder()
+        RigidBody2D bodyTrigger = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(1, 2))
                 .type(BodyDef.BodyType.StaticBody)
+                .position(x, y)
                 .build();
 
         entityBuilder.addRigidBody(bodyTrigger);
@@ -98,9 +99,8 @@ public class TriggerDart extends EntityFactory {
         TextureView triggerView = new TextureView();
         triggerView.setName("trigger");
         triggerView.setTextureRegion(new TextureRegion(assetManager.get(hand, Texture.class)));
-        triggerView.setHeight(5f);
-        triggerView.setWidth(3f);
-        triggerView.setAttachedTransform(bodyTrigger.getTransform());
+        triggerView.transform.matrix.scl(3, 5f, 0);
+        triggerView.transform.rigidBody = bodyTrigger;
         triggerView.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);

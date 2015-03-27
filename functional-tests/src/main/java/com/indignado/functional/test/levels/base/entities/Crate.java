@@ -3,12 +3,12 @@ package com.indignado.functional.test.levels.base.entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.core.EntityFactory;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -32,7 +32,7 @@ public class Crate extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -44,11 +44,12 @@ public class Crate extends EntityFactory {
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
 
-        Body bodyCrate = bodyBuilder.fixture(new FixtureDefBuilder()
+        RigidBody2D bodyCrate = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(1, 1)
                 .friction(0.5f)
                 .restitution(0.5f))
                 .type(BodyDef.BodyType.StaticBody)
+                .position(x, y)
                 .build();
 
         RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);

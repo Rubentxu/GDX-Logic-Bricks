@@ -3,12 +3,12 @@ package com.indignado.functional.test.levels.buoyancy.entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.BuoyancyComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.EntityFactory;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
 import com.indignado.logicbricks.utils.builders.LBBuilders;
@@ -31,7 +31,7 @@ public class Pool extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -39,7 +39,7 @@ public class Pool extends EntityFactory {
         IdentityComponent identity = entityBuilder.getComponent(IdentityComponent.class);
         identity.tag = "Pool";
 
-        Body bodyPool = bodyBuilder
+        RigidBody2D bodyPool = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .boxShape(7, 2.5f)
                         .density(2)
@@ -48,6 +48,7 @@ public class Pool extends EntityFactory {
                 .mass(1f)
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
+
 
         RigidBodiesComponents rigidByPool = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPool.rigidBodies.add(bodyPool);

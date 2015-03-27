@@ -6,11 +6,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -38,7 +38,7 @@ public class Dart extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -63,11 +63,12 @@ public class Dart extends EntityFactory {
         vertices[2] = new Vector2(0.6f, 0);
         vertices[3] = new Vector2(0, 0.1f);
 
-        Body bodyArrow = bodyBuilder.fixture(new FixtureDefBuilder()
+        RigidBody2D bodyArrow = bodyBuilder.fixture(new FixtureDefBuilder()
                 .polygonShape(vertices)
                 .friction(0.5f)
                 .restitution(0.5f))
                 .type(BodyDef.BodyType.DynamicBody)
+                .position(x, y)
                 .bullet()
                 .build();
 
@@ -77,9 +78,8 @@ public class Dart extends EntityFactory {
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
         arrowView.setTextureRegion(new TextureRegion(assetManager.get(dartTexture, Texture.class)));
-        arrowView.setHeight(1f);
-        arrowView.setWidth(2.3f);
-        arrowView.setAttachedTransform(bodyArrow.getTransform());
+        arrowView.transform.matrix.scl(1,2.3f,1);
+        arrowView.transform.rigidBody = bodyArrow;
         arrowView.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);

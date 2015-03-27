@@ -7,7 +7,7 @@ import com.indignado.logicbricks.core.data.ParticleEffectView;
 /**
  * @author Rubentxu.
  */
-public class EffectActuator extends Actuator {
+public class Effect2DActuator extends Actuator {
     public ParticleEffectView effectView;
     public Vector2 position;
     public float rotation = 0;

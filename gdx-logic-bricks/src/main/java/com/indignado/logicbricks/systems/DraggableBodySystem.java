@@ -58,7 +58,7 @@ public class DraggableBodySystem extends LogicBrickSystem implements InputProces
         this.physics = context.get(World.class);
         if (Settings.DRAGGABLE_BOX2D_BODIES) {
             jointDef = new MouseJointDef();
-            jointDef.bodyA = context.get(LBBuilders.class).getBodyBuilder().build();
+            jointDef.bodyA = context.get(LBBuilders.class).getBodyBuilder().build().body;
             jointDef.collideConnected = true;
             jointDef.maxForce = Settings.DRAGGABLE_BOX2D_MAX_FORCE;
 

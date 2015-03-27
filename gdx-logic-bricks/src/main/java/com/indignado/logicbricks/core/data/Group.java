@@ -7,13 +7,19 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Group implements Data{
     public Transform parent = null;
-    public Array<Transform> children = new Array<>();
+    public Array<Transform> childrens = new Array<>();
+
+    public Group(Transform parent, Transform ...childrens) {
+        this.parent = parent;
+        for (Transform child : childrens) this.childrens.add(child);
+
+    }
 
 
     @Override
     public void reset() {
         parent = null;
-        children.clear();
+        childrens.clear();
 
     }
 

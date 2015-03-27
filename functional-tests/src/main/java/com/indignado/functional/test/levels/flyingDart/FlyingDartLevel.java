@@ -34,14 +34,12 @@ public class FlyingDartLevel extends LevelFactory {
         positioningCamera(camera, 0, 9);
         engine.addEntity(camera);
 
-        Entity trigger = entitiesFactories.get(TriggerDart.class).createEntity();
-        positioningEntity(trigger, -14, 2f, 0);
+        Entity trigger = entitiesFactories.get(TriggerDart.class).createEntity(-14, 2, 0);
         engine.addEntity(trigger);
 
         Entity ground = entitiesFactories.get(Ground.class).createEntity();
         engine.addEntity(ground);
-        Entity wall = entitiesFactories.get(Wall.class).createEntity();
-        positioningEntity(wall, 14, 10, 0);
+        Entity wall = entitiesFactories.get(Wall.class).createEntity(14, 10, 0);
         engine.addEntity(wall);
 
     }

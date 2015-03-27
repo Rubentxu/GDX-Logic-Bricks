@@ -6,7 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
@@ -15,6 +14,7 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.AlwaysSensor;
 import com.indignado.logicbricks.core.sensors.Sensor;
@@ -45,7 +45,7 @@ public class Cohete extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -56,11 +56,12 @@ public class Cohete extends EntityFactory {
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
 
-        Body bodyCohete = bodyBuilder.fixture(new FixtureDefBuilder()
+        RigidBody2D bodyCohete = bodyBuilder.fixture(new FixtureDefBuilder()
                 .boxShape(MathUtils.random(0.4f, 0.8f), MathUtils.random(0.4f, 0.8f))
                 .friction(1f)
                 .density(2f))
                 .mass(2)
+                .position(x, y)
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
@@ -85,9 +86,8 @@ public class Cohete extends EntityFactory {
         TextureView coheteView = new TextureView();
         coheteView.setName("Cohete");
         coheteView.setTextureRegion(new TextureRegion(assetManager.get(cohete, Texture.class)));
-        coheteView.setHeight(2.5f);
-        coheteView.setWidth(2.5f);
-        coheteView.setAttachedTransform(bodyCohete.getTransform());
+        coheteView.transform.matrix.scl(2.5f,2.5f,1);
+        coheteView.transform.rigidBody = bodyCohete;
         coheteView.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);

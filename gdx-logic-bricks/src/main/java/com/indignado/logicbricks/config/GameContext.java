@@ -138,7 +138,7 @@ public class GameContext implements ContextProviders {
 
         engine.registerBricksClasses(CameraActuator.class, CameraActuatorComponent.class, CameraActuatorSystem.class);
         engine.registerBricksClasses(EditRigidBodyActuator.class, EditRigidBodyActuatorComponent.class, EditRigidBodyActuatorSystem.class);
-        engine.registerBricksClasses(EffectActuator.class, EffectActuatorComponent.class, EffectActuatorSystem.class);
+        engine.registerBricksClasses(Effect2DActuator.class, EffectActuatorComponent.class, EffectActuatorSystem.class);
         engine.registerBricksClasses(InstanceEntityActuator.class, InstanceEntityActuatorComponent.class, InstanceEntityActuatorSystem.class);
         engine.registerBricksClasses(MessageActuator.class, MessageActuatorComponent.class, MessageActuatorSystem.class);
         engine.registerBricksClasses(MotionActuator.class, MotionActuatorComponent.class, MotionActuatorSystem.class);

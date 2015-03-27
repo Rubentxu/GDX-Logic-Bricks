@@ -9,8 +9,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.indignado.logicbricks.components.RadialGravityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.config.Settings;
+import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
 
@@ -174,8 +176,11 @@ public class RadialGravitySystem extends LogicBrickSystem implements ContactList
 
         if (radialGravity.radius == 0)
             throw new LogicBricksException(tag, "radialGravity radius can not be zero");
-        if (radialGravity.attachedRigidBody == null)
-            radialGravity.attachedRigidBody = rigidBodiesComponent.rigidBodies.first();
+        if (radialGravity.attachedRigidBody == null) {
+            RigidBody rigidBody = rigidBodiesComponent.rigidBodies.first();
+            if(rigidBody instanceof RigidBody2D) radialGravity.attachedRigidBody = (Body) rigidBody.body;
+
+        }
 
         FixtureDef radialFixture = fixtureBuilder
                 .circleShape(radialGravity.radius)

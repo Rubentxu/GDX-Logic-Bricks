@@ -2,6 +2,7 @@ package com.indignado.functional.test.levels.radialgravity;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Vector3;
 import com.indignado.functional.test.levels.base.entities.DefaultCamera;
 import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.radialgravity.entities.Cohete;
@@ -32,20 +33,17 @@ public class RadialGravityLevel extends LevelFactory {
         positioningCamera(camera, 8, 7);
         engine.addEntity(camera);
 
-        Entity planet = entitiesFactories.get(Planet.class).createEntity();
-        positioningEntity(planet, 0, 10f, 0);
+        Entity planet = entitiesFactories.get(Planet.class).createEntity(new Vector3(0,10,0));
+
         engine.addEntity(planet);
 
-        Entity ground = entitiesFactories.get(Ground.class).createEntity();
-        positioningEntity(ground, 0, -22f, 0);
+        Entity ground = entitiesFactories.get(Ground.class).createEntity(new Vector3(0,-22,0));
         engine.addEntity(ground);
 
-        Entity box = entitiesFactories.get(Cohete.class).createEntity();
-        positioningEntity(box, 12f, 36f, 0);
+        Entity box = entitiesFactories.get(Cohete.class).createEntity(new Vector3(12f,36f,0));
         engine.addEntity(box);
 
-        Entity box2 = entitiesFactories.get(Cohete.class).createEntity();
-        positioningEntity(box2, -13, 33f, 0);
+        Entity box2 = entitiesFactories.get(Cohete.class).createEntity(new Vector3(-13,33,0));
         engine.addEntity(box2);
 
     }

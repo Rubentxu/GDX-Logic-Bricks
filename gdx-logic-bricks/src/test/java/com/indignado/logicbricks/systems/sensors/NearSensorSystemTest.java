@@ -11,6 +11,7 @@ import com.indignado.logicbricks.core.CategoryBitsManager;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.NearSensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
@@ -59,10 +60,12 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
                 .position(0, 6)
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
-                .build();
+                .build().body;
+
+        RigidBody2D rigidBody2D = new RigidBody2D(bodyPlayer);
 
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByPlayer.rigidBodies.add(bodyPlayer);
+        rigidByPlayer.rigidBodies.add(rigidBody2D);
 
         sensor =builders.getBrickBuilder(NearSensorBuilder.class)
                 .setDistance(4)
@@ -97,10 +100,12 @@ public class NearSensorSystemTest extends BaseSensorSystemTest<NearSensor, NearS
                 .position(0, 0)
                 .mass(1f)
                 .type(BodyDef.BodyType.StaticBody)
-                .build();
+                .build().body;
+
+        RigidBody2D groundRigidBody2D = new RigidBody2D(bodyGround);
 
         RigidBodiesComponents rigidByGround = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByGround.rigidBodies.add(bodyGround);
+        rigidByGround.rigidBodies.add(groundRigidBody2D);
 
         Entity ground = entityBuilder.getEntity();
         engine.addEntity(ground);

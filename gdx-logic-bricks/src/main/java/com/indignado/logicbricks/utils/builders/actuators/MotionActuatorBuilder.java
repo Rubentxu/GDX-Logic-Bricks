@@ -1,8 +1,8 @@
 package com.indignado.logicbricks.utils.builders.actuators;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
+import com.indignado.logicbricks.core.data.RigidBody;
 
 /**
  * @author Rubentxu.
@@ -14,7 +14,7 @@ public class MotionActuatorBuilder extends ActuatorBuilder<MotionActuator> {
 
     }
 
-    public MotionActuatorBuilder setTargetRigidBody(Body targetRigidBody) {
+    public MotionActuatorBuilder setTargetRigidBody(RigidBody targetRigidBody) {
         brick.targetRigidBody = targetRigidBody;
         return this;
 

@@ -2,14 +2,14 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.indignado.logicbricks.components.actuators.EffectActuatorComponent;
-import com.indignado.logicbricks.core.actuators.EffectActuator;
+import com.indignado.logicbricks.core.actuators.Effect2DActuator;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
  */
-public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectActuatorComponent> {
+public class EffectActuatorSystem extends ActuatorSystem<Effect2DActuator, EffectActuatorComponent> {
 
 
     public EffectActuatorSystem() {
@@ -19,7 +19,7 @@ public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectA
 
 
     @Override
-    public void processActuator(EffectActuator actuator, float deltaTime) {
+    public void processActuator(Effect2DActuator actuator, float deltaTime) {
         ParticleEffectView view = actuator.effectView;
         ParticleEffect effect = view.effect;
         if (actuator.active) {
@@ -33,8 +33,8 @@ public class EffectActuatorSystem extends ActuatorSystem<EffectActuator, EffectA
         if (actuator.opacity != -1) view.setOpacity(actuator.opacity);
         if (actuator.tint != null) view.setTint(actuator.tint);
         if (actuator.position != null) {
-            if (view.attachedTransform != null) view.setLocalPosition(actuator.position);
-            else view.setPosition(actuator.position);
+            if(view.transform.rigidBody == null) view.transform.matrix.setTranslation(actuator.position.x, actuator.position.y,0);
+
         }
 
 

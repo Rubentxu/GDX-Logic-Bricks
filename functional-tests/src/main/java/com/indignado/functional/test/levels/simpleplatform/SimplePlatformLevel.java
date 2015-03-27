@@ -45,17 +45,13 @@ public class SimplePlatformLevel extends LevelFactory {
         Entity ground = entitiesFactories.get(Ground.class).createEntity();
         engine.addEntity(ground);
 
-        Entity box = entitiesFactories.get(Crate.class).createEntity();
-        positioningEntity(box, -3, 5f, 0);
+        Entity box = entitiesFactories.get(Crate.class).createEntity(-3,5,0);
         engine.addEntity(box);
 
-        Entity box2 = entitiesFactories.get(Crate.class).createEntity();
-        positioningEntity(box2, 9, 7f, 0);
+        Entity box2 = entitiesFactories.get(Crate.class).createEntity(9,7,0);
         engine.addEntity(box2);
 
-
-        Entity pulley = entitiesFactories.get(Pulley.class).createEntity();
-        positioningEntity(pulley, 5, 11f, 0);
+        Entity pulley = entitiesFactories.get(Pulley.class).createEntity(5,11,0);
         engine.addEntity(pulley);
 
     }

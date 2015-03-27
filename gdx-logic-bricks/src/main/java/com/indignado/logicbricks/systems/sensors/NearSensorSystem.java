@@ -11,6 +11,7 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.sensors.NearSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.NearSensor;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -190,7 +191,7 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
                     .circleShape(sensor.distance)
                     .sensor()
                     .build();
-            sensor.attachedRigidBody.createFixture(nearFixture).setUserData(new Property<NearSensor>("NearSensor", sensor));
+            ((RigidBody2D) sensor.attachedRigidBody).body.createFixture(nearFixture).setUserData(new Property<NearSensor>("NearSensor", sensor));
             if (sensor.resetDistance != 0) {
                 if (sensor.resetDistance <= sensor.distance)
                     throw new LogicBricksException(tag, "ResetDistance can not be less than or equal to the distance");
@@ -199,7 +200,7 @@ public class NearSensorSystem extends SensorSystem<NearSensor, NearSensorCompone
                         .circleShape(sensor.resetDistance)
                         .sensor()
                         .build();
-                sensor.attachedRigidBody.createFixture(nearResetFixture).setUserData(new Property<NearSensor>("ResetNearSensor", sensor));
+                ((RigidBody2D) sensor.attachedRigidBody).body.createFixture(nearResetFixture).setUserData(new Property<NearSensor>("ResetNearSensor", sensor));
             }
             Log.debug(tag, "Create Fixture nearSensor");
 

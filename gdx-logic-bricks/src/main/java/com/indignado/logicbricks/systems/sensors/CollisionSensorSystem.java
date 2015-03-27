@@ -10,6 +10,8 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.sensors.CollisionSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.CollisionSensor;
 import com.indignado.logicbricks.utils.Log;
 
@@ -130,15 +132,19 @@ public class CollisionSensorSystem extends SensorSystem<CollisionSensor, Collisi
             RigidBodiesComponents rigidBodiesComponent = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodiesComponent == null)
                 throw new LogicBricksException(tag, "Failed to create collision sensor, there is no rigidBody");
-            Body body = rigidBodiesComponent.rigidBodies.first();
-            if (body == null)
-                throw new LogicBricksException(tag, "Failed to create collision sensor, there is no rigidBody");
-            for (CollisionSensor sensor : collisionSensors) {
-                for (Fixture fixture : body.getFixtureList()) {
-                    fixture.setUserData(sensor);
-                }
+            RigidBody rigidBody = rigidBodiesComponent.rigidBodies.first();
+            if(rigidBody instanceof RigidBody2D) {
+                Body body = ((RigidBody2D) rigidBody).body;
+                if (body == null)
+                    throw new LogicBricksException(tag, "Failed to create collision sensor, there is no rigidBody");
+                for (CollisionSensor sensor : collisionSensors) {
+                    for (Fixture fixture : body.getFixtureList()) {
+                        fixture.setUserData(sensor);
+                    }
 
+                }
             }
+
 
         }
 

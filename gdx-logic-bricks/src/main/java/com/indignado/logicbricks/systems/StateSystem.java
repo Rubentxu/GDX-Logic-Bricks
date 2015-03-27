@@ -4,12 +4,13 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.config.Settings;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -44,9 +45,11 @@ public class StateSystem extends LogicBrickSystem {
             engine.removeEntity(entity);
             RigidBodiesComponents rigidBodies = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodies != null) {
-                for (Body body : rigidBodies.rigidBodies) {
-                    rigidBodies.rigidBodies.removeValue(body, true);
-                    physics.destroyBody(body);
+                for (RigidBody rigidBody : rigidBodies.rigidBodies) {
+                    rigidBodies.rigidBodies.removeValue(rigidBody, true);
+                    if(rigidBody instanceof RigidBody2D) {
+                        physics.destroyBody(((RigidBody2D) rigidBody).body);
+                    }
                     Log.debug(tag, "Remove entity id %d", entity.getId());
                 }
             }

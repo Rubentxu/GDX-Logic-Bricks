@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -23,6 +22,7 @@ import com.indignado.logicbricks.core.actuators.Actuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.RigidBody;
 import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.core.sensors.Sensor;
 import com.indignado.logicbricks.systems.LogicBrickSystem;
@@ -304,7 +304,7 @@ public class EntityBuilder {
     }
 
 
-    public EntityBuilder addRigidBody(Body rigidBody) {
+    public EntityBuilder addRigidBody(RigidBody rigidBody) {
         getComponent(RigidBodiesComponents.class).rigidBodies.add(rigidBody);
         return this;
 

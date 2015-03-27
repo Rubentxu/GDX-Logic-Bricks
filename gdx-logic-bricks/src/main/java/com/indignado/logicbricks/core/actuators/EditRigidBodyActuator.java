@@ -1,13 +1,13 @@
 package com.indignado.logicbricks.core.actuators;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.indignado.logicbricks.core.data.RigidBody;
 
 /**
  * @author Rubentxu.
  */
 public class EditRigidBodyActuator extends Actuator {
-    public Body targetRigidBody;
+    public RigidBody targetRigidBody;
     public boolean active = true;
     public boolean awake = true;
     public float friction = 0.2f;

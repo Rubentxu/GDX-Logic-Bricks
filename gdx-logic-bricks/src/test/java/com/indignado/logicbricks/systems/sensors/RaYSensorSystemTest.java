@@ -2,7 +2,6 @@ package com.indignado.logicbricks.systems.sensors;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.BlackBoardComponent;
 import com.indignado.logicbricks.components.IdentityComponent;
@@ -12,6 +11,7 @@ import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.data.Axis2D;
 import com.indignado.logicbricks.core.data.LogicBrick;
 import com.indignado.logicbricks.core.data.Property;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.RaySensor;
 import com.indignado.logicbricks.systems.sensors.base.ActuatorTest;
 import com.indignado.logicbricks.systems.sensors.base.BaseSensorSystemTest;
@@ -26,12 +26,11 @@ import static org.junit.Assert.*;
  * @author Rubentxu
  */
 public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySensorSystem> {
-    RaySensor sensor;
-    IdentityComponent identityPlayer;
-    IdentityComponent identityGround;
-    private Body bodyPlayer;
-    private Body bodyGround;
-
+    private RaySensor sensor;
+    private IdentityComponent identityPlayer;
+    private IdentityComponent identityGround;
+    private RigidBody2D bodyPlayer;
+    private RigidBody2D bodyGround;
 
     @Override
     public void tearDown() {
@@ -53,7 +52,7 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         identityPlayer.category = categoryBitsManager.getCategoryBits(identityPlayer.tag);
 
 
-        bodyPlayer = bodyBuilder
+        RigidBody2D bodyPlayer = bodyBuilder
                 .fixture(bodyBuilder.fixtureDefBuilder()
                         .boxShape(1, 1)
                         .restitution(0f))
@@ -61,6 +60,7 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
+
 
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByPlayer.rigidBodies.add(bodyPlayer);
@@ -102,6 +102,7 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
                 .type(BodyDef.BodyType.StaticBody)
                 .build();
 
+
         RigidBodiesComponents rigidByGround = entityBuilder.getComponent(RigidBodiesComponents.class);
         rigidByGround.rigidBodies.add(bodyGround);
 
@@ -117,30 +118,30 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         engine.addEntity(player);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 80f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 80f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 80f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 80f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
@@ -154,30 +155,30 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         engine.addEntity(player);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 80f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 80f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 80f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 80f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
@@ -191,31 +192,31 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         engine.addEntity(player);
 
         engine.update(1);
-        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, -1.5F));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, -1.5f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, -1.5f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 1.5f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 1.5f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 1.5f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 1.5f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
@@ -229,30 +230,30 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         engine.addEntity(player);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 80f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 80f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertTrue(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 80f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 80f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_ON, sensor.pulseState);
 
@@ -266,31 +267,31 @@ public class RaySensorSystemTest extends BaseSensorSystemTest<RaySensor, RaySens
         engine.addEntity(player);
 
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "A) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, -1.5F));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, -1.5F));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "B) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, -1.5f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, -1.5f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "C) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 1.5f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 1.5f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "D) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 
-        bodyPlayer.setLinearVelocity(new Vector2(0, 1.5f));
+        bodyPlayer.body.setLinearVelocity(new Vector2(0, 1.5f));
         game.singleStep(1);
-        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.getPosition(), bodyGround.getPosition());
+        Log.debug("RadarSensorSystemTest", "E) Player position %s Ground position %s", bodyPlayer.body.getPosition(), bodyGround.body.getPosition());
         assertFalse(sensor.positive);
         assertEquals(LogicBrick.BrickMode.BM_OFF, sensor.pulseState);
 

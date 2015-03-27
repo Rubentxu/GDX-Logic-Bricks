@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.indignado.logicbricks.components.BuoyancyComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.core.bricks.base.BaseTest;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.utils.Log;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,10 +32,12 @@ public class BuoyancySystemTest extends BaseTest{
                 .position(0, 8)
                 .mass(1f)
                 .type(BodyDef.BodyType.DynamicBody)
-                .build();
+                .build().body;
+
+        RigidBody2D rigidBody = new RigidBody2D(bodyPlayer);
 
         RigidBodiesComponents rigidByPlayer = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByPlayer.rigidBodies.add(bodyPlayer);
+        rigidByPlayer.rigidBodies.add(rigidBody);
 
         engine.addEntity(entityBuilder.getEntity());
 
@@ -49,10 +52,12 @@ public class BuoyancySystemTest extends BaseTest{
                 .position(0, 0)
                 .mass(1f)
                 .type(BodyDef.BodyType.StaticBody)
-                .build();
+                .build().body;
+
+        RigidBody2D bodyPoolRigidBody = new RigidBody2D(bodyPool);
 
         RigidBodiesComponents rigidByPool = entityBuilder.getComponent(RigidBodiesComponents.class);
-        rigidByPool.rigidBodies.add(bodyPool);
+        rigidByPool.rigidBodies.add(bodyPoolRigidBody);
 
         buoyancyComponent = entityBuilder.getComponent(BuoyancyComponent.class);
 

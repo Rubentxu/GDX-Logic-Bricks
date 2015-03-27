@@ -3,6 +3,7 @@ package com.indignado.logicbricks.core.sensors;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.indignado.logicbricks.core.data.RigidBody;
 
 
 /**
@@ -15,7 +16,7 @@ public class NearSensor extends Sensor {
     public String targetPropertyName;
     public float distance = 0;
     public float resetDistance = 0;
-    public Body attachedRigidBody;
+    public RigidBody attachedRigidBody;
 
     // Signal Values
     public ObjectSet<Contact> distanceContactList = new ObjectSet<Contact>();

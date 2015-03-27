@@ -11,6 +11,7 @@ import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.Controller;
 import com.indignado.logicbricks.core.data.LogicBrick;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.utils.Log;
 
 /**
@@ -53,7 +54,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
         if (actuator.targetRigidBody == null) {
             actuator.targetRigidBody = actuator.owner.getComponent(RigidBodiesComponents.class).rigidBodies.first();
         }
-        Body body = actuator.targetRigidBody;
+        Body body = (Body) actuator.targetRigidBody.body;
 
         if (actuator.pulseState.equals(LogicBrick.BrickMode.BM_ON)) {
 
@@ -90,7 +91,7 @@ public class MotionActuatorSystem extends ActuatorSystem<MotionActuator, MotionA
                 }
 
             } else {
-                if (!actuator.targetRigidBody.isFixedRotation()) body.setFixedRotation(true);
+                if (!((RigidBody2D) actuator.targetRigidBody).body.isFixedRotation()) body.setFixedRotation(true);
             }
             if (actuator.limitVelocityX > 0) {
                 Vector2 vel = body.getLinearVelocity();

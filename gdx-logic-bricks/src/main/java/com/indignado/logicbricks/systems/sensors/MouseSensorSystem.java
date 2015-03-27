@@ -6,14 +6,12 @@ import com.badlogic.ashley.core.EntityListener;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.components.sensors.MouseSensorComponent;
-import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.core.sensors.MouseSensor;
 import com.indignado.logicbricks.core.sensors.MouseSensor.MouseEvent;
 
@@ -69,7 +67,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
         ViewsComponent viewsComponent = target.getComponent(ViewsComponent.class);
         if (viewsComponent == null) return false;
 
-        Rectangle rectangle = new Rectangle();
+      /*  Rectangle rectangle = new Rectangle();
         for (Object view : viewsComponent.views) {
             if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
@@ -77,7 +75,7 @@ public class MouseSensorSystem extends SensorSystem<MouseSensor, MouseSensorComp
                         textureView.attachedTransform.getPosition().y - textureView.height / 2, textureView.width, textureView.height);
                 if (rectangle.contains(posX, posY)) return true;
             }
-        }
+        }*/
         return false;
 
     }

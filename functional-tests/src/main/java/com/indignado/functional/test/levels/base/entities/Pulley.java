@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.indignado.logicbricks.components.IdentityComponent;
@@ -13,6 +12,7 @@ import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.core.EntityFactory;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
 import com.indignado.logicbricks.utils.builders.BodyBuilder;
 import com.indignado.logicbricks.utils.builders.EntityBuilder;
@@ -39,7 +39,7 @@ public class Pulley extends EntityFactory {
 
 
     @Override
-    public Entity createEntity() {
+    public Entity createEntity(float x, float y, float z) {
         EntityBuilder entityBuilder = builders.getEntityBuilder();
         entityBuilder.initialize();
         BodyBuilder bodyBuilder = builders.getBodyBuilder();
@@ -52,47 +52,48 @@ public class Pulley extends EntityFactory {
         StateComponent state = entityBuilder.getComponent(StateComponent.class);
         state.createState("Default");
 
-        Body body1 = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+        RigidBody2D rb1 = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(1, 1)
                 .friction(0.5f)
                 .restitution(0.5f))
                 .type(BodyDef.BodyType.DynamicBody)
+                .position(x, y)
                 .build();
 
 
-        Body body2 = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
+        RigidBody2D rb2 = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
                 .boxShape(1, 1)
                 .friction(0.5f)
                 .restitution(0.5f))
-                .position(2, 3)
+                .position(x + 2, y + 3)
                 .type(BodyDef.BodyType.DynamicBody)
                 .build();
 
         Joint joint = jointBuilder.distanceJoint()
-                .initialize(body1, body2, body1.getWorldCenter(), body2.getWorldCenter())
+                .initialize(rb1.body, rb2.body, rb1.body.getWorldCenter(), rb2.body.getWorldCenter())
                 .dampingRatio(1)
                 .frequencyHz(3)
                 .build();
 
-        RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
-        bodiesComponents.rigidBodies.add(body1);
 
-        bodiesComponents.rigidBodies.add(body2);
+
+        RigidBodiesComponents bodiesComponents = entityBuilder.getComponent(RigidBodiesComponents.class);
+        bodiesComponents.rigidBodies.add(rb1);
+
+        bodiesComponents.rigidBodies.add(rb2);
 
         TextureView boxView = new TextureView();
         boxView.setName("box");
         boxView.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
-        boxView.setHeight(2.5f);
-        boxView.setWidth(2.5f);
-        boxView.setAttachedTransform(body1.getTransform());
+        boxView.transform.matrix.scl(2.5f, 2.5f, 0);
+        boxView.transform.rigidBody = rb1;
         boxView.setLayer(0);
 
         TextureView boxView2 = new TextureView();
         boxView2.setName("box2");
         boxView2.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
-        boxView2.setHeight(2.5f);
-        boxView2.setWidth(2.5f);
-        boxView2.setAttachedTransform(body2.getTransform());
+        boxView.transform.matrix.scl(2.5f,2.5f,0);
+        boxView.transform.rigidBody = rb2;
         boxView2.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);

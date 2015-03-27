@@ -2,10 +2,12 @@ package com.indignado.logicbricks.systems.actuators;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Transform;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.actuators.CameraActuatorComponent;
 import com.indignado.logicbricks.core.actuators.CameraActuator;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 
 /**
  * @author Rubentxu
@@ -29,10 +31,13 @@ public class CameraActuatorSystem extends ActuatorSystem<CameraActuator, CameraA
 
         if(target != null) {
             RigidBodiesComponents rc = target.getComponent(RigidBodiesComponents.class);
-            Transform transform = rc.rigidBodies.first().getTransform();
-            Vector3 position = actuator.camera.position;
-            position.x += (transform.getPosition().x - position.x) * actuator.damping;
-            position.y += (transform.getPosition().y - position.y) * actuator.damping;
+            if(rc.rigidBodies.first() instanceof RigidBody2D) {
+                Transform transform = ((Body)rc.rigidBodies.first().body).getTransform();
+                Vector3 position = actuator.camera.position;
+                position.x += (transform.getPosition().x - position.x) * actuator.damping;
+                position.y += (transform.getPosition().y - position.y) * actuator.damping;
+
+            }
         }
 
     }

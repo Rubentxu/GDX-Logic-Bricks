@@ -12,6 +12,8 @@ import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.RigidBodiesComponents;
 import com.indignado.logicbricks.components.sensors.RadarSensorComponent;
 import com.indignado.logicbricks.core.LogicBricksException;
+import com.indignado.logicbricks.core.data.RigidBody;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.sensors.RadarSensor;
 import com.indignado.logicbricks.utils.Log;
 import com.indignado.logicbricks.utils.builders.FixtureDefBuilder;
@@ -120,9 +122,9 @@ public class RadarSensorSystem extends SensorSystem<RadarSensor, RadarSensorComp
             RigidBodiesComponents rigidBodiesComponent = entity.getComponent(RigidBodiesComponents.class);
             if (rigidBodiesComponent == null)
                 throw new LogicBricksException(tag, "Failed to create radar sensor, there is no rigidBody");
-            Body body = rigidBodiesComponent.rigidBodies.first();
+            RigidBody rigidBody = rigidBodiesComponent.rigidBodies.first();
             Log.debug(tag, "Create Radar");
-            createRadar(body, radarSensors);
+            if(rigidBody instanceof RigidBody2D) createRadar(((RigidBody2D) rigidBody).body, radarSensors);
 
         }
 

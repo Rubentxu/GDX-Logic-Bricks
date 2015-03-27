@@ -3,6 +3,7 @@ package com.indignado.logicbricks.utils.builders;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.indignado.logicbricks.core.data.RigidBody2D;
 
 import java.util.ArrayList;
 
@@ -171,13 +172,13 @@ public class BodyBuilder {
     }
 
 
-    public Body build() {
+    public RigidBody2D build() {
         return build(true);
 
     }
 
 
-    public Body build(boolean disposeShapes) {
+    public RigidBody2D build(boolean disposeShapes) {
         Body body = world.createBody(bodyDef);
 
         for (int i = 0; i < fixtureDefs.size(); i++) {
@@ -199,7 +200,7 @@ public class BodyBuilder {
         body.setTransform(position, angle);
 
         reset(disposeShapes);
-        return body;
+        return new RigidBody2D(body);
 
     }
 
