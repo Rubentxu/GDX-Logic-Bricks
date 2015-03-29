@@ -151,6 +151,7 @@ public class GameContext implements ContextProviders {
         engine.registerEngineClasses(ViewsComponent.class, RenderingSystem.class, AnimationViewSystem.class);
         engine.registerEngineClasses(StateComponent.class, StateSystem.class);
         engine.registerEngineClasses(LightComponent.class, LightRenderingSystem.class);
+        engine.registerEngineClasses(TransformsComponent.class, TransformSystem.class);
 
     }
 

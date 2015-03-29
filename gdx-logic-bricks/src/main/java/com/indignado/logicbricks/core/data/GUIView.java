@@ -6,7 +6,7 @@ package com.indignado.logicbricks.core.data;
 public class GUIView extends TextureView{
 
     public GUIView() {
-        super(new RectTransform());
+        super(new GUITransform());
 
     }
 

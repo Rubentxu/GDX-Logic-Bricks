@@ -23,6 +23,7 @@ import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.data.ParticleEffectView;
 import com.indignado.logicbricks.core.data.TextureView;
+import com.indignado.logicbricks.core.data.Transform;
 import com.indignado.logicbricks.core.data.View;
 import com.indignado.logicbricks.utils.Log;
 
@@ -42,7 +43,7 @@ public class RenderingSystem extends LogicBrickSystem {
     private ComponentMapper<ViewsComponent> vm;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
-    private Matrix4 matrix;
+    private Matrix4 transformMatrix;
 
     // Debug
     private ShapeRenderer debugShapeRenderer;
@@ -53,7 +54,7 @@ public class RenderingSystem extends LogicBrickSystem {
     public RenderingSystem() {
         super(Family.all(ViewsComponent.class).get(), 5);
         vm = ComponentMapper.getFor(ViewsComponent.class);
-        matrix = new Matrix4();
+        transformMatrix = new Matrix4();
         setProcessing(false);
         renderQueue = new Array<View>();
         comparator = new Comparator<View>() {
@@ -113,8 +114,9 @@ public class RenderingSystem extends LogicBrickSystem {
             } else {
                 batch.setColor(Color.WHITE);
             }
+
             batch.getColor().a = view.opacity;
-            batch.setTransformMatrix(view.transform.matrix);
+            batch.setTransformMatrix(getTransformMatrix(view.transform));
 
             if (view instanceof ParticleEffectView) {
 
@@ -128,7 +130,6 @@ public class RenderingSystem extends LogicBrickSystem {
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
-                matrix = textureView.transform.matrix;
 
                 if(textureView.textureRegion != null) {
                     processTextureFlip(textureView);
@@ -146,6 +147,15 @@ public class RenderingSystem extends LogicBrickSystem {
         renderQueue.clear();
         debugDrawWorld();
 
+
+    }
+
+
+    private Matrix4 getTransformMatrix(Transform transform) {
+        transformMatrix.idt();
+        transformMatrix.set(transform.x, transform.y, transform.z, transform.yaw, transform.pitch, transform.roll, 1,
+                            transform.scaleX, transform.scaleY, transform.scaleZ);
+        return transformMatrix;
 
     }
 

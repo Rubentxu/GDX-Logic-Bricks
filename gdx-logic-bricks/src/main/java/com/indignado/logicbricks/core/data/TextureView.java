@@ -17,7 +17,7 @@ public class TextureView extends View {
     }
 
 
-    public TextureView(RectTransform transform) {
+    public TextureView(GUITransform transform) {
         super.transform = transform;
 
     }
