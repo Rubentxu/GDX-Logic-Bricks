@@ -59,4 +59,8 @@ public class Settings {
     public static boolean DRAGGABLE_BOX2D_BODIES = false;
     public static float DRAGGABLE_BOX2D_MAX_FORCE = 500;
 
+    // Box2DLlight
+    public static boolean diffuseLight2D = false;
+    public static boolean cullingBox2DLight = true;
+    public static boolean shadows2D = false;
 }

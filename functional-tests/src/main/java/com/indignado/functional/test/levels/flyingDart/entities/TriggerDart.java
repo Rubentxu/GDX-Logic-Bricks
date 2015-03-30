@@ -95,12 +95,13 @@ public class TriggerDart extends EntityFactory {
                 .setName("ActuatorInstanceDart")
                 .getBrick();
 
-
         TextureView triggerView = new TextureView();
         triggerView.setName("trigger");
         triggerView.setTextureRegion(new TextureRegion(assetManager.get(hand, Texture.class)));
         triggerView.transform.scaleX = 3;
         triggerView.transform.scaleY = 5f;
+        triggerView.transform.x = x;
+        triggerView.transform.y = y;
         triggerView.transform.rigidBody = bodyTrigger;
         triggerView.setLayer(0);
 

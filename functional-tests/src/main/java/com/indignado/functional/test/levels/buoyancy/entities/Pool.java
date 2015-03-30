@@ -44,7 +44,7 @@ public class Pool extends EntityFactory {
                         .boxShape(7, 2.5f)
                         .density(2)
                         .sensor())
-                .position(0, 0)
+                .position(x, y)
                 .mass(1f)
                 .type(BodyDef.BodyType.StaticBody)
                 .build();

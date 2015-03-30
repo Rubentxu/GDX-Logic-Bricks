@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.indignado.logicbricks.components.IdentityComponent;
 import com.indignado.logicbricks.components.LightComponent;
 import com.indignado.logicbricks.components.StateComponent;
@@ -41,7 +42,9 @@ public class DefaultLight extends EntityFactory {
         state.createState("Default");
 
         LightComponent light = entityBuilder.getComponent(LightComponent.class);
-        light.light = builders.getLightBuilder().lightType("PointLight").raysNum(100).distance(20).color(Color.CYAN).build();
+        light.light = builders.getLightBuilder().lightType("PointLight").raysNum(500).distance(35)
+                .color(new Color(MathUtils.random(1f), MathUtils.random(1f), MathUtils.random(1f),MathUtils.random(0.6f,1f)))
+                .build(x,y);
 
         Entity entity = entityBuilder.getEntity();
         Gdx.app.log("Light", "instance" + entity);

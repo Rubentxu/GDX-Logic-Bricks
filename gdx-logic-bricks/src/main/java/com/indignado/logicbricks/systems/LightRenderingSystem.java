@@ -8,7 +8,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.indignado.logicbricks.components.LightComponent;
-import com.indignado.logicbricks.config.Settings;
 
 /**
  * @author Rubentxu
@@ -21,7 +20,7 @@ public class LightRenderingSystem extends LogicBrickSystem {
 
 
     public LightRenderingSystem() {
-        super(Family.all(LightComponent.class).get(), 6);
+        super(Family.all(LightComponent.class).get(), 5);
         lm = ComponentMapper.getFor(LightComponent.class);
         setProcessing(false);
     }
@@ -32,7 +31,6 @@ public class LightRenderingSystem extends LogicBrickSystem {
         super.addedToEngine(engine);
         batch = context.get(Batch.class);
         camera = context.get(Camera.class);
-        camera.position.set(Settings.WIDTH / 2, Settings.HEIGHT / 2, 0);
         rayHandler = context.get(RayHandler.class);
 
     }
@@ -41,11 +39,8 @@ public class LightRenderingSystem extends LogicBrickSystem {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-
         rayHandler.setCombinedMatrix(camera.combined);
         rayHandler.updateAndRender();
-
-
 
     }
 

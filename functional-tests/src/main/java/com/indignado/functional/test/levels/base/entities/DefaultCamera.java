@@ -40,6 +40,8 @@ public class DefaultCamera extends EntityFactory {
         state.createState("Default");
 
         CameraComponent camera = entityBuilder.getComponent(CameraComponent.class);
+        camera.camera.position.set(x,y,z);
+        camera.camera.update();
 
         Entity entity = entityBuilder.getEntity();
         Gdx.app.log("Crate", "instance" + entity);

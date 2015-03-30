@@ -30,9 +30,9 @@ import java.util.Comparator;
  * @author Rubentxu
  */
 public class RenderingSystem extends LogicBrickSystem {
-    private World physics;
     protected Viewport viewport;
     protected OrthographicCamera uiCamera;
+    private World physics;
     private Batch batch;
     private Camera camera;
     private Array<View> renderQueue;
@@ -41,6 +41,7 @@ public class RenderingSystem extends LogicBrickSystem {
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
     private Matrix4 transformMatrix;
+    private Transform2D transformTemp;
 
     // Debug
     private ShapeRenderer debugShapeRenderer;
@@ -49,9 +50,10 @@ public class RenderingSystem extends LogicBrickSystem {
 
 
     public RenderingSystem() {
-        super(Family.all(ViewsComponent.class).get(), 5);
+        super(Family.all(ViewsComponent.class).get(), 6);
         vm = ComponentMapper.getFor(ViewsComponent.class);
         transformMatrix = new Matrix4();
+        transformTemp = new Transform2D();
         setProcessing(false);
         renderQueue = new Array<View>();
         comparator = new Comparator<View>() {
@@ -90,7 +92,6 @@ public class RenderingSystem extends LogicBrickSystem {
         super.addedToEngine(engine);
         batch = context.provideBatch();
         camera = context.get(Camera.class);
-        camera.position.set(Settings.WIDTH / 2, Settings.HEIGHT / 2, 0);
         physics = context.get(World.class);
 
     }
@@ -117,21 +118,24 @@ public class RenderingSystem extends LogicBrickSystem {
             if (view instanceof ParticleEffectView) {
 
                 ParticleEffect effect = ((ParticleEffectView) view).effect;
+                getTransform((Transform2D) view.transform);
+                effect.setPosition(transformTemp.bounds.x, transformTemp.bounds.y);
                 effect.update(deltaTime);
                 if (((ParticleEffectView) view).autoStart) {
                     effect.start();
                     ((ParticleEffectView) view).autoStart = false;
                 }
                 effect.draw(batch);
+                transformTemp.reset();
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
-                Transform2D transform = textureView.transform;
-                if(textureView.textureRegion != null) {
+                if (textureView.textureRegion != null) {
                     processTextureFlip(textureView);
-                    batch.draw(textureView.textureRegion, transform.bounds.x, transform.bounds.y, transform.pivot.x, transform.pivot.y,
-                            transform.bounds.width, transform.bounds.height, 1, 1, transform.roll);
-
+                    getTransform(textureView.transform);
+                    batch.draw(textureView.textureRegion, transformTemp.bounds.x, transformTemp.bounds.y, transformTemp.pivot.x,
+                            transformTemp.pivot.y, transformTemp.bounds.width, transformTemp.bounds.height, 1, 1, transformTemp.roll);
+                    transformTemp.reset();
                 }
             }
 
@@ -141,15 +145,33 @@ public class RenderingSystem extends LogicBrickSystem {
         renderQueue.clear();
         debugDrawWorld();
 
-
     }
 
 
-    private Matrix4 getTransformMatrix(Transform transform) {
-        transformMatrix.idt();
-        transformMatrix.set(transform.x, transform.y, transform.z, transform.yaw, transform.pitch, transform.roll, 1,
-                            transform.scaleX, transform.scaleY, transform.scaleZ);
-        return transformMatrix;
+    private Transform2D getTransform(Transform2D transform) {
+        if (transform.group != null && transform.group.parent != null) {
+            Transform2D transformParent = (Transform2D) getTransform((Transform2D) transform.group.parent);
+
+            transformTemp.roll = transformParent.roll + transform.roll;
+            transformTemp.bounds.setSize(transform.scaleX, transform.scaleY);
+            transformTemp.x = transformParent.x + transform.x;
+            transformTemp.y = transformParent.y + transform.y;
+            transformTemp.bounds.setCenter(transformTemp.x, transformTemp.y);
+            transformTemp.pivot.x = transformTemp.bounds.getWidth() / 2;
+            transformTemp.pivot.y = transformTemp.bounds.getHeight() / 2;
+
+        } else {
+            transformTemp.roll = transform.roll;
+            transformTemp.bounds.setSize(transform.scaleX, transform.scaleY);
+            transformTemp.x = transform.x;
+            transformTemp.y = transform.y;
+            transformTemp.bounds.setCenter(transformTemp.x, transformTemp.y);
+            transformTemp.pivot.x = transformTemp.bounds.getWidth() / 2;
+            transformTemp.pivot.y = transformTemp.bounds.getHeight() / 2;
+            return transform;
+
+        }
+        return transformTemp;
 
     }
 

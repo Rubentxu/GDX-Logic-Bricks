@@ -114,7 +114,15 @@ public class GameContext implements ContextProviders {
 
     @Override
     public <T> RayHandler provideRayHandler(T physics) {
-        return new RayHandler((World) physics);
+        RayHandler.useDiffuseLight(Settings.diffuseLight2D);
+        RayHandler.setGammaCorrection(true);
+        RayHandler rayHandler =  new RayHandler((World) physics);
+        //rayHandler.setCulling(Settings.cullingBox2DLight);
+        rayHandler.setAmbientLight(0.3f, 0.3f, 0.3f, 0.5f);
+        //rayHandler.setBlurNum(3);
+        rayHandler.setShadows(Settings.shadows2D);
+        return rayHandler;
+
     }
 
 

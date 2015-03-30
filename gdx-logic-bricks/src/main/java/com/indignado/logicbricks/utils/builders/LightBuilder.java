@@ -49,9 +49,9 @@ public class LightBuilder {
     }
 
 
-    public Light build() {
+    public Light build(float x, float y) {
         Light light = null;
-        if (lightType.equals("PointLight")) light = new PointLight(rayHandler, raysNum, color, distance, 0, 0);
+        if (lightType.equals("PointLight")) light = new PointLight(rayHandler, raysNum, color, distance, x, y);
         return light;
 
     }

@@ -3,10 +3,12 @@ package com.indignado.functional.test.levels.buoyancy;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.assets.AssetManager;
 import com.indignado.functional.test.levels.base.entities.DefaultCamera;
+import com.indignado.functional.test.levels.base.entities.DefaultLight;
 import com.indignado.functional.test.levels.base.entities.Ground;
 import com.indignado.functional.test.levels.buoyancy.entities.Box;
 import com.indignado.functional.test.levels.buoyancy.entities.Pool;
 import com.indignado.logicbricks.components.BuoyancyComponent;
+import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.LevelFactory;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.utils.builders.LBBuilders;
@@ -19,6 +21,7 @@ public class BuoyancyLevel extends LevelFactory {
 
     public BuoyancyLevel(LogicBricksEngine engine, LBBuilders builders, AssetManager assetManager) {
         super(engine, assetManager);
+        addEntityFactory(new DefaultLight(builders, assetManager));
         addEntityFactory(new DefaultCamera(builders, assetManager));
         addEntityFactory(new Box(builders, assetManager));
         addEntityFactory(new Pool(builders, assetManager));
@@ -29,14 +32,17 @@ public class BuoyancyLevel extends LevelFactory {
 
     @Override
     public void createLevel() {
-        Entity camera = entitiesFactories.get(DefaultCamera.class).createEntity();
-        positioningCamera(camera, 0, 7);
+        Settings.shadows2D = false;
+        Entity camera = entitiesFactories.get(DefaultCamera.class).createEntity(0,7,0);
         engine.addEntity(camera);
 
-        Entity pool = entitiesFactories.get(Pool.class).createEntity(-10,3,0);
+        Entity light = entitiesFactories.get(DefaultLight.class).createEntity(5,10,0);
+        engine.addEntity(light);
+
+        Entity pool = entitiesFactories.get(Pool.class).createEntity(-8,3,0);
         engine.addEntity(pool);
 
-        Entity pool2 = entitiesFactories.get(Pool.class).createEntity(5,3,0);
+        Entity pool2 = entitiesFactories.get(Pool.class).createEntity(7,3,0);
         pool2.getComponent(BuoyancyComponent.class).density = 1.5f;
         pool2.getComponent(BuoyancyComponent.class).offset = 5f;
         engine.addEntity(pool2);

@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.actuators.MotionActuator;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
@@ -89,7 +86,9 @@ public class Cohete extends EntityFactory {
         coheteView.transform.scaleX = 2.5f;
         coheteView.transform.scaleY = 2.5f;
         coheteView.transform.rigidBody = bodyCohete;
-        coheteView.setLayer(0);
+
+        TransformsComponent transformsComponent = entityBuilder.getComponent(TransformsComponent.class);
+        transformsComponent.transforms.add(coheteView.transform);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
         viewsComponent.views.add(coheteView);

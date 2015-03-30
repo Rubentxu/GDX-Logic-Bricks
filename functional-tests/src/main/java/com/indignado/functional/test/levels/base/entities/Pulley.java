@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Joint;
-import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
@@ -90,6 +87,9 @@ public class Pulley extends EntityFactory {
         boxView.transform.rigidBody = rb1;
         boxView.setLayer(0);
 
+        TransformsComponent transformsComponent = entityBuilder.getComponent(TransformsComponent.class);
+        transformsComponent.transforms.add(boxView.transform);
+
         TextureView boxView2 = new TextureView();
         boxView2.setName("box2");
         boxView2.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
@@ -97,6 +97,8 @@ public class Pulley extends EntityFactory {
         boxView2.transform.scaleY = 2.5f;
         boxView2.transform.rigidBody = rb2;
         boxView2.setLayer(0);
+
+        transformsComponent.transforms.add(boxView2.transform);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
         viewsComponent.views.add(boxView);

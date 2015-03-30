@@ -102,10 +102,9 @@ public class PlayerPlatform extends EntityFactory {
         playerView.animations.put(stateComponent.getState("Fall"), fall);
         playerView.setLayer(1);
 
-        Transform2D transform2D = (Transform2D) playerView.transform;
+        Transform2D transform2D = playerView.transform;
         transform2D.scaleX =1.5f;
         transform2D.scaleY = 2.5f;
-        //transform2D.bounds.setSize(1f,2f);
         transform2D.rigidBody = bodyPlayer;
 
         TransformsComponent transformsComponent = entityBuilder.getComponent(TransformsComponent.class);

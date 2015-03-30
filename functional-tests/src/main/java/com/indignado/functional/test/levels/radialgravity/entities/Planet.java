@@ -69,6 +69,7 @@ public class Planet extends EntityFactory {
 
         planetView.transform.scaleX = 10f;
         planetView.transform.scaleY = 10f;
+        planetView.transform.y = 10;
         planetView.transform.rigidBody = bodyPlanet;
         planetView.setLayer(0);
 

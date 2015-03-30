@@ -31,12 +31,16 @@ public class SimplePlatformLevel extends LevelFactory {
 
     @Override
     public void createLevel() {
-        Entity light = entitiesFactories.get(DefaultLight.class).createEntity();
-        positioningLight(light, 5, 5);
+        Entity light = entitiesFactories.get(DefaultLight.class).createEntity(5,10,0);
         engine.addEntity(light);
 
-        Entity camera = entitiesFactories.get(PlayerCamera.class).createEntity();
-        positioningCamera(camera, 0, 7);
+        Entity light2 = entitiesFactories.get(DefaultLight.class).createEntity(25,8,0);
+        engine.addEntity(light2);
+
+        Entity light3 = entitiesFactories.get(DefaultLight.class).createEntity(-25,8,0);
+        engine.addEntity(light3);
+
+        Entity camera = entitiesFactories.get(PlayerCamera.class).createEntity(0,7,0);
         engine.addEntity(camera);
 
         Entity player = entitiesFactories.get(PlayerPlatform.class).createEntity(-5,0,0);

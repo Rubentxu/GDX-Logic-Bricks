@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.indignado.logicbricks.components.TransformsComponent;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.core.data.Transform;
@@ -19,11 +20,13 @@ public class TransformSystem extends LogicBrickSystem {
     private ComponentMapper<TransformsComponent> t2D;
     private float alpha;
     private Body body;
+    private Array<Transform2D> rootParents;
 
     public TransformSystem() {
         super(Family.all(TransformsComponent.class).get(), 4);
         t2D = ComponentMapper.getFor(TransformsComponent.class);
         alpha = 1;
+        rootParents = new Array<>();
 
     }
 
@@ -33,10 +36,8 @@ public class TransformSystem extends LogicBrickSystem {
         if (Settings.DEBUG_ENTITY != null) tag = Log.tagEntity(this.getClass().getSimpleName(), entity);
         TransformsComponent transforms2D = t2D.get(entity);
 
-        for (Transform transform : transforms2D.transforms) {
-            if(transform instanceof Transform2D) updateTransform2D((Transform2D) transform);
-
-
+        for (Transform transform: transforms2D.transforms) {
+            updateTransform2D((Transform2D) transform);
         }
 
     }
@@ -47,10 +48,11 @@ public class TransformSystem extends LogicBrickSystem {
             this.body = transform.rigidBody.body;
 
             update2DPosition(body.getPosition(), transform);
-            transform.yaw = MathUtils.radiansToDegrees * body.getAngle();
+            transform.roll = MathUtils.radiansToDegrees * body.getAngle();
             transform.bounds.setSize(transform.scaleX, transform.scaleY);
             transform.bounds.setCenter(transform.x, transform.y);
-            transform.pivot.set(transform.x, transform.y);
+            transform.pivot.x = transform.bounds.getWidth() / 2;
+            transform.pivot.y = transform.bounds.getHeight() / 2;
 
         }
 

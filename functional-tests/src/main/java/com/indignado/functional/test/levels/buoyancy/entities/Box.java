@@ -7,10 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.indignado.logicbricks.components.IdentityComponent;
-import com.indignado.logicbricks.components.RigidBodiesComponents;
-import com.indignado.logicbricks.components.StateComponent;
-import com.indignado.logicbricks.components.ViewsComponent;
+import com.indignado.logicbricks.components.*;
 import com.indignado.logicbricks.core.EntityFactory;
 import com.indignado.logicbricks.core.data.RigidBody2D;
 import com.indignado.logicbricks.core.data.TextureView;
@@ -72,6 +69,9 @@ public class Box extends EntityFactory {
         boxView.transform.scaleY = height * 2;
         boxView.transform.rigidBody = bodyBox;
         boxView.setLayer(0);
+
+        TransformsComponent transformsComponent = entityBuilder.getComponent(TransformsComponent.class);
+        transformsComponent.transforms.add(boxView.transform);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);
         viewsComponent.views.add(boxView);
