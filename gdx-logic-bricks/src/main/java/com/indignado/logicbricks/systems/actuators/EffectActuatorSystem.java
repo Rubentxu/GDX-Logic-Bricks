@@ -33,10 +33,10 @@ public class EffectActuatorSystem extends ActuatorSystem<Effect2DActuator, Effec
         if (actuator.opacity != -1) view.setOpacity(actuator.opacity);
         if (actuator.tint != null) view.setTint(actuator.tint);
         if (actuator.position != null) {
-            if(view.transform.rigidBody == null) view.transform.matrix.setTranslation(actuator.position.x, actuator.position.y,0);
+            view.transform.x = actuator.position.x;
+            view.transform.y = actuator.position.y;
 
         }
-
 
     }
 

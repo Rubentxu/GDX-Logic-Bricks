@@ -2,7 +2,6 @@ package com.indignado.logicbricks.core.bricks.base;
 
 import box2dLight.RayHandler;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.indignado.logicbricks.config.GameContext;
 import org.mockito.Mockito;
@@ -20,7 +19,7 @@ public class ContextTest extends GameContext{
 
 
     @Override
-    public Batch provideBatch() {
+    public SpriteBatch provideBatch() {
         return Mockito.mock(SpriteBatch.class);
 
     }

@@ -86,7 +86,8 @@ public class Cohete extends EntityFactory {
         TextureView coheteView = new TextureView();
         coheteView.setName("Cohete");
         coheteView.setTextureRegion(new TextureRegion(assetManager.get(cohete, Texture.class)));
-        coheteView.transform.matrix.scl(2.5f,2.5f,1);
+        coheteView.transform.scaleX = 2.5f;
+        coheteView.transform.scaleY = 2.5f;
         coheteView.transform.rigidBody = bodyCohete;
         coheteView.setLayer(0);
 

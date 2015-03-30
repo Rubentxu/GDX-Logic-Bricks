@@ -21,10 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.indignado.logicbricks.components.ViewsComponent;
 import com.indignado.logicbricks.config.Settings;
-import com.indignado.logicbricks.core.data.ParticleEffectView;
-import com.indignado.logicbricks.core.data.TextureView;
-import com.indignado.logicbricks.core.data.Transform;
-import com.indignado.logicbricks.core.data.View;
+import com.indignado.logicbricks.core.data.*;
 import com.indignado.logicbricks.utils.Log;
 
 import java.util.Comparator;
@@ -91,7 +88,7 @@ public class RenderingSystem extends LogicBrickSystem {
     @Override
     public void addedToEngine(Engine engine) {
         super.addedToEngine(engine);
-        batch = context.get(Batch.class);
+        batch = context.provideBatch();
         camera = context.get(Camera.class);
         camera.position.set(Settings.WIDTH / 2, Settings.HEIGHT / 2, 0);
         physics = context.get(World.class);
@@ -116,7 +113,6 @@ public class RenderingSystem extends LogicBrickSystem {
             }
 
             batch.getColor().a = view.opacity;
-            batch.setTransformMatrix(getTransformMatrix(view.transform));
 
             if (view instanceof ParticleEffectView) {
 
@@ -130,16 +126,14 @@ public class RenderingSystem extends LogicBrickSystem {
 
             } else if (TextureView.class.isAssignableFrom(view.getClass())) {
                 TextureView textureView = (TextureView) view;
-
+                Transform2D transform = textureView.transform;
                 if(textureView.textureRegion != null) {
                     processTextureFlip(textureView);
-                    batch.draw(textureView.textureRegion, 0, 0, matrix.getScaleX(), matrix.getScaleY());
+                    batch.draw(textureView.textureRegion, transform.bounds.x, transform.bounds.y, transform.pivot.x, transform.pivot.y,
+                            transform.bounds.width, transform.bounds.height, 1, 1, transform.roll);
 
                 }
-                // Gdx.app.log("RederingSystem", "texture width " + textureView.width + " height " + textureView.height
-                //        + " texture position " + textureView.position);
             }
-
 
         }
         debugDrawUI();

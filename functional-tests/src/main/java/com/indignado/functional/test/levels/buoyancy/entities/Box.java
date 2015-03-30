@@ -68,7 +68,8 @@ public class Box extends EntityFactory {
         TextureView boxView = new TextureView();
         boxView.setName("Box");
         boxView.setTextureRegion(new TextureRegion(assetManager.get(box, Texture.class)));
-        boxView.transform.matrix.scl(widt * 2, height * 2, 1);
+        boxView.transform.scaleX = widt * 2;
+        boxView.transform.scaleY = height * 2;
         boxView.transform.rigidBody = bodyBox;
         boxView.setLayer(0);
 

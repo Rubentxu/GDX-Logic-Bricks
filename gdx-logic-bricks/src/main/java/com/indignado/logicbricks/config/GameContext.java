@@ -16,7 +16,6 @@ import com.indignado.logicbricks.components.controllers.ScriptControllerComponen
 import com.indignado.logicbricks.components.sensors.*;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LogicBricksEngine;
-import com.indignado.logicbricks.core.LogicBricksException;
 import com.indignado.logicbricks.core.actuators.*;
 import com.indignado.logicbricks.core.controllers.ConditionalController;
 import com.indignado.logicbricks.core.controllers.Controller;
@@ -38,7 +37,6 @@ public class GameContext implements ContextProviders {
 
 
     public <T> T get (Class<T> clazz) {
-        if (!context.containsKey(clazz)) throw new LogicBricksException("GameContext ",clazz.getSimpleName() + " not exist");
         return (T) context.get(clazz);
 
     }
@@ -96,8 +94,13 @@ public class GameContext implements ContextProviders {
 
 
     @Override
-    public Batch provideBatch() {
-        return new SpriteBatch();
+    public SpriteBatch provideBatch() {
+        SpriteBatch spriteBatch = get(SpriteBatch.class);
+        if(spriteBatch == null) {
+            spriteBatch = new SpriteBatch();
+            context.put(SpriteBatch.class,spriteBatch);
+        }
+        return spriteBatch;
 
     }
 

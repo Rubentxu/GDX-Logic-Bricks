@@ -85,15 +85,17 @@ public class Pulley extends EntityFactory {
         TextureView boxView = new TextureView();
         boxView.setName("box");
         boxView.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
-        boxView.transform.matrix.scl(2.5f, 2.5f, 0);
+        boxView.transform.scaleX = 2.5f;
+        boxView.transform.scaleY = 2.5f;
         boxView.transform.rigidBody = rb1;
         boxView.setLayer(0);
 
         TextureView boxView2 = new TextureView();
         boxView2.setName("box2");
         boxView2.setTextureRegion(new TextureRegion(assetManager.get(box2, Texture.class)));
-        boxView.transform.matrix.scl(2.5f,2.5f,0);
-        boxView.transform.rigidBody = rb2;
+        boxView2.transform.scaleX = 2.5f;
+        boxView2.transform.scaleY = 2.5f;
+        boxView2.transform.rigidBody = rb2;
         boxView2.setLayer(0);
 
         ViewsComponent viewsComponent = entityBuilder.getComponent(ViewsComponent.class);

@@ -39,7 +39,7 @@ public class SimplePlatformLevel extends LevelFactory {
         positioningCamera(camera, 0, 7);
         engine.addEntity(camera);
 
-        Entity player = entitiesFactories.get(PlayerPlatform.class).createEntity();
+        Entity player = entitiesFactories.get(PlayerPlatform.class).createEntity(-5,0,0);
         engine.addEntity(player);
 
         Entity ground = entitiesFactories.get(Ground.class).createEntity();

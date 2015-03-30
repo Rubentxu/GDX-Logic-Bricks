@@ -99,7 +99,8 @@ public class TriggerDart extends EntityFactory {
         TextureView triggerView = new TextureView();
         triggerView.setName("trigger");
         triggerView.setTextureRegion(new TextureRegion(assetManager.get(hand, Texture.class)));
-        triggerView.transform.matrix.scl(3, 5f, 0);
+        triggerView.transform.scaleX = 3;
+        triggerView.transform.scaleY = 5f;
         triggerView.transform.rigidBody = bodyTrigger;
         triggerView.setLayer(0);
 

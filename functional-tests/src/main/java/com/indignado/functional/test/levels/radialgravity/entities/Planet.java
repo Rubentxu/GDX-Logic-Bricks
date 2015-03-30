@@ -67,7 +67,8 @@ public class Planet extends EntityFactory {
         planetView.setName("Planet");
         planetView.setTextureRegion(new TextureRegion(assetManager.get(planet, Texture.class)));
 
-        planetView.transform.matrix.scl(10f,10f,1);
+        planetView.transform.scaleX = 10f;
+        planetView.transform.scaleY = 10f;
         planetView.transform.rigidBody = bodyPlanet;
         planetView.setLayer(0);
 

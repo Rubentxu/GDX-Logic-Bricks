@@ -83,7 +83,7 @@ public class PlayerPlatform extends EntityFactory {
         blackBoardComponent.addProperty(new Property<Boolean>("isGround", false));
 
         RigidBody2D bodyPlayer = bodyBuilder.fixture(bodyBuilder.fixtureDefBuilder()
-                .boxShape(0.17f, 0.5f)
+                .boxShape(0.35f, 1f)
                 .density(1))
                 .type(BodyDef.BodyType.DynamicBody)
                 .fixedRotation()
@@ -103,7 +103,9 @@ public class PlayerPlatform extends EntityFactory {
         playerView.setLayer(1);
 
         Transform2D transform2D = (Transform2D) playerView.transform;
-        transform2D.matrix.scl(2.3f, 3.6f, 0);
+        transform2D.scaleX =1.5f;
+        transform2D.scaleY = 2.5f;
+        //transform2D.bounds.setSize(1f,2f);
         transform2D.rigidBody = bodyPlayer;
 
         TransformsComponent transformsComponent = entityBuilder.getComponent(TransformsComponent.class);
@@ -111,7 +113,8 @@ public class PlayerPlatform extends EntityFactory {
 
         ParticleEffectView particleEffectView = new ParticleEffectView();
         particleEffectView.effect = dustEffect;
-        particleEffectView.transform.matrix.setTranslation(0, -1, 0);
+        particleEffectView.transform.x =0;
+        particleEffectView.transform.y = -1;
         particleEffectView.transform.group = new Group(transform2D);
         transform2D.group = new Group(null,particleEffectView.transform);
 

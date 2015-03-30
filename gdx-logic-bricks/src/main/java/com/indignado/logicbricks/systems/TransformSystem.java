@@ -3,7 +3,7 @@ package com.indignado.logicbricks.systems;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.indignado.logicbricks.components.TransformsComponent;
@@ -18,13 +18,11 @@ import com.indignado.logicbricks.utils.Log;
 public class TransformSystem extends LogicBrickSystem {
     private ComponentMapper<TransformsComponent> t2D;
     private float alpha;
-    private Quaternion orientation;
     private Body body;
 
     public TransformSystem() {
         super(Family.all(TransformsComponent.class).get(), 4);
         t2D = ComponentMapper.getFor(TransformsComponent.class);
-        orientation = new Quaternion();
         alpha = 1;
 
     }
@@ -47,14 +45,12 @@ public class TransformSystem extends LogicBrickSystem {
     private void updateTransform2D(Transform2D transform) {
         if (transform.rigidBody != null) {
             this.body = transform.rigidBody.body;
-            orientation.idt();
 
             update2DPosition(body.getPosition(), transform);
-            orientation.setEulerAnglesRad(transform.yaw, transform.pitch, body.getAngle());
-            transform.yaw = orientation.getYaw();
-            transform.pitch = orientation.getPitch();
-            transform.roll = orientation.getRoll();
+            transform.yaw = MathUtils.radiansToDegrees * body.getAngle();
+            transform.bounds.setSize(transform.scaleX, transform.scaleY);
             transform.bounds.setCenter(transform.x, transform.y);
+            transform.pivot.set(transform.x, transform.y);
 
         }
 

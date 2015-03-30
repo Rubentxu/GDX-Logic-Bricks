@@ -3,7 +3,7 @@ package com.indignado.logicbricks.config;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.indignado.logicbricks.core.Game;
 import com.indignado.logicbricks.core.LogicBricksEngine;
@@ -24,7 +24,7 @@ public interface ContextProviders {
 
     public Camera provideCamera();
 
-    public Batch provideBatch();
+    public SpriteBatch provideBatch();
 
     public <T> RayHandler provideRayHandler(T physics);
 

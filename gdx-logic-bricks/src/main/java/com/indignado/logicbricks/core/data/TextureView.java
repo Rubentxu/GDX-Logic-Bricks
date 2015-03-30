@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * @author Rubentxu.
  */
-public class TextureView extends View {
+public class TextureView extends View<Transform2D> {
     public TextureRegion textureRegion;
     public boolean flipX = false;
     public boolean flipY = false;
@@ -15,13 +15,6 @@ public class TextureView extends View {
         super.transform = new Transform2D();
 
     }
-
-
-    public TextureView(GUITransform transform) {
-        super.transform = transform;
-
-    }
-
 
     public TextureView setTextureRegion(TextureRegion textureRegion) {
         this.textureRegion = textureRegion;

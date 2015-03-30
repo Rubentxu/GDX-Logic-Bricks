@@ -78,7 +78,8 @@ public class Dart extends EntityFactory {
         TextureView arrowView = new TextureView();
         arrowView.setName("Arrow");
         arrowView.setTextureRegion(new TextureRegion(assetManager.get(dartTexture, Texture.class)));
-        arrowView.transform.matrix.scl(1,2.3f,1);
+        arrowView.transform.scaleX = 1;
+        arrowView.transform.scaleY = 2.3f;
         arrowView.transform.rigidBody = bodyArrow;
         arrowView.setLayer(0);
 

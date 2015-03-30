@@ -1,5 +1,6 @@
 package com.indignado.logicbricks.core.data;
 
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -16,6 +17,7 @@ public class GUITransform extends Transform2D{
     public Vector2 offsetMax = new Vector2();
     public Vector2 offsetMin = new Vector2();
     public Vector2 sizeDelta = new Vector2();
+    public Decal decal;
 
 
     @Override
@@ -27,6 +29,7 @@ public class GUITransform extends Transform2D{
         offsetMax.set(0,0);
         offsetMin.set(0,0);
         sizeDelta.set(0,0);
+        decal = null;
 
     }
 
