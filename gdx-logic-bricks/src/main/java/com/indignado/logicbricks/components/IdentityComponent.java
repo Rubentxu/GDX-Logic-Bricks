@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 /**
  * @author Rubentxu.
  */
-public class IdentityComponent extends Component implements Poolable {
+public class IdentityComponent implements Poolable, Component {
     public long uuid;
     public String tag = "Dummy";
     public short category = 0x0001;

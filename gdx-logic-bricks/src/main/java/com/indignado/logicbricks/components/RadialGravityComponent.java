@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 /**
  * @author Rubentxu.
  */
-public class RadialGravityComponent extends Component implements Poolable {
+public class RadialGravityComponent implements Poolable, Component {
 
     public float gravity = -9.8f;
     public float radius = 0;

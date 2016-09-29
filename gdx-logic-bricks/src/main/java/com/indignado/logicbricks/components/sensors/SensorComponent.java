@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.sensors.Sensor;
 /**
  * @author Rubentxu.
  */
-public class SensorComponent<S extends Sensor> extends Component implements Poolable {
+public class SensorComponent<S extends Sensor> implements Poolable, Component {
     public IntMap<ObjectSet<S>> sensors = new IntMap<ObjectSet<S>>();
 
 

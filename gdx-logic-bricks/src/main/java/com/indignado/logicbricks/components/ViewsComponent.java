@@ -8,7 +8,7 @@ import com.indignado.logicbricks.core.data.View;
 /**
  * @author Rubentxu.
  */
-public class ViewsComponent<V extends View> extends Component implements Poolable {
+public class ViewsComponent<V extends View> implements Poolable, Component {
     public Array<V> views = new Array<V>();
 
 

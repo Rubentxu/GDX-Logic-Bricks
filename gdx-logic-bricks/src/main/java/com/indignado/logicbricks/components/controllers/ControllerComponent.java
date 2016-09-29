@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.controllers.Controller;
 /**
  * @author Rubentxu.
  */
-public class ControllerComponent<C extends Controller> extends Component implements Poolable {
+public class ControllerComponent<C extends Controller> implements Poolable, Component {
     public IntMap<ObjectSet<C>> controllers = new IntMap<ObjectSet<C>>();
 
 

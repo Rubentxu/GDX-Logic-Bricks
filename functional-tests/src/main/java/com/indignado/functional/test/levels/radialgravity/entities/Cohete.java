@@ -30,7 +30,7 @@ import com.indignado.logicbricks.utils.builders.sensors.AlwaysSensorBuilder;
  * @author Rubentxu.
  */
 public class Cohete extends EntityFactory {
-    private String cohete = "assets/textures/Cohete.png";
+    private String cohete = "assets/textures/cohete.png";
 
     public Cohete(LBBuilders builders, AssetManager assetManager) {
         super(builders, assetManager);

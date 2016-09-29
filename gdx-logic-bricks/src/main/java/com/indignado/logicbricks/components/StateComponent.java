@@ -9,7 +9,7 @@ import com.indignado.logicbricks.utils.Log;
 /**
  * @author Rubentxu
  */
-public class StateComponent extends Component implements Poolable {
+public class StateComponent implements Poolable, Component {
     public static int eraseID = -1;
     public float time = 0.0f;
     public int oldState = -1;

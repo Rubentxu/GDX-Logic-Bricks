@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 /**
  * @author Rubentxu.
  */
-public class BuoyancyComponent extends Component implements Poolable {
+public class BuoyancyComponent implements Poolable, Component {
 
     public Vector2 normal = new Vector2(0, 1.0f);
     public float offset = 0.0f;

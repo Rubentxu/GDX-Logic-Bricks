@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 /**
  * @author Rubentxu.
  */
-public class CameraComponent extends Component {
+public class CameraComponent implements Component {
     public Camera camera;
 
 }

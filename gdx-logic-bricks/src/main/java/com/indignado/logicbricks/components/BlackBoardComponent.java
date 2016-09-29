@@ -11,7 +11,7 @@ import com.indignado.logicbricks.utils.Log;
 /**
  * @author Rubentxu.
  */
-public class BlackBoardComponent extends Component implements Poolable {
+public class BlackBoardComponent implements Poolable, Component {
     private String tag = this.getClass().getSimpleName();
     private Bag<Property> properties;
     private Bits propertyBits;

@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Component;
 /**
  * @author Rubentxu.
  */
-public class LightComponent extends Component {
+public class LightComponent implements Component {
     public Light light;
 
 }

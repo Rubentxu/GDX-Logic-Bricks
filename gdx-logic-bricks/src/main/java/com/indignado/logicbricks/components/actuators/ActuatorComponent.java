@@ -9,7 +9,7 @@ import com.indignado.logicbricks.core.actuators.Actuator;
 /**
  * @author Rubentxu.
  */
-public class ActuatorComponent<A extends Actuator> extends Component implements Poolable {
+public class ActuatorComponent<A extends Actuator> implements Poolable, Component {
     public IntMap<ObjectSet<A>> actuators = new IntMap<ObjectSet<A>>();
 
     @Override

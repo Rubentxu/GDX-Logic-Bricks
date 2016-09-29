@@ -24,6 +24,7 @@ import com.indignado.logicbricks.utils.Log;
  * @author Rubentxu.
  */
 public class LogicBricksEngine extends PooledEngine {
+    private static Long IDS = 0L;
     private String tag = LogicBricksEngine.class.getSimpleName();
     private GameContext context;
     private ObjectMap<Long, Entity> idEntities;
@@ -91,9 +92,10 @@ public class LogicBricksEngine extends PooledEngine {
     @Override
     public void addEntity(Entity entity) {
         super.addEntity(entity);
-        idEntities.put(entity.getId(), entity);
+        IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
+        idEntities.put(identity.uuid, entity);
         configEntity(entity);
-        Log.debug(tag, "AddEntity %d", entity.getId());
+        Log.debug(tag, "AddEntity %d", identity.uuid);
 
     }
 
@@ -115,7 +117,7 @@ public class LogicBricksEngine extends PooledEngine {
 
     private void configEntity(Entity entity) {
         IdentityComponent identity = getComponent(entity, IdentityComponent.class, true);
-        identity.uuid = entity.getId();
+        identity.uuid = IDS++;
         if (Settings.DEBUG_ENTITY != null) tag = String.format("%s::%s:", this.getClass().getSimpleName(), identity.tag);
         if (!tagEntities.containsKey(identity.tag)) {
             tagEntities.put(identity.tag, new Array<Entity>());

@@ -76,7 +76,7 @@ public class RenderingSystem extends LogicBrickSystem {
 
             debugFont = new BitmapFont();
             debugFont.setUseIntegerPositions(false);
-            debugFont.setScale(0.1f);
+            debugFont.getData().setScale(0.1f);
             uiCamera = new OrthographicCamera();
 
         }

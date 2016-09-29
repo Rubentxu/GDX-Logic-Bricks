@@ -47,7 +47,6 @@ public class StateSystem extends LogicBrickSystem {
                 for (Body body : rigidBodies.rigidBodies) {
                     rigidBodies.rigidBodies.removeValue(body, true);
                     physics.destroyBody(body);
-                    Log.debug(tag, "Remove entity id %d", entity.getId());
                 }
             }
         }
@@ -63,7 +62,6 @@ public class StateSystem extends LogicBrickSystem {
         state.time += deltaTime;
 
         if (state.getCurrentState() == StateComponent.eraseID) {
-            Log.debug(tag, "To remove entity id %d", entity.getId());
             toRemove.add(entity);
         }
         if (sm.get(entity).oldState != state.getCurrentState()) {

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 /**
  * @author Rubentxu
  */
-public class RigidBodiesComponents extends Component implements Poolable {
+public class RigidBodiesComponents implements Poolable, Component {
     public Array<Body> rigidBodies = new Array<Body>();
 
 
