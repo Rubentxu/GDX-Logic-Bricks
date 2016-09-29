@@ -4,6 +4,7 @@ GDX-Logic-Bricks
 ![GdxLogicBricks ](https://dl.dropboxusercontent.com/u/23370855/imagenes/GdxLogicBricks/GDX-LogicBricks.png "Logo")
 
 [![Build Status](https://travis-ci.org/Rubentxu/GDX-Logic-Bricks.svg?branch=master)](https://travis-ci.org/Rubentxu/GDX-Logic-Bricks)
+[![Coverage Status](https://coveralls.io/repos/github/Rubentxu/DreamsLibGdx/badge.svg?branch=master)](https://coveralls.io/github/Rubentxu/DreamsLibGdx?branch=master)
 
 ***
 
