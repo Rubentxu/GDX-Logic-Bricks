@@ -1,5 +1,5 @@
 language: java
-script: ./gradlew clean gdx-logic-bricks:test
+script: ./gradlew clean gdx-logic-bricks -Xlint:unchecked
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
