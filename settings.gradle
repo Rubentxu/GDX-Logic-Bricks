@@ -1,2 +1,2 @@
-include 'gdx-logic-bricks', "functional-tests"
+include 'gdx-logic-bricks', "functional-tests" , "entitas-java"
 
