@@ -1,0 +1,3 @@
+[submodule "entitas-java"]
+	path = entitas-java
+	url = https://github.com/Rubentxu/entitas-java.git
