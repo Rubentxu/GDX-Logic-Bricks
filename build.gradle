@@ -38,14 +38,6 @@ ext {
 }
 
 
-project(":entitas-java") {
-    dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile group: 'com.squareup', name: 'javapoet', version: '1.7.0'
-    }
-
-}
-
 project(":gdx-logic-bricks") {
     dependencies {
         compile project(":entitas-java")
