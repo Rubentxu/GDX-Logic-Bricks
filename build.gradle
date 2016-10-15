@@ -10,6 +10,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: 'jacoco'
 
     idea {
         module {
@@ -63,6 +64,11 @@ project(":functional-tests") {
 
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
 
 tasks.eclipse.doLast {
     delete ".project"
