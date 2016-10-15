@@ -69,6 +69,7 @@ jacocoTestReport {
         xml.enabled true
     }
 }
+check.dependsOn jacocoTestReport
 
 tasks.eclipse.doLast {
     delete ".project"
