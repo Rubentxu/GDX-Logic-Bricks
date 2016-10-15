@@ -1,9 +1,9 @@
 package com.indignado.logicbricks.components;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.ilargia.games.entitas.Component;
 import com.indignado.logicbricks.utils.Log;
 
 /**

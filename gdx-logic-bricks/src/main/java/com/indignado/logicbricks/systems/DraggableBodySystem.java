@@ -1,8 +1,6 @@
 package com.indignado.logicbricks.systems;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
+
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
+import com.ilargia.games.entitas.matcher.Matcher;
 import com.indignado.logicbricks.components.StateComponent;
 import com.indignado.logicbricks.config.Settings;
 import com.indignado.logicbricks.utils.Log;
@@ -45,7 +44,7 @@ public class DraggableBodySystem extends LogicBrickSystem implements InputProces
 
 
     public DraggableBodySystem() {
-        super(Family.all(StateComponent.class).get());
+        super(Matcher.all(StateComponent.class).get());
 
     }
 

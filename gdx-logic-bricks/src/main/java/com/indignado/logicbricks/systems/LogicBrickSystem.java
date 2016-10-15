@@ -1,8 +1,5 @@
 package com.indignado.logicbricks.systems;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.systems.IteratingSystem;
 import com.indignado.logicbricks.config.GameContext;
 import com.indignado.logicbricks.core.LogicBricksEngine;
 import com.indignado.logicbricks.core.LogicBricksException;
