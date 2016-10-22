@@ -3,13 +3,13 @@ package com.indignado.logicbricks.components;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntMap;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.ilargia.games.entitas.Component;
+import com.ilargia.games.entitas.interfaces.IComponent;
 import com.indignado.logicbricks.utils.Log;
 
 /**
  * @author Rubentxu
  */
-public class StateComponent implements Poolable, Component {
+public class StateComponent implements Poolable, IComponent {
     public static int eraseID = -1;
     public float time = 0.0f;
     public int oldState = -1;

@@ -58,7 +58,7 @@ public class BuoyancySystemTest extends BaseTest{
 
         Entity pool = entityBuilder.getEntity();
         engine.addEntity(pool);
-        Log.debug("BuoyancySystemTest", "Pool Entity Component size %s", pool.getComponents().size());
+        Log.debug("BuoyancySystemTest", "Pool Entity IComponent size %s", pool.getComponents().size());
 
     }
 
